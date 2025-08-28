@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "./config";
-import './App.css'
+import './styles/App.css'
 
 function App() {
   const [message, setMessage] = useState<string>("(loading...)");

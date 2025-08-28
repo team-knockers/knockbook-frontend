@@ -1,69 +1,33 @@
-# React + TypeScript + Vite
+# Knockbook Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Frontend Structure
+See the team wiki page via the link below for details on the frontend structure.  
+- https://teamknockers.atlassian.net/wiki/spaces/knockbook/pages/13107314
 
-Currently, two official plugins are available:
+## Style Structure
+- Use the following files for global styles:
+  - `index.css`: Global styles
+  - `variables.css`: CSS variables
+  - `App.css`: styles for App.tsx
+- Do not create any additional global style files.
+- For feature-specific styles, create individual `*.module.css` files within each feature directory.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Components Structure
+The `components/` directory contains reusable UI elements organized by category.  
+Each subdirectory groups related components for better maintainability and scalability.
 
-## Expanding the ESLint configuration
+components/
+├── layout/ # Structural elements such as Header, Footer, AppShell
+├── navigation/ # Navigation elements: Navbar, Sidebar, Menu, Tabs, Breadcrumbs
+├── forms/ # Form controls: Input, Select, Checkbox, Radio, Button
+├── display/ # Display components: Banner, Card, List, Table, Badge, Avatar, CategoryChip
+└── overlay/ # Overlay components: Dialog (Modal, Popup), Drawer, Popover, Tooltip
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Installation & Run
+- `npm install` — Only for initial setup or when dependencies change  
+- `npm run dev` — Start the development server
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Development Notes
+- React 18 + TypeScript + Vite  
+- ESLint & Prettier configured for code style consistency
+- Follow team wiki for coding conventions and additional setup
