@@ -1,0 +1,38 @@
+.button-layout {
+    display: flex;
+    min-width: 280px;
+    max-width: 984px;
+    height: 40px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    border: 1px solid #c8c8c8;
+    overflow: hidden;
+}
+
+/* Common button styles */
+.button-unit {
+    flex: 1;
+    border-radius: 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    line-height: 100%;
+    font-family: Pretendard;
+    font-size: 14px;
+}
+
+/* Active button */
+.button-unit.active {
+    background: #2c3e50;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Inactive button */
+.button-unit.inactive {
+    background: #fff;
+    color: #000;
+    font-weight: 500;
+}

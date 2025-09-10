@@ -1,4 +1,4 @@
-import './OneWayButton.Module.css'
+import styles from './OneWayButton.module.css'
 
 type OneWayButtonProps = {
     content: string; // Button text
@@ -19,9 +19,10 @@ export default function OneWayButton({
     colorType,
     disabled = false
 } : OneWayButtonProps) {
+    const postpix = `${responsiveType}-${widthSizeType}-${heightSizeType}-${colorType}`;
     return (
         <button 
-            className={`${responsiveType}-${widthSizeType}-${heightSizeType}-${colorType}`}
+            className={styles[postpix]}
             onClick={onClick}
             disabled={disabled}
         >
