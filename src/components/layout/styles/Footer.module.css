@@ -1,0 +1,58 @@
+/* Common styles */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  border-top: 1px solid #C8C8C8;
+  background: #FFF;
+  padding: 30px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: Pretendard;
+}
+
+.footer-nav span {
+  padding: 0 10px;
+  color: #B4B4B4;
+  font-size: 9px;
+}
+
+/* Mobile (max-width: 1023px) */
+.footer-title {
+  color: #000;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.footer-nav a {
+  color: #000;
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.footer-copyright {
+  color: #8B8989;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+/* Desktop (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .footer {
+    padding: 34px 30px;
+  }
+
+  .footer-title {
+    font-size: 20px;
+  }
+
+  .footer-nav a {
+    font-size: 13px;
+  }
+
+  .footer-copyright {
+    font-size: 12px;
+  }
+}

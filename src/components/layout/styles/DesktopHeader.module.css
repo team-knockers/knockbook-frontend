@@ -1,0 +1,61 @@
+.app-header {
+  display: flex;
+  width: 100%;
+  min-width: 1024px;
+  min-height: 50px;
+  max-height: 50px;
+  padding: 0 20px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #C8C8C8;
+  background: #FFF;
+}
+
+.app-header-left-section {
+  display: flex;
+  width: 580px;
+  min-width: 560px;
+  max-width: 600px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.app-header-title {
+  /* layout */
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* typography */
+  color: #2C3E50;
+  text-align: center;
+  font-family: "GmarketSans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.app-header-menubar {
+  display: flex;
+  width: 430px;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.app-header-right-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.app-header-icon {
+  width: 20px;
+  height: 20px;
+}
