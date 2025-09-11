@@ -20,7 +20,7 @@ export default function OneWayButton({
     disabled = false
 } : OneWayButtonProps) {
     return (
-        <button 
+        <button
             className={`${responsiveType}-${widthSizeType}-${heightSizeType}-${colorType}`}
             onClick={onClick}
             disabled={disabled}

@@ -1,0 +1,339 @@
+.page-layout {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-right-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: auto;
+}
+
+.page-title {
+  align-self: stretch;
+  color: #2C3E50;
+  text-align: center;
+  font-family: "GmarketSans";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.local-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: 30px;
+}
+
+.email-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.email-label-name {
+  width: 100%;
+  color: #1E1E1E;
+  font-family: "GmarketSans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 100%; /* 16px */
+}
+
+.email-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 45px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #B3B3B3;
+  background: #FFF;
+}
+
+.password-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.password-label-name {
+  width: 100%;
+  color: #1E1E1E;
+  font-family: "GmarketSans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 100%; /* 16px */
+}
+
+.password-input-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  width: 100%;
+  height: 45px;
+}
+
+.password-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #B3B3B3;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 14px */
+}
+
+.password-show-icon {
+  cursor: "pointer";
+  background: "transparent";
+}
+
+.rememberme-and-find-password-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.rememberme-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.rememberme-checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0 !important;
+}
+
+.rememberme-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #373737;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 14px */
+  margin: 0 !important;
+}
+
+.find-password-button {
+  color: #1E1E1E;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 14px */
+  background-color: #fff;
+}
+
+.login-button {
+  /* layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: 6px;
+  background: #D7D2CB;
+
+  /* typography */
+  color: #373737;
+  text-align: center;
+  font-family: "GmarketSans";
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 100%;
+}
+
+.signup-section {
+  width: 100%;
+  color: #1E1E1E;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 12px */
+}
+
+.signup-button {
+  color: #1E1E1E;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.social-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+}
+
+.social-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: #4A4A4A;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 14px */
+}
+
+.social-header::before,
+.social-header::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #878787;
+}
+
+.social-header:not(:empty)::before {
+  margin-right: 0.75em;
+}
+
+.social-header:not(:empty)::after {
+  margin-left: 0.75em;
+}
+
+.social-buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: auto;
+  width: 100%;
+  height: 30px;
+}
+
+.naver-login-button {
+  width: 30%;
+  height: 30px;
+  background-image: url('src/assets/naver_login_btn.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.kakao-login-button {
+  width: 30%;
+  height: 30px;
+  background-image: url('src/assets/kakao_login_btn.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.google-login-button {
+  width: 30%;
+  height: 30px;
+  background-image: url('src/assets/google_login_btn.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+  .page-layout {
+    min-width: 375px;
+    max-width: 1023px;
+    min-height: 667px;
+  }
+
+  .page-left-section {
+    display: none;
+  }
+
+  .page-right-section {
+    width: 100%;
+    height: 667px;
+    padding: 0 20px;
+  }
+
+  .login-button {
+    height: 50px;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .page-layout {
+    min-width: 1024px;
+    min-height: 768px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .page-left-section {
+    flex: 1 0 0;
+    align-self: stretch;
+    background-image: url('src/assets/login_page_bg.png');
+    background-position: 30%;
+    background-size: cover;
+    opacity: 0.94;
+    filter: contrast(1.1) brightness(0.9) saturate(0.7);
+  }
+
+  .page-right-section {
+    width: 480px;
+    padding: 50px 60px;
+    gap: 60px;
+  }
+
+  .page-title {
+    font-size: 20px;
+    text-align: right;
+  }
+
+  .local-section {
+    max-width: 520px;
+  }
+
+  .email-section {
+    min-width: 330px;
+  }
+
+  .password-section {
+    min-width: 330px;
+  }
+
+  .login-button {
+    height: 50px;
+  }
+}

@@ -1,0 +1,113 @@
+/* Fixed Mobile Bottom Navigation */
+.app-navigation {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+/* Account for iOS safe area (Home Indicator) */
+  width: 100%;
+  height: calc(var(--app-nav-mobile-h) + env(safe-area-inset-bottom));
+  min-width: 375px;
+  max-width: 1023px;
+  padding-bottom: env(safe-area-inset-bottom);
+
+/* Layout */
+  display: flex;
+  width: 100%;
+  height: 75px;
+  min-width: 375px;
+  max-width: 1023px;
+  padding: 0 25px;
+  justify-content: space-between;
+  align-items: center;
+
+/* Ensure it stays above page content */
+  z-index: 1000;
+}
+
+.app-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 100%;
+  gap: 3px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.menu-icon {
+  align-self: stretch;
+  width: 36px;
+  height: 36px;
+}
+
+.menu-name {
+  height: 10px;
+  align-self: stretch;
+  color: #666;
+  text-align: center;
+  font-family: Inter;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 100%; /* 10px */
+}
+
+.menu-name.active {
+  font-weight: 900;
+}
+
+.home-icon {
+  background-image: url('/src/assets/home_icon_inactive.png');
+  background-size: contain;
+}
+
+.home-icon.active {
+  background-image: url('/src/assets/home_icon_active.png');
+  background-size: contain;
+}
+
+.books-icon {
+  background-image: url('/src/assets/books_icon_inactive.png');
+  background-size: contain;
+}
+
+.books-icon.active {
+  background-image: url('/src/assets/books_icon_active.png');
+  background-size: contain;
+}
+
+.products-icon {
+  background-image: url('/src/assets/products_icon_inactive.png');
+  background-size: contain;
+}
+
+.products-icon.active {
+  background-image: url('/src/assets/products_icon_active.png');
+  background-size: contain;
+}
+
+.lounge-icon {
+  background-image: url('/src/assets/lounge_icon_inactive.png');
+  background-size: contain;
+}
+
+.lounge-icon.active {
+  background-image: url('/src/assets/lounge_icon_active.png');
+  background-size: contain;
+}
+
+.feed-icon {
+  background-image: url('/src/assets/feed_icon_inactive.png');
+  background-size: contain;
+}
+
+.feed-icon.active {
+  background-image: url('/src/assets/feed_icon_active.png');
+  background-size: contain;
+}
+
+

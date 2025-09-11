@@ -1,0 +1,55 @@
+.app-header { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  min-width: 375px;
+  max-width: 1023px;
+  padding: 0 20px;
+}
+
+.app-header-left-section { 
+  display: flex;
+  align-items: center;
+}
+
+.app-header-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+
+  color: #2C3E50;
+  text-align: center;
+  font-family: "GmarketSans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.app-header-right-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100px;
+  height: 100%;
+}
+
+.app-header-right-section button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  line-height: 1;
+}
+
+.app-header-icon { 
+  width:20px;
+  height:20px;
+}
