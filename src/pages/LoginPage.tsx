@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputGroup, InputGroupText, Input, Label } from "reactstrap";
 import { FiEye, FiEyeOff } from "react-icons/fi";
