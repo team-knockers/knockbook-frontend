@@ -2,6 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputGroup, InputGroupText, Input, Label } from "reactstrap";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+
+import backgroundUrl from '../assets/login_page_bg.png';
+import naverUrl from '../assets/naver_login_btn.png';
+import kakaoUrl from '../assets/kakao_login_btn.png';
+import googleUrl from '../assets/google_login_btn.png';
+
 import styles from './styles/LoginPage.module.css';
 
 export default function LoginPage() {
@@ -15,7 +21,12 @@ export default function LoginPage() {
   return (
     <main>
       <div className={styles['page-layout']}>
-        <div className={styles['page-left-section']} />
+        <div className={styles['page-left-section']}>
+          <img
+            className={styles['page-left-section-img']}
+            src={backgroundUrl}
+            alt="login page background image" />
+        </div>
         <div className={styles['page-right-section']}>
           <div className={styles['page-title']}>
             <span>문앞의책방</span>
@@ -100,16 +111,28 @@ export default function LoginPage() {
             </div>
             <div className={styles['social-buttons-wrapper']}>
               <button 
-                className={styles['naver-login-button']}
+                className={styles['social-login-button']}
                 onClick={() => {/* TODO */}}>
+                  <img
+                    className={styles['social-login-img']}
+                    src={naverUrl}
+                    alt="naver login button image"/>
               </button>
               <button 
-                className={styles['kakao-login-button']}
+                className={styles['social-login-button']}
                 onClick={() => {/* TODO */}}>
+                  <img
+                    className={styles['social-login-img']}
+                    src={kakaoUrl}
+                    alt="kakao login button image"/>
               </button> 
               <button 
-                className={styles['google-login-button']}
+                className={styles['social-login-button']}
                 onClick={() => {/* TODO */}}>
+                  <img
+                    className={styles['social-login-img']}
+                    src={googleUrl}
+                    alt="google login button image"/>
               </button> 
             </div>
           </div>
