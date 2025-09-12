@@ -22,7 +22,7 @@ export default function MobileNavigationBar() {
       </NavLink>
       <NavLink 
         className={styles['app-menu']}
-        to="/books">
+        to="/books/home">
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']} 
@@ -38,7 +38,7 @@ export default function MobileNavigationBar() {
       </NavLink>
       <NavLink 
         className={styles['app-menu']}
-        to="/products">
+        to="/products/home">
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']} 
@@ -54,7 +54,7 @@ export default function MobileNavigationBar() {
       </NavLink>
       <NavLink 
         className={styles['app-menu']}
-        to="/lounge">
+        to="/lounge/home">
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']} 
@@ -70,7 +70,7 @@ export default function MobileNavigationBar() {
       </NavLink>
       <NavLink
         className={styles['app-menu']}
-        to="/feed">
+        to="/feed/home">
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']} 

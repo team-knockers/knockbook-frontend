@@ -1,26 +1,50 @@
-import { FiBell, FiShoppingCart, FiUser } from "react-icons/fi";
+import { FiBell, FiShoppingCart, FiUser, FiChevronLeft, FiX } from "react-icons/fi";
+import type { MobileHeaderProps } from "../../types/header";
 import styles from './styles/MobileHeader.module.css';
 
-export default function MobileHeader() {
-
+export default function MobileHeader(props: MobileHeaderProps) {
   return (
     <header className={styles['app-header']}>
       <div className={styles['app-header-left-section']}>
-        <button 
-          className={styles['app-header-title']}>
-          문앞의책방
-        </button>
+        {props.kind === 'main' && (
+          <button className={styles['app-header-title']}>
+            {props.title}
+          </button>
+        )}
+        {props.kind === 'backTitleClose' && (
+          <button onClick={props.onBack}>
+            <FiChevronLeft className={styles['app-header-icon']} />
+          </button>
+        )}
+      </div>
+      <div className={styles['app-header-middle-section']}>
+        {props.kind === 'backTitleClose' && (
+          <span className={styles["app-header-title"]}>
+            {props.title}
+          </span>
+        )}
       </div>
       <div className={styles['app-header-right-section']}>
-        <button onClick={() => {/* TODO */}}>
-          <FiBell className={styles['app-header-icon']}/>
-        </button>
-        <button onClick={() => {/* TODO */}}>
-          <FiShoppingCart className={styles['app-header-icon']}/>
-        </button>
-        <button onClick={() => {/* TODO */}}>
-          <FiUser className={styles['app-header-icon']}/>
-        </button>
+        {props.kind === 'main' && (
+          <>
+            <button onClick={props.onBell}>
+              <FiBell className={styles['app-header-icon']} />
+            </button>
+            <button onClick={props.onCart}>
+              <FiShoppingCart className={styles['app-header-icon']} />
+            </button>
+            {props.onProfile && (
+              <button onClick={props.onProfile}>
+                <FiUser className={styles['app-header-icon']} />
+              </button>
+            )}
+          </>
+        )}
+        {props.kind === 'backTitleClose' && (
+          <button onClick={props.onClose}>
+            <FiX className={styles["app-header-icon"]} />
+          </button>
+        )}
       </div>
     </header>
   );
