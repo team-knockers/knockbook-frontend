@@ -12,6 +12,24 @@
 .app-header-left-section { 
   display: flex;
   align-items: center;
+  justify-content: left;
+  height: 100%;
+}
+
+.app-header-middle-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.app-header-right-section {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
 }
 
 .app-header-title {
@@ -29,14 +47,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: 1;
-}
-
-.app-header-right-section {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  width: 100px;
-  height: 100%;
 }
 
 .app-header-right-section button {
