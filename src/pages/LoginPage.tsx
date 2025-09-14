@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputGroup, InputGroupText, Input, Label } from "reactstrap";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { AuthService } from "../features/onboarding/services/authService";
+import { ApiError } from "../types/http";
 
 import backgroundUrl from '../assets/login_page_bg.png';
 import naverUrl from '../assets/naver_login_btn.png';
@@ -17,6 +19,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
   const [remember, setRemember] = useState(false);
+
+  async function handleLogin() {
+    try {
+      await AuthService.localLogin({ email, password });
+      console.log("Welcome");
+      nav('/home');
+    } catch (e) {
+      if (e instanceof ApiError) {
+        console.error(e.problem.title); // temporary procedure
+      }
+    }
+  }
 
   return (
     <main>
@@ -93,7 +107,7 @@ export default function LoginPage() {
             </div>
             <button 
               className={styles['login-button']}
-              onClick={() => nav('/home')}>
+              onClick={handleLogin}>
               로그인
             </button>
           </div>
