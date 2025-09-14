@@ -1,18 +1,22 @@
-import styles from './OneButtonPopups.module.css';
+import styles from './TwoButtonPopups.module.css';
 
-type OneButtonPopupsProps = {
+type TwoButtonPopupProps = {
   title: string; // Popup Title
   description?: string; // Popup Description
+  cancelText?: string; // Cancel Button Text
   confirmText?: string; // Confirm Button Text
+  onCancel: () => void; // Function to execute when the Cancel button is clicked
   onConfirm: () => void; // Function to execute when the Confirm button is clicked
 };
 
-export default function OneButtonPopups({
+export default function TwoButtonPopup({
   title,
   description,
+  cancelText,
   confirmText,
+  onCancel,
   onConfirm,
-}: OneButtonPopupsProps) {
+}: TwoButtonPopupProps) {
   return (
     <div className={styles['popup-container']}>
       <div className={styles['popup-content']}>
@@ -23,6 +27,12 @@ export default function OneButtonPopups({
       </div>
 
       <div className={styles['popup-buttons']}>
+        <button
+          className={`${styles['popup-button']} ${styles['cancel-button']}`}
+          onClick={onCancel}
+        >
+          {cancelText}
+        </button>
         <button
           className={`${styles['popup-button']} ${styles['confirm-button']}`}
           onClick={onConfirm}
