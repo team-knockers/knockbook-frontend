@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputGroup, InputGroupText, Input, Label } from "reactstrap";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { AuthService } from "../features/onboarding/services/authService";
+import { AuthService } from "../features/onboarding/services/AuthService";
 import { ApiError } from "../types/http";
 
 import backgroundUrl from '../assets/login_page_bg.png';
@@ -11,6 +11,7 @@ import kakaoUrl from '../assets/kakao_login_btn.png';
 import googleUrl from '../assets/google_login_btn.png';
 
 import styles from './styles/LoginPage.module.css';
+import { PATHS } from "../routes/paths";
 
 export default function LoginPage() {
   
@@ -24,7 +25,7 @@ export default function LoginPage() {
     try {
       await AuthService.localLogin({ email, password });
       console.log("Welcome");
-      nav('/home');
+      nav(PATHS.home);
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure

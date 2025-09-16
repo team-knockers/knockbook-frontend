@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styles from './styles/DestopNavigationBar.module.css'
+import { PATHS } from "../../routes/paths";
 
 export default function DesktopNavigationBar() {
   return (
@@ -7,31 +8,31 @@ export default function DesktopNavigationBar() {
       <NavLink 
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to="/home">
+        to={PATHS.home}>
         홈
       </NavLink>
       <NavLink
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to="/books/home">
+        to={PATHS.booksHome}>
         도서
       </NavLink>
       <NavLink
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to="/products/home">
+        to={PATHS.productsHome}>
         상품
       </NavLink>
       <NavLink
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to="/lounge/home">
+        to={PATHS.loungeHome}>
         라운지
       </NavLink>
       <NavLink 
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to="/feed/home">
+        to={PATHS.feedHome}>
         피드
       </NavLink>
     </nav>
