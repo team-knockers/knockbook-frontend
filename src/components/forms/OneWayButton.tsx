@@ -1,31 +1,36 @@
-import './OneWayButton.Module.css'
+import styles from './OneWayButton.module.css';
 
 type OneWayButtonProps = {
-    content: string; // Button text
-    onClick: () => void; // Click event handler
-    responsiveType: 'fluid' | 'fixed'; // Responsive button styling
-    widthSizeType: 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs'; // Button width styling
-    heightSizeType: 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs' | 'xxxs'; // Button height styling
-    colorType: 'dark' | 'light' | 'natural' | 'outline' | 'light-dark'; // Button color styling
-    disabled?: boolean;
-}
+  content: string;
+  onClick: () => void;
+  responsiveType: 'fluid' | 'fixed';
+  widthSizeType: 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
+  heightSizeType: 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs' | 'xxxs';
+  colorType: 'dark' | 'light' | 'natural' | 'outline' | 'light-dark';
+  disabled?: boolean;
+};
 
-export default function OneWayButton({ 
-    content,
-    onClick,
-    responsiveType,
-    widthSizeType,
-    heightSizeType,
-    colorType,
-    disabled = false
-} : OneWayButtonProps) {
-    return (
-        <button
-            className={`${responsiveType}-${widthSizeType}-${heightSizeType}-${colorType}`}
-            onClick={onClick}
-            disabled={disabled}
-        >
-            {content}
-        </button>
-    );
+export default function OneWayButton({
+  content,
+  onClick,
+  responsiveType,
+  widthSizeType,
+  heightSizeType,
+  colorType,
+  disabled = false,
+}: OneWayButtonProps) {
+  const className = [
+    styles[responsiveType],
+    styles[`width-${widthSizeType}`],
+    styles[`height-${heightSizeType}`],
+    styles[`color-${colorType}`],
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <button className={className} onClick={onClick} disabled={disabled}>
+      {content}
+    </button>
+  );
 }

@@ -1,6 +1,18 @@
-export const sessionStore = {
-  accessToken: null as string | null,
-  userId: null as string | null,
+interface SessionState {
+  accessToken: string | null;
+  userId: string | null;
+
+  init(token: string, id: string) : void;
+  updateToken(token: string) : void;
+  getToken(): string | null;
+  getUserId(): string | null;
+  clear(): void;
+  isAuthenticated() : boolean;
+}
+
+export const sessionStore : SessionState = {
+  accessToken: null,
+  userId: null,
 
   init(token: string, id: string) {
     this.accessToken = token;
@@ -26,5 +38,5 @@ export const sessionStore = {
 
   isAuthenticated() {
     return !!this.accessToken;
-  }
+  },
 };

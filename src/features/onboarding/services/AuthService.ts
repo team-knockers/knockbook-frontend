@@ -1,4 +1,4 @@
-import { apiPublicJson, apiAuthJson } from '../../../shared/api';
+import { apiPublicJson } from '../../../shared/api';
 import { sessionStore } from '../../../types/sessionStore';
 import type { LoginRequest, LoginResponse } from '../types';
 
@@ -16,7 +16,7 @@ export const AuthService = {
   // ans remove access token on client
   async logout() {
     try {
-      await apiAuthJson<void>("/auth/token/logout", { method: "POST" });
+      await apiPublicJson<void>("/auth/token/logout", { method: "POST" });
     } finally {
       sessionStore.clear();
     }

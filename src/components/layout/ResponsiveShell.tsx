@@ -9,6 +9,7 @@ import DesktopNavigationBar from "./../navigation/DesktopNavigationBar";
 
 import type { HeaderMeta, MobileHeaderProps } from "../../types/header";
 import styles from './styles/ResponsiveShell.module.css';
+import { PATHS } from "../../routes/paths";
 
 export default function ResponsiveShell() {
   const nav = useNavigate();
@@ -23,9 +24,9 @@ export default function ResponsiveShell() {
       headerProps = {
         kind: "main",
         title: meta.title,
-        onBell: () => nav('/notification'),
-        onCart: () => nav('/cart'),
-        onProfile: () => nav('/account/home'),
+        onBell: () => nav(PATHS.notification),
+        onCart: () => nav(PATHS.cart),
+        onProfile: () => nav(PATHS.accountHome),
       };
     } else {
       headerProps = {

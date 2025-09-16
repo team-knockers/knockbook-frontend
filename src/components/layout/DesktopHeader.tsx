@@ -2,6 +2,7 @@ import type { PropsWithChildren } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiBell, FiShoppingCart, FiUser } from "react-icons/fi";
 import styles from './styles/DesktopHeader.module.css'
+import { PATHS } from "../../routes/paths";
 
 export default function DesktopHeader({ children }: PropsWithChildren) {
   const nav = useNavigate();
@@ -18,13 +19,13 @@ export default function DesktopHeader({ children }: PropsWithChildren) {
         </div>
       </div>
       <div className={styles['app-header-right-section']}>
-        <button onClick={() => nav('/notification')}>
+        <button onClick={() => nav(PATHS.notification)}>
           <FiBell className={styles['app-header-icon']}/>
         </button>
-        <button onClick={() => nav('/cart')}>
+        <button onClick={() => nav(PATHS.cart)}>
           <FiShoppingCart className={styles['app-header-icon']}/>
         </button>
-        <button onClick={() => nav('/account/home')}>
+        <button onClick={() => nav(PATHS.accountHome)}>
           <FiUser className={styles['app-header-icon']}/>
         </button>
       </div>

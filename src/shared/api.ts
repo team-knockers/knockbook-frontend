@@ -3,6 +3,7 @@ import type { ProblemDetails } from "../types/http";
 import { ApiError } from "../types/http";
 import { sessionStore } from "../types/sessionStore";
 
+//#region Public API
 // JSON Request without authentication header 
 // (public, no authentication required)
 export function apiPublicJson<TRes, TBody = unknown>(
@@ -11,6 +12,28 @@ export function apiPublicJson<TRes, TBody = unknown>(
     return requestJson<TRes, TBody>(url, init);
 }
 
+// use path parameter
+export function apiPublicPath<TRes>(
+  tpl: string,
+  path: Record<string, string | number>,
+  init?: RequestInit
+) {
+  return apiPublicJson<TRes>(buildPath(tpl, path), init);
+}
+
+// use path parameter with query
+export function apiPublicPathAndQuery<TRes>(
+  tpl: string,
+  path: Record<string, string | number> = {},
+  q?: Record<string, any>,
+  init?: RequestInit
+) {
+  return apiPublicJson<TRes>(withQuery(buildPath(tpl, path), q), init);
+}
+
+//#endregion
+
+//#region Auth API
 // JSON Request with Authorization 
 // (Bearer <token> header + one automatic 401 refresh)
 export async function apiAuthJson<TRes, TBody = unknown>(
@@ -39,6 +62,56 @@ export async function apiAuthJson<TRes, TBody = unknown>(
   }
 }
 
+export function apiAuthPath<TRes>(
+  tpl: string,
+  path: Record<string, string | number>,
+  init?: RequestInit
+) {
+  return apiAuthJson<TRes>(buildPath(tpl, path), init);
+}
+
+// Auth + Query
+export function apiAuthPathAndQuery<TRes>(
+  tpl: string,
+  path: Record<string, string | number> = {},
+  q?: Record<string, any>,
+  init?: RequestInit
+) {
+  return apiAuthJson<TRes>(withQuery(buildPath(tpl, path), q), init);
+}
+
+//#endregion
+
+//#region URL helpers
+export function buildPath(
+  tpl: string,
+  path: Record<string, string | number>) {
+  return tpl.replace(/\{(\w+)\}|:(\w+)/g, (_, a, b) =>
+    encodeURIComponent(String(path[a ?? b]))
+  );
+}
+
+export function buildQuery(
+  q?: Record<string, any>) {
+  if (!q) { return ""; }
+  const sp = new URLSearchParams();
+  for (const [k, v] of Object.entries(q)) {
+    if (v === undefined || v === null) continue;
+    if (Array.isArray(v)) v.forEach(x => sp.append(k, String(x)));
+    else sp.set(k, String(v));
+  }
+  const s = sp.toString();
+  return s ? `?${s}` : "";
+}
+
+export function withQuery(
+  path: string,
+  q?: Record<string, any>) {
+  return `${path}${buildQuery(q)}`;
+}
+//#endregion
+
+//#region implementations 
 // Issue a new access token using the refresh cookie
 async function tryRefereshAccessToken() {
   const res = await doFetch("/auth/token/refresh", { method: "POST" });
@@ -88,4 +161,4 @@ export async function requestJson<TRes, TBody = unknown>(
   }
   return res.json() as Promise<TRes>;
 }
-
+//#endregion
