@@ -3,21 +3,23 @@ import { PATHS } from "./paths";
 
 import ResponsiveShell from "../components/layout/ResponsiveShell";
 import IntroPage from "../pages/IntroPage";
-import LoginPage from "../pages/LoginPage";
+import LoginPage from "../pages/onboarding/LoginPage"
 import HomePage from "../pages/HomePage";
-import BooksHomePage from "../pages/BooksHomePage";
-import ProductsHomePage from "../pages/ProductsHomePage";
-import LoungeHomePage from "../pages/LoungeHomePage";
-import FeedHomePage from "../pages/FeedHomePage";
-import NotificationPage from "../pages/NotificationPage";
-import CartPage from "../pages/CartPage";
-import AccountHomePage from "../pages/AccountHomePage";
+import BooksHomePage from "../pages/books/BooksHomePage";
+import ProductsHomePage from "../pages/products/ProductsHomePage";
+import LoungeHomePage from "../pages/lounge/LoungeHomePage";
+import FeedHomePage from "../pages/feeds/FeedHomePage";
+import NotificationPage from "../pages/official/NotificationPage";
+import CartPage from "../pages/purchase/CartPage";
+import AccountHomePage from "../pages/account/AccountHomePage";
+import SignupEmailPage from "../pages/onboarding/SignupEmailPage";
 
 import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
   { path: PATHS.login, element: <LoginPage /> },
+  { path: PATHS.signupVerifyEmail, element: <SignupEmailPage /> },
   {
     id: AUTH_LOADER_ID,
     element: <AuthLayout />,

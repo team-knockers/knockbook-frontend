@@ -1,12 +1,12 @@
 import { useRouteLoaderData } from 'react-router-dom';
-import { AUTH_LOADER_ID } from '../routes/auth.layout';
-import { AuthService } from '../features/onboarding/services/AuthService';
+import { AUTH_LOADER_ID } from '../../routes/auth.layout';
+import { AuthService } from '../../features/onboarding/services/AuthService';
 import { useNavigate } from 'react-router-dom';
-import { ApiError } from '../types/http';
-import type { GetMyProfileResponse } from '../features/account/types';
+import { ApiError } from '../../types/http';
+import type { GetMyProfileResponse } from '../../features/account/types';
 
-import OneWayButton from '../components/forms/OneWayButton';
-import styles from './styles/AccountHomePage.module.css';
+import OneWayButton from '../../components/forms/OneWayButton';
+import styles from './AccountHomePage.module.css'
 
 export default function AccountHomePage() {
 

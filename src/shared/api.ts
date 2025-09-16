@@ -41,7 +41,7 @@ export async function apiAuthJson<TRes, TBody = unknown>(
   init?: RequestInit & { json?: TBody },
   retried = false
 ): Promise<TRes> {
-  const token = sessionStore.getToken();
+  const token = sessionStore.getAccessToken();
   const withAuth: RequestInit = {
     ...init,
     headers: { 
@@ -117,7 +117,7 @@ async function tryRefereshAccessToken() {
   const res = await doFetch("/auth/token/refresh", { method: "POST" });
   await ensureOK(res);
   const data = (await res.json()) as { accessToken: string };
-  sessionStore.updateToken(data.accessToken);
+  sessionStore.updateAccessToken(data.accessToken);
 }
 
 // Low-level fetch with credentials included 
