@@ -41,7 +41,9 @@ export default function ResponsiveShell() {
   return (
     <div className={styles['app-shell']}>
       {isDesktop ? (
-        <DesktopHeader><DesktopNavigationBar /></DesktopHeader>
+        <DesktopHeader>
+          <DesktopNavigationBar />
+        </DesktopHeader>
       ) : (
         headerProps && <MobileHeader {...headerProps} />
       )}

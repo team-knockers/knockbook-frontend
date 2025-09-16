@@ -20,16 +20,20 @@ export default function OneWayButton({
   disabled = false,
 }: OneWayButtonProps) {
   const className = [
+    styles.btn,
     styles[responsiveType],
     styles[`width-${widthSizeType}`],
     styles[`height-${heightSizeType}`],
     styles[`color-${colorType}`],
-  ]
-    .filter(Boolean)
-    .join(' ');
+  ].filter(Boolean).join(' ');
 
   return (
-    <button className={className} onClick={onClick} disabled={disabled}>
+    <button 
+      type="button"
+      className={className}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {content}
     </button>
   );
