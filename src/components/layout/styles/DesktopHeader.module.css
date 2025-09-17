@@ -52,7 +52,7 @@
 .app-header-right-section {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .app-header-icon {

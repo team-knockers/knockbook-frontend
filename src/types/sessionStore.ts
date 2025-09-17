@@ -7,8 +7,8 @@ interface SessionState {
   init(token: string, id: string) : void;
   updateAccessToken(token: string) : void;
   getAccessToken(): string | null;
-  setEmailVarificationToken(token: string) : void;
-  getEmailVarificationToken() : string | null;
+  setEmailVerificationToken(token: string) : void;
+  getEmailVerificationToken() : string | null;
   setRegistrationToken(token: string) : void;
   getRegistrationToken() : string | null;
   clear() : void;
@@ -49,11 +49,11 @@ export const sessionStore : SessionState = {
     return !!this.accessToken;
   },
 
-  setEmailVarificationToken(token: string): void {
+  setEmailVerificationToken(token: string): void {
     this.emailVerificationToken = token;
   },
 
-  getEmailVarificationToken(): string | null {
+  getEmailVerificationToken(): string | null {
     return this.emailVerificationToken;
   },
 
