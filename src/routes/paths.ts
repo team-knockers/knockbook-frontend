@@ -5,6 +5,8 @@ export const PATHS = {
   home: "/home",
   booksHome: "/books/home",
   productsHome: "/products/home",
+  productsSearch: "/products/search",
+  productsDetail: "/products/:productId",
   loungeHome: "/lounge/home",
   feedHome: "/feed/home",
   notification: "/notification",
