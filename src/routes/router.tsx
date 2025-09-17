@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { PATHS } from "./paths";
 
-import ResponsiveShell from "../components/layout/ResponsiveShell";
+import ResponsiveMainShell from "../components/layout/ResponsiveMainShell";
 import IntroPage from "../pages/IntroPage";
 import LoginPage from "../pages/onboarding/LoginPage"
 import HomePage from "../pages/HomePage";
@@ -15,6 +15,8 @@ import AccountHomePage from "../pages/account/AccountHomePage";
 import SignupEmailPage from "../pages/onboarding/SignupEmailPage";
 
 import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
+import HomeSub1Page from "../pages/HomeSub1Page";
+import HomeSub2Page from "../pages/HomeSub2Page";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -26,10 +28,21 @@ export const router = createBrowserRouter([
     loader: authLoader,
     children: [
       {
-        element: <ResponsiveShell />,
+        element: <ResponsiveMainShell />,
         children: [
           { path: PATHS.home,
+            /* !caution! this is a temporary code for guide */
             element: <HomePage />,
+            children: [
+              {
+                path: PATHS.homeSub1Page,
+                element: <HomeSub1Page />
+              },
+              {
+                path: PATHS.homeSub2Page,
+                element: <HomeSub2Page />
+              },
+            ],
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksHome,
             element: <BooksHomePage />,
