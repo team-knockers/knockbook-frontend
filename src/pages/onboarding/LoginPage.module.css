@@ -173,7 +173,9 @@
 .signup-section {
   display: flex;
   justify-content: center;
+  gap: 5px;
   width: 100%;
+
   color: #1E1E1E;
   text-align: center;
   font-family: "Pretendard";
