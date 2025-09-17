@@ -4,14 +4,14 @@ import { DESKTOP_MEDIA_QUERY } from "../../shared/breakpoints";
 
 import MobileHeader from "./MobileHeader";
 import DesktopHeader from "./DesktopHeader";
-import MobileNavigationBar from "./../navigation/MobileNavigationBar";
-import DesktopNavigationBar from "./../navigation/DesktopNavigationBar";
+import MobileNavigationBar from "../navigation/MobileNavigationBar";
+import DesktopNavigationBar from "../navigation/DesktopNavigationBar";
 
 import type { HeaderMeta, MobileHeaderProps } from "../../types/header";
 import styles from './styles/ResponsiveShell.module.css';
 import { PATHS } from "../../routes/paths";
 
-export default function ResponsiveShell() {
+export default function ResponsiveMainShell() {
   const nav = useNavigate();
   const isDesktop = useMediaQuery(DESKTOP_MEDIA_QUERY);
   const matches = useMatches();
