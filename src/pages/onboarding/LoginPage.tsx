@@ -114,7 +114,7 @@ export default function LoginPage() {
           </div>
             <div className={styles['signup-section']}>
               <span>아직 문앞의책장 회원이 아니세요?</span>
-            <button
+              <button
                 className={styles['signup-button']}
                 onClick={() => nav(PATHS.signupVerifyEmail)}>
                 회원 가입하기

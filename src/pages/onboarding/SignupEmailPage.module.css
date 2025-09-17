@@ -8,11 +8,22 @@
 .page-right-section {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  height: 100vh;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.title-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 50px;
 }
 
 .title {
+  width: 100%;
   align-self: stretch;
   color: #1E1E1E;
   font-family: "GmarketSans";
@@ -28,7 +39,7 @@
   align-items: center;
   align-self: stretch;
   gap: 30px;
-  max-width: 520px;
+  width: 100%;
 }
 
 .input-group {
@@ -39,7 +50,6 @@
   align-self: stretch;
   gap: 10px;
   min-width: 330px;
-  max-width: 520px;
 }
 
 .input-label {
@@ -87,8 +97,9 @@
 
   .page-right-section {
     width: 100%;
-    height: 667px;
-    padding: 0 20px;
+    min-height: 667px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
@@ -119,6 +130,5 @@
   .page-right-section {
     width: 600px;
     padding: 50px 60px;
-    gap: 40px;
   }
 }
