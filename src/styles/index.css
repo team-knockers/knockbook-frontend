@@ -11,12 +11,9 @@ html, body, #root {
 }
 
 button, button:focus, button:focus-visible {
-  appearance: none;
-  -webkit-appearance: none;
   border: none;
   outline: none;
   box-shadow: none;
-  background-color: #fff;
 }
 
 /* Mobile min width = 375px (only applies below desktop breakpoint) */

@@ -3,12 +3,11 @@ export type GetCodeRequest = {
 }
 
 export type GetCodeResponse = {
-  EmailVerificationToken: string;
-  code: string;
+  emailVerificationToken: string;
 }
 
 export type SendCodeRequest = {
-  EmailVerificationToken: string;
+  emailVerificationToken: string;
   code: string;
 }
 

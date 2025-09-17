@@ -1,22 +1,23 @@
+import { useState } from 'react';
 import { Input, Label } from 'reactstrap';
+import { AuthService } from '../../features/onboarding/services/AuthService';
+import { ApiError } from '../../types/http';
 
 import styles from './SignupEmailPage.module.css';
 
 import backgroundUrl from '../../assets/login_page_bg.png';
 import OneWayButton from '../../components/forms/OneWayButton';
-import { AuthService } from '../../features/onboarding/services/AuthService';
-import { ApiError } from '../../types/http';
-import { useState } from 'react';
 
 export default function SignupEmailPage() {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const [isAuthButtonDisabled, setIsAuthButtonDisabled] = useState(false);
+  const [isVerificationButtonDisabled, setIsVerificationButtonDisabled] = useState(false);
+  const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
 
   async function handleGetCode() {
     try {
       await AuthService.getCode(email);
-      setIsAuthButtonDisabled(true);
+      setIsVerificationButtonDisabled(true);
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure
@@ -27,6 +28,7 @@ export default function SignupEmailPage() {
   async function handleVerifyCode() {
     try {
       await AuthService.sendCode(code);
+      setIsConfirmButtonDisabled(true);
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure
@@ -70,7 +72,7 @@ export default function SignupEmailPage() {
                   heightSizeType='sm'
                   colorType='dark'
                   onClick={handleGetCode}
-                  disabled={isAuthButtonDisabled}/>
+                  disabled={isVerificationButtonDisabled}/>
               </div>
             </div>
             <div className={styles['input-group']}>
@@ -94,7 +96,8 @@ export default function SignupEmailPage() {
                   widthSizeType='sm'
                   heightSizeType='sm'
                   colorType='dark'
-                  onClick={handleVerifyCode}/>
+                  onClick={handleVerifyCode}
+                  disabled={isConfirmButtonDisabled}/>
               </div>
             </div>
           </div>

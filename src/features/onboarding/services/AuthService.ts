@@ -10,15 +10,19 @@ export const AuthService = {
     const req = { email: email } as GetCodeRequest;
     const res = await apiPublicJson<GetCodeResponse, GetCodeRequest>(
       "/auth/local/register/email", { method: "POST", json: req });
+    sessionStore.setEmailVerificationToken(res.emailVerificationToken);
+    console.log(res);
     return res;
   },
 
   async sendCode(code: string) {
-    const token = sessionStore.getEmailVarificationToken();
-    const req = { code: code, EmailVerificationToken: token } as SendCodeRequest;
+    const token = sessionStore.getEmailVerificationToken();
+    const req = { code: code, emailVerificationToken: token } as SendCodeRequest;
+    console.log(req);
     const res = await apiPublicJson<SendCodeResponse, SendCodeRequest>(
-    req.EmailVerificationToken = 
       "/auth/local/register/email/verify", { method: "POST", json: req });
+    sessionStore.setRegistrationToken(res.registrationToken);
+    console.log(res);
     return res;
   },
 
