@@ -13,10 +13,13 @@ import NotificationPage from "../pages/official/NotificationPage";
 import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import SignupEmailPage from "../pages/onboarding/SignupEmailPage";
-
-import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
 import HomeSub1Page from "../pages/HomeSub1Page";
 import HomeSub2Page from "../pages/HomeSub2Page";
+import HomeSub3Page from "../pages/HomeSub3Page";
+import HomeSub4Page from "../pages/HomeSub4Page";
+import HomeSub5Page from "../pages/HomeSub5Page";
+
+import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -35,12 +38,28 @@ export const router = createBrowserRouter([
             element: <HomePage />,
             children: [
               {
+                index: true,
+                element: <Navigate to={PATHS.homeSub1Page} replace />
+              },
+              {
                 path: PATHS.homeSub1Page,
                 element: <HomeSub1Page />
               },
               {
                 path: PATHS.homeSub2Page,
                 element: <HomeSub2Page />
+              },
+              {
+                path: PATHS.homeSub3Page,
+                element: <HomeSub3Page />
+              },
+              {
+                path: PATHS.homeSub4Page,
+                element: <HomeSub4Page />
+              },
+              {
+                path: PATHS.homeSub5Page,
+                element: <HomeSub5Page />
               },
             ],
             handle: { header: { kind: "main", title: "문앞의책방" } } },
