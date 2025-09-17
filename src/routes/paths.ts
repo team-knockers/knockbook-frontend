@@ -1,6 +1,8 @@
 export const PATHS = {
   intro: "/",
   signupVerifyEmail: "/signup/verifyemail",
+  signupAgreePolicy: "/signup/agreepolicy",
+  signupSetPassword: "/signup/setpassword",
   login: "/login",
   home: "/home",
   homeSub1Page: "/home/sub1", /* !caution! this is a temporary code for guide */

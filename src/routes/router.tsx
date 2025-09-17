@@ -13,6 +13,8 @@ import NotificationPage from "../pages/official/NotificationPage";
 import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import SignupEmailPage from "../pages/onboarding/SignupEmailPage";
+import SignupPolicyPage from "../pages/onboarding/SignupPolicyPage";
+import SignupPasswordPage from "../pages/onboarding/SignupPasswordPage";
 import HomeSub1Page from "../pages/HomeSub1Page";
 import HomeSub2Page from "../pages/HomeSub2Page";
 import HomeSub3Page from "../pages/HomeSub3Page";
@@ -25,6 +27,8 @@ export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
   { path: PATHS.login, element: <LoginPage /> },
   { path: PATHS.signupVerifyEmail, element: <SignupEmailPage /> },
+  { path: PATHS.signupAgreePolicy, element: <SignupPolicyPage /> },
+  { path: PATHS.signupSetPassword, element: <SignupPasswordPage /> },
   {
     id: AUTH_LOADER_ID,
     element: <AuthLayout />,
