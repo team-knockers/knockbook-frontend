@@ -46,58 +46,60 @@ export default function SignupEmailPage() {
             alt="signup page background image" />
         </div>
         <div className={styles['page-right-section']}>
-          <div className={styles['title']}>
-            <span>본인 확인을 위해<br />이메일을 입력하세요</span>
-          </div>
-          <div className={styles['input-group-wrapper']}>
-            <div className={styles['input-group']}>
-              <Label 
-                className={styles['input-label']}
-                for="email-input-form"
-                type="text">
-                  이메일 주소
-              </Label>
-              <div className={styles['input-form-wrapper']}>
-                <Input 
-                  className={styles['input-form']}
-                  id="email-input-form"
-                  placeholder="이메일을 입력하세요"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}>
-                </Input>
-                <OneWayButton 
-                  content='인증'
-                  responsiveType='fixed'
-                  widthSizeType='sm'
-                  heightSizeType='sm'
-                  colorType='dark'
-                  onClick={handleGetCode}
-                  disabled={isVerificationButtonDisabled}/>
-              </div>
+          <div className={styles['title-input-wrapper']}>
+             <div className={styles['title']}>
+              <span>본인 확인을 위해<br />이메일을 입력하세요</span>
             </div>
-            <div className={styles['input-group']}>
-              <Label 
-                className={styles['input-label']}
-                for="code-input-form">
-                  인증번호 입력
-              </Label>
-              <div className={styles['input-form-wrapper']}>
-                <Input 
-                  className={styles['input-form']}
-                  id="code-input-form"
-                  type="text"
-                  placeholder="인증번호를 입력하세요"
-                  value={code}
-                  onChange={e => setCode(e.target.value)}>
-                </Input>
-                <OneWayButton 
-                  content='인증완료'
-                  responsiveType='fixed'
-                  widthSizeType='sm'
-                  heightSizeType='sm'
-                  colorType='dark'
-                  onClick={handleVerifyCode}
-                  disabled={isConfirmButtonDisabled}/>
+            <div className={styles['input-group-wrapper']}>
+              <div className={styles['input-group']}>
+                <Label 
+                  className={styles['input-label']}
+                  for="email-input-form"
+                  type="text">
+                    이메일 주소
+                </Label>
+                <div className={styles['input-form-wrapper']}>
+                  <Input 
+                    className={styles['input-form']}
+                    id="email-input-form"
+                    placeholder="이메일을 입력하세요"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}>
+                  </Input>
+                  <OneWayButton 
+                    content='인증'
+                    responsiveType='fixed'
+                    widthSizeType='sm'
+                    heightSizeType='sm'
+                    colorType='dark'
+                    onClick={handleGetCode}
+                    disabled={isVerificationButtonDisabled}/>
+                </div>
+              </div>
+              <div className={styles['input-group']}>
+                <Label 
+                  className={styles['input-label']}
+                  for="code-input-form">
+                    인증번호 입력
+                </Label>
+                <div className={styles['input-form-wrapper']}>
+                  <Input 
+                    className={styles['input-form']}
+                    id="code-input-form"
+                    type="text"
+                    placeholder="인증번호를 입력하세요"
+                    value={code}
+                    onChange={e => setCode(e.target.value)}>
+                  </Input>
+                  <OneWayButton 
+                    content='인증완료'
+                    responsiveType='fixed'
+                    widthSizeType='sm'
+                    heightSizeType='sm'
+                    colorType='dark'
+                    onClick={handleVerifyCode}
+                    disabled={isConfirmButtonDisabled}/>
+                </div>
               </div>
             </div>
           </div>
