@@ -1,0 +1,10 @@
+/* !caution! this is a temporary code for guide */
+.home-layout {
+  width: 100wh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  padding-top: 50px;
+}

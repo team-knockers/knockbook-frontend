@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Input, Label } from 'reactstrap';
 import { AuthService } from '../../features/onboarding/services/AuthService';
 import { ApiError } from '../../types/http';
@@ -7,12 +8,16 @@ import styles from './SignupEmailPage.module.css';
 
 import backgroundUrl from '../../assets/login_page_bg.png';
 import OneWayButton from '../../components/forms/OneWayButton';
+import { PATHS } from '../../routes/paths';
 
 export default function SignupEmailPage() {
+
+  const nav = useNavigate();
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [isVerificationButtonDisabled, setIsVerificationButtonDisabled] = useState(false);
   const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);
+  const [canProceed, setCanProceed ] = useState(false);
 
   async function handleGetCode() {
     try {
@@ -29,6 +34,7 @@ export default function SignupEmailPage() {
     try {
       await AuthService.sendCode(code);
       setIsConfirmButtonDisabled(true);
+      setCanProceed(true);
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure
@@ -104,12 +110,13 @@ export default function SignupEmailPage() {
             </div>
           </div>
           <OneWayButton 
-              content='다음'
-              responsiveType='fluid'
-              widthSizeType='lg'
-              heightSizeType='lg'
-              colorType='light'
-              onClick={() => {/* TODO */}}/>
+            content='다음'
+            responsiveType='fluid'
+            widthSizeType='lg'
+            heightSizeType='lg'
+            colorType='light'
+            onClick={() => nav(PATHS.signupAgreePolicy)}
+            disabled={!canProceed}/>
         </div>
       </div>
     </main>
