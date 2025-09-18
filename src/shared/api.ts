@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "../config";
 import type { ProblemDetails } from "../types/http";
 import { ApiError } from "../types/http";
-import { sessionStore } from "../types/sessionStore";
+import { useSession } from "../hooks/useSession";
 
 //#region Public API
 // JSON Request without authentication header 
@@ -41,12 +41,12 @@ export async function apiAuthJson<TRes, TBody = unknown>(
   init?: RequestInit & { json?: TBody },
   retried = false
 ): Promise<TRes> {
-  const token = sessionStore.getAccessToken();
+  const { accessToken } = useSession.getState();
   const withAuth: RequestInit = {
     ...init,
     headers: { 
       ...(init?.headers ?? {}),
-      Authorization: token ? `Bearer ${token}` : "",
+      Authorization: accessToken ? `Bearer ${accessToken}` : "",
     },
   };
 
@@ -117,7 +117,7 @@ async function tryRefereshAccessToken() {
   const res = await doFetch("/auth/token/refresh", { method: "POST" });
   await ensureOK(res);
   const data = (await res.json()) as { accessToken: string };
-  sessionStore.updateAccessToken(data.accessToken);
+  useSession.setState({ accessToken: data.accessToken });
 }
 
 // Low-level fetch with credentials included 

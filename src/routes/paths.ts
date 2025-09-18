@@ -3,6 +3,8 @@ export const PATHS = {
   signupVerifyEmail: "/signup/verifyemail",
   signupAgreePolicy: "/signup/agreepolicy",
   signupSetPassword: "/signup/setpassword",
+  signupSetName: "/signup/setname",
+  signupSetFavoriteCategory: "signup/setfavoritecategory",
   login: "/login",
   home: "/home",
   homeSub1Page: "/home/sub1", /* !caution! this is a temporary code for guide */
