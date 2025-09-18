@@ -1,19 +1,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Input, Label } from 'reactstrap';
+import { useSignupFlow } from '../../features/onboarding/hooks/useSignupFlow';
 import { AuthService } from '../../features/onboarding/services/AuthService';
 import { ApiError } from '../../types/http';
+import { PATHS } from '../../routes/paths';
 
-import styles from './SignupEmailPage.module.css';
-
+import { Input, Label } from 'reactstrap';
 import backgroundUrl from '../../assets/login_page_bg.png';
 import OneWayButton from '../../components/forms/OneWayButton';
-import { PATHS } from '../../routes/paths';
+
+import styles from './styles/SignupEmailPage.module.css';
 
 export default function SignupEmailPage() {
 
   const nav = useNavigate();
-  const [email, setEmail] = useState('');
+  const { email, setEmail } = useSignupFlow();
   const [code, setCode] = useState('');
   const [isVerificationButtonDisabled, setIsVerificationButtonDisabled] = useState(false);
   const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);

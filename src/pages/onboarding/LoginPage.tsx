@@ -11,7 +11,7 @@ import naverUrl from '../../assets/naver_login_btn.png';
 import kakaoUrl from '../../assets/kakao_login_btn.png';
 import googleUrl from '../../assets/google_login_btn.png';
 
-import styles from './LoginPage.module.css';
+import styles from './styles/LoginPage.module.css';
 
 export default function LoginPage() {
   
@@ -59,8 +59,7 @@ export default function LoginPage() {
                 type="text"
                 placeholder="이메일을 입력하세요"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
+                onChange={e => setEmail(e.target.value)}/>
             </div>
             <div className={styles['password-section']}>
               <div className={styles['password-section']}>
@@ -70,14 +69,13 @@ export default function LoginPage() {
                     비밀번호
                 </Label>
                 <InputGroup className={styles['password-input-wrapper']}>
-                  <Input 
+                  <Input
                     className={styles['password-input']}
                     id="password-input" 
                     type={show ? "text" : "password"}
                     placeholder="비밀번호를 입력하세요"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
-                  />
+                    onChange={e => setPassword(e.target.value)}/>
                   <InputGroupText
                     className={styles['password-show-icon']}
                     onClick={() => setShow(prev => !prev)}>
