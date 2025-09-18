@@ -1,0 +1,571 @@
+.intro-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-width: 375px;
+    min-height: 667px;
+    background: #FFF6E7;
+}
+
+/* Intro */
+.intro-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 700px;
+    padding: 50px 40px;
+    align-self: stretch;
+    background-image: url('/src/assets/login_page_bg.png');
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
+    background-size: cover;
+}
+
+.intro-title {
+    margin: 0;
+    align-self: stretch;
+    font-family: "GmarketSans";
+    font-size: 2em;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: 0.2px;
+    color: #FFF;
+    font-feature-settings: 'liga' off, 'clig' off;
+}
+
+/* Story */
+.story-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    aspect-ratio: 100/70;
+    text-align: center;
+    background-image: url('/src/assets/intro_page_box.png');
+    background-repeat: no-repeat;
+    background-position: 100% 40%;
+    background-size: cover;
+}
+
+.story-title {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    text-align: center;
+    font-family: "BookkMyungjo";
+    font-size: 1.2em;
+    font-weight: 700;
+    line-height: 150%;
+    color: #000;
+}
+
+/* Service */
+.service-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 50px 40px;
+    align-self: stretch;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    align-self: stretch;
+}
+
+.service-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.service-title {
+    text-align: center;
+    font-family: "BookkMyungjo";
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.service-description {
+    margin: 0;
+    text-align: center;
+    font-family: "BookkMyungjo";
+    font-size: 14px;
+    font-weight: 300;
+    color: #000;
+}
+
+/* About */
+.about-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 55px 40px;
+    align-self: stretch;
+    background: #F5E5CE;
+}
+
+.about-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 295px;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.about-title {
+    margin: 0;
+    font-family: "BookkMyungjo";
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.about-description {
+    margin: 0;
+    font-family: "BookkMyungjo";
+    font-size: 15px;
+    font-weight: 300;
+    color: #000;
+}
+
+.about-image {
+    width: 100%;
+    max-width: 350px;
+    aspect-ratio: 295/212;
+    border-radius: 10px;
+}
+
+/* Cards */
+.cards-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 10px;
+    width: 100%;
+}
+
+.cards-item {
+    display: grid;
+    grid-template-columns: repeat(2, 159px);
+    grid-auto-rows: 216px;                  
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.card-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 159px;
+    height: 216px;
+    border-radius: 10px;
+    background: #FFF6E7;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.card-image-layer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 153px;
+    padding: 17px 30px;
+    border-radius: 10px 10px 0 0;
+}
+
+.cards-item .card-label:nth-child(1) .card-image-layer {
+    background-color: #C4A47C;
+}
+
+.cards-item .card-label:nth-child(2) .card-image-layer {
+    background-color: #BDA47D;
+}
+
+.cards-item .card-label:nth-child(3) .card-image-layer {
+    background-color: #9F9B70;
+}
+
+.cards-item .card-label:nth-child(4) .card-image-layer {
+    background-color: #475757;
+}
+
+.card-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 116px;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: stretch;
+    aspect-ratio: 99/116;
+    border-radius: 10px;
+    background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+    box-shadow: 0 7px 7px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card-title-layer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 63px;
+}
+
+.card-title {
+    display: flex;
+    justify-content: center;
+    flex: 1 0 0;
+    text-align: center;
+    font-family: "BookkMyungjo";
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 50%;
+    color: #000;
+}
+
+/* MBTI */
+.mbti-section {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 55px 15px;
+    align-self: stretch;
+    background: #F5E5CE;
+}
+
+.shadow-image {
+    width: 286px;
+    aspect-ratio: 286/269;
+    opacity: 0.1;
+}
+
+.mbti-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 17px;
+    align-self: stretch;
+}
+
+.mbti-title {
+    margin: 0;
+    text-align: center;
+    font-family: "BookkMyungjo";
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+}
+
+.mbti-description {
+    margin: 0;
+    text-align: center;
+    font-family: "BookkMyungjo";
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 150%;
+    color: #000;
+}
+
+.mbti-description strong {
+    font-weight: 700;
+}
+
+/* Step */
+.step-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 70px 30px;
+    align-self: stretch;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 250px;
+}
+
+.step-image {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 10px;
+    aspect-ratio: 310/383;
+    opacity: 0.8;
+}
+
+.step-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+}
+
+.step-label {
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: #2C3E50;
+    font-family: "Pretandard";
+    font-size: 12px;
+    font-weight: 300;
+    color: #FFF;
+    text-align: center;
+}
+
+.step-title {
+    margin: 0;
+    font-family: "BookkMyungjo";
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+}
+
+.step-description {
+    margin: 0;
+    font-family: "BookkMyungjo";
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 150%;
+    color: #000;
+}
+
+/* Message */
+.message-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 60px 30px;
+    align-self: stretch;
+    background: #FDFCFB;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    align-self: stretch;
+}
+
+.message-title {
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    font-family: "BookkMyungjo";
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 150%;
+    color: #000;
+}
+
+.message-description {
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    font-family: "BookkMyungjo";
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 150%;
+    color: #575757;
+}
+
+.message-image {
+    width: 270px;
+    aspect-ratio: 175/86;
+    opacity: 0.2;
+}
+
+@media (max-width: 1023.98px) {
+    .cards-item {
+        grid-template-columns: repeat(2, 159px);
+        grid-auto-rows: 216px;
+    }
+}
+
+@media (min-width: 1024px) {
+
+    /* Intro */
+    .intro-section {
+        position: relative;
+        justify-content: flex-start;
+        align-items: flex-end;
+        height: 1100px;
+        padding: 90px 40px;
+    }
+
+    .intro-title {
+        position: absolute;
+        top: 90px;
+        right: 140px;
+        font-size: 4em;
+    }
+
+    /* Story */
+    .story-section {
+        height: 422px;
+        padding: 90px;
+        
+    }
+
+    .story-title {
+        top: 90px;
+        left: 90px;
+        transform: none;
+        width: auto;
+        font-size: 2em;
+    }
+
+    /* Service */
+    .service-section {
+        flex-direction: row;
+        justify-content: center;
+        height: 280px;
+        gap: 20px;
+    }
+
+    .service-description {
+        font-size: 12px;
+    }
+
+    /* About */
+    .about-wrapper {
+        flex-direction: row;
+        width: 700px;
+        gap: 40px;
+    }
+
+    /* Cards */
+    .cards-item {
+        grid-template-columns: repeat(4, 193px);
+        grid-auto-rows: 263px;
+        justify-content: center;
+    }
+
+    .card-label {
+        width: 193px;
+        height: 263px;
+    }
+
+    .card-image-layer {
+        height: 186px;
+    }
+
+    .card-image {
+        display: flex;
+        height: 155.838px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        align-self: stretch;
+        aspect-ratio: 133.00/155.84;
+    }
+
+    .card-title-layer {
+        display: flex;
+        height: 76.472px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        align-self: stretch;
+        aspect-ratio: 193.00/76.47;
+    }
+
+    .card-title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1 0 0;
+        align-self: stretch;
+        color: #000;
+        text-align: center;
+        font-family: "BookkMyungjo";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 50%;
+    }
+
+    /* MBTI */
+    .mbti-section {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+        padding: 55px 0;
+    }
+
+    .shadow-image {
+        width: 286px;
+        height: 269px;
+        aspect-ratio: 286/269;
+    }
+
+    .mbti-content {
+        width: 450px;
+    }
+
+    /* Step */
+    .step-section {
+        gap: 100px;
+        padding: 100px 0;
+        justify-content: center;
+    }
+
+    .step-item {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 50px;
+        width: 700px;
+    }
+
+    /* Message */
+    .message-section {
+        padding: 80px 50px;
+    }
+
+    .message-content {
+        width: 904px;
+    }
+    
+}
