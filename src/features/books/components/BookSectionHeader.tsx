@@ -1,4 +1,4 @@
-import styles from '../styles/BookSectionHeader.module.css';
+import styles from './styles/BookSectionHeader.module.css';
 import { FaChevronRight } from 'react-icons/fa';
 
 type BookSectionHeaderProps = {

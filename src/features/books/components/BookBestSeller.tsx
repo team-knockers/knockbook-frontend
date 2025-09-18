@@ -1,4 +1,4 @@
-import styles from '../styles/BookBestSeller.module.css';
+import styles from './styles/BookBestSeller.module.css';
 import type { TopRankedBook } from '../types';
 
 type BookBestSellerProps = {

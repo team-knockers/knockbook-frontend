@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 // @ts-ignore
 import 'swiper/css'; // Don't remove this line
-import styles from '../styles/BookSlider.module.css';
+import styles from './styles/BookSlider.module.css';
 import BookCardForBookSlider from './BookCardForBookSlider';
 import type { BookSliderItem } from '../types';
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from '../styles/CategoryFilterSearchBar.module.css';
+import styles from './styles/CategoryFilterSearchBar.module.css';
 import { FaSearch } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { SEARCH_OPTIONS, type SearchOption } from '../types';

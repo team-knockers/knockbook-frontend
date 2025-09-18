@@ -1,4 +1,4 @@
-import styles from '../styles/BookCardForBookSlider.module.css';
+import styles from './styles/BookCardForBookSlider.module.css';
 
 type BookCardForBookSliderProps = {
   imageUrl: string;
