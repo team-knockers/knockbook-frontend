@@ -4,13 +4,14 @@ import { DESKTOP_MEDIA_QUERY } from "../../shared/breakpoints";
 
 import MobileHeader from "./MobileHeader";
 import DesktopHeader from "./DesktopHeader";
-import MobileNavigationBar from "./../navigation/MobileNavigationBar";
-import DesktopNavigationBar from "./../navigation/DesktopNavigationBar";
+import MobileNavigationBar from "../navigation/MobileNavigationBar";
+import DesktopNavigationBar from "../navigation/DesktopNavigationBar";
 
 import type { HeaderMeta, MobileHeaderProps } from "../../types/header";
 import styles from './styles/ResponsiveShell.module.css';
+import { PATHS } from "../../routes/paths";
 
-export default function ResponsiveShell() {
+export default function ResponsiveMainShell() {
   const nav = useNavigate();
   const isDesktop = useMediaQuery(DESKTOP_MEDIA_QUERY);
   const matches = useMatches();
@@ -23,9 +24,9 @@ export default function ResponsiveShell() {
       headerProps = {
         kind: "main",
         title: meta.title,
-        onBell: () => nav('/notification'),
-        onCart: () => nav('/cart'),
-        onProfile: () => nav('/account/home'),
+        onBell: () => nav(PATHS.notification),
+        onCart: () => nav(PATHS.cart),
+        onProfile: () => nav(PATHS.accountHome),
       };
     } else {
       headerProps = {
@@ -40,7 +41,9 @@ export default function ResponsiveShell() {
   return (
     <div className={styles['app-shell']}>
       {isDesktop ? (
-        <DesktopHeader><DesktopNavigationBar /></DesktopHeader>
+        <DesktopHeader>
+          <DesktopNavigationBar />
+        </DesktopHeader>
       ) : (
         headerProps && <MobileHeader {...headerProps} />
       )}

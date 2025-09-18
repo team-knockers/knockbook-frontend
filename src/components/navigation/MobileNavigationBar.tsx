@@ -1,12 +1,13 @@
 import { NavLink } from "react-router-dom";
 import styles from './styles/MobileNavigationBar.module.css';
+import { PATHS } from "../../routes/paths";
 
 export default function MobileNavigationBar() {
   return (
     <nav className={styles['app-navigation']}>
       <NavLink 
         className={styles['app-menu']}
-        to="/home">
+        to={PATHS.home}>
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']}
@@ -22,7 +23,7 @@ export default function MobileNavigationBar() {
       </NavLink>
       <NavLink 
         className={styles['app-menu']}
-        to="/books/home">
+        to={PATHS.booksHome}>
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']} 
@@ -38,7 +39,7 @@ export default function MobileNavigationBar() {
       </NavLink>
       <NavLink 
         className={styles['app-menu']}
-        to="/products/home">
+        to={PATHS.productsHome}>
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']} 
@@ -54,7 +55,7 @@ export default function MobileNavigationBar() {
       </NavLink>
       <NavLink 
         className={styles['app-menu']}
-        to="/lounge/home">
+        to={PATHS.loungeHome}>
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']} 
@@ -70,7 +71,7 @@ export default function MobileNavigationBar() {
       </NavLink>
       <NavLink
         className={styles['app-menu']}
-        to="/feed/home">
+        to={PATHS.feedHome}>
           {({ isActive }) => (
             <>
               <div className={`${styles['menu-icon']} 

@@ -23,7 +23,7 @@
 }
 
 .popup-title {
-    font-family: Pretendard;
+    font-family: "Pretendard";
     font-size: 15px;
     font-weight: 700;
     line-height: 100%;
@@ -31,7 +31,7 @@
 }
 
 .popup-description {
-    font-family: Pretendard;
+    font-family: "Pretendard";
     font-size: 14px;
     font-weight: 400;
     line-height: 100%;

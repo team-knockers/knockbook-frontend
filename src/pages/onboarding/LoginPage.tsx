@@ -2,13 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputGroup, InputGroupText, Input, Label } from "reactstrap";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { AuthService } from "../features/onboarding/services/authService";
-import { ApiError } from "../types/http";
+import { AuthService } from "../../features/onboarding/services/AuthService";
+import { ApiError } from "../../types/http";
+import { PATHS } from "../../routes/paths";
 
-import backgroundUrl from '../assets/login_page_bg.png';
-import naverUrl from '../assets/naver_login_btn.png';
-import kakaoUrl from '../assets/kakao_login_btn.png';
-import googleUrl from '../assets/google_login_btn.png';
+import backgroundUrl from '../../assets/login_page_bg.png';
+import naverUrl from '../../assets/naver_login_btn.png';
+import kakaoUrl from '../../assets/kakao_login_btn.png';
+import googleUrl from '../../assets/google_login_btn.png';
 
 import styles from './styles/LoginPage.module.css';
 
@@ -24,7 +25,7 @@ export default function LoginPage() {
     try {
       await AuthService.localLogin({ email, password });
       console.log("Welcome");
-      nav('/home');
+      nav(PATHS.home);
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure
@@ -58,8 +59,7 @@ export default function LoginPage() {
                 type="text"
                 placeholder="이메일을 입력하세요"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
+                onChange={e => setEmail(e.target.value)}/>
             </div>
             <div className={styles['password-section']}>
               <div className={styles['password-section']}>
@@ -69,14 +69,13 @@ export default function LoginPage() {
                     비밀번호
                 </Label>
                 <InputGroup className={styles['password-input-wrapper']}>
-                  <Input 
+                  <Input
                     className={styles['password-input']}
                     id="password-input" 
                     type={show ? "text" : "password"}
                     placeholder="비밀번호를 입력하세요"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
-                  />
+                    onChange={e => setPassword(e.target.value)}/>
                   <InputGroupText
                     className={styles['password-show-icon']}
                     onClick={() => setShow(prev => !prev)}>
@@ -113,9 +112,9 @@ export default function LoginPage() {
           </div>
             <div className={styles['signup-section']}>
               <span>아직 문앞의책장 회원이 아니세요?</span>
-            <button
+              <button
                 className={styles['signup-button']}
-                onClick={() => {/* TODO */}}>
+                onClick={() => nav(PATHS.signupVerifyEmail)}>
                 회원 가입하기
               </button>
             </div>

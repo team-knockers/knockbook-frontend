@@ -1,6 +1,7 @@
-import IntroHeader from "../features/onboarding/components/IntroHeader";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../routes/paths";
 import Footer from "../components/layout/Footer";
-import styles from "./styles/IntroPage.module.css";
+import styles from './IntroPage.module.css';
 
 import IntroIconBook from "../assets/intro_icon_book.png";
 import IntroIconHome from "../assets/intro_icon_home.png";
@@ -17,10 +18,15 @@ import IntroStep3 from "../assets/intro_page_step3.png";
 import IntroFinal from "../assets/intro_final_book.png";
 
 export default function IntroPage() {
-  
+  const nav = useNavigate();
+
   return (
     <div className={styles["intro-page"]}>
-      <IntroHeader />
+      <header className={styles['header-layout']}>
+        <div className={styles['header-title']}>문앞의책방</div>
+        <button className={styles['header-button']}
+                onClick={() => nav(PATHS.login)}>시작하기</button>
+      </header>
       <main className={styles["intro-main"]}>
         <section className={styles["intro-section"]}>
           <h1 className={styles["intro-title"]}>

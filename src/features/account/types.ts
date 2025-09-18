@@ -1,1 +1,4 @@
-// Data type definitions in the account feature
+export type GetMyProfileResponse = {
+  displayName: string;
+  email: string;
+}

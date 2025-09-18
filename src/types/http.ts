@@ -18,4 +18,3 @@ export class ApiError extends Error {
     this.problem = problem;
   }
 }
-
