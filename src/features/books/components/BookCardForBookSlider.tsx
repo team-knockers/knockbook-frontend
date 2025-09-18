@@ -1,11 +1,11 @@
 import styles from '../styles/BookCardForBookSlider.module.css';
 
-type BookCardProps = {
+type BookCardForBookSliderProps = {
   imageUrl: string;
   title: string;
   author: string;
   publisher: string;
-  showMeta?: boolean;
+  onImageOrTitleClicked: () => void; 
 };
 
 export default function BookCardForBookSlider({
@@ -13,8 +13,8 @@ export default function BookCardForBookSlider({
   title,
   author,
   publisher,
-  showMeta = true
-}: BookCardProps) {
+  onImageOrTitleClicked
+}: BookCardForBookSliderProps) {
 
   return (
     <div className={styles['book-card']}>
@@ -22,12 +22,16 @@ export default function BookCardForBookSlider({
         className={styles['book-image']}
         src={imageUrl}
         alt={`${title} 표지`}
+        onClick={onImageOrTitleClicked}
       />
       <div className={styles['book-info']}>
-        <div className={styles['book-title']}>{title}</div>
-        {showMeta && (
-          <div className={styles['book-meta']}>{author} · {publisher}</div>
-        )}
+        <button 
+          className={styles['book-title']}
+          onClick={onImageOrTitleClicked}
+        >
+          {title}
+        </button>
+        <div className={styles['book-meta']}>{author} · {publisher}</div>
       </div>
     </div>
   );

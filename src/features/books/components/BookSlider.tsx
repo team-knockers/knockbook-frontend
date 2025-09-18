@@ -3,20 +3,13 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'; // Don't remove this line
 import styles from '../styles/BookSlider.module.css';
 import BookCardForBookSlider from './BookCardForBookSlider';
-
-type Book = {
-  id: string;
-  imageUrl: string;
-  title: string;
-  author: string;
-  publisher: string;
-};
+import type { BookSliderItem } from '../types';
 
 type BookSliderProps = {
-  books: Book[];
+  sliderBooks: BookSliderItem[];
 };
 
-export default function BookSlider({ books }: BookSliderProps) {
+export default function BookSlider({ sliderBooks }: BookSliderProps) {
   return (
     <Swiper
       className={styles['book-swiper']}
@@ -36,16 +29,17 @@ export default function BookSlider({ books }: BookSliderProps) {
         },
         1024: {
           slidesPerView: 7,
-        },
+        }
       }}
     >
-      {books.map((book) => (
+      {sliderBooks.map((book) => (
         <SwiperSlide key={book.id}>
           <BookCardForBookSlider
             imageUrl={book.imageUrl}
             title={book.title}
             author={book.author}
             publisher={book.publisher}
+            onImageOrTitleClicked={() => console.log(`${book.title} 도서 클릭(id:${book.id})`)}
           />
         </SwiperSlide>
       ))}

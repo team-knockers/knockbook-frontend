@@ -110,7 +110,7 @@ const bestSellerBooks = [
     purchasePrice: '8,500',
     summaryTitle: '요약 제목3',
     summaryDetail: '이 책은 ... 좋은 평가를 받습니다.',
-  },
+  }
 ];
 
   return (
@@ -121,24 +121,48 @@ const bestSellerBooks = [
       </section>
       <div className={styles['book-contents-container']}>
         <section className={styles['best-seller-section']}>
-          <BookSectionHeader text="문앞 베스트"/>
-          <BestSellerSection books={bestSellerBooks} />
+          <BookSectionHeader 
+            headerTitle="문앞 베스트"
+            onClicked={() => console.log('문앞 베스트 더보기 클릭')}
+          />
+          <BestSellerSection
+            top3Books={bestSellerBooks}
+            onFirstBookClicked={() => console.log('1위 도서 클릭')}
+            onSecondBookClicked={() => console.log('2위 도서 클릭')}
+            onThirdBookClicked={() => console.log('3위 도서 클릭')}
+          />
         </section>
         <section className={styles['book-slider-section']}>
-          <BookSectionHeader variant="new" categoryName="문학"/>
-          <BookSlider books={books} />
+          <BookSectionHeader 
+            headerTitle="새로나온 책" 
+            categoryName="문학"
+            onClicked={() => console.log('문학 더보기 클릭')}
+          />
+          <BookSlider sliderBooks={books} />
         </section>
         <section className={styles['book-slider-section']}>
-          <BookSectionHeader variant="new" categoryName="인문/교양"/>
-          <BookSlider books={books} />
+          <BookSectionHeader 
+            headerTitle="새로나온 책" 
+            categoryName="인문/교양"
+            onClicked={() => console.log('인문/교양 더보기 클릭')}
+          />
+          <BookSlider sliderBooks={books} />
         </section>
         <section className={styles['book-slider-section']}>
-          <BookSectionHeader variant="new" categoryName="자기계발"/>
-          <BookSlider books={books} />
+          <BookSectionHeader 
+            headerTitle="새로나온 책" 
+            categoryName="자기계발"
+            onClicked={() => console.log('자기계발 더보기 클릭')}
+          />
+          <BookSlider sliderBooks={books} />
         </section>
         <section className={styles['book-slider-section']}>
-          <BookSectionHeader variant="new" categoryName="건강"/>
-          <BookSlider books={books} />
+          <BookSectionHeader 
+            headerTitle="새로나온 책" 
+            categoryName="건강"
+            onClicked={() => console.log('건강 더보기 클릭')}
+          />
+          <BookSlider sliderBooks={books} />
         </section>
       </div>
     </main>

@@ -19,6 +19,7 @@
   align-self: stretch;
 }
 .book-title {
+  all: unset; /* Reset default button styles applied by the browser */
   align-self: stretch;
   color: #000;
   font-family: Pretendard;
@@ -28,7 +29,7 @@
   cursor: pointer;
 }
 .book-title:hover {
-  text-decoration: underline; ;
+  text-decoration: underline;
 }
 
 /*

@@ -1,39 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '../styles/CategoryFilterSearchBar.module.css';
 import { FaSearch } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { SEARCH_OPTIONS, type SearchOption } from '../types';
 
-type SearchOption = 'title' | 'author' | 'publisher';
+type CategoryFilterSearchBarProps = {
+  onCategoryToggled: () => void;
+  onSearched: (searchBy: SearchOption, searchKeyword: string) => void;
+  showCategoryButton?: boolean;
+}
 
 export default function CategoryFilterSearchBar({
   onCategoryToggled,
   onSearched,
   showCategoryButton = true,
-}: {
-  onCategoryToggled?: () => void;
-  onSearched: (searchBy: SearchOption, searchKeyword: string) => void;
-  showCategoryButton?: boolean;
-}) {
+}: CategoryFilterSearchBarProps) {
+
   const [searchBy, setSearchBy] = useState<SearchOption>('title');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [hamburgerIconSize, setHamburgerIconSize] = useState(25);
-
-  // Set hamburger icon size based on screen width
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setHamburgerIconSize(30); // desktop -> 30
-      } else {
-        setHamburgerIconSize(25); // mobile/tablet -> 25
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
 
   const handleSearch = () => {
     if (searchKeyword.trim()) {
@@ -54,20 +38,21 @@ export default function CategoryFilterSearchBar({
           className={styles['category-button']}
           onClick={onCategoryToggled}
           aria-label="Open category menu">
-          <GiHamburgerMenu size={hamburgerIconSize} />
+          <GiHamburgerMenu className={styles['hamburger-icon']} />
         </button>
       )}
-
       <div className={styles['search-input-group']}>
         <select
           className={styles['search-option']}
           value={searchBy}
-          onChange={(e) => setSearchBy(e.target.value as SearchOption)}>
-          <option value="title">도서명</option>
-          <option value="author">저자명</option>
-          <option value="publisher">출판사</option>
+          onChange={(e) => setSearchBy(e.target.value as SearchOption)}
+        >
+          {SEARCH_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
-
         <input
           type="text"
           className={styles['search-input']}
@@ -77,12 +62,12 @@ export default function CategoryFilterSearchBar({
           onKeyDown={handleKeyDown}
           aria-label="Input search keyword"
         />
-
         <button
           className={styles['search-button']}
           onClick={handleSearch}
-          aria-label="Search button">
-          <FaSearch size={18} />
+          aria-label="Search button"
+        >
+          <FaSearch className={styles['search-icon']} />
         </button>
       </div>
     </div>

@@ -5,17 +5,21 @@
   align-items: center;
   align-self: stretch;
 }
-.first-book {
+.first-book-wrapper {
   display: flex;
   align-items: center;
   align-self: stretch;
 }
-.second-third-wrapper {
+.second-third-book-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   align-self: stretch;
+}
+.first-book, .second-book, .third-book {
+  all: unset; /* Reset default button styles applied by the browser */
+  cursor: pointer;
 }
 
 /*
@@ -30,7 +34,7 @@
     margin: 0 auto;
     aspect-ratio: 315/290;
   }
-  .first-book {
+  .first-book-wrapper {
     width: 57%
   }
   .first-book-image {
@@ -38,7 +42,7 @@
     height: 100%;
     object-fit: contain;
   }
-  .second-third-wrapper {
+  .second-third-book-wrapper {
     width: 27%;
     gap: 20px;
   }
@@ -60,21 +64,21 @@
   .best-seller {
     gap: 80px;
   }
-  .first-book {
+  .first-book-wrapper {
     gap: 40px;
   }
   .first-book-image {
     width: 263px;
     height: auto;
   }
-  .second-third-wrapper {
+  .second-third-book-wrapper {
     gap: 30px;
   }
   .second-book-image, .third-book-image {
     width: 130px;
     height: auto;
   }
-  .book-image-wrapper, .second-book, .third-book { /* Desktop Only */
+  .first-book, .second-book, .third-book { /* Desktop Only */
   position: relative;
   }
   .ranking-badge { /* Desktop Only */
@@ -83,7 +87,7 @@
     align-items: center;
     position: absolute;
     width: 30px;
-    height: 30px ;
+    height: 30px;
     top: 0px;
     left: 0px;
     background-color: black;

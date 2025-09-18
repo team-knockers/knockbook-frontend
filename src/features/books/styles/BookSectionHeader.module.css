@@ -13,11 +13,12 @@
 .divider {
   font-weight: 100;
 }
-.more-books {
+.more-books { 
+  all: unset; /* Reset default button styles applied by the browser */
   cursor: pointer;
 }
 .icon {
-vertical-align: middle;
+  vertical-align: middle;
 }
 
 /*
