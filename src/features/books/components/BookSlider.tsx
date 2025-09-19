@@ -2,7 +2,7 @@ import React, { type ReactNode } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // @ts-ignore
 import 'swiper/css'; // Don't remove this line
-import styles from './styles/BookSlider.module.css';;
+import styles from './styles/BookSlider.module.css';
 
 type BookSliderProps = {
   children: ReactNode;
