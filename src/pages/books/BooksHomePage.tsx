@@ -4,6 +4,8 @@ import BookSectionHeader from "../../features/books/components/BookSectionHeader
 import CategoryFilterSearchBar from "../../features/books/components/CategoryFilterSearchBar";
 import styles from './BooksHomePage.module.css';
 import BookCardForBookSlider from "../../features/books/components/BookCardForBookSlider";
+import Banner from "../../components/display/Banner";
+import Footer from "../../components/layout/Footer";
 
 export default function BooksHomePage() {
   
@@ -114,314 +116,341 @@ const bestSellerBooks = [
   }
 ];
 
+// Dummy data for Banners
+const banners = [
+  {
+    id: '1',
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/b6184cd613704109a7e830ea4f75b515.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/91122066f6654d40ae83686dcb2267e5.jpg'
+  },
+  {
+    id: '2',
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/71a6e24dcb274056852a83b665c77d8d.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/c9797b7b332d4670bc364e17f17a597f.jpg'
+  },
+  {
+    id: '3',
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/4a317505f8364ad2b08322d77ed51823.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/32d8920d082e410bb65f661b5651b97b.jpg'
+  },
+  {
+    id: '4',
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/f246603304ea4bfba8627ecc13895ee8.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/b6c6814fda0848f6b6b00cedcb684c0e.jpg'
+  }
+]; 
+
   return (
-    <main className={styles['book-home-main']}>
-      <CategoryFilterSearchBar onSearched={handleSearch} onCategoryToggled={toggleCategory} />
-      <section>
-        {/* TODO 배너 추가 위치 */}
-      </section>
-      <div className={styles['book-contents-container']}>
-        <section className={styles['best-seller-section']}>
-          <BookSectionHeader 
-            headerTitle="문앞 베스트"
-            onClicked={() => console.log('문앞 베스트 더보기 클릭')}
-          />
-          <BestSellerSection
-            top3Books={bestSellerBooks}
-            onFirstBookClicked={() => console.log('1위 도서 클릭')}
-            onSecondBookClicked={() => console.log('2위 도서 클릭')}
-            onThirdBookClicked={() => console.log('3위 도서 클릭')}
-          />
+    <>
+      <main className={styles['book-home-main']}>
+        <CategoryFilterSearchBar onSearched={handleSearch} onCategoryToggled={toggleCategory} />
+        <section>
+          <Banner banners={banners}/>
         </section>
-        <section className={styles['book-slider-section']}>
-          <BookSectionHeader 
-            headerTitle="새로나온 책" 
-            categoryName="문학"
-            onClicked={() => console.log('문학 더보기 클릭')}
-          />
-          <BookSlider>
-            <BookCardForBookSlider
-              imageUrl={books[0].imageUrl}
-              title={books[0].title}
-              author={books[0].author}
-              publisher={books[0].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[0].title}(id:${books[0].id}) 클릭`)
-              }
+        <div className={styles['book-contents-container']}>
+          <section className={styles['best-seller-section']}>
+            <BookSectionHeader 
+              headerTitle="문앞 베스트"
+              onClicked={() => console.log('문앞 베스트 더보기 클릭')}
             />
-            <BookCardForBookSlider
-              imageUrl={books[1].imageUrl}
-              title={books[1].title}
-              author={books[1].author}
-              publisher={books[1].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[1].title}(id:${books[1].id}) 클릭`)
-              }
+            <BestSellerSection
+              top3Books={bestSellerBooks}
+              onFirstBookClicked={() => console.log('1위 도서 클릭')}
+              onSecondBookClicked={() => console.log('2위 도서 클릭')}
+              onThirdBookClicked={() => console.log('3위 도서 클릭')}
             />
-            <BookCardForBookSlider
-              imageUrl={books[2].imageUrl}
-              title={books[2].title}
-              author={books[2].author}
-              publisher={books[2].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[2].title}(id:${books[2].id}) 클릭`)
-              }
+          </section>
+          <section className={styles['book-slider-section']}>
+            <BookSectionHeader 
+              headerTitle="새로나온 책" 
+              categoryName="문학"
+              onClicked={() => console.log('문학 더보기 클릭')}
             />
-            <BookCardForBookSlider
-              imageUrl={books[3].imageUrl}
-              title={books[3].title}
-              author={books[3].author}
-              publisher={books[3].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[3].title}(id:${books[3].id}) 클릭`)
-              }
+            <BookSlider>
+              <BookCardForBookSlider
+                imageUrl={books[0].imageUrl}
+                title={books[0].title}
+                author={books[0].author}
+                publisher={books[0].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[0].title}(id:${books[0].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[1].imageUrl}
+                title={books[1].title}
+                author={books[1].author}
+                publisher={books[1].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[1].title}(id:${books[1].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[2].imageUrl}
+                title={books[2].title}
+                author={books[2].author}
+                publisher={books[2].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[2].title}(id:${books[2].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[3].imageUrl}
+                title={books[3].title}
+                author={books[3].author}
+                publisher={books[3].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[3].title}(id:${books[3].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[4].imageUrl}
+                title={books[4].title}
+                author={books[4].author}
+                publisher={books[4].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[4].title}(id:${books[4].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[5].imageUrl}
+                title={books[5].title}
+                author={books[5].author}
+                publisher={books[5].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[5].title}(id:${books[5].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[6].imageUrl}
+                title={books[6].title}
+                author={books[6].author}
+                publisher={books[6].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[6].title}(id:${books[6].id}) 클릭`)
+                }
+              />
+            </BookSlider>
+          </section>
+          <section className={styles['book-slider-section']}>
+            <BookSectionHeader 
+              headerTitle="새로나온 책" 
+              categoryName="인문/교양"
+              onClicked={() => console.log('인문/교양 더보기 클릭')}
             />
-            <BookCardForBookSlider
-              imageUrl={books[4].imageUrl}
-              title={books[4].title}
-              author={books[4].author}
-              publisher={books[4].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[4].title}(id:${books[4].id}) 클릭`)
-              }
+            <BookSlider>
+              <BookCardForBookSlider
+                imageUrl={books[0].imageUrl}
+                title={books[0].title}
+                author={books[0].author}
+                publisher={books[0].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[0].title}(id:${books[0].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[1].imageUrl}
+                title={books[1].title}
+                author={books[1].author}
+                publisher={books[1].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[1].title}(id:${books[1].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[2].imageUrl}
+                title={books[2].title}
+                author={books[2].author}
+                publisher={books[2].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[2].title}(id:${books[2].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[3].imageUrl}
+                title={books[3].title}
+                author={books[3].author}
+                publisher={books[3].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[3].title}(id:${books[3].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[4].imageUrl}
+                title={books[4].title}
+                author={books[4].author}
+                publisher={books[4].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[4].title}(id:${books[4].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[5].imageUrl}
+                title={books[5].title}
+                author={books[5].author}
+                publisher={books[5].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[5].title}(id:${books[5].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[6].imageUrl}
+                title={books[6].title}
+                author={books[6].author}
+                publisher={books[6].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[6].title}(id:${books[6].id}) 클릭`)
+                }
+              />
+            </BookSlider>
+          </section>
+          <section className={styles['book-slider-section']}>
+            <BookSectionHeader 
+              headerTitle="새로나온 책" 
+              categoryName="자기계발"
+              onClicked={() => console.log('자기계발 더보기 클릭')}
             />
-            <BookCardForBookSlider
-              imageUrl={books[5].imageUrl}
-              title={books[5].title}
-              author={books[5].author}
-              publisher={books[5].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[5].title}(id:${books[5].id}) 클릭`)
-              }
+            <BookSlider>
+              <BookCardForBookSlider
+                imageUrl={books[0].imageUrl}
+                title={books[0].title}
+                author={books[0].author}
+                publisher={books[0].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[0].title}(id:${books[0].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[1].imageUrl}
+                title={books[1].title}
+                author={books[1].author}
+                publisher={books[1].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[1].title}(id:${books[1].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[2].imageUrl}
+                title={books[2].title}
+                author={books[2].author}
+                publisher={books[2].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[2].title}(id:${books[2].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[3].imageUrl}
+                title={books[3].title}
+                author={books[3].author}
+                publisher={books[3].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[3].title}(id:${books[3].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[4].imageUrl}
+                title={books[4].title}
+                author={books[4].author}
+                publisher={books[4].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[4].title}(id:${books[4].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[5].imageUrl}
+                title={books[5].title}
+                author={books[5].author}
+                publisher={books[5].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[5].title}(id:${books[5].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[6].imageUrl}
+                title={books[6].title}
+                author={books[6].author}
+                publisher={books[6].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[6].title}(id:${books[6].id}) 클릭`)
+                }
+              />
+            </BookSlider>
+          </section>
+          <section className={styles['book-slider-section']}>
+            <BookSectionHeader 
+              headerTitle="새로나온 책" 
+              categoryName="건강"
+              onClicked={() => console.log('건강 더보기 클릭')}
             />
-            <BookCardForBookSlider
-              imageUrl={books[6].imageUrl}
-              title={books[6].title}
-              author={books[6].author}
-              publisher={books[6].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[6].title}(id:${books[6].id}) 클릭`)
-              }
-            />
-          </BookSlider>
-        </section>
-        <section className={styles['book-slider-section']}>
-          <BookSectionHeader 
-            headerTitle="새로나온 책" 
-            categoryName="인문/교양"
-            onClicked={() => console.log('인문/교양 더보기 클릭')}
-          />
-          <BookSlider>
-            <BookCardForBookSlider
-              imageUrl={books[0].imageUrl}
-              title={books[0].title}
-              author={books[0].author}
-              publisher={books[0].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[0].title}(id:${books[0].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[1].imageUrl}
-              title={books[1].title}
-              author={books[1].author}
-              publisher={books[1].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[1].title}(id:${books[1].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[2].imageUrl}
-              title={books[2].title}
-              author={books[2].author}
-              publisher={books[2].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[2].title}(id:${books[2].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[3].imageUrl}
-              title={books[3].title}
-              author={books[3].author}
-              publisher={books[3].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[3].title}(id:${books[3].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[4].imageUrl}
-              title={books[4].title}
-              author={books[4].author}
-              publisher={books[4].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[4].title}(id:${books[4].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[5].imageUrl}
-              title={books[5].title}
-              author={books[5].author}
-              publisher={books[5].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[5].title}(id:${books[5].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[6].imageUrl}
-              title={books[6].title}
-              author={books[6].author}
-              publisher={books[6].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[6].title}(id:${books[6].id}) 클릭`)
-              }
-            />
-          </BookSlider>
-        </section>
-        <section className={styles['book-slider-section']}>
-          <BookSectionHeader 
-            headerTitle="새로나온 책" 
-            categoryName="자기계발"
-            onClicked={() => console.log('자기계발 더보기 클릭')}
-          />
-          <BookSlider>
-            <BookCardForBookSlider
-              imageUrl={books[0].imageUrl}
-              title={books[0].title}
-              author={books[0].author}
-              publisher={books[0].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[0].title}(id:${books[0].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[1].imageUrl}
-              title={books[1].title}
-              author={books[1].author}
-              publisher={books[1].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[1].title}(id:${books[1].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[2].imageUrl}
-              title={books[2].title}
-              author={books[2].author}
-              publisher={books[2].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[2].title}(id:${books[2].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[3].imageUrl}
-              title={books[3].title}
-              author={books[3].author}
-              publisher={books[3].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[3].title}(id:${books[3].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[4].imageUrl}
-              title={books[4].title}
-              author={books[4].author}
-              publisher={books[4].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[4].title}(id:${books[4].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[5].imageUrl}
-              title={books[5].title}
-              author={books[5].author}
-              publisher={books[5].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[5].title}(id:${books[5].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[6].imageUrl}
-              title={books[6].title}
-              author={books[6].author}
-              publisher={books[6].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[6].title}(id:${books[6].id}) 클릭`)
-              }
-            />
-          </BookSlider>
-        </section>
-        <section className={styles['book-slider-section']}>
-          <BookSectionHeader 
-            headerTitle="새로나온 책" 
-            categoryName="건강"
-            onClicked={() => console.log('건강 더보기 클릭')}
-          />
-          <BookSlider>
-            <BookCardForBookSlider
-              imageUrl={books[0].imageUrl}
-              title={books[0].title}
-              author={books[0].author}
-              publisher={books[0].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[0].title}(id:${books[0].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[1].imageUrl}
-              title={books[1].title}
-              author={books[1].author}
-              publisher={books[1].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[1].title}(id:${books[1].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[2].imageUrl}
-              title={books[2].title}
-              author={books[2].author}
-              publisher={books[2].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[2].title}(id:${books[2].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[3].imageUrl}
-              title={books[3].title}
-              author={books[3].author}
-              publisher={books[3].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[3].title}(id:${books[3].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[4].imageUrl}
-              title={books[4].title}
-              author={books[4].author}
-              publisher={books[4].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[4].title}(id:${books[4].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[5].imageUrl}
-              title={books[5].title}
-              author={books[5].author}
-              publisher={books[5].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[5].title}(id:${books[5].id}) 클릭`)
-              }
-            />
-            <BookCardForBookSlider
-              imageUrl={books[6].imageUrl}
-              title={books[6].title}
-              author={books[6].author}
-              publisher={books[6].publisher}
-              onImageOrTitleClicked={() => 
-                console.log(`${books[6].title}(id:${books[6].id}) 클릭`)
-              }
-            />
-          </BookSlider>
-        </section>
-      </div>
-    </main>
+            <BookSlider>
+              <BookCardForBookSlider
+                imageUrl={books[0].imageUrl}
+                title={books[0].title}
+                author={books[0].author}
+                publisher={books[0].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[0].title}(id:${books[0].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[1].imageUrl}
+                title={books[1].title}
+                author={books[1].author}
+                publisher={books[1].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[1].title}(id:${books[1].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[2].imageUrl}
+                title={books[2].title}
+                author={books[2].author}
+                publisher={books[2].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[2].title}(id:${books[2].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[3].imageUrl}
+                title={books[3].title}
+                author={books[3].author}
+                publisher={books[3].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[3].title}(id:${books[3].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[4].imageUrl}
+                title={books[4].title}
+                author={books[4].author}
+                publisher={books[4].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[4].title}(id:${books[4].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[5].imageUrl}
+                title={books[5].title}
+                author={books[5].author}
+                publisher={books[5].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[5].title}(id:${books[5].id}) 클릭`)
+                }
+              />
+              <BookCardForBookSlider
+                imageUrl={books[6].imageUrl}
+                title={books[6].title}
+                author={books[6].author}
+                publisher={books[6].publisher}
+                onImageOrTitleClicked={() => 
+                  console.log(`${books[6].title}(id:${books[6].id}) 클릭`)
+                }
+              />
+            </BookSlider>
+          </section>
+        </div>
+      </main>
+      <Footer/>
+    </>
   );
 }
