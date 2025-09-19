@@ -4,6 +4,7 @@ import { useSignupFlow } from '../../features/onboarding/hooks/useSignupFlow';
 import { PATHS } from '../../routes/paths';
 import { checkDisplayNameLength, checkDisplayNameLetter, isDisplayNameValid } from '../../shared/validation/validUserProfile';
 import { Input, Label } from 'reactstrap';
+import { AuthService } from '../../features/onboarding/services/AuthService';
 import { ApiError } from '../../types/http';
 
 import OneWayButton from '../../components/forms/OneWayButton';
@@ -11,7 +12,7 @@ import Item from '../../components/display/Item';
 import backgroundUrl from '../../assets/login_page_bg.png';
 
 import s from './styles/SignupDisplayNamePage.module.css';
-import { AuthService } from '../../features/onboarding/services/AuthService';
+
 
 export default function SignupDisplayNamePage() {
 

@@ -1,15 +1,13 @@
 import { Outlet, useMatches, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { DESKTOP_MEDIA_QUERY } from "../../shared/breakpoints";
+import type { HeaderMeta, MobileHeaderProps } from "../../types/header";
+import { PATHS } from "../../routes/paths";
 
 import MobileHeader from "./MobileHeader";
 import DesktopHeader from "./DesktopHeader";
 import MobileNavigationBar from "../navigation/MobileNavigationBar";
 import DesktopNavigationBar from "../navigation/DesktopNavigationBar";
-
-import type { HeaderMeta, MobileHeaderProps } from "../../types/header";
-import styles from './styles/ResponsiveShell.module.css';
-import { PATHS } from "../../routes/paths";
 
 export default function ResponsiveMainShell() {
   const nav = useNavigate();
@@ -39,7 +37,7 @@ export default function ResponsiveMainShell() {
   }
 
   return (
-    <div className={styles['app-shell']}>
+    <div className='main-shell'>
       {isDesktop ? (
         <DesktopHeader>
           <DesktopNavigationBar />
@@ -47,7 +45,7 @@ export default function ResponsiveMainShell() {
       ) : (
         headerProps && <MobileHeader {...headerProps} />
       )}
-      <main className={styles['app-main']}><Outlet /></main>
+      <div className='app-main'><Outlet /></div>
       {!isDesktop && <MobileNavigationBar />}
     </div>
   );

@@ -7,6 +7,7 @@ import type { GetMyProfileResponse } from '../../features/account/types';
 
 import OneWayButton from '../../components/forms/OneWayButton';
 import styles from './AccountHomePage.module.css'
+import { PATHS } from '../../routes/paths';
 
 export default function AccountHomePage() {
 
@@ -51,36 +52,56 @@ export default function AccountHomePage() {
             className={styles['bar-menu-item-wrapper']}
             onClick={() => {/* TODO */}}>
             <div className={styles['bar-menu-order-icon']} />
-            <div className={styles['bar-menu-item-name']}>주문내역</div>
-            <div className={styles['bar-menu-item-value']}>{/* orderCount */}</div>
+            <div className={styles['bar-menu-item-name']}>
+              <span>주문내역</span>
+            </div>
+            <div className={styles['bar-menu-item-value']}>
+              {/* orderCount */}
+            </div>
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
             onClick={() => {/* TODO */}}>
             <div className={styles['bar-menu-rental-icon']} />
-            <div className={styles['bar-menu-item-name']}>대여내역</div>
-            <div className={styles['bar-menu-item-value']}>{/* rentalCount */}</div>
+            <div className={styles['bar-menu-item-name']}>
+              <span>대여내역</span>
+            </div>
+            <div className={styles['bar-menu-item-value']}>
+              {/* rentalCount */}
+            </div>
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
             onClick={() => {/* TODO */}}>
             <div className={styles['bar-menu-likes-icon']} />
-            <div className={styles['bar-menu-item-name']}>찜 목록</div>
-            <div className={styles['bar-menu-item-value']}>{/* likesCount */}</div>
+            <div className={styles['bar-menu-item-name']}>
+              <span>찜 목록</span>
+            </div>
+            <div className={styles['bar-menu-item-value']}>
+              {/* likesCount */}
+            </div>
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
             onClick={() => {/* TODO */}}>
             <div className={styles['bar-menu-point-icon']} />
-            <div className={styles['bar-menu-item-name']}>포인트</div>
-            <div className={styles['bar-menu-item-value']}>{/* pointAmount */}</div>
+            <div className={styles['bar-menu-item-name']}>
+              <span>포인트</span>
+            </div>
+            <div className={styles['bar-menu-item-value']}>
+              {/* pointAmount */}
+            </div>
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
             onClick={() => {/* TODO */}}>
             <div className={styles['bar-menu-coupon-icon']} />
-            <div className={styles['bar-menu-item-name']}>쿠폰</div>
-            <div className={styles['bar-menu-item-value']}>{/* couponCount */}</div>
+            <div className={styles['bar-menu-item-name']}>
+              <span>쿠폰</span>
+            </div>
+            <div className={styles['bar-menu-item-value']}>
+              {/* couponCount */}
+            </div>
           </button>
         </div>
         <button 
@@ -97,7 +118,7 @@ export default function AccountHomePage() {
           <div className={styles['list-menu-account-section']}>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => {/* TODO */}}>
+              onClick={() => nav(PATHS.accountSettingsIntroPage)}>
               내 정보 관리
             </button>
             <button 

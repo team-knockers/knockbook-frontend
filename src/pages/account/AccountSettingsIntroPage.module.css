@@ -1,0 +1,46 @@
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 375px;
+  width: 100%;
+  height: 100%;
+  padding: 0 30px;
+}
+
+.content-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  gap: 100px;
+  width: 100%;
+}
+
+.verify-password-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+}
+
+.verify-password-img {
+  width: 10%;
+  aspect-ratio: 1/1;
+  background-image: url('../../assets/account_password_icon.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.verify-password-msg {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.password-input-wrapper {
+  width: 100%;
+}

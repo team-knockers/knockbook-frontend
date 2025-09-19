@@ -1,12 +1,15 @@
 .page-layout {
   display: flex;
   justify-content: center;
+  min-width: 375px;
+  width: 100%;
+  height: 100%;
 }
 
 .wrapper {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 25px;
   width: 100%;
   max-width: 1024px;
