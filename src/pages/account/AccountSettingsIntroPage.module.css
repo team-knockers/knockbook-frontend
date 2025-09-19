@@ -44,9 +44,3 @@
 .password-input-wrapper {
   width: 100%;
 }
-
-/* Desktop rules (≥ 1024px) */
-@media (min-width: 1024px) {
-  .page-layout {
-  }
-}
