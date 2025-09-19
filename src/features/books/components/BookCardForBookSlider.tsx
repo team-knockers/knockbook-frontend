@@ -31,7 +31,9 @@ export default function BookCardForBookSlider({
         >
           {title}
         </button>
-        <div className={styles['book-meta']}>{author} · {publisher}</div>
+        <div className={styles['book-meta']}>
+          {author} · {publisher}
+        </div>
       </div>
     </div>
   );

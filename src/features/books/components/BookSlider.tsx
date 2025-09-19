@@ -2,14 +2,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // @ts-ignore
 import 'swiper/css'; // Don't remove this line
 import styles from './styles/BookSlider.module.css';
-import BookCardForBookSlider from './BookCardForBookSlider';
-import type { BookSliderItem } from '../types';
 
 type BookSliderProps = {
-  sliderBooks: BookSliderItem[];
+  children: React.ReactNode;
 };
 
-export default function BookSlider({ sliderBooks }: BookSliderProps) {
+export default function BookSlider({ children }: BookSliderProps) {
   return (
     <Swiper
       className={styles['book-swiper']}
@@ -32,17 +30,9 @@ export default function BookSlider({ sliderBooks }: BookSliderProps) {
         }
       }}
     >
-      {sliderBooks.map((book) => (
-        <SwiperSlide key={book.id}>
-          <BookCardForBookSlider
-            imageUrl={book.imageUrl}
-            title={book.title}
-            author={book.author}
-            publisher={book.publisher}
-            onImageOrTitleClicked={() => console.log(`${book.title} 도서 클릭(id:${book.id})`)}
-          />
-        </SwiperSlide>
-      ))}
+      {Array.isArray(children)
+        ? children.map((child, index) => <SwiperSlide key={index}>{child}</SwiperSlide>)
+        : <SwiperSlide>{children}</SwiperSlide>}
     </Swiper>
   );
 }
