@@ -1,8 +1,8 @@
+import React, { type ReactNode } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import type { ReactNode } from "react";
 // @ts-ignore
 import 'swiper/css'; // Don't remove this line
-import styles from './styles/BookSlider.module.css';
+import styles from './styles/BookSlider.module.css';;
 
 type BookSliderProps = {
   children: ReactNode;
@@ -20,7 +20,7 @@ export default function BookSlider({ children }: BookSliderProps) {
         0: {
           slidesPerView: 2.5,
         },
-        480: {
+        520: {
           slidesPerView: 3.5,
         },
         768: {
@@ -31,9 +31,9 @@ export default function BookSlider({ children }: BookSliderProps) {
         }
       }}
     >
-      {Array.isArray(children)
-        ? children.map((child, index) => <SwiperSlide key={index}>{child}</SwiperSlide>)
-        : <SwiperSlide>{children}</SwiperSlide>}
+      {React.Children.toArray(children).map((child, index) => (
+        <SwiperSlide key={index}>{child}</SwiperSlide>
+      ))}
     </Swiper>
   );
 }
