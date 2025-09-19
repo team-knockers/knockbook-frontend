@@ -1,8 +1,6 @@
 /* Fixed Mobile Bottom Navigation */
 .app-navigation {
-  position: fixed;
-  left: 0;
-  right: 0;
+  position: sticky;
   bottom: 0;
 
 /* Account for iOS safe area (Home Indicator) */

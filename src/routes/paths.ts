@@ -19,4 +19,6 @@ export const PATHS = {
   notification: "/notification",
   cart: "/cart",
   accountHome: "/account/home",
+  accountSettingsIntroPage: "/account/settings",
+  accountSettingsProfilePage: "/account/settings/profile",
 };
