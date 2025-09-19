@@ -1,10 +1,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
+import type { ReactNode } from "react";
 // @ts-ignore
 import 'swiper/css'; // Don't remove this line
 import styles from './styles/BookSlider.module.css';
 
 type BookSliderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export default function BookSlider({ children }: BookSliderProps) {
