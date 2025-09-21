@@ -1,14 +1,28 @@
 import styles from './styles/ProductCategoryCard.module.css';
-import categoryUrl from '../../../assets/book_cover.png'
 
-export default function ProductCategoryCard() {
+type Props = {
+  label: string;
+  imageSrc: string;
+  onClick: () => void;  
+}
+
+export default function ProductCategoryCard({
+  label, imageSrc, onClick    
+}: Props) {
   return (
-    <button className={styles['product-category-card']}>
+    <button 
+      className={styles['product-category-card']}        
+      type="button"
+      onClick={onClick}
+    >
       <div className={styles['product-category-content']}>
-        <img className={styles['product-category-image']}
-             src={categoryUrl}
+        <img 
+          className={styles['product-category-image']}
+          src={imageSrc}
+          alt={label}
+          loading="lazy"
         />
-        <div className={styles['product-category-label']}>독서대</div>
+        <div className={styles['product-category-label']}>{label}</div>
       </div>
     </button>
   )
