@@ -1,4 +1,6 @@
 import SearchBar from "../../components/navigation/SearchBar"
+import ProductCategoryList from "../../features/products/components/ProductCategoryList";
+import ProductSummaryList from "../../features/products/components/ProductSummaryList";
 
 export default function ProductsHomePage() {
   
@@ -13,9 +15,8 @@ export default function ProductsHomePage() {
         placeholder='상품명을 입력하세요'
         onSearch={handleSearch}
       />
-      <div>
-        <h1>Knockbook ProductsHomePage</h1>
-      </div>
+      <ProductCategoryList />
+      <ProductSummaryList />
     </main>
   );
 }
