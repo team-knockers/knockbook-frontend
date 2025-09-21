@@ -7,7 +7,6 @@
   align-self: stretch;
 }
 
-/* 두 줄 래퍼 */
 .product-category-wrapper {
   display: flex;
   flex-direction: column;
@@ -16,28 +15,33 @@
   align-self: stretch;
 }
 
-/* 한 줄(5개) — row는 폭만 관리 */
 .product-category-row {
   display: flex;
   width: 100%;
-  max-width: 600px;     /* 줄은 600px까지 */
-  gap: 8px;             /* 간격은 gap으로만 */
+  max-width: 600px;     
+  justify-content: space-between;
   align-items: center;
-  /* 필요없던 높이/비율/space-between 제거 */
+  gap: 5px;
 }
 
 @media (min-width: 1024px) {
   .product-category-list {
-    max-width: 1024px;   /* 전체 고정 */
+    width: 1024px;
+    max-width: 1024px;
+    box-sizing: border-box;
+    padding: 20px 258px;  
+    align-items: flex-start;
+  }
+
+  .product-category-wrapper {
+    width: 100%;
   }
 
   .product-category-row {
-    flex: 0 0 509px;   /* grow 0, shrink 0, basis 509px */
-    width: 509px;      /* 보조로 한 번 더 */
-    height: 120px;     /* 피그마 값 */
-    /* 데스크탑에선 stretch 금지 */
-    align-self: auto;
-    justify-content: space-between;
+    width: 100%;      
+    display: flex;
+    justify-content: space-between;       
+    justify-content: flex-start; 
     align-items: center;
   }
 }
