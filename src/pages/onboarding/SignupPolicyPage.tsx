@@ -1,11 +1,12 @@
 import { Input, Label } from "reactstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import s from './SignupPolicyPage.module.css';
+import { PATHS } from "../../routes/paths";
 
 import backgroundUrl from '../../assets/login_page_bg.png';
 import OneWayButton from '../../components/forms/OneWayButton';
-import { PATHS } from "../../routes/paths";
+
+import s from './styles/SignupPolicyPage.module.css';
 
 const CLAUSE_TEXTS = [
   '(필수) 만 14세 이상입니다.',

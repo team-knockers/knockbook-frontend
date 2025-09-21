@@ -1,0 +1,35 @@
+.app-shell {
+  /* Use dynamic viewport height to exclude
+   browser UI (iOS Safari, Chrome, etc.) */
+  min-height: 100dvh;
+  height: 100dvh;
+
+  /* Fallback for older browsers that do not support dvh */
+  min-height: calc(var(--vh, 1vh) * 100);
+
+  /* Keep main layout flexible */
+  display: flex;
+  flex-direction: column;
+}
+
+.main-shell { 
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.app-main{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width:1023.98px){
+  :root {
+    --mobile-nav-h:56px;
+  }
+  .app-main {
+    padding-bottom: var(--mobile-nav-h);
+  }
+}

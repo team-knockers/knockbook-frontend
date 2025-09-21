@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "../config";
 import type { ProblemDetails } from "../types/http";
 import { ApiError } from "../types/http";
-import { sessionStore } from "../types/sessionStore";
+import { useSession } from "../hooks/useSession";
 
 //#region Public API
 // JSON Request without authentication header 
@@ -12,7 +12,7 @@ export function apiPublicJson<TRes, TBody = unknown>(
     return requestJson<TRes, TBody>(url, init);
 }
 
-// use path parameter
+// use path parameter only
 export function apiPublicPath<TRes>(
   tpl: string,
   path: Record<string, string | number>,
@@ -31,6 +31,15 @@ export function apiPublicPathAndQuery<TRes>(
   return apiPublicJson<TRes>(withQuery(buildPath(tpl, path), q), init);
 }
 
+// user path parameter with json body
+export function apiPublicPathWithJson<TRes, TBody>(
+  tpl: string,
+  path: Record<string, string | number>,
+  init?: RequestInit & { json?: TBody }
+) {
+  return apiPublicJson<TRes, TBody>(buildPath(tpl, path), init);
+}
+
 //#endregion
 
 //#region Auth API
@@ -41,12 +50,12 @@ export async function apiAuthJson<TRes, TBody = unknown>(
   init?: RequestInit & { json?: TBody },
   retried = false
 ): Promise<TRes> {
-  const token = sessionStore.getAccessToken();
+  const { accessToken } = useSession.getState();
   const withAuth: RequestInit = {
     ...init,
     headers: { 
       ...(init?.headers ?? {}),
-      Authorization: token ? `Bearer ${token}` : "",
+      Authorization: accessToken ? `Bearer ${accessToken}` : "",
     },
   };
 
@@ -62,6 +71,7 @@ export async function apiAuthJson<TRes, TBody = unknown>(
   }
 }
 
+// use path parameter only
 export function apiAuthPath<TRes>(
   tpl: string,
   path: Record<string, string | number>,
@@ -70,7 +80,7 @@ export function apiAuthPath<TRes>(
   return apiAuthJson<TRes>(buildPath(tpl, path), init);
 }
 
-// Auth + Query
+// use path parameter with query
 export function apiAuthPathAndQuery<TRes>(
   tpl: string,
   path: Record<string, string | number> = {},
@@ -78,6 +88,15 @@ export function apiAuthPathAndQuery<TRes>(
   init?: RequestInit
 ) {
   return apiAuthJson<TRes>(withQuery(buildPath(tpl, path), q), init);
+}
+
+// user path parameter with json body
+export function apiAuthPathWithJson<TRes, TBody>(
+  tpl: string,
+  path: Record<string, string | number>,
+  init?: RequestInit & { json?: TBody }
+) {
+  return apiAuthJson<TRes, TBody>(buildPath(tpl, path), init);
 }
 
 //#endregion
@@ -117,7 +136,7 @@ async function tryRefereshAccessToken() {
   const res = await doFetch("/auth/token/refresh", { method: "POST" });
   await ensureOK(res);
   const data = (await res.json()) as { accessToken: string };
-  sessionStore.updateAccessToken(data.accessToken);
+  useSession.setState({ accessToken: data.accessToken });
 }
 
 // Low-level fetch with credentials included 
@@ -125,8 +144,11 @@ async function tryRefereshAccessToken() {
 async function doFetch(url: string, init: RequestInit = {}) {
   return fetch(`${API_BASE_URL}${url}`, {
     credentials: "include", // Required when using the refresh cookie
-    headers: { "Content-Type": "application/json", ...init.headers },
     ...init,
+    headers: { 
+      "Content-Type": "application/json",
+      ...(init.headers ?? {}) 
+    } as HeadersInit,
   });
 }
 
@@ -151,7 +173,15 @@ export async function requestJson<TRes, TBody = unknown>(
   
   let finalInit: RequestInit = init ?? {};
   if ("json" in (init ?? {}) && init?.json !== undefined) {
-    finalInit = { ...finalInit, body: JSON.stringify(init.json) };
+    finalInit = { 
+      ...finalInit,
+      body: JSON.stringify(init.json),
+      headers : {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        ...(finalInit.headers ?? {}),
+      } as HeadersInit
+    };
   }
   
   const res = await doFetch(url, finalInit);
