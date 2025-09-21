@@ -44,6 +44,7 @@
 }
 
 .product-price {
+  min-height: 29px;
   display: flex;
   width: 153px;
   flex-direction: column;
@@ -61,6 +62,9 @@
   align-items: center;
   gap: 2px;
 }
+
+.review-count::before { content: '('; }
+.review-count::after  { content: ')'; }
 
 .product-rating svg {
   vertical-align: middle;
@@ -91,7 +95,14 @@
 
 .discounted-price {
   color: #000;
-  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.current-price {
+  color: #000;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -109,7 +120,7 @@
 }
 
 @media (min-width:1024px){
-  .product-card {
+  .product-summary-card {
     width: 225px;  
   }
   .product-image {
