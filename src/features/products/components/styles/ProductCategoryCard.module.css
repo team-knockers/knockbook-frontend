@@ -3,27 +3,20 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  flex: 1 1 0;          /* ← 이게 포인트: 같이 커진다 */
-  min-width: 63px;      /* 최소값만 보장 */
+  min-width: 63px;     
   padding: 8px;
-
-  aspect-ratio: 63 / 79; /* 카드 비율 유지 */
+  aspect-ratio: 63/79;
   border-radius: 4px;
   border: 0.3px solid #B2AFAF;
   background: #FFF;
-
-  /* 고정폭/align-self/기타 방해되는 것 제거
-     width: 63px;  min-height: 79px; align-self: stretch; 등 삭제 */
 }
 
+/* 버튼 기본 동작 삭제 */
 .product-category-card:focus,
 .product-category-card:active {
-  border: 0.3px solid #B2AFAF; /* 클릭해도 그대로 유지 */
-  outline: none; /* 브라우저 기본 파란 outline 제거 */
+  border: 0.3px solid #B2AFAF; 
 }
 
-/* 카드 내부 콘텐츠 정렬 */
 .product-category-content {
   display: flex;
   flex-direction: column;
@@ -33,14 +26,12 @@
   height: 100%;
 }
 
-/* 이미지는 카드 안에서 비율 유지하며 채우기 */
 .product-category-image {
   width: 100%;
   height: auto;
   object-fit: contain;
 }
 
-/* 라벨 */
 .product-category-label {
   color: #6D6D6D;
   text-align: center;
