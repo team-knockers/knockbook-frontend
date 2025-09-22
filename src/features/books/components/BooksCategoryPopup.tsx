@@ -1,4 +1,4 @@
-import styles from './BooksCategoryPgae.module.css';
+import styles from './styles/BooksCategoryPopup.module.css';
 import { IoClose } from "react-icons/io5";
 
 const categories = [
@@ -7,13 +7,13 @@ const categories = [
   "기술/공학", "외국어", "과학", "여행", "컴퓨터/IT"
 ];
 
-type BooksCategoryPageProps = {
+type BooksCategoryPopupProps = {
   onClosed?: () => void;
 };
 
-export default function BooksCategoryPage({
+export default function BooksCategoryPopup({
   onClosed
-}: BooksCategoryPageProps) {
+}: BooksCategoryPopupProps) {
 
   return (
     <div className={styles['books-category-wrapper']}>

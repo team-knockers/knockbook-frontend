@@ -6,7 +6,7 @@ import styles from './BooksHomePage.module.css';
 import BookCardForBookSlider from "../../features/books/components/BookCardForBookSlider";
 import Banner from "../../components/display/BannerSlider";
 import Footer from "../../components/layout/Footer";
-import BooksCategoryPage from "./BooksCategoryPage";
+import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
 import { useState } from "react";
 
 export default function BooksHomePage() {
@@ -158,7 +158,7 @@ const banners = [
         />
         {isCategoryPopupOpen && (
           <div className={styles['category-popup-overlay']}>
-            <BooksCategoryPage onClosed={handleCloseCategory} />
+            <BooksCategoryPopup onClosed={handleCloseCategory} />
           </div>
         )}
         <section>
