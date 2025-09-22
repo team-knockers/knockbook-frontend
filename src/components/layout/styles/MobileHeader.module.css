@@ -1,6 +1,4 @@
 .app-header {
-  position: sticky;
-  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -9,6 +7,8 @@
   min-width: 375px;
   max-width: 1023px;
   padding: 0 20px;
+  background-color: #fff;
+  z-index: 200;
 }
 
 .app-header-left-section { 
