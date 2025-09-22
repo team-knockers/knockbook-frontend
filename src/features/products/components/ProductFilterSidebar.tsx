@@ -44,9 +44,10 @@ export default function ProductFilterSidebar({
       {/* 헤더: 필터 + 초기화 */}
       <div className={styles['header']}>
         <div className={styles['header-title']}>필터</div>
-        <button className={styles['header-reset']} 
-                type="button"
-                onClick={handleReset}
+        <button 
+          className={styles['header-reset']} 
+          type="button"
+          onClick={handleReset}
         >
           <FiRefreshCcw size={14} />
         </button>
