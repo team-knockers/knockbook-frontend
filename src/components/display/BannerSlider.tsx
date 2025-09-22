@@ -4,19 +4,20 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css'; // Don't remove this line
 // @ts-ignore
 import 'swiper/css/navigation'; // Don't remove this line
-import styles  from './Banner.module.css';
+import styles  from './BannerSlider.module.css';
 
 type Banner = {
   id: string;
   mobileImageUrl: string;
   desktopImageUrl: string;
+  onClicked?:() => string;
 };
 
 type BannersProps = {
-  banners: Banner[];
+  items: Banner[];
 };
 
-export default function Banner({ banners }: BannersProps) {
+export default function BannerSlider({ items }: BannersProps) {
   return (
     <div className={styles['banner-wrapper']}>
       <Swiper
@@ -31,14 +32,15 @@ export default function Banner({ banners }: BannersProps) {
         }}
         navigation={true}
       >
-        {banners.map((banner) => (
-          <SwiperSlide key={banner.id}>
+        {items.map((items) => (
+          <SwiperSlide key={items.id}>
             <picture>
-              <source media="(max-width: 1023.98px)" srcSet={banner.mobileImageUrl} />
+              <source media="(max-width: 1023.98px)" srcSet={items.mobileImageUrl} />
               <img
                 className={styles['banner-swiper-img']}
-                src={banner.desktopImageUrl}
-                alt={`Banner ${banner.id}`}
+                src={items.desktopImageUrl}
+                alt={`Banner ${items.id}`}
+                onClick={items.onClicked}
               />
             </picture>
           </SwiperSlide>

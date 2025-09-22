@@ -4,7 +4,7 @@ import BookSectionHeader from "../../features/books/components/BookSectionHeader
 import CategoryFilterSearchBar from "../../features/books/components/CategoryFilterSearchBar";
 import styles from './BooksHomePage.module.css';
 import BookCardForBookSlider from "../../features/books/components/BookCardForBookSlider";
-import Banner from "../../components/display/Banner";
+import Banner from "../../components/display/BannerSlider";
 import Footer from "../../components/layout/Footer";
 
 export default function BooksHomePage() {
@@ -145,7 +145,7 @@ const banners = [
       <main className={styles['book-home-main']}>
         <CategoryFilterSearchBar onSearched={handleSearch} onCategoryToggled={toggleCategory} />
         <section>
-          <Banner banners={banners}/>
+          <Banner items={banners}/>
         </section>
         <div className={styles['book-contents-container']}>
           <section className={styles['best-seller-section']}>
