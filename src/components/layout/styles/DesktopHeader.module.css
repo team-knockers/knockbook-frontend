@@ -1,6 +1,4 @@
 .app-header {
-  position: sticky;
-  top: 0;
   display: flex;
   width: 100%;
   min-width: 1024px;
@@ -11,6 +9,7 @@
   align-items: center;
   border-bottom: 1px solid #C8C8C8;
   background: #FFF;
+  z-index: 200;
 }
 
 .app-header-left-section {
