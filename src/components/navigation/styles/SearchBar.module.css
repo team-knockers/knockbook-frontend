@@ -1,0 +1,38 @@
+.search-container{
+  min-width: 375px;
+  max-width: 1024px;
+  height:65px;
+  padding:15px 20px;            
+}
+
+.search-box{
+  display:flex;
+  align-items:center;                
+  height:35px;               
+  padding:0 20px;              
+  border-radius:10px;
+  background:#eee;      
+}
+
+.search-input{
+  flex:1;                       
+}
+
+.search-button{
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  width:24px;
+  height:24px;
+}
+
+@media (min-width:1024px){
+  .search-container{
+    width: 1024px;
+    height:75px;
+    padding:18px 30px;          
+  }
+  .search-box{
+    height:39px;               
+  }
+}

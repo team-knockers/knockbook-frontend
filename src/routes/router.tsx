@@ -13,6 +13,8 @@ import SignupDisplayNamePage from "../pages/onboarding/SignupDisplayNamePage";
 import HomePage from "../pages/HomePage";
 import BooksHomePage from "../pages/books/BooksHomePage";
 import ProductsHomePage from "../pages/products/ProductsHomePage";
+import ProductsSearchPage from "../pages/products/ProductsSearchPage";
+import ProductDetailPage from "../pages/products/ProductDetailPage";
 import LoungeHomePage from "../pages/lounge/LoungeHomePage";
 import FeedHomePage from "../pages/feeds/FeedHomePage";
 import NotificationPage from "../pages/official/NotificationPage";
@@ -78,6 +80,10 @@ export const router = createBrowserRouter([
           { path: PATHS.productsHome,
             element: <ProductsHomePage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
+          { path: PATHS.productsSearch,
+            element: <ProductsSearchPage />},
+          { path: PATHS.productsDetail,
+            element: <ProductDetailPage />},
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
