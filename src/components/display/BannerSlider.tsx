@@ -13,11 +13,11 @@ type Banner = {
   onClicked?:() => string;
 };
 
-type BannersProps = {
+type BannerSliderProps = {
   items: Banner[];
 };
 
-export default function BannerSlider({ items }: BannersProps) {
+export default function BannerSlider({ items }: BannerSliderProps) {
   return (
     <div className={styles['banner-wrapper']}>
       <Swiper
