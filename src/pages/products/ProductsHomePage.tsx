@@ -23,7 +23,10 @@ export default function ProductsHomePage() {
 
   const openCategoryDropdown = () => {};
   const openSortDropdown = () => {};  
-  const handleCardClick = (id: string) => {};
+  const handleCardClick = (id: string) => {
+    console.log(id);
+    // id를 이용해 상품 상세 페이지로 이동하는 로직 작성 예정
+  };
 
 
   return (
