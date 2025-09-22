@@ -6,8 +6,11 @@ import styles from './BooksHomePage.module.css';
 import BookCardForBookSlider from "../../features/books/components/BookCardForBookSlider";
 import Banner from "../../components/display/BannerSlider";
 import Footer from "../../components/layout/Footer";
+import BooksCategoryPage from "./BooksCategoryPage";
+import { useState } from "react";
 
 export default function BooksHomePage() {
+  const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
   
   const handleSearch = (searchBy: 'title' | 'author' | 'publisher', searchKeyword: string) => {
     console.log('🔍 검색 실행:', { searchBy, searchKeyword });
@@ -15,9 +18,15 @@ export default function BooksHomePage() {
   };
 
   const toggleCategory = () => {
-    console.log('📂 카테고리 토글됨');
-    // TODO 카테고리바 열기 같은 동작
+    setIsCategoryPopupOpen(prev => !prev);
+    console.log(`📂 카테고리 ${!isCategoryPopupOpen ? '열기' : '닫기'}`);
   };
+
+  const handleCloseCategory = () => {
+    setIsCategoryPopupOpen(false);
+    console.log('📂 카테고리 팝업 닫기');
+  };
+
   // Dummy data for BookSlider
   const books = [
   {
@@ -143,7 +152,15 @@ const banners = [
   return (
     <>
       <main className={styles['book-home-main']}>
-        <CategoryFilterSearchBar onSearched={handleSearch} onCategoryToggled={toggleCategory} />
+        <CategoryFilterSearchBar
+          onSearched={handleSearch}
+          onCategoryToggled={toggleCategory}
+        />
+        {isCategoryPopupOpen && (
+          <div className={styles['category-popup-overlay']}>
+            <BooksCategoryPage onClosed={handleCloseCategory} />
+          </div>
+        )}
         <section>
           <Banner items={banners}/>
         </section>

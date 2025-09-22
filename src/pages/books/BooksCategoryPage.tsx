@@ -7,7 +7,13 @@ const categories = [
   "기술/공학", "외국어", "과학", "여행", "컴퓨터/IT"
 ];
 
-export default function BooksCategoryPage() {
+type BooksCategoryPageProps = {
+  onClosed?: () => void;
+};
+
+export default function BooksCategoryPage({
+  onClosed
+}: BooksCategoryPageProps) {
 
   return (
     <div className={styles['books-category-wrapper']}>
@@ -15,6 +21,7 @@ export default function BooksCategoryPage() {
         <span className={styles['category-title']}>카테고리</span>
         <button 
           className={styles['close-button']} 
+          onClick={onClosed}
         >
           <IoClose/>
         </button>
