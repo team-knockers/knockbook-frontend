@@ -58,8 +58,8 @@ export default function AccountSettingsProfilePage() {
 
   return (
     <main className={s['page-layout']}>
+      <div className={s['profile-img']}/>
       <div className={s['profile-form-wrapper']}>
-        <div className={s['profile-img']}/>
         {/* email - readonly */}
         <div className={s['email-wrapper']}>
           <Label className={s['email-label']}>
