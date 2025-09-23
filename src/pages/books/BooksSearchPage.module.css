@@ -1,0 +1,78 @@
+.book-search-main {
+  display: flex;
+  flex-direction: column;
+}
+.category-popup-overlay {
+  position: relative;
+}
+.book-search-results {
+  display: flex;
+  align-self: stretch;
+}
+.book-search-info{
+  padding: 10px 20px 0 20px;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 11px */
+}
+
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+
+  .book-search-main {
+    align-self: stretch;
+  }
+  .book-search-container {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+  }
+  .book-search-sidebar {
+    display: none;
+  }
+  .book-search-results {
+    padding: 15px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .book-search-pagination {
+    display: none;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .book-search-main {
+    width: 1024px;
+    max-width: 1024px;
+    margin:0 auto;
+  }
+  .category-popup-overlay {
+    left: 17px;
+  }
+  .book-search-contents {
+    display: flex;
+    width: 1024px;
+    padding: 20px 50px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .book-search-results-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+  }
+  .book-search-results {
+    flex-direction: column;
+    align-items: center;
+  }
+  /* .book-search-pagination {
+    TODO: 페이지네이선 추가시 작성
+  } */
+}
