@@ -1,4 +1,3 @@
-/* 배경 오버레이 */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -12,7 +11,6 @@
     background: rgba(0, 0, 0, 0.5);
     }
 
-/* 팝업 전체 컨테이너 (화면 하단 고정) */
 .popup-container {
     width: 100%;
     display: flex;
@@ -24,7 +22,7 @@
     font-family: "Pretendard";
 }
 
-/* 수량/가격 래퍼 */
+/* Quantity/Price Wrapper */
 .quantity-wrapper {
     display: flex;
     flex-direction: column;
@@ -32,7 +30,7 @@
     padding: 30px 20px 0 20px;
 }
 
-/* 주문 수량 영역 */
+/* Order Quantity Section */
 .quantity-box {
     display: flex;
     justify-content: space-between;
@@ -49,7 +47,7 @@
     line-height: 150%;
 }
 
-/* - / 숫자 / + 버튼 묶음 */
+/* Minus / Number / Plus Buttons Group */
 .counter-label {
     display: flex;
     align-items: center;
@@ -85,7 +83,7 @@
     color: #4A4A4A;
 }
 
-/* 총 금액 영역 */
+/* Total Price Section */
 .price-box {
     display: flex;
     justify-content: space-between;
@@ -107,7 +105,7 @@
     text-align: right;
 }
 
-/* 진행 버튼 */
+/* Button Section */
 .button-box {
     display: flex;
     align-items: center;
@@ -127,14 +125,4 @@
     color: #fff;
     font-size: 14px;
     font-weight: 700;
-}
-
-.confirm-button:hover {
-    background: #4a6b85;
-}
-
-@media (min-width: 1024px) {
-  .popup-overlay {
-    display: none;
-  }
 }

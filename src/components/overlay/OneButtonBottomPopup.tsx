@@ -2,21 +2,21 @@ import React from "react";
 import styles from "./OneButtonBottomPopup.module.css";
 
 type OneButtonBottomPopupProps = {
-  quantity: number; // 현재 수량
-  price: number; // 상품 단가
-  onQuantityChange: (newQuantity: number) => void; // 수량 변경 핸들러
-  onConfirm: () => void; // 진행 버튼 클릭 핸들러
-  onClose?: () => void; // 배경 클릭 시 닫기 옵션
+  quantity: number; // Current Quantity
+  price: number; // Unit Price
+  onQuantityChange: (newQuantity: number) => void; // Quantity Change Handler
+  onConfirm: () => void; // Confirm Button Click Handler
+  onClose?: () => void; // Optional Close on Background Click
 };
 
-const OneButtonBottomPopup: React.FC<OneButtonBottomPopupProps> = ({ // React.FC 함수형 컴포넌트 타입 정의 도구
+const OneButtonBottomPopup: React.FC<OneButtonBottomPopupProps> = ({ // React.FC Functional Component Type Definition Utility
   quantity,
   price,
   onQuantityChange,
   onConfirm,
   onClose,
 }) => {
-    const totalPrice = quantity * price; // 가격과 수량 곱해서 총액 계산
+    const totalPrice = quantity * price; // Calculate Total Price by Multiplying Quantity and Unit Price
     return (
         <div 
             className={styles["popup-overlay"]} 
@@ -24,7 +24,6 @@ const OneButtonBottomPopup: React.FC<OneButtonBottomPopupProps> = ({ // React.FC
             <div
                 className={styles["popup-container"]} 
                 onClick={(e) => e.stopPropagation()}>
-
                 <div className={styles["quantity-wrapper"]}>
                     <div className={styles["quantity-box"]}>
                         <span className={styles["quantity-text"]}>주문수량</span>
@@ -45,7 +44,6 @@ const OneButtonBottomPopup: React.FC<OneButtonBottomPopupProps> = ({ // React.FC
                             </button>
                         </div>
                     </div>
-
                     <div className={styles["price-box"]}>
                         <span className={styles["price-text"]}>
                         총 {quantity}권 상품 금액
@@ -55,7 +53,6 @@ const OneButtonBottomPopup: React.FC<OneButtonBottomPopupProps> = ({ // React.FC
                         </span>
                     </div>
                 </div>
-
                 <div className={styles["button-box"]}>
                     <button 
                         className={styles["confirm-button"]}
