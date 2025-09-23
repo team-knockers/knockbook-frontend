@@ -25,7 +25,9 @@ export default function ProductsHomePage() {
 
   const openCategoryDropdown = () => {};
   const openSortDropdown = () => {};  
-  const handleCardClick = (id: string) => {};
+  const handleCardClick = (id: string) => {
+    console.log(id);
+  };
 
 
   return (
