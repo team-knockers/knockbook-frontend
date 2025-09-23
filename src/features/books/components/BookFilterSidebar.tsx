@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { categoryOptions, priceOptions, type Filters } from '../types';
 
 type BookFilterSidebarProps = {
-  onApplied?: (f: Filters) => void;
+  onApplied: (filters: Filters) => void;
 };
 
 export default function BookFilterSidebar({

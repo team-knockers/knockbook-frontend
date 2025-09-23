@@ -133,7 +133,11 @@ export default function BooksSearchPage() {
           </span>
           <div className={styles['book-search-contents']}>
             <div className={styles['book-search-sidebar']}>
-              <BookFilterSidebar/>
+              <BookFilterSidebar
+                  onApplied={(filters) => {
+                  console.log('적용된 필터:', filters);
+                }}
+              />
             </div>
             <div className={styles['book-search-results-container']}>
               {/* TODO: 현재는 길이로 맞춰놨음. API 적용시 조회한 totalItems로 변경할 것 */}
