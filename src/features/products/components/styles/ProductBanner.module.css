@@ -63,6 +63,7 @@
   opacity: 1;
 }
 
+/* pagination (우리 배너 범위로만 한정) */
 .banner :global(.swiper-pagination) {
   position: static; 
   margin-top: 10px; 
@@ -97,6 +98,7 @@
   box-shadow: 0 0 0 2px rgba(0,0,0,.12);
 }
 
+/* 텍스트 오버레이 */
 .overlay{
   position: absolute;
   left: 12px; 
@@ -149,32 +151,24 @@
   font-weight: 500;
 }
 
+/* 데스크탑(1024+) 전용: 틈 제거 + 3등분 고정 + 네비/텍스트 크기 */
 @media (min-width:1024px){
-  .title{ 
-    font-size: 14px; 
-  }
+  .title{ font-size: 14px; }
+  .desc { font-size: 11px; }
 
-  .desc { 
-    font-size: 11px; 
-  }
+  .banner { width: 1024px; } 
+  .swiper { overflow: hidden; width: 1024px; }
 
-  .banner { 
-    width: 1024px; 
-  } 
+  .banner :global(.swiper-pagination){ display: none; }
 
-  .swiper { 
-    overflow: hidden; 
-    width: 1024px; 
-  }
+  .banner :global(.swiper-slide) .card,
+  .banner :global(.swiper-slide-active) .card { transform: none; opacity: 1; }
 
-  .banner :global(.swiper-pagination){ 
-    display: none; 
-  }
-
-  .banner :global(.swiper-slide) .card, 
-  .banner :global(.swiper-slide-active) .card { 
-    transform: none; 
-    opacity: 1; 
+  /* ← 여기서만 틈 완전 제거 + 3등분 강제 */
+  .banner :global(.swiper-wrapper){ gap: 0 !important; }
+  .banner :global(.swiper-slide){
+    width: calc(1024px / 3) !important;
+    margin-right: 0 !important;
   }
 
   .nav {
@@ -198,30 +192,18 @@
     pointer-events: auto;
   }
 
-  .nav:hover { 
-    background: rgba(0,0,0,0.5); 
-  }
+  .nav:hover { background: rgba(0,0,0,0.5); }
+  .nav:active { transform: translateY(-50%) scale(0.96); }
 
-  .nav:active { 
-    transform: translateY(-50%) scale(0.96); 
-  }
+  .prev { left: 8px; }
+  .next { right: 8px; }
 
-  .prev { 
-    left: 8px; 
-  }
-
-  .next { 
-    right: 8px; 
-  }
-
-  .slide { 
-    width: auto; 
-    border-radius: 0; 
-  } 
+  .slide { width: auto; border-radius: 0; } 
 }
 
+/* 모바일 폭 강제(우리 배너에만) */
 @media (max-width: 1023.98px){
   .banner :global(.swiper-slide) {
-    width: clamp(220px, 78vw, 360px) !important; /* ← Swiper inline width 덮어쓰기 */
+    width: clamp(220px, 78vw, 360px) !important;
   }
 }
