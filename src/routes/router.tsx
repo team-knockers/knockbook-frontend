@@ -28,6 +28,7 @@ import HomeSub2Page from "../pages/HomeSub2Page";
 import HomeSub3Page from "../pages/HomeSub3Page";
 import HomeSub4Page from "../pages/HomeSub4Page";
 import HomeSub5Page from "../pages/HomeSub5Page";
+import BooksSearchPage from "../pages/books/BooksSearchPage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -76,6 +77,9 @@ export const router = createBrowserRouter([
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksHome,
             element: <BooksHomePage />,
+            handle: { header: { kind: "main", title: "문앞의책방" } } },
+          { path: PATHS.booksSearch,
+            element: <BooksSearchPage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.productsHome,
             element: <ProductsHomePage />,

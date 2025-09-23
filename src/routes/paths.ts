@@ -13,6 +13,7 @@ export const PATHS = {
   homeSub4Page: "/home/sub4", /* !caution! this is a temporary code for guide */
   homeSub5Page: "/home/sub5", /* !caution! this is a temporary code for guide */
   booksHome: "/books/home",
+  booksSearch: "/books/search",
   productsHome: "/products/home",
   productsSearch: "/products/search",
   productsDetail: "/products/:productId",
