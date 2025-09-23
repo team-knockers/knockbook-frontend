@@ -7,6 +7,8 @@ import { productSummaryDummy }  from "../../features/products/components/DummySu
 import { useState } from "react";
 import ProductSummaryListBody from "../../features/products/components/ProductSummaryListBody";
 import ProductSummaryCard from "../../features/products/components/ProductSummaryCard";
+import ProductBanner from "../../features/products/components/ProductBanner";
+import styles from './styles/ProductsHomePage.module.css';
 
 export default function ProductsHomePage() {
   
@@ -27,13 +29,14 @@ export default function ProductsHomePage() {
 
 
   return (
-    <>
-      <main>
+    <div className={styles['home-layout']}>
+      <main className={styles['main-layout']}>
         {/* SearchBar */}
         <SearchBar
           placeholder='상품명을 입력하세요'
           onSearch={handleSearch}
         />
+        <ProductBanner />
         {/* Category List */}
         <ProductCategoryList />
         {/* Product Summary List */}
@@ -63,7 +66,7 @@ export default function ProductsHomePage() {
         </ProductSummaryList>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

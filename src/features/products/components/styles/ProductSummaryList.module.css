@@ -4,7 +4,6 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  align-self: stretch;
 }
 
 .product-list-body {

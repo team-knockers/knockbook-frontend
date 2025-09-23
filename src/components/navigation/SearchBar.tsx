@@ -25,23 +25,21 @@ export default function SearchBar({
     };
 
     return(
-      <div className={styles['search-bar']}>
-        <div className={styles['search-container']}>
-          <div className={styles['search-box']}>
-            <Input
-              className={`${styles['search-input']} bg-transparent border-0 shadow-none px-0`}
-              placeholder={placeholder}
-              value={searchKeyword}
-              onChange={e => setSearchKeyword(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <button 
-                className={styles['search-button']}
-                onClick={fireSearch}
-            >
-              <FiSearch size={20} />
-            </button>
-          </div>
+      <div className={styles['search-container']}>
+        <div className={styles['search-box']}>
+          <Input
+            className={`${styles['search-input']} bg-transparent border-0 shadow-none px-0`}
+            placeholder={placeholder}
+            value={searchKeyword}
+            onChange={e => setSearchKeyword(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <button 
+              className={styles['search-button']}
+              onClick={fireSearch}
+          >
+            <FiSearch size={20} />
+          </button>
         </div>
       </div>
     )
