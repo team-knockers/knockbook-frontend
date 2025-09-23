@@ -1,21 +1,24 @@
-import React from "react";
 import styles from "./TwoButtonBottomPopup.module.css";
 
 type TwoButtonBottomPopupProps = {
-  quantity: number; // Current Quantity
-  price: number; // Unit Price
-  onQuantityChange: (newQuantity: number) => void; // Quantity Change Handler
-  onConfirm: () => void; // Confirm Button Click Handler
-  onClose?: () => void; // Optional Close on Background Click
+    isOpen: boolean; // Manage open/close state in the parent logic
+    quantity: number; // Current Quantity
+    price: number; // Unit Price
+    onQuantityChange: (newQuantity: number) => void; // Quantity Change Handler
+    onConfirm: () => void; // Confirm Button Click Handler
+    onClose?: () => void; // Request parent to close when the overlay/background is clicked
 };
 
-const TwoButtonBottomPopup: React.FC<TwoButtonBottomPopupProps> = ({ // React.FC Functional Component Type Definition Utility
-  quantity,
-  price,
-  onQuantityChange,
-  onConfirm,
-  onClose,
-}) => {
+function TwoButtonBottomPopup({
+    isOpen,
+    quantity,
+    price,
+    onQuantityChange,
+    onConfirm,
+    onClose,
+}: TwoButtonBottomPopupProps) {
+    if (!isOpen) return null; // Do not render if the popup is closed
+
     const totalPrice = quantity * price; // Calculate Total Price by Multiplying Quantity and Unit Price
     return (
         <div 
