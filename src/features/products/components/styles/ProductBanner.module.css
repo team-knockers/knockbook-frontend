@@ -219,3 +219,9 @@
     border-radius: 0; 
   } 
 }
+
+@media (max-width: 1023.98px){
+  .banner :global(.swiper-slide) {
+    width: clamp(220px, 78vw, 360px) !important; /* ← Swiper inline width 덮어쓰기 */
+  }
+}
