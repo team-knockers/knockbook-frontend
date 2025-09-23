@@ -1,4 +1,4 @@
-import { apiAuthPath, apiAuthPathWithJson } from "../../../shared/api";
+import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
 import type { ChangePasswordRequest, VerifyPasswordRequest, GetMyProfileResponse } from "../types";
 
@@ -12,6 +12,17 @@ export const UserService = {
       { userId : userId },
       { method: "GET" }
     )
+  },
+
+  async changeDisplayName(name: string) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPathAndQuery<void>(
+      "/users/{userId}",
+      { userId: userId },
+      { displayName: name },
+      { method: "PUT"}
+    );
   },
 
   async changePassword(password: string) {

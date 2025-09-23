@@ -63,7 +63,7 @@ export async function apiAuthJson<TRes, TBody = unknown>(
     return await requestJson<TRes,TBody>(url, withAuth);
   } catch (e) {
     // On 401, refresh once → retry if refresh succeeds
-    if (e instanceof ApiError && e.problem.status === 401 && !retried) {
+    if (e instanceof ApiError && !retried) {
         await tryRefereshAccessToken();
         return apiAuthJson<TRes, TBody>(url, init, true);
     }

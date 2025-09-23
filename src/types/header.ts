@@ -5,16 +5,26 @@ export type HeaderMeta = {
   title: string;
 };
 
-// 최종 props 타입 (콜백 포함)
 export type MobileHeaderProps =
   | (HeaderMeta & {
       kind: "main";
       onBell(): void;
       onCart(): void;
-      onProfile?(): void; // 옵션으로 통일
+      onProfile?(): void;
     })
   | (HeaderMeta & {
       kind: "backTitleClose";
       onBack(): void;
       onClose(): void;
     });
+
+export type ClosePolicy =
+  | { type: "back"; steps?: number }
+  | { type: "push"; to: string }
+  | { type: "replace"; to: string };
+
+export type HeaderHandle = {
+  kind: 'main' | 'backTitleClose';
+  title?: string;
+  close?: ClosePolicy;
+};

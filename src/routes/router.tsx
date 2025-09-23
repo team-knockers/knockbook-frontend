@@ -54,23 +54,28 @@ export const router = createBrowserRouter([
               },
               {
                 path: PATHS.homeSub1Page,
-                element: <HomeSub1Page />
+                element: <HomeSub1Page />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
               },
               {
                 path: PATHS.homeSub2Page,
-                element: <HomeSub2Page />
+                element: <HomeSub2Page />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
               },
               {
                 path: PATHS.homeSub3Page,
-                element: <HomeSub3Page />
+                element: <HomeSub3Page />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
               },
               {
                 path: PATHS.homeSub4Page,
-                element: <HomeSub4Page />
+                element: <HomeSub4Page />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
               },
               {
                 path: PATHS.homeSub5Page,
-                element: <HomeSub5Page />
+                element: <HomeSub5Page />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
               },
             ],
             handle: { header: { kind: "main", title: "문앞의책방" } } },
@@ -86,25 +91,68 @@ export const router = createBrowserRouter([
             element: <ProductDetailPage />},
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,
-            handle: { header: { kind: "main", title: "문앞의책방" } } },
+            handle: { 
+              header: { 
+                kind: "main", 
+                title: "문앞의책방" 
+              } 
+            } 
+          },
           { path: PATHS.feedHome,
             element: <FeedHomePage />,
-            handle: { header: { kind: "main", title: "문앞의책방" } } },
+            handle: { 
+              header: { 
+                kind: "main",
+                title: "문앞의책방" 
+              } 
+            }
+          },
           { path: PATHS.notification,
             element: <NotificationPage />,
-            handle: { header: { kind: "backTitleClose", title: "알림센터" } } },
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "알림센터" 
+              } 
+            } 
+          },
           { path: PATHS.cart,
             element: <CartPage />,
-            handle: { header: { kind: "backTitleClose", title: "장바구니" } } },
+            handle: { 
+              header: { 
+                kind: "backTitleClose", 
+                title: "장바구니" 
+              } 
+            } 
+          },
           { path: PATHS.accountHome,
             element: <AccountHomePage />,
-            handle: { header: { kind: "backTitleClose", title: "관리" } } },
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "관리" 
+              } 
+            } 
+          },
           { path: PATHS.accountSettingsIntroPage,
             element: <AccountSettingsIntroPage />,
-            handle: { header: { kind: "backTitleClose", title: "내 정보 관리" } } },
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "내 정보 관리" 
+              } 
+            }
+          },
           { path: PATHS.accountSettingsProfilePage,
             element: <AccountSettingsProfilePage />,
-            handle: { header: { kind: "backTitleClose", title: "내 정보 관리" } } },
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "내 정보 관리",
+                close: { type: 'back', steps: 2 }
+              } 
+            } 
+          },
         ],
       },
     ],
