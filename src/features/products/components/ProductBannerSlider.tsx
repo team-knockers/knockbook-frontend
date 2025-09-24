@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import styles from './styles/ProductBanner.module.css';
+import styles from './styles/ProductBannerSlider.module.css';
 // @ts-ignore
 import 'swiper/css/bundle';
 
@@ -37,7 +37,7 @@ const TEXTS: TextItem[] = [
   { badge: 'NEW', title1: '가을 밤의',        title2: '몰입 독서',        desc: '울티 플로우 북라이트 재입고 기념 단독 EVENT!', tone: 'light' },
 ];
 
-export default function ProductBanner({ images, autoplayDelay = 2800 }: Props) {
+export default function ProductBannerSlider({ images, autoplayDelay = 2800 }: Props) {
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
 
@@ -48,9 +48,9 @@ export default function ProductBanner({ images, autoplayDelay = 2800 }: Props) {
   );
 
   return (
-    <section className={styles.banner}>
+    <section className={styles['banner']}>
       <Swiper
-        className={styles.swiper}
+        className={styles['swiper']}
         modules={[Autoplay, Pagination, Navigation]}
         loop
         speed={650}
@@ -85,31 +85,69 @@ export default function ProductBanner({ images, autoplayDelay = 2800 }: Props) {
           },
         }}
       >
-        <button slot="container-start" ref={prevRef} className={`${styles.nav} ${styles.prev}`}>
-          <svg className={styles.navIcon} viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M15.5 4.5L8 12l7.5 7.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <button 
+          slot="container-start" 
+          ref={prevRef} 
+          className={`${styles['nav']} ${styles['prev']}`}
+        >
+          <svg 
+            className={styles['navIcon']} 
+            viewBox="0 0 24 24" 
+            aria-hidden="true"
+          >
+            <path 
+              d="M15.5 4.5L8 12l7.5 7.5" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="1.6" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+            />
           </svg>
         </button>
-        <button slot="container-start" ref={nextRef} className={`${styles.nav} ${styles.next}`}>
-          <svg className={styles.navIcon} viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8.5 4.5L16 12l-7.5 7.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <button 
+          slot="container-start" 
+          ref={nextRef} 
+          className={`${styles['nav']} ${styles['next']}`}
+        >
+          <svg 
+            className={styles.navIcon} 
+            viewBox="0 0 24 24" 
+            aria-hidden="true"
+          >
+            <path 
+              d="M8.5 4.5L16 12l-7.5 7.5" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="1.6" 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+            />
           </svg>
         </button>
 
         {slides.map((s, i) => (
-          <SwiperSlide key={i} className={styles.slide}>
-            <div className={styles.card}>
-              <img className={styles.img} src={s.src} alt={`banner ${i + 1}`} loading="lazy" />
+          <SwiperSlide 
+            key={i} 
+            className={styles['slide']}
+          >
+            <div className={styles['card']}>
+              <img 
+                className={styles['img']} 
+                src={s.src} 
+                alt={`banner ${i + 1}`} 
+                loading="lazy" 
+              />
               {(s.badge || s.title1 || s.title2 || s.desc) && (
-                <div className={`${styles.overlay} ${s.tone === 'dark' ? styles.textDark : styles.textLight}`}>
-                  {s.badge && <span className={styles.badge}>{s.badge}</span>}
+                <div className={`${styles['overlay']} ${s.tone === 'dark' ? styles['textDark'] : styles['textLight']}`}>
+                  {s.badge && <span className={styles['badge']}>{s.badge}</span>}
                   {(s.title1 || s.title2) && (
-                    <div className={styles.title}>
-                      {s.title1 && <span className={styles.titleLine}>{s.title1}</span>}
-                      {s.title2 && <span className={styles.titleLine}>{s.title2}</span>}
+                    <div className={styles['title']}>
+                      {s.title1 && <span className={styles['titleLine']}>{s.title1}</span>}
+                      {s.title2 && <span className={styles['titleLine']}>{s.title2}</span>}
                     </div>
                   )}
-                  {s.desc && <div className={styles.desc}>{s.desc}</div>}
+                  {s.desc && <div className={styles['desc']}>{s.desc}</div>}
                 </div>
               )}
             </div>
