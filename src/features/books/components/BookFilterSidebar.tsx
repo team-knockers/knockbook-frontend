@@ -102,12 +102,12 @@ export default function BookFilterSidebar({
                 checked={
                   !isCustom &&
                   minPrice === String(minValue) &&
-                  maxPrice === (maxValue === Infinity ? '' : String(maxValue))
+                  maxPrice === (maxValue === undefined ? '' : String(maxValue))
                 }
                 onChange={() => {
                   setIsCustom(false);
                   setMinPrice(minValue?.toString());
-                  setMaxPrice(maxValue === Infinity ? '' : maxValue.toString());
+                  setMaxPrice(maxValue === undefined ? '' : maxValue.toString());
                 }}
               />
               <span className={styles['price-label']}>{label}</span>

@@ -58,7 +58,7 @@ export default function BookListItem({
 
   const [isLiked, setIsLiked] = useState(false); // Wishlist status
 
-    const onToggleLiked = () => {
+    const onWishlistToggled = () => {
       setIsLiked(prev => !prev);
       console.log(isLiked ? '찜 해제' : '찜하기');
     };
@@ -101,11 +101,11 @@ export default function BookListItem({
         {isLiked ? (
           <IoMdHeart
             color="#f73936ff"
-            onClick={onToggleLiked}
+            onClick={onWishlistToggled}
           />
         ) : (
           <IoMdHeartEmpty
-            onClick={onToggleLiked}
+            onClick={onWishlistToggled}
           />
         )}
         <IoCartOutline
@@ -121,7 +121,7 @@ export default function BookListItem({
             widthSizeType="sm"
             heightSizeType="sm"
             colorType="natural"
-            onClick={onToggleLiked}
+            onClick={onWishlistToggled}
           />
         ) : (
           <OneWayButton
@@ -130,7 +130,7 @@ export default function BookListItem({
             widthSizeType="sm"
             heightSizeType="sm"
             colorType="outline"
-            onClick={onToggleLiked}
+            onClick={onWishlistToggled}
           />
         )}
         <OneWayButton
