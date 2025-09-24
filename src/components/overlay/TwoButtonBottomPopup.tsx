@@ -3,7 +3,7 @@ import styles from "./TwoButtonBottomPopup.module.css";
 
 type TwoButtonBottomPopupProps = {
   price: number; // product unit price
-  onConfirm: (quantity: number, totalPrice: number) => void; // Pass the current quantity and total price
+  onConfirm: (quantity: number) => void; // Pass the current quantity and total price
   onClose: () => void; // requests to close the popup
 };
 
@@ -19,9 +19,6 @@ function TwoButtonBottomPopup({
   };
   const totalPrice = quantity * price; // calculate total price
   return (
-    <div
-      className={styles["popup-overlay"]}
-      onClick={onClose}>
       <div
         className={styles["popup-container"]}
         onClick={(e) => e.stopPropagation()}>
@@ -63,14 +60,12 @@ function TwoButtonBottomPopup({
           <button
             className={styles["confirm-button"]}
             onClick={() => {
-              onConfirm(quantity, totalPrice);
-              onClose();
+              onConfirm(quantity);
             }}>
             진행
           </button>
         </div>
       </div>
-    </div>
   );
 };
 
