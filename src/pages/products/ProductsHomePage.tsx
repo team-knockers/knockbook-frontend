@@ -3,12 +3,14 @@ import ProductCategoryList from "../../features/products/components/ProductCateg
 import ProductSummaryList from "../../features/products/components/ProductSummaryList";
 import Footer from "../../components/layout/Footer";    
 import ProductSummaryListHeader from "../../features/products/components/ProductSummaryListHeader";
-import { productSummaryDummy }  from "../../features/products/components/DummySummary";
+import { productSummaryDummy }  from "../../features/products/resources/DummySummary";
 import { useState } from "react";
 import ProductSummaryListBody from "../../features/products/components/ProductSummaryListBody";
 import ProductSummaryCard from "../../features/products/components/ProductSummaryCard";
-import ProductBanner from "../../features/products/components/ProductBanner";
+import ProductBannerSlider from "../../features/products/components/ProductBannerSlider";
 import styles from './styles/ProductsHomePage.module.css';
+import ProductBanner from "../../features/products/components/ProductBanner";
+import { PRODUCT_BANNERS } from "../../features/products/resources/ProductBannerData";
 
 export default function ProductsHomePage() {
   
@@ -29,7 +31,6 @@ export default function ProductsHomePage() {
     console.log(id);
   };
 
-
   return (
     <div className={styles['home-layout']}>
       <main className={styles['main-layout']}>
@@ -38,7 +39,19 @@ export default function ProductsHomePage() {
           placeholder='상품명을 입력하세요'
           onSearch={handleSearch}
         />
-        <ProductBanner />
+        <ProductBannerSlider>
+          {PRODUCT_BANNERS.map((b, i) => (
+            <ProductBanner
+              key={i}
+              bannerImgUrl={b.bannerImgUrl}
+              badge={b.badge}
+              title1={b.title1}
+              title2={b.title2}
+              desc={b.desc}
+              tone={b.tone}
+            />
+          ))}
+        </ProductBannerSlider>
         {/* Category List */}
         <ProductCategoryList />
         {/* Product Summary List */}
@@ -63,7 +76,6 @@ export default function ProductsHomePage() {
                 onClick={() => handleCardClick(p.id)}
               />
             ))}
-            
           </ProductSummaryListBody>  
         </ProductSummaryList>
       </main>
@@ -71,4 +83,3 @@ export default function ProductsHomePage() {
     </div>
   );
 }
-
