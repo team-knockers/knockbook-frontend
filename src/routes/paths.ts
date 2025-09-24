@@ -7,11 +7,11 @@ export const PATHS = {
   signupSetFavoriteCategory: "signup/setfavoritecategory",
   login: "/login",
   home: "/home",
-  homeSub1Page: "/home/sub1", /* !caution! this is a temporary code for guide */
-  homeSub2Page: "/home/sub2", /* !caution! this is a temporary code for guide */
-  homeSub3Page: "/home/sub3", /* !caution! this is a temporary code for guide */
-  homeSub4Page: "/home/sub4", /* !caution! this is a temporary code for guide */
-  homeSub5Page: "/home/sub5", /* !caution! this is a temporary code for guide */
+  homeSub1: "/home/sub1", /* !caution! this is a temporary code for guide */
+  homeSub2: "/home/sub2", /* !caution! this is a temporary code for guide */
+  homeSub3: "/home/sub3", /* !caution! this is a temporary code for guide */
+  homeSub4: "/home/sub4", /* !caution! this is a temporary code for guide */
+  homeSub5: "/home/sub5", /* !caution! this is a temporary code for guide */
   booksHome: "/books/home",
   booksSearch: "/books/search",
   productsHome: "/products/home",
@@ -19,9 +19,13 @@ export const PATHS = {
   productsDetail: "/products/:productId",
   loungeHome: "/lounge/home",
   feedHome: "/feed/home",
-  notification: "/notification",
   cart: "/cart",
   accountHome: "/account/home",
-  accountSettingsIntroPage: "/account/settings",
-  accountSettingsProfilePage: "/account/settings/profile",
+  accountSettingsIntro: "/account/settings",
+  accountSettingsProfile: "/account/settings/profile",
+  customer: "/customer",
+  faq: "/customer/faq",
+  qna: "/customer/qna",
+  poicy: "/customer/policy",
+  notification: "/customer/notification",
 };

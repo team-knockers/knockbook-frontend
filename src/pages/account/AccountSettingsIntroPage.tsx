@@ -19,7 +19,7 @@ export default function AccountSettingsIntroPage() {
     try {
       await UserService.verifyPassword(password);
       console.log("success");
-      nav(PATHS.accountSettingsProfilePage);
+      nav(PATHS.accountSettingsProfile);
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure

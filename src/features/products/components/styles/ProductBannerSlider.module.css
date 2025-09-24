@@ -1,0 +1,160 @@
+.banner {
+  width: 100%;
+  margin: 12px 0 18px;
+}
+
+.swiper {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  touch-action: pan-y;
+  --swiper-pagination-bottom: 0px;
+  --swiper-pagination-bullet-size: 6px;
+  --swiper-pagination-bullet-horizontal-gap: 2.5px;
+}
+
+.nav {
+  display: none;
+}
+
+.navIcon {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+.slide {
+  width: clamp(220px, 78vw, 360px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+}
+
+.swiper :global(.swiper-slide) :global(.phb-card) {
+  transform: scale(0.94);
+  opacity: .92;
+  transition: transform .28s ease, opacity .28s ease;
+}
+
+.swiper :global(.swiper-slide-active) :global(.phb-card) {
+  transform: scale(1.02);
+  opacity: 1;
+}
+
+.swiper :global(.swiper-pagination) {
+  position: static;
+  margin-top: 10px;
+  text-align: center;
+  line-height: 0;
+}
+
+.swiper :global(.swiper-pagination-bullet) {
+  display: inline-block;
+  width: var(--swiper-pagination-bullet-size);
+  height: var(--swiper-pagination-bullet-size);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  box-sizing: content-box;
+  background: rgba(0, 0, 0, .28);
+  opacity: 1;
+  margin: 0 var(--swiper-pagination-bullet-horizontal-gap);
+  transition: width .22s ease, background .22s ease, transform .22s ease;
+  transform: none;
+}
+
+.swiper :global(.swiper-pagination-bullet-active) {
+  width: 10px;
+  height: var(--swiper-pagination-bullet-size);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .62);
+  transform: translateZ(0);
+}
+
+.swiper :global(.swiper-pagination-bullet:focus-visible) {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, .12);
+}
+
+@media (min-width: 1024px) {
+  .banner {
+    width: 1024px;
+  }
+
+  .swiper {
+    overflow: hidden;
+    width: 1024px;
+  }
+
+  .swiper :global(.swiper-pagination) {
+    display: none;
+  }
+
+  .swiper :global(.swiper-slide) :global(.phb-card),
+  .swiper :global(.swiper-slide-active) :global(.phb-card) {
+    transform: none;
+    opacity: 1;
+  }
+
+  .swiper :global(.swiper-wrapper) {
+    gap: 0 !important;
+  }
+
+  .swiper :global(.swiper-slide) {
+    width: calc(1024px / 3 + 0.66px) !important;
+    margin-right: 0 !important;
+  }
+
+  .swiper :global(.swiper-slide + .swiper-slide) {
+    margin-left: -0.66px !important;
+  }
+
+  .nav {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease, opacity .2s ease;
+    opacity: 0.95;
+    z-index: 5;
+    pointer-events: auto;
+  }
+
+  .nav:hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .nav:active {
+    transform: translateY(-50%) scale(0.96);
+  }
+
+  .prev {
+    left: 8px;
+  }
+
+  .next {
+    right: 8px;
+  }
+
+  .slide {
+    width: auto;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .swiper :global(.swiper-slide) {
+    width: clamp(220px, 78vw, 360px) !important;
+  }
+}

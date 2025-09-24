@@ -1,7 +1,7 @@
 import { Outlet, useMatches, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { DESKTOP_MEDIA_QUERY } from "../../shared/breakpoints";
-import type { HeaderMeta, MobileHeaderProps } from "../../types/header";
+import type { GoToPolicy, HeaderMeta, MobileHeaderProps } from "../../types/header";
 import { PATHS } from "../../routes/paths";
 
 import MobileHeader from "./MobileHeader";
@@ -15,6 +15,22 @@ export default function ResponsiveMainShell() {
   const matches = useMatches();
   const meta = (matches.at(-1) as { handle?: { header?: HeaderMeta } })
     ?.handle?.header;
+
+  const close = (meta as any)?.close as GoToPolicy | undefined;
+  const back = (meta as any)?.back as GoToPolicy | undefined;
+
+  function onPolicy(policy: GoToPolicy | undefined) {
+    const p = policy ?? { type: "back" as const, steps: 1 };
+    if (p.type === "back") {
+      nav(-(p.steps ?? 1));
+    }
+    else if (p.type === "push") {
+      nav(p.to);
+    }
+    else if (p.type === "replace") {
+      nav(p.to, { replace: true });
+    }
+  };
 
   let headerProps: MobileHeaderProps | null = null;
   if (meta) {
@@ -30,8 +46,8 @@ export default function ResponsiveMainShell() {
       headerProps = {
         kind: "backTitleClose",
         title: meta.title,
-        onBack: () => window.history.back(),
-        onClose: () => window.history.back(),
+        onClose: () => onPolicy(close),
+        onBack: () => onPolicy(back),
       };
     }
   }
