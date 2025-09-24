@@ -22,7 +22,7 @@ export default function ProductBanner({
       <img
         className={styles['img']}
         src={bannerImgUrl}
-        alt=''
+        alt={title1}
         loading='lazy'
       />
       <div className={`${styles['overlay']} ${tone === 'dark' ? styles['textDark'] : styles['textLight']}`}>
