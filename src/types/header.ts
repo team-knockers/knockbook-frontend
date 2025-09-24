@@ -18,7 +18,7 @@ export type MobileHeaderProps =
       onClose(): void;
     });
 
-export type ClosePolicy =
+export type GoToPolicy =
   | { type: "back"; steps?: number }
   | { type: "push"; to: string }
   | { type: "replace"; to: string };
@@ -26,5 +26,6 @@ export type ClosePolicy =
 export type HeaderHandle = {
   kind: 'main' | 'backTitleClose';
   title?: string;
-  close?: ClosePolicy;
+  back?: GoToPolicy;
+  close?: GoToPolicy;
 };

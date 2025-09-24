@@ -118,7 +118,7 @@ export default function AccountHomePage() {
           <div className={styles['list-menu-account-section']}>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => nav(PATHS.accountSettingsIntroPage)}>
+              onClick={() => nav(PATHS.accountSettingsIntro)}>
               내 정보 관리
             </button>
             <button 
@@ -128,24 +128,24 @@ export default function AccountHomePage() {
             </button>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => {/* TODO */}}>
+              onClick={() => nav(PATHS.qna)}>
               1:1 문의
             </button>
           </div>
           <div className={styles['list-menu-utility-section']}>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => {/* TODO */}}>
+              onClick={() => nav(PATHS.notification)}>
               공지사항
             </button>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => {/* TODO */}}>
+              onClick={() => nav(PATHS.poicy)}>
               이용약관
             </button>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => {/* TODO */}}>
+              onClick={() => nav(PATHS.faq)}>
               고객센터
             </button>
           </div>
