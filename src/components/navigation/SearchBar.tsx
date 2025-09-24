@@ -28,7 +28,7 @@ export default function SearchBar({
       <div className={styles['search-container']}>
         <div className={styles['search-box']}>
           <Input
-            className={`${styles['search-input']} bg-transparent border-0 shadow-none px-0`}
+            className={styles['search-input']}
             placeholder={placeholder}
             value={searchKeyword}
             onChange={e => setSearchKeyword(e.target.value)}
