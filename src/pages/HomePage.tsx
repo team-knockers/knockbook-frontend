@@ -14,15 +14,15 @@ export default function HomePage() {
       <TwoLevelTabMenu
         leftTabTitle="상세정보"
         rightTabTitle="리뷰"
-        leftTabPath={PATHS.homeSub1Page}
-        rightTabPath={PATHS.homeSub2Page}/>
+        leftTabPath={PATHS.homeSub1}
+        rightTabPath={PATHS.homeSub2}/>
       <ThreeLevelTabMenu
         leftTabTitle="상품설명"
         centerTabTitle="리뷰"
         rightTabTitle="Q&A"
-        leftTabPath={PATHS.homeSub3Page}
-        centerTabPath={PATHS.homeSub4Page}
-        rightTabPath={PATHS.homeSub5Page}/>
+        leftTabPath={PATHS.homeSub3}
+        centerTabPath={PATHS.homeSub4}
+        rightTabPath={PATHS.homeSub5}/>
       <Outlet />
     </main>
   );
