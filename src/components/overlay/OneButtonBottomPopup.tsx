@@ -3,17 +3,21 @@ import styles from "./OneButtonBottomPopup.module.css";
 
 type OneButtonBottomPopupProps = {
   price: number; // product unit price
-  onConfirm: (quantity: number) => void; // Pass the current quantity and total price
+  onConfirm: (quantity: number) => void; // Pass the current quantity
+  confirmText?: string;
 };
 
 const OneButtonBottomPopup = ({
   price,
   onConfirm,
+  confirmText = "진행",
 }: OneButtonBottomPopupProps) => {
   const [quantity, setQuantity] = useState(1); // internal state for quantity
   const handleIncrease = () => setQuantity(quantity + 1); // increase quantity
   const handleDecrease = () => {
-    if (quantity > 1) setQuantity(quantity - 1); // decrease quantity (minimum 1)
+    if (quantity > 1) {
+      setQuantity(quantity - 1); // decrease quantity (minimum 1)
+    } 
   };
   const totalPrice = quantity * price; // calculate total price
   return (
@@ -52,10 +56,8 @@ const OneButtonBottomPopup = ({
       <div className={styles["button-box"]}>
         <button
           className={styles["confirm-button"]}
-          onClick={() => {
-            onConfirm(quantity);
-          }}>
-          진행
+          onClick= {() => onConfirm(quantity)}>
+          {confirmText}
         </button>
       </div>
     </div>

@@ -3,19 +3,25 @@ import styles from "./TwoButtonBottomPopup.module.css";
 
 type TwoButtonBottomPopupProps = {
   price: number; // product unit price
-  onConfirm: (quantity: number) => void; // Pass the current quantity and total price
-  onClose: () => void; // requests to close the popup
+  onConfirm: (quantity: number) => void; // Pass the current quantity
+  onCancel: () => void; // requests to close the popup
+  cancelText?: string;
+  confirmText?: string;
 };
 
 function TwoButtonBottomPopup({
   price,
   onConfirm,
-  onClose,
+  onCancel,
+  cancelText = "취소",
+  confirmText = "진행",
 }: TwoButtonBottomPopupProps) {
   const [quantity, setQuantity] = useState(1); // internal state for quantity
   const handleIncrease = () => setQuantity(quantity + 1); // increase quantity
   const handleDecrease = () => {
-    if (quantity > 1) setQuantity(quantity - 1); // decrease quantity (minimum 1)
+    if (quantity > 1) {
+      setQuantity(quantity - 1); // decrease quantity (minimum 1)
+    } 
   };
   const totalPrice = quantity * price; // calculate total price
   return (
@@ -54,15 +60,13 @@ function TwoButtonBottomPopup({
         <div className={styles["button-box"]}>
           <button
             className={styles["cancel-button"]}
-            onClick={onClose}>
-            취소
+            onClick={onCancel}>
+            {cancelText}
           </button>
           <button
             className={styles["confirm-button"]}
-            onClick={() => {
-              onConfirm(quantity);
-            }}>
-            진행
+            onClick= {() => onConfirm(quantity)}>
+            {confirmText}
           </button>
         </div>
       </div>
