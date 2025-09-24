@@ -2,37 +2,35 @@ import styles from './styles/BookFilterSidebar.module.css';
 import { FiRefreshCcw } from 'react-icons/fi';
 import { Input } from 'reactstrap';
 import { useState } from 'react';   
-import { categoryOptions, priceOptions, type Filters } from '../types';
+import { categoryOptions, priceOptions, type BookSearchFilters } from '../types';
 
 type BookFilterSidebarProps = {
-  onApplied: (filters: Filters) => void;
+  onApplied: (filters: BookSearchFilters) => void;
 };
 
 export default function BookFilterSidebar({
-    onApplied = () => {},
+    onApplied,
 }: BookFilterSidebarProps) {
 
   const [category, setCategory] = useState<string>('all')
-  const [priceRange, setPriceRange] = useState<string>('');
   const [minPrice, setMinPrice] = useState<string>(''); 
-  const [maxPrice, setMaxPrice]     = useState<string>('');
-  const isCustom = priceRange === 'custom';
-
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [isCustom, setIsCustom] = useState<boolean>(false);
+  
   // Reset button
   const resetButtonClicked = () => {
     setCategory('all');
-    setPriceRange('');
     setMinPrice('');
     setMaxPrice('');
+    setIsCustom(false);
   }
 
   // Apply button 
   const applyButtonClicked = () => {
-    const filters: Filters = {
+    const filters: BookSearchFilters = {
       category,
-      priceRange,
-      minPrice: isCustom && minPrice ? Number(minPrice) : null,
-      maxPrice: isCustom && maxPrice ? Number(maxPrice) : null,
+      minPrice: minPrice ? Number(minPrice) : undefined,
+      maxPrice: maxPrice ? Number(maxPrice) : undefined,
     };
     onApplied(filters);
   }
@@ -59,7 +57,7 @@ export default function BookFilterSidebar({
       <div className={styles['header']}>
         <div className={styles['header-title']}>필터</div>
         <button 
-          className={styles['.reset-button']} 
+          className={styles['reset-button']} 
           type="button"
           onClick={resetButtonClicked}
         >
@@ -95,15 +93,22 @@ export default function BookFilterSidebar({
           가격대
         </div>
         <div className={styles['price-list']}>
-          {priceOptions.map(({ value, label }) => (
-            <label className={styles['price-item']} key={value}>
+          {priceOptions.map(({ label, minValue, maxValue }) => (
+            <label className={styles['price-item']} key={`${minValue}-${maxValue}`}>
               <Input 
                 className={styles['filter-radio']} 
                 type="radio" 
                 name="priceRange" 
-                value={value} 
-                checked={priceRange === value}
-                onChange={(e) => setPriceRange(e.target.value)}
+                checked={
+                  !isCustom &&
+                  minPrice === String(minValue) &&
+                  maxPrice === (maxValue === Infinity ? '' : String(maxValue))
+                }
+                onChange={() => {
+                  setIsCustom(false);
+                  setMinPrice(minValue?.toString());
+                  setMaxPrice(maxValue === Infinity ? '' : maxValue.toString());
+                }}
               />
               <span className={styles['price-label']}>{label}</span>
             </label>
@@ -114,48 +119,50 @@ export default function BookFilterSidebar({
                 className={styles['filter-radio']} 
                 type="radio" 
                 name="priceRange" 
-                value="custom" 
-                checked={priceRange === 'custom'}
-                onChange={(e) => setPriceRange(e.target.value)}
+                value="custom"
+                checked={isCustom}
+                onChange={() => {
+                  setIsCustom(true);
+                  setMinPrice('');
+                  setMaxPrice('');
+                }}
               />
               <span className={styles['custom-label']}>직접 설정</span>
             </label>
-            <div className={styles['custom-fields']}>
-              <div className={styles['min-field']}>
-                <label className={styles['min-label']} htmlFor="minPrice">최소 가격</label>
-                <div className={styles['price-input-wrapper']}>  
-                  <Input
-                    id="minPrice"
-                    className={styles['min-input']} 
-                    type="text"
-                    inputMode="numeric"
-                    placeholder="0"
-                    value={minPrice}                     
-                    onChange={handleMinPriceChange} 
-                    onFocus={() => setPriceRange('custom')}
-                    readOnly={priceRange !== 'custom'}
-                  />
-                  <span className={styles['unit']}>원</span>
+            {isCustom && (
+              <div className={styles['custom-fields']}>
+                <div className={styles['min-field']}>
+                  <label className={styles['min-label']} htmlFor="minPrice">최소 가격</label>
+                  <div className={styles['price-input-wrapper']}>  
+                    <Input
+                      id="minPrice"
+                      className={styles['min-input']} 
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="0"
+                      value={minPrice}
+                      onChange={handleMinPriceChange}                     
+                    />
+                    <span className={styles['unit']}>원</span>
+                  </div>
+                </div>
+                <div className={styles['max-field']}>
+                  <label className={styles['max-label']} htmlFor="maxPrice">최대 가격</label>
+                  <div className={styles['price-input-wrapper']}> 
+                    <Input
+                      id="maxPrice"
+                      className={styles['max-input']} 
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="123456789"
+                      value={maxPrice}
+                      onChange={handleMaxPriceChange}
+                    />
+                    <span className={styles['unit']}>원</span>
+                  </div>
                 </div>
               </div>
-              <div className={styles['max-field']}>
-                <label className={styles['max-label']} htmlFor="maxPrice">최대 가격</label>
-                <div className={styles['price-input-wrapper']}> 
-                  <Input
-                    id="maxPrice"
-                    className={styles['max-input']} 
-                    type="text"
-                    inputMode="numeric"
-                    placeholder="123456789"
-                    value={maxPrice}
-                    onChange={handleMaxPriceChange}
-                    onFocus={() => setPriceRange('custom')}
-                    readOnly={priceRange !== 'custom'}
-                  />
-                  <span className={styles['unit']}>원</span>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

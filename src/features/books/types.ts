@@ -18,11 +18,10 @@ export const SEARCH_OPTIONS: { value: SearchOption; label: string }[] = [
   { value: 'publisher', label: '출판사' },
 ];
 
-export type Filters = {
+export type BookSearchFilters = {
   category: string;
-  priceRange: string;
-  minPrice?: number | null;
-  maxPrice?: number | null;
+  minPrice?: number;
+  maxPrice?: number;
 };
 
 /* Category option for RadioButton */
@@ -50,10 +49,10 @@ export const categoryOptions = [
 
 /* Price option for RadioButton */
 export const priceOptions = [
-  { value: 'lte-10000', label: '1만원 이하' },
-  { value: '10000-30000', label: '1만원–3만원' },
-  { value: '30000-100000', label: '3만원–10만원' },
-  { value: 'gte-100000', label: '10만원 이상' },
+  { label: '1만원 이하', minValue: 0, maxValue: 10000 },
+  { label: '1만원–3만원', minValue: 10000, maxValue: 30000 },
+  { label: '3만원–10만원', minValue: 30000, maxValue: 100000 },
+  { label: '10만원 이상', minValue: 100000, maxValue: Infinity },
 ];
 
 export const sortOptions = [
