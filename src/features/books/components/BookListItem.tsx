@@ -1,5 +1,5 @@
 import OneWayButton from '../../../components/forms/OneWayButton';
-import styles from './styles/BooklistItem.module.css';
+import styles from './styles/BookListItem.module.css';
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline, IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 import { IoCartOutline } from "react-icons/io5";
 import { useState } from 'react';
