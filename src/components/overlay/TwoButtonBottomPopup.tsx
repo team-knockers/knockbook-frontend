@@ -1,76 +1,77 @@
+import { useState } from "react";
 import styles from "./TwoButtonBottomPopup.module.css";
 
 type TwoButtonBottomPopupProps = {
-    isOpen: boolean; // Manage open/close state in the parent logic
-    quantity: number; // Current Quantity
-    price: number; // Unit Price
-    onQuantityChange: (newQuantity: number) => void; // Quantity Change Handler
-    onConfirm: () => void; // Confirm Button Click Handler
-    onClose?: () => void; // Request parent to close when the overlay/background is clicked
+  price: number; // product unit price
+  onConfirm: (quantity: number, totalPrice: number) => void; // Pass the current quantity and total price
+  onClose: () => void; // requests to close the popup
 };
 
 function TwoButtonBottomPopup({
-    isOpen,
-    quantity,
-    price,
-    onQuantityChange,
-    onConfirm,
-    onClose,
+  price,
+  onConfirm,
+  onClose,
 }: TwoButtonBottomPopupProps) {
-    if (!isOpen) return null; // Do not render if the popup is closed
-
-    const totalPrice = quantity * price; // Calculate Total Price by Multiplying Quantity and Unit Price
-    return (
-        <div 
-            className={styles["popup-overlay"]} 
-            onClick={onClose}>
-            <div
-                className={styles["popup-container"]} 
-                onClick={(e) => e.stopPropagation()}>
-                <div className={styles["quantity-wrapper"]}>
-                    <div className={styles["quantity-box"]}>
-                        <span className={styles["quantity-text"]}>주문수량</span>
-                        <div className={styles["counter-label"]}>
-                            <button
-                                className={styles["counter-button"]}
-                                onClick={() => onQuantityChange(quantity - 1)}
-                                disabled={quantity <= 1}>
-                                -
-                            </button>
-                            <span className={styles["count"]}>
-                                {quantity}
-                            </span>
-                            <button
-                                className={styles["counter-button"]}
-                                onClick={() => onQuantityChange(quantity + 1)}>
-                                +
-                            </button>
-                        </div>
-                    </div>
-                    <div className={styles["price-box"]}>
-                        <span className={styles["price-text"]}>
-                        총 {quantity}권 상품 금액
-                        </span>
-                        <span className={styles["price-value"]}>
-                        {totalPrice.toLocaleString()}원
-                        </span>
-                    </div>
-                </div>
-                <div className={styles["button-box"]}>
-                    <button 
-                        className={styles["cancel-button"]}
-                        onClick={() => onClose && onClose()}>
-                        취소
-                    </button>
-                    <button 
-                        className={styles["confirm-button"]}
-                        onClick={onConfirm}>
-                        진행
-                    </button>
-                </div>
+  const [quantity, setQuantity] = useState(1); // internal state for quantity
+  const handleIncrease = () => setQuantity(quantity + 1); // increase quantity
+  const handleDecrease = () => {
+    if (quantity > 1) setQuantity(quantity - 1); // decrease quantity (minimum 1)
+  };
+  const totalPrice = quantity * price; // calculate total price
+  return (
+    <div
+      className={styles["popup-overlay"]}
+      onClick={onClose}>
+      <div
+        className={styles["popup-container"]}
+        onClick={(e) => e.stopPropagation()}>
+        <div className={styles["quantity-wrapper"]}>
+          <div className={styles["quantity-box"]}>
+            <span className={styles["quantity-text"]}>주문수량</span>
+            <div className={styles["counter-label"]}>
+              <button
+                className={styles["counter-button"]}
+                onClick={handleDecrease}
+                disabled={quantity <= 1}>
+                -
+              </button>
+              <span className={styles["count"]}>
+                {quantity}
+              </span>
+              <button
+                className={styles["counter-button"]}
+                onClick={handleIncrease}>
+                +
+              </button>
             </div>
+          </div>
+          <div className={styles["price-box"]}>
+            <span className={styles["price-text"]}>
+              총 {quantity}권 상품 금액
+            </span>
+            <span className={styles["price-value"]}>
+              {totalPrice.toLocaleString()}원
+            </span>
+          </div>
         </div>
-    );
+        <div className={styles["button-box"]}>
+          <button
+            className={styles["cancel-button"]}
+            onClick={onClose}>
+            취소
+          </button>
+          <button
+            className={styles["confirm-button"]}
+            onClick={() => {
+              onConfirm(quantity, totalPrice);
+              onClose();
+            }}>
+            진행
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default TwoButtonBottomPopup;
