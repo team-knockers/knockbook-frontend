@@ -77,27 +77,19 @@ export default function BooksHomePage() {
   useEffect(() => {
     if (!userId) return;
 
-    const abortControllers: Record<string, AbortController> = {};
     categories.forEach(async (cat) => {
-      const controller = new AbortController();
-      abortControllers[cat.key] = controller;
-
       try {
         const res = await apiAuthPathAndQuery<BooksApiResponse>(
           `/books/${userId}`,
           {},
-          { category: cat.key, subcategory: 'all', page: 1, size: 7, sortBy: 'published', order: 'desc' },
-          { signal: controller.signal }
+          { category: cat.key, subcategory: 'all', page: 1, size: 7, sortBy: 'published', order: 'desc' }
         );
+
         setBooksByCategory(prev => ({ ...prev, [cat.key]: res.books }));
       } catch (error) {
-        if ((error as any).name !== 'AbortError') console.error(`${cat.key} 데이터 불러오기 실패`, error);
+        console.error(`${cat.key} 데이터 불러오기 실패`, error);
       }
     });
-
-    return () => {
-      Object.values(abortControllers).forEach(c => c.abort());
-    };
   }, [userId]);
 
   // Dummy data for Banners
