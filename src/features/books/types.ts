@@ -1,13 +1,59 @@
-export type TopRankedBook = {
+export type BookSummry = {
   id: string;
-  imageUrl: string;
   title: string;
   author: string;
   publisher: string;
-  rentPrice: string;
-  purchasePrice: string;
-  summaryTitle: string;
-  summaryDetail: string;
+  publishedAt: string;
+  categoryId: string;
+  subcategoryId: string;
+  rentalAmount: number;
+  purchaseAmount: number;
+  discountedPurchaseAmount: number;
+  coverThumbnailUrl: string;
+  rentalAvailability: string;
+  purchaseAvailability: string;
+  viewCount: number;
+  salesCount: number;
+  rentalCount: number;
+  averageRating: number;
+};
+
+export type BooksApiResponse = {
+  books: BookSummry[];
+  page: number;
+  size: number;
+  totalItems: number;
+  totalPages: number;
+};
+
+export type BookDetails = {
+  id: string;
+  title: string;
+  author: string;
+  publisher: string;
+  publishedAt: string;
+  categoryId: string;
+  subcategoryId: string;
+  introductionTitle: string;
+  introductionDetail: string;
+  tableOfContents: string;
+  publisherReview: string;
+  isbn13: string;
+  pageCountText: string;
+  dimensionsText: string;
+  weightText: string;
+  totalVolumesText: string;
+  rentalAmount: number;
+  purchaseAmount: number;
+  discountedPurchaseAmount: number;
+  coverImageUrl: string;
+  rentalAvailability: string;
+  purchaseAvailability: string;
+  viewCount: number;
+  salesCount: number;
+  rentalCount: number;
+  averageRating: number;
+  ratingCount: number;
 };
 
 export type SearchOption = 'title' | 'author' | 'publisher';
