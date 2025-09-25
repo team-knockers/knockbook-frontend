@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../../hooks/useSession";
 import { apiAuthPathAndQuery } from "../../shared/api";
-import type { BookDetails, BooksApiResponse } from "../../features/books/types";
+import type { BooksApiResponse, BookSummry, BookDetails } from "../../features/books/types";
 
 export default function BooksHomePage() {
   const { userId } = useSession.getState();
@@ -19,6 +19,7 @@ export default function BooksHomePage() {
   
   const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
   const [bestSellerBooks, setBestSellerBooks] = useState<BookDetails[]>([]);
+  const [booksByCategory, setBooksByCategory] = useState<Record<string, BookSummry[]>>({});
   
   const handleSearch = (searchBy: 'title' | 'author' | 'publisher', searchKeyword: string) => {
     navigate(`/books/search?by=${searchBy}&keyword=${encodeURIComponent(searchKeyword)}`);
@@ -43,7 +44,7 @@ export default function BooksHomePage() {
     { key: 'health', label: '건강' },
   ];
 
-  // 1. 문앞 베스트 (sales Top3)
+  // 1. Fetch top 3 bestsellers (by sales)
   useEffect(() => {
     if (!userId) return;
 
@@ -72,58 +73,32 @@ export default function BooksHomePage() {
     fetchBestSellers();
   }, [userId]);
 
-  // Dummy data for BookSlider
-  const books = [
-    {
-      id: '1',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9788936439743.jpg',
-      title: '혼모노',
-      author: '성해나',
-      publisher: '창비',
-    },
-    {
-      id: '2',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9788998441012.jpg',
-      title: '모순',
-      author: '양귀자',
-      publisher: '쓰다',
-    },
-    {
-      id: '3',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9791141602376.jpg',
-      title: '안녕이라 그랬어',
-      author: '김애란',
-      publisher: '문학동네',
-    },
-    {
-      id: '4',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9791199305304.jpg',
-      title: '자몽살구클럽',
-      author: '한로로',
-      publisher: '어센틱',
-    },
-    {
-      id: '5',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9791168343108.jpg',
-      title: '양면의 조개껍데기',
-      author: '김초엽',
-      publisher: '래빗홀',
-    },
-    {
-      id: '6',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9788936434120.jpg',
-      title: '소년이 온다',
-      author: '한강',
-      publisher: '창비',
-    },
-    {
-      id: '7',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9788998441074.jpg',
-      title: '나는 소망한다 내게 금지된 것을',
-      author: '양귀자',
-      publisher: '쓰다',
-    }
-  ];
+  // 2. Fetch new books for each category 
+  useEffect(() => {
+    if (!userId) return;
+
+    const abortControllers: Record<string, AbortController> = {};
+    categories.forEach(async (cat) => {
+      const controller = new AbortController();
+      abortControllers[cat.key] = controller;
+
+      try {
+        const res = await apiAuthPathAndQuery<BooksApiResponse>(
+          `/books/${userId}`,
+          {},
+          { category: cat.key, subcategory: 'all', page: 1, size: 7, sortBy: 'published', order: 'desc' },
+          { signal: controller.signal }
+        );
+        setBooksByCategory(prev => ({ ...prev, [cat.key]: res.books }));
+      } catch (error) {
+        if ((error as any).name !== 'AbortError') console.error(`${cat.key} 데이터 불러오기 실패`, error);
+      }
+    });
+
+    return () => {
+      Object.values(abortControllers).forEach(c => c.abort());
+    };
+  }, [userId]);
 
   // Dummy data for Banners
   const banners = [
@@ -177,18 +152,20 @@ export default function BooksHomePage() {
               onThirdBookClicked={() => console.log('3위 도서 클릭')}
             />
           </section>
-          {categories.map((cat) => (
-            <section key={cat.key} className={styles["book-slider-section"]}>
-              <BookSectionHeader
-                headerTitle="새로나온 책"
+
+          {/* Render category-specific sliders */}
+          {categories.map(cat => (
+            <section key={cat.key} className={styles['book-slider-section']}>
+              <BookSectionHeader 
+                headerTitle="새로나온 책" 
                 categoryName={cat.label}
                 onClicked={() => console.log(`${cat.label} 더보기 클릭`)}
               />
               <BookSlider>
-                {(books || []).slice(0, 7).map((book) => (
+                {(booksByCategory[cat.key] || []).map(book => (
                   <BookCardForBookSlider
                     key={book.id}
-                    imageUrl={book.imageUrl}
+                    imageUrl={book.coverThumbnailUrl}
                     title={book.title}
                     author={book.author}
                     publisher={book.publisher}
