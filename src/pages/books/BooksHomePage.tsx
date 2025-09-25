@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../../hooks/useSession";
 import { apiAuthPathAndQuery } from "../../shared/api";
-import type { BooksApiResponse, BookSummry, BookDetails } from "../../features/books/types";
+import type { BooksApiResponse, BookSummary, BookDetails } from "../../features/books/types";
 
 export default function BooksHomePage() {
   const { userId } = useSession.getState();
@@ -19,7 +19,7 @@ export default function BooksHomePage() {
   
   const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
   const [bestSellerBooks, setBestSellerBooks] = useState<BookDetails[]>([]);
-  const [booksByCategory, setBooksByCategory] = useState<Record<string, BookSummry[]>>({});
+  const [booksByCategory, setBooksByCategory] = useState<Record<string, BookSummary[]>>({});
   
   const handleSearch = (searchBy: 'title' | 'author' | 'publisher', searchKeyword: string) => {
     navigate(`/books/search?by=${searchBy}&keyword=${encodeURIComponent(searchKeyword)}`);

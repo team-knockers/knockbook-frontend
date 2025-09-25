@@ -1,4 +1,4 @@
-export type BookSummry = {
+export type BookSummary = {
   id: string;
   title: string;
   author: string;
@@ -19,7 +19,7 @@ export type BookSummry = {
 };
 
 export type BooksApiResponse = {
-  books: BookSummry[];
+  books: BookSummary[];
   page: number;
   size: number;
   totalItems: number;
