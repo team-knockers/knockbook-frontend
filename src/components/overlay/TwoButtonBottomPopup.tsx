@@ -5,11 +5,11 @@ type TwoButtonBottomPopupProps = {
   price: number; // product unit price
   onConfirm: (quantity: number) => void; // Pass the current quantity
   onCancel: () => void; // requests to close the popup
-  cancelText?: string;
-  confirmText?: string;
+  cancelText: string;
+  confirmText: string;
 };
 
-function TwoButtonBottomPopup({
+export default function TwoButtonBottomPopup ({
   price,
   onConfirm,
   onCancel,
@@ -72,5 +72,3 @@ function TwoButtonBottomPopup({
       </div>
   );
 };
-
-export default TwoButtonBottomPopup;

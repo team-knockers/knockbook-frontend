@@ -4,14 +4,14 @@ import styles from "./OneButtonBottomPopup.module.css";
 type OneButtonBottomPopupProps = {
   price: number; // product unit price
   onConfirm: (quantity: number) => void; // Pass the current quantity
-  confirmText?: string;
+  confirmText: string;
 };
 
-const OneButtonBottomPopup = ({
+export default function OneButtonBottomPopup ({
   price,
   onConfirm,
   confirmText = "진행",
-}: OneButtonBottomPopupProps) => {
+}: OneButtonBottomPopupProps) {
   const [quantity, setQuantity] = useState(1); // internal state for quantity
   const handleIncrease = () => setQuantity(quantity + 1); // increase quantity
   const handleDecrease = () => {
@@ -63,5 +63,3 @@ const OneButtonBottomPopup = ({
     </div>
   );
 };
-
-export default OneButtonBottomPopup;
