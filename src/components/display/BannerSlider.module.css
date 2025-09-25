@@ -26,8 +26,8 @@
     min-height: 260px;
     aspect-ratio: 75/52;
   }
-  :global(.swiper-button-next),
-  :global(.swiper-button-prev) {
+  .banner-layout :global(.swiper-button-next),
+  .banner-layout :global(.swiper-button-prev) {
     display: none;
   }
 }
@@ -40,8 +40,8 @@
     min-height: 420px;
     max-height: 420px;
   }
-  :global(.swiper-button-next),
-  :global(.swiper-button-prev) {
+  .banner-layout :global(.swiper-button-next),
+  .banner-layout :global(.swiper-button-prev) {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,21 +51,22 @@
     background-color: black;
     color: white;
   }
-  :global(.swiper-button-prev) {
+  .banner-layout :global(.swiper-button-prev) {
     left: 18px;
   }
-  :global(.swiper-button-next) {
+  .banner-layout :global(.swiper-button-next) {
     right: 18px;
   }
-  :global(.swiper-button-prev::after),
-  :global(.swiper-button-next::after) {
+  .banner-layout :global(.swiper-button-prev::after),
+  .banner-layout :global(.swiper-button-next::after) {
     font-size: 18px;
     font-weight: 900;
   }
-  :global(.swiper-button-prev::after) {
+  .banner-layout :global(.swiper-button-prev::after) {
     padding-right: 3px;
   }
-  :global(.swiper-button-next::after) {
+  .banner-layout :global(.swiper-button-next::after) {
     padding-left: 3px;
   }
+  
 }
