@@ -24,10 +24,10 @@ export async function booksHomeLoader(_args: LoaderFunctionArgs): Promise<BooksH
   }
 
   try {
-    const top3Promise = BooksService.getHomeBestSellers(userId, 3);
+    const top3Promise = BooksService.getHomeBestSellers(userId);
 
     const categoryPromises = booksHomeNewReleaseCategories.map(async (cat) => {
-      const books = await BooksService.getHomeNewBooksByCategory(userId, cat.key, 7);
+      const books = await BooksService.getHomeNewBooksByCategory(userId, cat.key);
       return { key: cat.key, books };
     });
 
