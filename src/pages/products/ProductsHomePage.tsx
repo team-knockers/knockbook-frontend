@@ -11,6 +11,7 @@ import ProductBannerSlider from "../../features/products/components/ProductBanne
 import styles from './styles/ProductsHomePage.module.css';
 import ProductBanner from "../../features/products/components/ProductBanner";
 import { PRODUCT_BANNERS } from "../../features/products/resources/ProductBanner.dummy";
+import Pagination from "../../components/navigation/Pagination";
 
 export default function ProductsHomePage() {
   
@@ -30,6 +31,8 @@ export default function ProductsHomePage() {
   const handleCardClick = (id: string) => {
     console.log(id);
   };
+
+  const [page, setPage] = useState(1);
 
   return (
     <div className={styles['home-layout']}>
@@ -78,6 +81,11 @@ export default function ProductsHomePage() {
             ))}
           </ProductSummaryListBody>  
         </ProductSummaryList>
+        <Pagination
+          page={page}  
+          totalPages={50}
+          onChange={setPage}
+        />
       </main>
       <Footer />
     </div>
