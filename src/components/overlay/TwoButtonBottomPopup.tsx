@@ -13,8 +13,8 @@ export default function TwoButtonBottomPopup ({
   price,
   onConfirm,
   onCancel,
-  cancelText = "취소",
-  confirmText = "진행",
+  cancelText,
+  confirmText,
 }: TwoButtonBottomPopupProps) {
   const [quantity, setQuantity] = useState(1); // internal state for quantity
   const handleIncrease = () => setQuantity(quantity + 1); // increase quantity

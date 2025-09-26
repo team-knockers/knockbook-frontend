@@ -10,7 +10,7 @@ type OneButtonBottomPopupProps = {
 export default function OneButtonBottomPopup ({
   price,
   onConfirm,
-  confirmText = "진행",
+  confirmText,
 }: OneButtonBottomPopupProps) {
   const [quantity, setQuantity] = useState(1); // internal state for quantity
   const handleIncrease = () => setQuantity(quantity + 1); // increase quantity
