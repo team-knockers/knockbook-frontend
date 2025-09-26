@@ -1,7 +1,6 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
-import { useSession } from "../../hooks/useSession";
 import type { BookDetails, BookSummary } from "../../features/books/types";
-import BooksService from "../../features/books/services/BookService";
+import { BooksService } from "../../features/books/services/BookService";
 
 export type BooksHomeLoaderData = {
   top3BestSellers: BookDetails[];
@@ -17,29 +16,23 @@ export const booksHomeNewReleaseCategories = [
 ];
 
 export async function booksHomeLoader(_args: LoaderFunctionArgs): Promise<BooksHomeLoaderData> {
-  const { userId } = useSession.getState();
-
-  if (!userId) {
-    return { top3BestSellers: [], booksByCategory: {} };
-  }
 
   try {
-    const top3Promise = BooksService.getHomeBestSellers(userId);
+    const top3BestSellers = await BooksService.getBooksWithDetails('all', 'all', 1, 3, 'sales', 'desc');
 
-    const categoryPromises = booksHomeNewReleaseCategories.map(async (cat) => {
-      const books = await BooksService.getHomeNewBooksByCategory(userId, cat.key);
-      return { key: cat.key, books };
-    });
-
-    const categoryResults = await Promise.all(categoryPromises);
+    const categoryResults = await Promise.all(
+      booksHomeNewReleaseCategories.map(async (cat) => {
+        const books = await BooksService.getBooksSummary(cat.key, "all", 1, 7, "published", "desc");
+        return { key: cat.key, books };
+      })
+    );
+    
     const booksByCategory: Record<string, BookSummary[]> = {};
     categoryResults.forEach(r => { booksByCategory[r.key] = r.books; });
-
-    const top3BestSellers = await top3Promise;
 
     return { top3BestSellers, booksByCategory };
   } catch (error) {
     console.error("booksHomeLoader error", error);
-    return { top3BestSellers: [], booksByCategory: {} };
+    throw new Error("booksHomeLoader: failed to fetch books");
   }
 }
