@@ -1,73 +1,73 @@
 .popup-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-width: 335px;
-    height: 210px;
-    border: 1px solid #ddd;
-    border-radius: 16px;
-    background: #FFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 335px;
+  height: 210px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  background: #FFF;
 }
 
 .popup-content {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    gap: 12px;
-    align-self: stretch;
-    padding: 30px;
-    text-align: center;
-    /* word wrap for long words */
-    overflow-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  gap: 12px;
+  align-self: stretch;
+  padding: 30px;
+  text-align: center;
+  /* word wrap for long words */
+  overflow-wrap: break-word;
 }
 
 .popup-title {
-    font-family: "Pretendard";
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 100%;
-    color: #000;
+  font-family: "Pretendard";
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 100%;
+  color: #000;
 }
 
 .popup-description {
-    font-family: "Pretendard";
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 100%;
-    color: #000;
+  font-family: "Pretendard";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 100%;
+  color: #000;
 }
 
 .popup-buttons {
-    display: flex;
-    align-items: center;
-    padding: 0 20px 20px;
-    align-self: stretch;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 20px 20px;
+  align-self: stretch;
+  flex-shrink: 0;
 }
 
 .popup-button {
-    flex: 1;
-    height: 50px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 700;
-    text-align: center;
+  flex: 1;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
 }
 
 .confirm-button {
-    background: #2C3E50;
-    color: #fff;
+  background: #2C3E50;
+  color: #fff;
 }
 
 .confirm-button:hover {
-    background-color: #507591;
+  background-color: #507591;
 }
 
 @media (min-width: 1024px) {
-    .popup-container {
+  .popup-container {
     width: 335px;
-    }
+  }
 }

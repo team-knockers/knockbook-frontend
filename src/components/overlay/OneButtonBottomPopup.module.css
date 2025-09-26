@@ -1,0 +1,115 @@
+.popup-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  background: #fff;
+  font-family: "Pretendard";
+}
+
+/* Quantity/Price Wrapper */
+.quantity-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 30px 20px 0 20px;
+}
+
+/* Order Quantity Section */
+.quantity-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-radius: 6px;
+  background-color: #f7f7f7;
+}
+
+.quantity-text {
+  color: #000;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+/* Minus / Number / Plus Buttons Group */
+.counter-label {
+  display: flex;
+  align-items: center;
+  width: 108px;
+  height: 36px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background-color: #fff;
+  flex-shrink: 0;
+}
+
+.counter-button {
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.counter-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.count {
+  width: 100%;
+  text-align: center;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #4A4A4A;
+}
+
+/* Total Price Section */
+.price-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 150%;
+  color: #1E1E1E;
+}
+
+.price-value {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 150%;
+  color: #1E1E1E;
+  text-align: right;
+}
+
+/* Button Section */
+.button-box {
+  display: flex;
+  align-items: center;
+  height: 90px;
+  padding: 16px 20px 20px 20px;
+  gap: 9px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.confirm-button {
+  flex: 1;
+  height: 54px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #2C3E50;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
