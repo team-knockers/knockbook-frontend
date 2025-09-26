@@ -12,6 +12,7 @@ import SignupDisplayNamePage from "../pages/onboarding/SignupDisplayNamePage";
 
 import HomePage from "../pages/HomePage";
 import BooksHomePage from "../pages/books/BooksHomePage";
+import { booksHomeLoader } from "../pages/books/BooksHomePageLoader";
 import BooksSearchPage from "../pages/books/BooksSearchPage";
 import ProductsHomePage from "../pages/products/ProductsHomePage";
 import ProductsSearchPage from "../pages/products/ProductsSearchPage";
@@ -85,6 +86,7 @@ export const router = createBrowserRouter([
             ],
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksHome,
+            loader: booksHomeLoader,
             element: <BooksHomePage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksSearch,
