@@ -1,8 +1,8 @@
 import styles from './styles/BookBestSeller.module.css';
-import type { TopRankedBook } from '../types';
+import type { BookDetails } from '../types';
 
 type BookBestSellerProps = {
-  top3Books: TopRankedBook[]; // Top 3 best-selling items
+  top3Books: BookDetails[]; // Top 3 best-selling items
   onFirstBookClicked: () => void;
   onSecondBookClicked: () => void;
   onThirdBookClicked: () => void;
@@ -32,7 +32,7 @@ export default function BestSellerSection({
         >
           <img
             className={styles['first-book-image']}
-            src={first.imageUrl}
+            src={first.coverImageUrl}
             alt={first.title}
           />
           <div className={styles['ranking-badge']}>1</div>
@@ -45,11 +45,11 @@ export default function BestSellerSection({
             {first.author} · {first.publisher}
           </span>
           <span className={styles['book-price']}>
-            대여 <span className={styles['book-price-highlight']}>{first.rentPrice}원</span> | 구매 <span className={styles['book-price-highlight']}>{first.purchasePrice}원</span>
+            대여 <span className={styles['book-price-highlight']}>{first.rentalAmount.toLocaleString()}원</span> | 구매 <span className={styles['book-price-highlight']}>{first.discountedPurchaseAmount.toLocaleString()}원</span>
           </span>
           <div className={styles['book-summary']}>
-            <span className={styles['summary-title']}>{first.summaryTitle}</span>
-            <span className={styles['summary-detail']}>{first.summaryDetail}</span>
+            <span className={styles['summary-title']}>{first.introductionTitle}</span>
+            <span className={styles['summary-detail']}>{first.introductionDetail}</span>
           </div>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function BestSellerSection({
         >
           <img
             className={styles['second-book-image']}
-            src={second.imageUrl}
+            src={second.coverImageUrl}
             alt={second.title}
           />
           <div className={styles['ranking-badge']}>2</div>
@@ -73,7 +73,7 @@ export default function BestSellerSection({
         >
           <img
             className={styles['third-book-image']}
-            src={third.imageUrl}
+            src={third.coverImageUrl}
             alt={third.title}
           />
           <div className={styles['ranking-badge']}>3</div>
