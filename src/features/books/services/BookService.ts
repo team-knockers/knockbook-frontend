@@ -7,8 +7,8 @@ export const BooksService = {
   async getBooksWithDetails(
     category: string,
     subcategory: string,
-    page: number = 1,
-    size: number = 3,
+    page: number,
+    size: number,
     sortBy: string = "sales",
     order: string = "desc"
   ): Promise<BookDetails[]> {
