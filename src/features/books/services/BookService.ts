@@ -13,22 +13,28 @@ export const BooksService = {
     order: string = "desc"
   ): Promise<BookDetails[]> {
     const summaries = await this.getBooksSummary(category, subcategory, page, size, sortBy, order);
-    if (!summaries || summaries.length === 0) return [];
+    if (!summaries || summaries.length === 0) { return []; }
 
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
 
-    const BooksWithDetails: BookDetails[] = await Promise.all(
-      summaries.map((b) =>
-        apiAuthPath<BookDetails>(
-          "/books/{userId}/{bookId}",
-          { userId: userId, bookId: b.id },
-          { method: "GET" }
-        )
+    // 1. Create a request list from summaries
+    const reqs = summaries.map((b) => ({
+      bookId: b.id,
+      req: apiAuthPath<BookDetails>(
+        "/books/{userId}/{bookId}",
+        { userId, bookId: b.id },
+        { method: "GET" }
       )
-    );
+    }));
 
-    return BooksWithDetails satisfies BookDetails[];
+    // 2. Execute all requests in parallel
+    const res = await Promise.all(reqs.map(r => r.req));
+
+    // 3. Use responses directly as BookDetails[]
+    const booksWithDetails: BookDetails[] = res;
+
+    return booksWithDetails satisfies BookDetails[];
   },
 
   async getBooksSummary(
