@@ -33,6 +33,7 @@ import FAQPage from "../pages/customer/FAQPage";
 import QnAPage from "../pages/customer/QnAPage";
 import PolicyPage from "../pages/customer/PolicyPage";
 import { faqLoader } from "../pages/customer/FAQPage.loader";
+import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader"; 
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -92,9 +93,23 @@ export const router = createBrowserRouter([
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.productsHome,
             element: <ProductsHomePage />,
-            handle: { header: { kind: "main", title: "문앞의책방" } } },
+            loader: productSummaryListLoader,
+            handle: { 
+              header: { 
+              kind: "main", 
+              title: "문앞의책방" 
+              } 
+            } 
+          },
           { path: PATHS.productsSearch,
-            element: <ProductsSearchPage />},
+            element: <ProductsSearchPage />,
+            handle: { 
+              header: { 
+              kind: "main", 
+              title: "문앞의책방" 
+              } 
+            } 
+          },
           { path: PATHS.productsDetail,
             element: <ProductDetailPage />},
           { path: PATHS.loungeHome,
