@@ -3,8 +3,52 @@ import { useSession } from "../../../hooks/useSession";
 import type { BooksApiResponse, BookSummary, BookDetails } from "../types";
 
 export const BooksService = {
-  
-  async getBooksWithDetails(
+
+  // API-BOOKS-01 : Fetch paginated book summaries
+  async getPaginatedBookSummaries(
+    category: string,
+    subcategory: string,
+    page: number,
+    size: number,
+    sortBy?: string,
+    order?: string,
+    searchBy?: string,
+    searchKeyword?: string,
+    minPrice?: number,
+    maxPrice?: number
+  ): Promise<BooksApiResponse> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!category) { throw new Error("NO_CATEGORY"); }
+    if (!subcategory) { throw new Error("NO_SUBCATEGORY"); }
+    if (page == null) { throw new Error("NO_PAGE"); }
+    if (size == null) { throw new Error("NO_SIZE"); }
+
+    return apiAuthPathAndQuery<BooksApiResponse>(
+      "/books/{userId}",
+      { userId: userId },
+      { category, subcategory, page, size, sortBy, order, 
+        searchBy, searchKeyword, minPrice, maxPrice },
+      { method: "GET" }
+    );
+  },
+
+  // API-BOOKS-02 : Fetch detailed information for a single book
+  async getBookDetails(
+    bookId: string
+  ): Promise<BookDetails> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPath<BookDetails>(
+      "/books/{userId}/{bookId}",
+      { userId, bookId },
+      { method: "GET" }
+    );
+  },
+
+  // Fetch detailed info for multiple books [Using API-BOOKS-01,02]
+  async getDetailedBooks(
     category: string,
     subcategory: string,
     page: number,
@@ -12,32 +56,20 @@ export const BooksService = {
     sortBy: string = "sales",
     order: string = "desc"
   ): Promise<BookDetails[]> {
-    const summaries = await this.getBooksSummary(category, subcategory, page, size, sortBy, order);
-    if (!summaries || summaries.length === 0) { return []; }
+    const summariesPage = await this.getPaginatedBookSummaries(category, subcategory, page, size, sortBy, order);
+    
+    const bookSummaries = summariesPage.books;
+    if (!Array.isArray(bookSummaries)) { return []; }
 
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const detailedBooks = await Promise.all(
+      bookSummaries.map((bookSummary) => this.getBookDetails(bookSummary.id))
+    );
 
-    // 1. Create a request list from summaries
-    const reqs = summaries.map((b) => ({
-      bookId: b.id,
-      req: apiAuthPath<BookDetails>(
-        "/books/{userId}/{bookId}",
-        { userId, bookId: b.id },
-        { method: "GET" }
-      )
-    }));
-
-    // 2. Execute all requests in parallel
-    const res = await Promise.all(reqs.map(r => r.req));
-
-    // 3. Use responses directly as BookDetails[]
-    const booksWithDetails: BookDetails[] = res;
-
-    return booksWithDetails satisfies BookDetails[];
+    return detailedBooks satisfies BookDetails[];
   },
 
-  async getBooksSummary(
+  // Fetch book summaries (items only, no pagination metadata) [Using API-BOOKS-01]
+  async getBookSummaries(
     category: string,
     subcategory: string,
     page: number,
@@ -45,17 +77,10 @@ export const BooksService = {
     sortBy: string = "published",
     order: string = "desc"
   ): Promise<BookSummary[]> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-    if (!category) { throw new Error("NO_CATEGORY"); }
 
-    const res = await apiAuthPathAndQuery<BooksApiResponse>(
-      "/books/{userId}",
-      { userId: userId },
-      { category, subcategory, page, size, sortBy, order },
-      { method: "GET" }
-    );
+    const summariesPage = await this.getPaginatedBookSummaries(category, subcategory, page, size, sortBy, order);
+    const bookSummaries = summariesPage.books;
 
-    return res.books satisfies BookSummary[];
+    return bookSummaries satisfies BookSummary[];
   }
 };

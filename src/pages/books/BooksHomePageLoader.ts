@@ -18,15 +18,15 @@ export const booksHomeNewReleaseCategories = [
 export async function booksHomeLoader(_args: LoaderFunctionArgs): Promise<BooksHomeLoaderData> {
 
   try {
-    const top3BestSellers = await BooksService.getBooksWithDetails('all', 'all', 1, 3, 'sales', 'desc');
+    const top3BestSellers = await BooksService.getDetailedBooks('all', 'all', 1, 3, 'sales', 'desc');
 
     const categoryResults = await Promise.all(
       booksHomeNewReleaseCategories.map(async (cat) => {
-        const books = await BooksService.getBooksSummary(cat.key, "all", 1, 7, "published", "desc");
+        const books = await BooksService.getBookSummaries(cat.key, "all", 1, 7, "published", "desc");
         return { key: cat.key, books };
       })
     );
-    
+
     const booksByCategory: Record<string, BookSummary[]> = {};
     categoryResults.forEach(r => { booksByCategory[r.key] = r.books; });
 
