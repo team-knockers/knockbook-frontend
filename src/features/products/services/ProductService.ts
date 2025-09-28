@@ -15,7 +15,7 @@ type GetParams = {
 
 export const ProductService = {
   async getProductSummaryList(p: GetParams): Promise<ProductSummaryList> {
-    const { userId, accessToken } = useSession.getState();
+    const { userId } = useSession.getState();
     
     if (!userId) throw new Error("NO_USER");
 
