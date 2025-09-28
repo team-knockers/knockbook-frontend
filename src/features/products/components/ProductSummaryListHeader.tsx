@@ -1,58 +1,83 @@
 import styles from './styles/ProductSummaryListHeader.module.css';
-import { FiChevronDown } from "react-icons/fi";
+import { useSearchParams } from 'react-router-dom';
 
 type Props = {
-  categoryCode: string;
-  sortBy: string;
-  totalCount: number;
-  onCategoryClick: () => void;
-  onSortClick: () => void;    
+  totalCount: number; 
 };     
 
-const CATEGORY_LABEL: Record<string, string> = {
-  all: "전체",
-  book_stand: "독서대",
-  book_cover: "북커버",
-  book_mark: "북마크",
-  book_storage: "책수납",
-  magnifier: "돋보기",
-  foot_rest: "발받침대",
-  book_perfume: "북퍼퓸",
-  book_light: "북라이트",
-  paper_weight: "문진",
-  reading_note: "독서노트",
-};
-const SORT_LABEL: Record<Props["sortBy"], string> = {
-  createdAt: "최신순",
-  unitPriceAmount: "가격순",
-  averageRating: "평점순",
-  reviewCount: "리뷰순",
-};
+type SortBy = "createdAt" | "unitPriceAmount" | "averageRating" | "reviewCount";
+type Order  = "asc" | "desc";
 
-export default function ProductSummaryListHeader({
-    categoryCode,
-    sortBy,
-    totalCount,
-    onCategoryClick,
-    onSortClick,  
-}: Props) {
-  const categoryLabel = CATEGORY_LABEL[categoryCode] ?? "전체";
-  const sortLabel = SORT_LABEL[sortBy] ?? "최신순";
+const CATEGORY_OPTIONS: Array<{ code: string; label: string }> = [
+  { code: "all",          label: "전체" },
+  { code: "book_stand",   label: "독서대" },
+  { code: "book_cover",   label: "북커버" },
+  { code: "book_mark",    label: "북마크" },
+  { code: "book_storage", label: "책수납" },
+  { code: "magnifier",    label: "돋보기" },
+  { code: "foot_rest",    label: "발받침대" },
+  { code: "book_perfume", label: "북퍼퓸" },
+  { code: "book_light",   label: "북라이트" },
+  { code: "paper_weight", label: "문진" },
+  { code: "reading_note", label: "독서노트" },
+];
+const SORT_OPTIONS: Array<{ key: string; label: string; sortBy: SortBy; order: Order }> = [
+  { key: "createdAt:desc",       label: "최신순",       sortBy: "createdAt",      order: "desc" },
+  { key: "reviewCount:desc",     label: "리뷰많은순",   sortBy: "reviewCount",    order: "desc" },
+  { key: "averageRating:desc",   label: "평점높은순",   sortBy: "averageRating",  order: "desc" },
+  { key: "unitPriceAmount:asc",  label: "가격낮은순",   sortBy: "unitPriceAmount",order: "asc"  },
+  { key: "unitPriceAmount:desc", label: "가격높은순",   sortBy: "unitPriceAmount",order: "desc" },
+];
+
+export default function ProductSummaryListHeader({ totalCount }: Props) {
+  const [ sp, setSp ] = useSearchParams();
+
+  const category = sp.get("category") ?? "all";
+  const sortBy   = (sp.get("sortBy") ?? "createdAt") as SortBy;
+  const order    = (sp.get("order")  ?? "desc") as Order;
+  const currentSortKey = `${sortBy}:${order}`;
+
+  const onChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const next = new URLSearchParams(sp);
+    next.set("category", e.target.value);
+    next.set("page", "1");
+    setSp(next);
+  };
+  const onChangeSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const [sb, ord] = e.target.value.split(":") as [SortBy, Order];
+    const next = new URLSearchParams(sp);
+    next.set("sortBy", sb);
+    next.set("order", ord);
+    next.set("page", "1");
+    setSp(next);
+  };
+
   return (
     <div className={styles['product-summary-list-header']}>
       <div className={styles['header-left']}>
-          <button className={styles['category-trigger']} type="button" onClick={onCategoryClick}>
-            <span className={styles['category-label']}>{categoryLabel}</span>
-            <span className={styles['category-icon']}><FiChevronDown size={14} /></span>
-          </button>
-          <span className={styles['total-count']}>{totalCount}</span>
+        <select
+          className={styles['category-select']}  
+          value={category}
+          onChange={onChangeCategory}
+        >
+          {CATEGORY_OPTIONS.map(opt => (
+            <option key={opt.code} value={opt.code}>{opt.label}</option>
+          ))}
+        </select>
+
+        <span className={styles['total-count']}>{totalCount} 건</span>
       </div>
 
       <div className={styles['header-right']}>
-          <button className={styles['sort-trigger']} type="button" onClick={onSortClick}>
-            <span className={styles['sort-label']}>{sortLabel}</span>
-            <span className={styles['sort-icon']}><FiChevronDown size={14} /></span>
-          </button>
+        <select
+          className={styles['sort-select']}       
+          value={currentSortKey}
+          onChange={onChangeSort}
+        >
+          {SORT_OPTIONS.map(opt => (
+            <option key={opt.key} value={opt.key}>{opt.label}</option>
+          ))}
+        </select>
       </div>
     </div>
   )
