@@ -103,6 +103,7 @@ export const router = createBrowserRouter([
           },
           { path: PATHS.productsSearch,
             element: <ProductsSearchPage />,
+            loader: productSummaryListLoader,
             handle: { 
               header: { 
               kind: "main", 
