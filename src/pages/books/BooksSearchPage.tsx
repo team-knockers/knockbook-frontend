@@ -2,116 +2,155 @@ import CategoryFilterSearchBar from "../../features/books/components/CategoryFil
 import styles from './BooksSearchPage.module.css';
 import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
-import { useState } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { SEARCH_OPTIONS } from "../../features/books/types.ts";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { SEARCH_OPTIONS, sortOptions, type BookSummary, type SearchOption, type SearchState } from "../../features/books/types.ts";
 import BookListItem from "../../features/books/components/BookListItem";
 import BookListHeader from "../../features/books/components/BookListHeader";
 import BookFilterSidebar from "../../features/books/components/BookFilterSidebar";
+import { BooksService } from "../../features/books/services/BookService.ts";
+import Pagination from "../../components/navigation/Pagination.tsx";
+
+// Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
+function makeInitialState(params: URLSearchParams): SearchState {
+  return {
+    category: params.get('category') ?? 'all',
+    subcategory: params.get('subcategory') ?? 'all',
+    page: Number(params.get('page') ?? 1),
+    size: Number(params.get('size') ?? 10),
+    searchBy: (params.get('by') as 'title'|'author'|'publisher') ?? 'title',
+    searchKeyword: params.get('keyword') ?? '',
+    sortBy: (params.get('sortBy') as SearchState['sortBy']) ?? 'published',
+    order: (params.get('order') as SearchState['order']) ?? 'desc',
+    minPrice: params.get('minPrice') ? Number(params.get('minPrice')) : undefined,
+    maxPrice: params.get('maxPrice') ? Number(params.get('maxPrice')) : undefined
+  };
+}
+
+// Map SEARCH_OPTIONS to a record for easy label lookup
+const SEARCH_OPTION_MAP: Record<SearchOption, string> =
+  Object.fromEntries(SEARCH_OPTIONS.map(option => [option.value, option.label])) as Record<SearchOption,string>;
+
+// Utility function to update URLSearchParams
+const applyQueryParam = (q: URLSearchParams, key: string, value: string | number | undefined, defaultValue?: string) => {
+  if (value !== undefined) {
+    q.set(key, String(value));
+  } else if (defaultValue !== undefined) {
+    q.set(key, defaultValue);
+  }
+};
 
 export default function BooksSearchPage() {
   const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
-  const [searchParams] = useSearchParams();
-  const searchBy = searchParams.get('by'); // 'title' | 'author' | 'publisher'
-  const searchKeyword = searchParams.get('keyword');
-  const label = SEARCH_OPTIONS.find(option => option.value === searchBy)?.label ?? '';  
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchState, setSearchState] = useState<SearchState>(() => makeInitialState(searchParams));
+  const [books, setBooks] = useState<BookSummary[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const handleSearch = (searchBy: 'title' | 'author' | 'publisher', searchKeyword: string) => {
-    navigate(`/books/search?by=${searchBy}&keyword=${encodeURIComponent(searchKeyword)}`);
-    console.log('🔍 검색 실행:', { searchBy, searchKeyword });
+  const searchByLabel = SEARCH_OPTION_MAP[searchState.searchBy];
+
+  // Update URL (query) as single source of truth
+  const setQuery = (updater: (q: URLSearchParams) => void) => {
+    const q = new URLSearchParams(searchParams.toString());
+    updater(q);
+    setSearchParams(q);
   };
 
+  // Update search state via URL (filters, category, sort, price, page)
+  const updateSearchStateViaUrl = (updates: Partial<SearchState>) => {
+    setQuery(q => {
+      applyQueryParam(q, 'category', updates.category);
+      applyQueryParam(q, 'subcategory', updates.subcategory);
+      applyQueryParam(q, 'by', updates.searchBy);
+      applyQueryParam(q, 'keyword', updates.searchKeyword);
+      applyQueryParam(q, 'sortBy', updates.sortBy);
+      applyQueryParam(q, 'order', updates.order);
+      applyQueryParam(q, 'minPrice', updates.minPrice);
+      applyQueryParam(q, 'maxPrice', updates.maxPrice);
+      applyQueryParam(q, 'page', updates.page, '1');
+    });
+  };
+
+  // Handler for CategoryFilterSearchBar component search input
+  const handleSearch = (newSearchBy: 'title' | 'author' | 'publisher', newKeyword: string) => {
+    setQuery(q => {
+      q.set('by', newSearchBy);
+      q.set('keyword', newKeyword);
+      q.set('page', '1');
+    });
+    console.log('🔍 검색 실행:', { newSearchBy, newKeyword });
+  };
+
+  // Handler for CategoryFilterSearchBar component category toggle button
   const toggleCategory = () => {
     setIsCategoryPopupOpen(prev => !prev);
     console.log(`📂 카테고리 ${!isCategoryPopupOpen ? '열기' : '닫기'}`);
   };
 
+  // Handler for BooksCategoryPopup component close button
   const handleCloseCategory = () => {
     setIsCategoryPopupOpen(false);
     console.log('📂 카테고리 팝업 닫기');
   };
 
-    // Dummy data for BookSlider
-  const booksummarys = [
-    {
-      id: '1',
-      imageUrl:'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9788936439743.jpg',
-      title:'혼모노',
-      author:'성해나',
-      publisher:'창비',
-      publishedAt:'2025-01-05',
-      averageRating: 4.8,
-      rentalAmount: 1500,
-      purchaseAmount: 30000
-    },
-    {
-      id: '2',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9788998441012.jpg',
-      title: '모순',
-      author: '양귀자',
-      publisher: '쓰다',
-      publishedAt:'2025-01-05',
-      averageRating: 4.2,
-      rentalAmount: 1500,
-      purchaseAmount: 33000
-    },
-    {
-      id: '3',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9791141602376.jpg',
-      title: '안녕이라 그랬어',
-      author: '김애란',
-      publisher: '문학동네',
-      publishedAt:'2025-01-05',
-      averageRating: 5.0,
-      rentalAmount: 1500,
-      purchaseAmount: 42000
-    },
-    {
-      id: '4',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9791199305304.jpg',
-      title: '자몽살구클럽',
-      author: '한로로',
-      publisher: '어센틱',
-      publishedAt:'2025-01-05',
-      averageRating: 4.3,
-      rentalAmount: 1500,
-      purchaseAmount: 23000
-    },
-    {
-      id: '5',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9791168343108.jpg',
-      title: '양면의 조개껍데기',
-      author: '김초엽',
-      publisher: '래빗홀',
-      publishedAt:'2025-01-05',
-      averageRating: 3.8,
-      rentalAmount: 1500,
-      purchaseAmount: 18000
-    },
-    {
-      id: '6',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9788936434120.jpg',
-      title: '소년이 온다',
-      author: '한강',
-      publisher: '창비',
-      publishedAt:'2025-01-05',
-      averageRating: 3.4,
-      rentalAmount: 1500,
-      purchaseAmount: 29000
-    },
-    {
-      id: '7',
-      imageUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/200x0/pdt/9788998441074.jpg',
-      title: '나는 소망한다 내게 금지된 것을',
-      author: '양귀자',
-      publisher: '쓰다',
-      publishedAt:'2025-01-05',
-      averageRating: 4.2,
-      rentalAmount: 1500,
-      purchaseAmount: 32000
-    }
-  ];
+  // Handler for BookFilterSidebar component filter apply
+  const handleFilterApplied = (newFilters: Partial<SearchState>) => {
+    console.log('필터 적용됨:', newFilters);
+    updateSearchStateViaUrl(newFilters);
+  };
+
+  // Handler for BookListHeader component category select change
+  const handleCategoryChange = (categoryValue: string) => {
+    updateSearchStateViaUrl({ category: categoryValue })
+  };
+
+  // Handler for BookListHeader component sort select change
+  const handleSortChange = (sortValue: string) => {
+    const option = sortOptions.find(option => option.value === sortValue);
+    if (!option) return;
+    updateSearchStateViaUrl({ sortBy: option.value, order: option.order });
+  };
+
+  // Handler for Pagination component page change
+  const handlePageChange = (nextPage: number) => {
+    setQuery(q => q.set('page', String(nextPage)));
+  };
+
+  // Sync searchState with URL changes
+  useEffect(() => {
+    setSearchState(makeInitialState(searchParams));
+  }, [searchParams]);
+
+  // Fetch data when searchState changes
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await BooksService.getPaginatedBookSummaries(
+          searchState.category,
+          searchState.subcategory,
+          searchState.page,
+          searchState.size,
+          searchState.sortBy,
+          searchState.order,
+          searchState.searchBy,
+          searchState.searchKeyword,
+          searchState.minPrice ?? undefined,
+          searchState.maxPrice ?? undefined
+        );
+        if (cancelled) return;
+        setBooks(res.books);
+        setTotalItems(res.totalItems);
+        setTotalPages(res.totalPages);
+      } catch (error) {
+        if (cancelled) return;
+        console.error('검색 결과 불러오기 실패', error);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [searchState]);
 
   return (
     <>
@@ -126,27 +165,31 @@ export default function BooksSearchPage() {
           </div>
         )}
         <div className={styles['book-search-container']}>
-          <span
-            className={styles['book-search-info']}
-          >
-            🔍 "{label}" 기준으로 "{searchKeyword}"를 검색한 결과
+          <span className={styles['book-search-info']}>
+            🔍 "{searchByLabel}" 기준으로 "{searchState.searchKeyword}"를 검색한 결과
           </span>
           <div className={styles['book-search-contents']}>
             <div className={styles['book-search-sidebar']}>
               <BookFilterSidebar
-                  onApplied={(filters) => {
-                  console.log('적용된 필터:', filters);
-                }}
+                category={searchState.category}
+                minPrice={searchState.minPrice}
+                maxPrice={searchState.maxPrice}
+                onApplied={handleFilterApplied}
               />
             </div>
             <div className={styles['book-search-results-container']}>
-              {/* TODO: 현재는 길이로 맞춰놨음. API 적용시 조회한 totalItems로 변경할 것 */}
               <div className={styles['book-search-results']}>
-                <BookListHeader totalCount={booksummarys.length}/>
-                {booksummarys.map((book) => (
+                <BookListHeader
+                  totalCount={totalItems}
+                  selectedCategory={searchState.category}
+                  selectedSort={searchState.sortBy}
+                  onCategoryChange={handleCategoryChange}
+                  onSortChange={handleSortChange}
+                />
+                {books.map((book) => (
                   <BookListItem
                     key={book.id}
-                    imageUrl={book.imageUrl}
+                    imageUrl={book.coverThumbnailUrl}
                     title={book.title}
                     author={book.author}
                     publisher={book.publisher}
@@ -154,13 +197,16 @@ export default function BooksSearchPage() {
                     averageRating={book.averageRating}
                     rentalAmount={book.rentalAmount}
                     purchaseAmount={book.purchaseAmount}
+                    discountedPurchaseAmount={book.discountedPurchaseAmount}
                     onImageOrTitleClicked={() => console.log(`${book.title} 도서 클릭`)}
                   />
                 ))}
               </div>
-              <div className={styles['book-search-pagination']}>
-                {/* TODO: 페이지네이션 작성할 것 */}
-              </div>
+              <Pagination
+                page={Number(searchParams.get('page') ?? searchState.page)}
+                totalPages={totalPages}
+                onChange={handlePageChange}
+              />
             </div>
           </div>
         </div>

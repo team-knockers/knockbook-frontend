@@ -62,7 +62,7 @@ export const SEARCH_OPTIONS: { value: SearchOption; label: string }[] = [
   { value: 'title', label: '도서명' },
   { value: 'author', label: '저자명' },
   { value: 'publisher', label: '출판사' },
-];
+] as const;
 
 export type SearchState = {
   category: string;
@@ -115,9 +115,9 @@ export const priceOptions = [
 ];
 
 export const sortOptions = [
-  { value: 'published', label: '최신순' },
-  { value: 'views', label: '조회순' },
-  { value: 'sales', label: '구매순' },
-  { value: 'rentals', label: '대여순' },
-  { value: 'price', label: '가격순' }
-];
+  { value: 'published', label: '최신순', order: 'desc' },
+  { value: 'views', label: '조회순', order: 'desc' },
+  { value: 'sales', label: '구매순', order: 'desc' },
+  { value: 'rentals', label: '대여순', order: 'desc' },
+  { value: 'price', label: '가격순', order: 'asc' }
+] as const;
