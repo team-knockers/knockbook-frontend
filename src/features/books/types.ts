@@ -108,10 +108,10 @@ export const categoryOptions = [
 
 /* Price option for RadioButton */
 export const priceOptions = [
-  { label: '1만원 이하', minValue: 0, maxValue: 10000 },
-  { label: '1만원–3만원', minValue: 10000, maxValue: 30000 },
-  { label: '3만원–10만원', minValue: 30000, maxValue: 100000 },
-  { label: '10만원 이상', minValue: 100000, maxValue: undefined },
+  { label: '1.5만원 이하', minValue: 0, maxValue: 15000 },
+  { label: '1.5만원–2.5만원', minValue: 15000, maxValue: 25000 },
+  { label: '2.5만원–3.5만원', minValue: 25000, maxValue: 35000 },
+  { label: '3.5만원 이상', minValue: 35000, maxValue: undefined },
 ];
 
 export const sortOptions = [
