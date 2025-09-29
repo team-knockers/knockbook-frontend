@@ -3,7 +3,7 @@ import styles from './styles/BookListItem.module.css';
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline, IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 import { IoCartOutline } from "react-icons/io5";
 import { useState } from 'react';
-import { BooksService } from '../services/BookService';
+import { calculateBookDiscountRate } from '../util';
 
 type BookListItemProps = {
   imageUrl: string;
@@ -60,7 +60,7 @@ export default function BookListItem({
 }: BookListItemProps) {
 
   const [isLiked, setIsLiked] = useState(false); // Wishlist status
-  const discountRate = BooksService.getDiscountRate(discountedPurchaseAmount, purchaseAmount);
+  const discountRate = calculateBookDiscountRate(discountedPurchaseAmount, purchaseAmount);
 
     const onWishlistToggled = () => {
       setIsLiked(prev => !prev);
