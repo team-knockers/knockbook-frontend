@@ -82,5 +82,16 @@ export const BooksService = {
     const bookSummaries = summariesPage.books;
 
     return bookSummaries satisfies BookSummary[];
+  },
+
+  // get DiscountRate
+  getDiscountRate(
+    discountedPurchaseAmount: number,
+    purchaseAmount: number
+  ): number {
+    const DiscountRate = Math.round(
+      (purchaseAmount-discountedPurchaseAmount) / purchaseAmount * 100
+    );
+    return DiscountRate
   }
 };
