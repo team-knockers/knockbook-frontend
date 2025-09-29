@@ -7,6 +7,7 @@
   justify-content: center;    
   align-items: center;
   gap: 20px;
+  font-family: 'Pretendard';
 }
 
 .pageBtn {
@@ -33,7 +34,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023.98px) {
   .pagination-container {
     display: none;
   }
