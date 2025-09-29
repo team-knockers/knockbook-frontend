@@ -19,7 +19,7 @@ export async function productSummaryListLoader({ request }: LoaderFunctionArgs) 
   // Mobile rule: ignore page/size and load a big chunk of data at once
   const isMobile =
   typeof window !== "undefined" &&
-  window.matchMedia("(max-width: 1024px)").matches;
+  window.matchMedia("(max-width: 1023.98px)").matches;
 
   const MOBILE_BIG_SIZE = 1000; // adjust as needed 
 
