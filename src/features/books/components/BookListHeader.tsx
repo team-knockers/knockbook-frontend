@@ -1,32 +1,29 @@
-import { useState } from "react";
 import styles from "./styles/BookListHeader.module.css";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { categoryOptions, sortOptions } from "../types";
 
 type BookListHeaderProps = {
   totalCount: number;
-  onCategoryChange?: (category: string) => void;
-  onSortChange?: (sort: string) => void;
+  selectedCategory: string;
+  selectedSort: string;
+  onCategoryChange: (categoryValue: string) => void;
+  onSortChange: (sortValue: string) => void;
 };
 
 export default function BookListHeader({
   totalCount,
+  selectedCategory,
+  selectedSort,
   onCategoryChange,
   onSortChange,
 }: BookListHeaderProps) {
-  const [selectedCategory, setSelectedCategory] = useState("전체");
-  const [selectedSort, setSelectedSort] = useState("최신순");
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setSelectedCategory(value);
-    onCategoryChange?.(value);
+    onCategoryChange(e.target.value);
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setSelectedSort(value);
-    onSortChange?.(value);
+    onSortChange(e.target.value);
   };
 
   return (
@@ -39,7 +36,7 @@ export default function BookListHeader({
             onChange={handleCategoryChange}
           >
             {categoryOptions.map(({ value, label }) => (
-              <option key={value} value={label}>{label}</option>
+              <option key={value} value={value}>{label}</option>
             ))}
           </select>
           <IoIosArrowDropdown className={styles['category-icon']} />
@@ -55,7 +52,7 @@ export default function BookListHeader({
           onChange={handleSortChange}
         >
           {sortOptions.map(({value, label}) => (
-            <option key={value} value={label}>{label}</option>
+            <option key={value} value={value}>{label}</option>
           ))}
         </select>
       </div>
