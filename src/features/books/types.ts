@@ -64,6 +64,19 @@ export const SEARCH_OPTIONS: { value: SearchOption; label: string }[] = [
   { value: 'publisher', label: '출판사' },
 ];
 
+export type SearchState = {
+  category: string;
+  subcategory: string;
+  page: number;
+  size: number;
+  searchBy: 'title' | 'author' | 'publisher';
+  searchKeyword: string;
+  sortBy: 'published' | 'views' | 'sales' | 'rentals' | 'price';
+  order: 'asc' | 'desc';
+  minPrice?: number;
+  maxPrice?: number;
+};
+
 export type BookSearchFilters = {
   category: string;
   minPrice?: number;

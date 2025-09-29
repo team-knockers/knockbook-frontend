@@ -77,6 +77,18 @@
 .book-price-highlight {
   font-weight: 700;
 }
+.book-discountRate-highlight {
+  padding-left: 2px;
+  padding-right: 3px;
+  color: #f73936;
+  font-weight: 700;
+}
+.book-discountedPrice-highlight {
+  padding-left: 2px;
+  color: #6E6E6E;
+  text-decoration: line-through;
+  font-size: 10px;
+}
 
 /*
   Mobile rules (< 1024px)

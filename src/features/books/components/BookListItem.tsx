@@ -3,6 +3,7 @@ import styles from './styles/BookListItem.module.css';
 import { IoMdStar, IoMdStarHalf, IoMdStarOutline, IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 import { IoCartOutline } from "react-icons/io5";
 import { useState } from 'react';
+import { BooksService } from '../services/BookService';
 
 type BookListItemProps = {
   imageUrl: string;
@@ -13,6 +14,7 @@ type BookListItemProps = {
   averageRating: number;
   rentalAmount: number;
   purchaseAmount: number;
+  discountedPurchaseAmount: number;
   onImageOrTitleClicked: () => void;
 };
 
@@ -53,10 +55,12 @@ export default function BookListItem({
   averageRating,
   rentalAmount,
   purchaseAmount,
+  discountedPurchaseAmount,
   onImageOrTitleClicked
 }: BookListItemProps) {
 
   const [isLiked, setIsLiked] = useState(false); // Wishlist status
+  const discountRate = BooksService.getDiscountRate(discountedPurchaseAmount, purchaseAmount);
 
     const onWishlistToggled = () => {
       setIsLiked(prev => !prev);
@@ -92,7 +96,9 @@ export default function BookListItem({
           </div>
           <div className={styles['book-price']}>
             대여 <span className={styles['book-price-highlight']}>{rentalAmount.toLocaleString()}</span>원 
-            · 구매 <span className={styles['book-price-highlight']}>{purchaseAmount.toLocaleString()}</span>원
+            · 구매 <span className={styles['book-discountRate-highlight']}>{discountRate}%</span>
+            <span className={styles['book-price-highlight']}>{discountedPurchaseAmount.toLocaleString()}</span>원 
+            <span className={styles['book-discountedPrice-highlight']}>{purchaseAmount.toLocaleString()}원</span>
           </div>
         </div>
       </div>
