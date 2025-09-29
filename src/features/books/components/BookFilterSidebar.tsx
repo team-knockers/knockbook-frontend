@@ -1,36 +1,50 @@
 import styles from './styles/BookFilterSidebar.module.css';
 import { FiRefreshCcw } from 'react-icons/fi';
 import { Input } from 'reactstrap';
-import { useState } from 'react';   
+import { useEffect, useState } from 'react';   
 import { categoryOptions, priceOptions, type BookSearchFilters } from '../types';
 
 type BookFilterSidebarProps = {
   onApplied: (filters: BookSearchFilters) => void;
+  category: string;
+  minPrice?: number;
+  maxPrice?: number;
 };
 
 export default function BookFilterSidebar({
     onApplied,
+    category,
+    minPrice,
+    maxPrice,
 }: BookFilterSidebarProps) {
 
-  const [category, setCategory] = useState<string>('all')
-  const [minPrice, setMinPrice] = useState<string>(''); 
-  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [categoryState, setCategoryState] = useState<string>('all')
+  const [minPriceState, setMinPriceState] = useState<string>(''); 
+  const [maxPriceState, setMaxPriceState] = useState<string>('');
   const [isCustom, setIsCustom] = useState<boolean>(false);
+
+  // 외부에서 필터 상태가 변경될 때 내부 상태 초기화
+  useEffect(() => {
+    setCategoryState(category);
+    setMinPriceState(minPrice !== undefined ? String(minPrice) : '');
+    setMaxPriceState(maxPrice !== undefined ? String(maxPrice) : '');
+    setIsCustom(false);
+  }, [category, minPrice, maxPrice]);
   
   // Reset button
   const resetButtonClicked = () => {
-    setCategory('all');
-    setMinPrice('');
-    setMaxPrice('');
+    setCategoryState('all');
+    setMinPriceState('');
+    setMaxPriceState('');
     setIsCustom(false);
   }
 
   // Apply button 
   const applyButtonClicked = () => {
     const filters: BookSearchFilters = {
-      category,
-      minPrice: minPrice ? Number(minPrice) : undefined,
-      maxPrice: maxPrice ? Number(maxPrice) : undefined,
+      category: categoryState,
+      minPrice: minPriceState ? Number(minPriceState) : undefined,
+      maxPrice: maxPriceState ? Number(maxPriceState) : undefined,
     };
     onApplied(filters);
   }
@@ -39,7 +53,7 @@ export default function BookFilterSidebar({
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
-      setMinPrice(value);
+      setMinPriceState(value);
     }
   };
 
@@ -47,7 +61,7 @@ export default function BookFilterSidebar({
   const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
-      setMaxPrice(value);
+      setMaxPriceState(value);
     }
   };
 
@@ -78,8 +92,8 @@ export default function BookFilterSidebar({
                 type="radio"
                 name="category"
                 value={value}
-                checked={category === value}
-                onChange={(e) => setCategory(e.target.value)}
+                checked={categoryState === value}
+                onChange={(e) => setCategoryState(e.target.value)}
               />
               <span className={styles['category-label']}>{label}</span>
             </label>
@@ -101,13 +115,13 @@ export default function BookFilterSidebar({
                 name="priceRange" 
                 checked={
                   !isCustom &&
-                  minPrice === String(minValue) &&
-                  maxPrice === (maxValue === undefined ? '' : String(maxValue))
+                  minPriceState === String(minValue) &&
+                  maxPriceState === (maxValue === undefined ? '' : String(maxValue))
                 }
                 onChange={() => {
                   setIsCustom(false);
-                  setMinPrice(minValue?.toString());
-                  setMaxPrice(maxValue === undefined ? '' : maxValue.toString());
+                  setMinPriceState(minValue?.toString());
+                  setMaxPriceState(maxValue === undefined ? '' : maxValue.toString());
                 }}
               />
               <span className={styles['price-label']}>{label}</span>
@@ -123,8 +137,8 @@ export default function BookFilterSidebar({
                 checked={isCustom}
                 onChange={() => {
                   setIsCustom(true);
-                  setMinPrice('');
-                  setMaxPrice('');
+                  setMinPriceState('');
+                  setMaxPriceState('');
                 }}
               />
               <span className={styles['custom-label']}>직접 설정</span>
@@ -140,7 +154,7 @@ export default function BookFilterSidebar({
                       type="text"
                       inputMode="numeric"
                       placeholder="0"
-                      value={minPrice}
+                      value={minPriceState}
                       onChange={handleMinPriceChange}                     
                     />
                     <span className={styles['unit']}>원</span>
@@ -155,7 +169,7 @@ export default function BookFilterSidebar({
                       type="text"
                       inputMode="numeric"
                       placeholder="123456789"
-                      value={maxPrice}
+                      value={maxPriceState}
                       onChange={handleMaxPriceChange}
                     />
                     <span className={styles['unit']}>원</span>
