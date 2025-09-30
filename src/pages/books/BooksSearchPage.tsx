@@ -8,7 +8,7 @@ import { SEARCH_OPTIONS, sortOptions, type BookSummary, type SearchOption, type 
 import BookListItem from "../../features/books/components/BookListItem";
 import BookListHeader from "../../features/books/components/BookListHeader";
 import BookFilterSidebar from "../../features/books/components/BookFilterSidebar";
-import { BooksService } from "../../features/books/services/BookService.ts";
+import { BookService } from "../../features/books/services/BookService.ts";
 import Pagination from "../../components/navigation/Pagination.tsx";
 
 // Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
@@ -127,7 +127,7 @@ export default function BooksSearchPage() {
     let cancelled = false;
     const load = async () => {
       try {
-        const res = await BooksService.getPaginatedBookSummaries(
+        const res = await BookService.getPaginatedBookSummaries(
           searchState.category,
           searchState.subcategory,
           searchState.page,
