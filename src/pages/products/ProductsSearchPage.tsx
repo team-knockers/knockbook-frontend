@@ -87,48 +87,48 @@ export default function ProductsSearchPage() {
 
   return (
     <div className={styles['search-layout']}>
-    <main className={styles['main-layout']}>
-      <SearchBar
-        key={urlKw}
-        defaultValue={urlKw}
-        placeholder='상품명을 입력하세요'
-        onSearch={handleSearch}
-      />
-      <div className={styles['search-content']}>
-        <ProductFilterSidebar 
-          key={sidebarKey}
-          onApply={handleApplyFilters}
-          initialCategory={urlCat}
-          initialMinPrice={urlMinS ?? ''}
-          initialMaxPrice={urlMaxS ?? ''}
-        /> 
-        <div className={styles['results-pane']}>
-          <ProductSummaryList>
-            <ProductSummaryListHeader totalCount={totalItems} />
-            <ProductSummaryListBody>
-              {products.map(p => (
-                <ProductSummaryCard
-                  key={p.productId}
-                  imageSrc={p.thumbnailUrl}
-                  name={p.name}
-                  price={p.unitPriceAmount}
-                  salePrice={p.salePriceAmount ?? undefined}
-                  rating={p.averageRating}
-                  reviewCount={p.reviewCount}
-                  onClick={() => handleCardClick(p.productId)}
-                />
-              ))}
-            </ProductSummaryListBody>  
-          </ProductSummaryList>     
-          <Pagination
-            page={page}  
-            totalPages={totalPages}
-            onChange={goPage}
-          />  
+      <main className={styles['main-layout']}>
+        <SearchBar
+          key={urlKw}
+          defaultValue={urlKw}
+          placeholder='상품명을 입력하세요'
+          onSearch={handleSearch}
+        />
+        <div className={styles['search-content']}>
+          <ProductFilterSidebar 
+            key={sidebarKey}
+            onApply={handleApplyFilters}
+            initialCategory={urlCat}
+            initialMinPrice={urlMinS ?? ''}
+            initialMaxPrice={urlMaxS ?? ''}
+          /> 
+          <div className={styles['results-pane']}>
+            <ProductSummaryList>
+              <ProductSummaryListHeader totalCount={totalItems} />
+              <ProductSummaryListBody>
+                {products.map(p => (
+                  <ProductSummaryCard
+                    key={p.productId}
+                    imageSrc={p.thumbnailUrl}
+                    name={p.name}
+                    price={p.unitPriceAmount}
+                    salePrice={p.salePriceAmount ?? undefined}
+                    rating={p.averageRating}
+                    reviewCount={p.reviewCount}
+                    onClick={() => handleCardClick(p.productId)}
+                  />
+                ))}
+              </ProductSummaryListBody>  
+            </ProductSummaryList>     
+            <Pagination
+              page={page}  
+              totalPages={totalPages}
+              onChange={goPage}
+            />  
+          </div>
         </div>
-      </div>
-    </main>
-    <Footer />
+      </main>
+      <Footer />
     </div>
   );
 }
