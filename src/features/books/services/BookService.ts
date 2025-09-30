@@ -2,7 +2,7 @@ import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
 import type { BooksApiResponse, BookSummary, BookDetails } from "../types";
 
-export const BooksService = {
+export const BookService = {
 
   // API-BOOKS-01 : Fetch paginated book summaries
   async getPaginatedBookSummaries(

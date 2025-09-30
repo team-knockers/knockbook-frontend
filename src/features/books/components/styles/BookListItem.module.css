@@ -7,7 +7,7 @@
 .book-list-wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   flex: 1;
   align-self: stretch;
 }
@@ -20,14 +20,18 @@
 .book-info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   flex: 1;
   align-self: stretch;
+  gap: 15px;
 }
 .book-details {
   display: flex;
   flex-direction: column;
+  align-items: center;
   align-self: stretch;
+  gap: 5px;
 }
 .book-title {
   all: unset; /* Reset default button styles applied by the browser */
@@ -36,7 +40,7 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
-  line-height: 100%; /* 14px */
+  line-height: 120%;
   cursor: pointer;
 }
 .book-title:hover {
@@ -49,7 +53,7 @@
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: 100%; /* 12px */
+  line-height: 120%;
 }
 .book-sub-meta {
   display: flex;
@@ -66,16 +70,38 @@
   display: inline-flex;
 }
 .book-price {
+  display: flex;
+  flex-direction: column;
   align-self: stretch;
   color: #4A4A4A;
   font-family: Pretendard;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
-  line-height: 100%; /* 13px */
+  gap: 2px;
+}
+.price-block {
+  display: inline-flex;
+  align-items: flex-end;
+}
+.price-label {
+  font-weight: 700;
+  margin-right: 8px;
 }
 .book-price-highlight {
   font-weight: 700;
+}
+.book-discount-rate-highlight {
+  padding-right: 2px;
+  color: #f73936;
+  font-weight: 700;
+}
+.book-original-price-highlight {
+  padding-left: 2px;
+  color: #6E6E6E;
+  text-decoration: line-through;
+  font-size: 10px;
+  align-self: flex-end;
 }
 
 /*
@@ -84,22 +110,13 @@
 */
 @media (max-width: 1023.98px) {
   .book-list-item {
-    height: 120px;
     padding: 20px 15px;
   }
   .book-list-wrapper {
     gap: 15px;
   }
   .book-image {
-    width: 56px;
-  }
-  .book-info {
-    justify-content: center;
-    gap: 15px;
-  }
-  .book-details {
-    align-items: center;
-    gap: 8px;
+    width: 65px;
   }
   .icon-wrapper {
     display: flex;
@@ -109,6 +126,7 @@
     gap: 20px;
     align-self: stretch;
     font-size: 26px;
+    margin-left: 20px;
   }
   .button-wrapper {
     display: none;
@@ -118,7 +136,6 @@
 /* Desktop rules (≥ 1024px) */
 @media (min-width: 1024px) {
   .book-list-item {
-    height: 165px;
     padding: 30px 20px;
   }
   .book-list-wrapper {
@@ -126,13 +143,6 @@
   }
   .book-image {
     width: 70px;
-  }
-  .book-info {
-    justify-content: space-between;
-  }
-  .book-details {
-    align-items: flex-start;
-    gap: 10px;
   }
   .icon-wrapper {
     display: none;

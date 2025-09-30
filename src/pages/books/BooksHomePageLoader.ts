@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
 import type { BookDetails, BookSummary } from "../../features/books/types";
-import { BooksService } from "../../features/books/services/BookService";
+import { BookService } from "../../features/books/services/BookService";
 
 export type BooksHomeLoaderData = {
   top3BestSellers: BookDetails[];
@@ -18,11 +18,11 @@ export const booksHomeNewReleaseCategories = [
 export async function booksHomeLoader(_args: LoaderFunctionArgs): Promise<BooksHomeLoaderData> {
 
   try {
-    const top3BestSellers = await BooksService.getDetailedBooks('all', 'all', 1, 3, 'sales', 'desc');
+    const top3BestSellers = await BookService.getDetailedBooks('all', 'all', 1, 3, 'sales', 'desc');
 
     const categoryResults = await Promise.all(
       booksHomeNewReleaseCategories.map(async (cat) => {
-        const books = await BooksService.getBookSummaries(cat.key, "all", 1, 7, "published", "desc");
+        const books = await BookService.getBookSummaries(cat.key, "all", 1, 7, "published", "desc");
         return { key: cat.key, books };
       })
     );
