@@ -43,12 +43,8 @@ export default function ProductsSearchPage() {
   const handleSearch = (searchKeyword: string) => {
       const kw = searchKeyword.trim();
       const next = new URLSearchParams(sp);
-      if (kw) {
-        next.set("searchKeyword", kw);
-      } else {
-        next.delete("searchKeyword");   
-      }
-
+      if (kw) { next.set("searchKeyword", kw); } 
+      else { next.delete("searchKeyword"); }
       next.delete("page");
       setSp(next);
   }
@@ -61,14 +57,14 @@ export default function ProductsSearchPage() {
   }) => {
     const next = new URLSearchParams(sp);
 
-    if (f.category && f.category !== 'all') next.set('category', f.category);
-    else next.delete('category');
+    if (f.category && f.category !== 'all') { next.set('category', f.category); }
+    else { next.delete('category'); }
 
-    if (f.minPrice != null) next.set('minPrice', String(f.minPrice));
-    else next.delete('minPrice');
+    if (f.minPrice != null) { next.set('minPrice', String(f.minPrice)); }
+    else { next.delete('minPrice'); }
 
-    if (f.maxPrice != null) next.set('maxPrice', String(f.maxPrice));
-    else next.delete('maxPrice');
+    if (f.maxPrice != null) { next.set('maxPrice', String(f.maxPrice)); }
+    else { next.delete('maxPrice'); }
 
     next.delete('page'); // reset page on filter change
     setSp(next); 

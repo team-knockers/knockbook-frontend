@@ -46,7 +46,7 @@ export default function ProductsHomePage() {
   // Search: navigate to search page with query 
   const handleSearch = (searchKeyword: string) => {
     const kw = searchKeyword.trim();
-    if (!kw) return; 
+    if (!kw) { return; }
     const next = new URLSearchParams();
     next.set("searchKeyword", kw);
 
