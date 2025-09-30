@@ -3,8 +3,6 @@ import ProductCategoryList from "../../features/products/components/ProductCateg
 import ProductSummaryList from "../../features/products/components/ProductSummaryList";
 import Footer from "../../components/layout/Footer";    
 import ProductSummaryListHeader from "../../features/products/components/ProductSummaryListHeader";
-import { productSummaryDummy }  from "../../features/products/resources/ProductSummary.dummy";
-import { useState } from "react";
 import ProductSummaryListBody from "../../features/products/components/ProductSummaryListBody";
 import ProductSummaryCard from "../../features/products/components/ProductSummaryCard";
 import ProductBannerSlider from "../../features/products/components/ProductBannerSlider";
@@ -12,27 +10,51 @@ import styles from './styles/ProductsHomePage.module.css';
 import ProductBanner from "../../features/products/components/ProductBanner";
 import { PRODUCT_BANNERS } from "../../features/products/resources/ProductBanner.dummy";
 import Pagination from "../../components/navigation/Pagination";
+import { useLoaderData, useSearchParams, useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
 
 export default function ProductsHomePage() {
-  
-  function handleSearch(searchKeyword: string) {
-    // searchKeyword를 searchBar component로부터 받아서
-    // backend API 요청을 보내는 로직 작성 예정
-    console.log(searchKeyword);
+  const nav = useNavigate();
+
+  // Get server data prepared by the route loader 
+  const { products, page, totalItems, totalPages } = useLoaderData() as {
+    products: Array<{
+      productId: string;
+      name: string;
+      unitPriceAmount: number;
+      salePriceAmount: number | null;
+      averageRating: number;
+      reviewCount: number;
+      thumbnailUrl: string;
+      availability: string;
+    }>;
+    page: number;
+    totalItems: number;
+    totalPages: number;
+  };
+
+  // Read/write URL query params (pagination, filters, ...)
+  const [ sp, setSp ] = useSearchParams();
+
+  // Pagination: change only the page param; loader reruns automatically 
+  const goPage = (p: number) => {
+    const next = new URLSearchParams(sp);
+    next.set("page", String(p));
+    setSp(next);
+  };
+
+  // Search: navigate to search page with query 
+  const handleSearch = (searchKeyword: string) => {
+    const kw = searchKeyword.trim();
+    const next = new URLSearchParams();
+    if (kw) next.set("searchKeyword", kw);
+
+    nav({ pathname: PATHS.productsSearch, search: next.toString() });
   }
 
-  // 임시 더미 데이터 사용 (추후 API 연동 예정)
-  const items = productSummaryDummy;
-  const [categoryLabel] = useState('전체');
-  const [sortLabel] = useState('인기순');
-
-  const openCategoryDropdown = () => {};
-  const openSortDropdown = () => {};  
   const handleCardClick = (id: string) => {
     console.log(id);
   };
-
-  const [page, setPage] = useState(1);
 
   return (
     <div className={styles['home-layout']}>
@@ -59,32 +81,26 @@ export default function ProductsHomePage() {
         <ProductCategoryList />
         {/* Product Summary List */}
         <ProductSummaryList>
-          <ProductSummaryListHeader
-            categoryLabel={categoryLabel}
-            sortLabel={sortLabel}
-            totalCount={items.length}
-            onCategoryClick={openCategoryDropdown}
-            onSortClick={openSortDropdown}
-          />
+          <ProductSummaryListHeader totalCount={totalItems} />
           <ProductSummaryListBody>
-            {items.map(p => (
+            {products.map(p => (
               <ProductSummaryCard
-                key={p.id}
-                imageSrc={p.imageSrc}
+                key={p.productId}
+                imageSrc={p.thumbnailUrl}
                 name={p.name}
-                price={p.price}
-                salePrice={p.salePrice}
-                rating={p.rating}
+                price={p.unitPriceAmount}
+                salePrice={p.salePriceAmount ?? undefined}
+                rating={p.averageRating}
                 reviewCount={p.reviewCount}
-                onClick={() => handleCardClick(p.id)}
+                onClick={() => handleCardClick(p.productId)}
               />
             ))}
           </ProductSummaryListBody>  
         </ProductSummaryList>
         <Pagination
           page={page}  
-          totalPages={50}
-          onChange={setPage}
+          totalPages={totalPages}
+          onChange={goPage}
         />
       </main>
       <Footer />

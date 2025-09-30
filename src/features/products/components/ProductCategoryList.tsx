@@ -1,5 +1,7 @@
 import ProductCategoryCard from './ProductCategoryCard';
-import styles from './styles/ProductCategoryList.module.css';   
+import styles from './styles/ProductCategoryList.module.css';
+import { useSearchParams } from 'react-router-dom';
+
 import bookStandImg from '../../../assets/book_stand.png';
 import bookCoverImg from '../../../assets/book_cover.png';
 import bookMarkImg from '../../../assets/book_mark.png';
@@ -13,11 +15,13 @@ import readingNoteImg from '../../../assets/reading_note.png';
 // 이미지는 임시 이미지입니다.
 
 export default function ProductCategoryList() {
+  const [, setSp] = useSearchParams();
 
-  function handleCategoryClick(label: string) {
-    // 클릭된 카테고리 label을 받아서
-    // backend API 요청을 보내는 로직 작성 예정 
-    console.log(label);
+  function handleCategoryClick(code: string) {
+    const next = new URLSearchParams();
+    next.set('category', code);
+    next.set('page', '1');
+    setSp(next);
   }
 
   return (
@@ -27,22 +31,22 @@ export default function ProductCategoryList() {
           <ProductCategoryCard
             label="독서대"
             imageSrc={bookStandImg}
-            onClick={() => handleCategoryClick('bookStand')}
+            onClick={() => handleCategoryClick('book_stand')}
           />
           <ProductCategoryCard
             label="북커버"
             imageSrc={bookCoverImg} 
-            onClick={() => handleCategoryClick('bookCover')}
+            onClick={() => handleCategoryClick('book_cover')}
           />
           <ProductCategoryCard
             label="북마크"
             imageSrc={bookMarkImg} 
-            onClick={() => handleCategoryClick('bookMark')}
+            onClick={() => handleCategoryClick('book_mark')}
           />
           <ProductCategoryCard
             label="책수납"
             imageSrc={bookStorageImg} 
-            onClick={() => handleCategoryClick('bookStorage')}
+            onClick={() => handleCategoryClick('book_storage')}
           />
           <ProductCategoryCard
             label="돋보기"
@@ -54,27 +58,27 @@ export default function ProductCategoryList() {
           <ProductCategoryCard
             label="발받침대"
             imageSrc={footRestImg}
-            onClick={() => handleCategoryClick('footRest')}
+            onClick={() => handleCategoryClick('foot_rest')}
           />
           <ProductCategoryCard
             label="북퍼퓸"
             imageSrc={bookPerfumeImg} 
-            onClick={() => handleCategoryClick('bookPerfume')}
+            onClick={() => handleCategoryClick('book_perfume')}
           />
           <ProductCategoryCard
             label="북라이트"
             imageSrc={bookLightImg} 
-            onClick={() => handleCategoryClick('bookLight')}
+            onClick={() => handleCategoryClick('book_light')}
           />
           <ProductCategoryCard
             label="문진"
             imageSrc={paperWeightImg}
-            onClick={() => handleCategoryClick('paperWeight')}
+            onClick={() => handleCategoryClick('paper_weight')}
           />
           <ProductCategoryCard
             label="독서노트"
             imageSrc={readingNoteImg}
-            onClick={() => handleCategoryClick('readingNote')}
+            onClick={() => handleCategoryClick('reading_note')}
           />
         </div>
       </div>
