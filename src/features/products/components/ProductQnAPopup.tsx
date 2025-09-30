@@ -26,7 +26,6 @@ export default function ProductQnAPopup ({
   const isFormValid = title.trim() !== "" && content.trim() !== "";
 
   const handleSubmit = () => {
-    if (!isFormValid) return;
     onSubmit(title, content);
     onClose();
   };
@@ -93,7 +92,7 @@ export default function ProductQnAPopup ({
           heightSizeType='xl'
           colorType='dark'
           disabled={!isFormValid}
-        ></OneWayButton>
+        />
       </div>
     </div>
   );
