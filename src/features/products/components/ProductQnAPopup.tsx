@@ -4,7 +4,7 @@ import styles from "./styles/ProductQnAPopup.module.css";
 import OneWayButton from "../../../components/forms/OneWayButton";
 
 type ProductQnAPopupProps = {
-  productImage: string; // Product image URL
+  productImageUrl: string; // Product image URL
   productName: string; // Product name
   onSubmit: (title: string, content: string) => void; // Function executed on submit button click
   onClose: () => void; // Function executed on close button click
@@ -14,7 +14,7 @@ const titleMaxLength = 50;
 const contentMaxlength = 300;
 
 export default function ProductQnAPopup ({
-  productImage,
+  productImageUrl,
   productName,
   onSubmit,
   onClose,
@@ -47,7 +47,7 @@ export default function ProductQnAPopup ({
           <div className={styles["product-item"]}>
             <img
               className={styles["product-image"]}
-              src={productImage} 
+              src={productImageUrl} 
               alt={productName} />
             <span>{productName}</span>
           </div>
