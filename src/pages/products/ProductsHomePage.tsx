@@ -10,7 +10,7 @@ import styles from './styles/ProductsHomePage.module.css';
 import ProductBanner from "../../features/products/components/ProductBanner";
 import { PRODUCT_BANNERS } from "../../features/products/resources/ProductBanner.dummy";
 import Pagination from "../../components/navigation/Pagination";
-import { useLoaderData, useSearchParams, useNavigate } from "react-router-dom";
+import { useLoaderData, useSearchParams, useNavigate, generatePath } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 
 export default function ProductsHomePage() {
@@ -54,7 +54,7 @@ export default function ProductsHomePage() {
   }
 
   const handleCardClick = (id: string) => {
-    console.log(id);
+    nav(generatePath(PATHS.productsDetail, { productId: id }));
   };
 
   return (

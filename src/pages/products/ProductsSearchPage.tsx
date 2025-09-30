@@ -8,8 +8,12 @@ import { useLoaderData, useSearchParams } from "react-router-dom";
 import ProductFilterSidebar from "../../features/products/components/ProductFilterSidebar";
 import Pagination from "../../components/navigation/Pagination";
 import Footer from '../../components/layout/Footer';
+import { useNavigate, generatePath } from 'react-router-dom';
+import { PATHS } from '../../routes/paths';
 
 export default function ProductsSearchPage() {
+  const nav = useNavigate();
+
   // Get server data prepared by the route loader 
   const { products, page, totalItems, totalPages } = useLoaderData() as {
     products: Array<{
@@ -78,7 +82,7 @@ export default function ProductsSearchPage() {
   };
 
   const handleCardClick = (id: string) => {
-    console.log(id);
+    nav(generatePath(PATHS.productsDetail, { productId: id }));
   };
 
   return (
