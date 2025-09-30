@@ -71,6 +71,12 @@
   gap: 20px;
 }
 
+.filter-radio {
+  margin: 0;
+  transform: translateY(-1px);
+  vertical-align: middle;
+}
+
 .custom-header {
   display: flex;
   align-items: center;

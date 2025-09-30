@@ -5,54 +5,93 @@ import { useState } from 'react';
 
 type Filters = {
   category: string;
-  priceRange: '' | 'lt-10000' | '10000-30000' | '30000-100000' | 'gte-100000' | 'custom';
   minPrice?: number | null;
   maxPrice?: number | null;
 }
 
+type PriceRadio = '' | 'lt-10000' | '10000-30000' | '30000-100000' | 'gte-100000' | 'custom';
+
 export default function ProductFilterSidebar({
-    onApply = () => {},
+  onApply = () => {},
   initialCategory = 'all',
-  initialPriceRange = '',
   initialMinPrice = '',
   initialMaxPrice = '',
 }: {
   onApply?: (f: Filters) => void;
   initialCategory?: string;
-  initialPriceRange?: Filters['priceRange'];
   initialMinPrice?: string | number;
   initialMaxPrice?: string | number;
 }) {
-  // Seed Local UI state from initial props (parent remounts via key)
-  const [category, setCategory]       = useState<string>(initialCategory);
-  const [priceRange, setPriceRange]   = useState<Filters['priceRange']>(initialPriceRange);
-  const [minPrice, setMinPrice]       = useState<string>(String(initialMinPrice ?? ''));
-  const [maxPrice, setMaxPrice]       = useState<string>(String(initialMaxPrice ?? ''));
-  
-  const isCustom = priceRange === 'custom';
-  
-  // Reset button -> UI reset only 
+  // ---- helpers for FilterSidebar ----
+  const toNumOrNull = (v: string) => {
+    const n = Number(String(v).replace(/[^\d]/g, ''));
+    return Number.isFinite(n) && String(v).trim() !== '' ? n : null;
+  };
+
+  const deriveRadio = (minS?: string | number, maxS?: string | number): PriceRadio => {
+    const min = (minS === '' || minS == null) ? null : Number(minS);
+    const max = (maxS === '' || maxS == null) ? null : Number(maxS);
+    if (min === null && max === null) return '';
+    if (min === null && max !== null && max <= 10000) return 'lt-10000';
+    if (min === 10000 && max === 30000) return '10000-30000';
+    if (min === 30000 && max === 100000) return '30000-100000';
+    if (min === 100000 && max === null) return 'gte-100000';
+    return 'custom';
+  };
+
+  const radioPresetToFields = (r: PriceRadio) => {
+    switch (r) {
+      case 'lt-10000':      return { min: '',      max: '10000'  };
+      case '10000-30000':   return { min: '10000', max: '30000'  };
+      case '30000-100000':  return { min: '30000', max: '100000' };
+      case 'gte-100000':    return { min: '100000',max: ''       };
+      default:              return { min: '',      max: ''       }; 
+    }
+  };
+
+  // ---- seed local UI state from initial props (parent remounts via key) ----
+  const [category, setCategory]   = useState<string>(initialCategory);
+  const [priceRadio, setPriceRadio] = useState<PriceRadio>(
+    deriveRadio(initialMinPrice, initialMaxPrice)
+  );
+  const [minPrice, setMinPrice]   = useState<string>(String(initialMinPrice ?? ''));
+  const [maxPrice, setMaxPrice]   = useState<string>(String(initialMaxPrice ?? ''));
+
+  // Radio click → sync min/max fields for presets
+  const onChangeRadio = (r: PriceRadio) => {
+    setPriceRadio(r);
+    if (r !== 'custom' && r !== '') {
+      const { min, max } = radioPresetToFields(r);
+      setMinPrice(min);
+      setMaxPrice(max);
+    }
+    if (r === '' || r === 'custom') {
+      // clear fields for 'no filter' or let user type for 'custom'
+      if (r === '') {
+        setMinPrice('');
+        setMaxPrice('');
+      }
+    }
+  };
+
+  // Reset button (UI only)
   const handleReset = () => {
     setCategory('all');
-    setPriceRange('');
+    setPriceRadio('');
     setMinPrice('');
     setMaxPrice('');
-  }
+  };
 
-  // Normalize and send to parent; parent updates URL
+  // Apply → return only min/max (normalized) + category to parent
   const handleApply = () => {
-    const toNum = (v: string) => {
-      const n = Number(String(v).replace(/[^\d]/g, ''));
-      return Number.isFinite(n) && String(v).trim() !== '' ? n : null;
-    };
+    let min = toNumOrNull(minPrice);
+    let max = toNumOrNull(maxPrice);
+    if (min != null && max != null && min > max) {
+      // exchange 
+      [min, max] = [max, min];
+    }
 
-    const filters: Filters = {
-      category,
-      priceRange,
-      minPrice: isCustom ? toNum(minPrice) : null,
-      maxPrice: isCustom ? toNum(maxPrice) : null,
-    };
-    onApply(filters);
+    onApply({ category, minPrice: min, maxPrice: max });
   };
 
   return (
@@ -112,8 +151,8 @@ export default function ProductFilterSidebar({
                 type="radio"
                 name="priceRange"
                 value={val}
-                checked={priceRange === (val as Filters['priceRange'])}
-                onChange={e => setPriceRange(e.target.value as Filters['priceRange'])}
+                checked={priceRadio === (val as PriceRadio)}
+                onChange={e => onChangeRadio(e.target.value as PriceRadio)}
               />
               <span className={styles['price-label']}>{label}</span>
             </label>
@@ -127,8 +166,8 @@ export default function ProductFilterSidebar({
                 type="radio"
                 name="priceRange"
                 value="custom"
-                checked={priceRange === 'custom'}
-                onChange={e => setPriceRange(e.target.value as Filters['priceRange'])}
+                checked={priceRadio === 'custom'}
+                onChange={e => onChangeRadio(e.target.value as PriceRadio)}
               />
               <span className={styles['custom-label']}>직접 설정</span>
             </div>
@@ -141,7 +180,7 @@ export default function ProductFilterSidebar({
                   inputMode="numeric"
                   value={minPrice}
                   onChange={e => setMinPrice(e.target.value)}
-                  disabled={!isCustom}
+                  disabled={priceRadio !== 'custom'}
                 />
               </div>
               <div className={styles['max-field']}>
@@ -152,7 +191,7 @@ export default function ProductFilterSidebar({
                   inputMode="numeric"
                   value={maxPrice}
                   onChange={e => setMaxPrice(e.target.value)}
-                  disabled={!isCustom}
+                  disabled={priceRadio !== 'custom'}
                 />
               </div>
             </div>
