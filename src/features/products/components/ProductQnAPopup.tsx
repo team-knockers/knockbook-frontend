@@ -13,7 +13,7 @@ type ProductQnAPopupProps = {
 const titleMaxLength = 50;
 const contentMaxlength = 300;
 
-export default function PostPopup ({
+export default function ProductQnAPopup ({
   productImage,
   productName,
   onSubmit,
@@ -22,10 +22,11 @@ export default function PostPopup ({
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
+  // Check whether both the title and content are filled in
+  const isFormValid = title.trim() !== "" && content.trim() !== "";
+
   const handleSubmit = () => {
-    if (!title.trim() || !content.trim()) {
-    return;
-    }
+    if (!isFormValid) return;
     onSubmit(title, content);
     onClose();
   };
@@ -91,6 +92,7 @@ export default function PostPopup ({
           widthSizeType='lg'
           heightSizeType='xl'
           colorType='dark'
+          disabled={!isFormValid}
         ></OneWayButton>
       </div>
     </div>
