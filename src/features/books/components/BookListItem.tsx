@@ -95,10 +95,22 @@ export default function BookListItem({
             </div>
           </div>
           <div className={styles['book-price']}>
-            대여 <span className={styles['book-price-highlight']}>{rentalAmount.toLocaleString()}</span>원 
-            · 구매 <span className={styles['book-discountRate-highlight']}>{discountRate}%</span>
-            <span className={styles['book-price-highlight']}>{discountedPurchaseAmount.toLocaleString()}</span>원 
-            <span className={styles['book-discountedPrice-highlight']}>{purchaseAmount.toLocaleString()}원</span>
+            <div className={styles['price-block']}>
+              <span className={styles['price-label']}>대여</span>
+              <span className={styles['book-price-highlight']}>{rentalAmount.toLocaleString()}</span>원
+            </div>
+            <div className={styles['price-block']}>
+              <span className={styles['price-label']}>구매</span>
+              {discountedPurchaseAmount < purchaseAmount ? (
+                <>
+                  <span className={styles['book-discount-rate-highlight']}>{discountRate}%</span>
+                  <span className={styles['book-price-highlight']}>{discountedPurchaseAmount.toLocaleString()}</span>원
+                  <span className={styles['book-original-price-highlight']}>{purchaseAmount.toLocaleString()}원</span>
+                </>
+              ) : (
+                <span className={styles['book-price-highlight']}>{purchaseAmount.toLocaleString()}원</span>
+              )}
+            </div>
           </div>
         </div>
       </div>
