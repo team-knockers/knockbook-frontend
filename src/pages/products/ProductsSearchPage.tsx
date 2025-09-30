@@ -29,8 +29,52 @@ export default function ProductsSearchPage() {
 
   // Read/write URL query params (pagination, filters, ...)
   const [ sp, setSp ] = useSearchParams();
+  
+  // URL -> initial seeds 
+  const urlKw = sp.get('searchKeyword') ?? '';
+  const urlCat  = sp.get('category') ?? 'all';
+  const urlMinS = sp.get('minPrice'); 
+  const urlMaxS = sp.get('maxPrice');
 
-  // Pagination: change only the page param; loader reruns automatically 
+  // FilterSidebar remount key
+  const sidebarKey = `${urlCat}|${urlMinS ?? ''}|${urlMaxS ?? ''}`;
+
+  // SearchBar -> update URL 
+  const handleSearch = (searchKeyword: string) => {
+      const kw = searchKeyword.trim();
+      const next = new URLSearchParams(sp);
+      if (kw) {
+        next.set("searchKeyword", kw);
+      } else {
+        next.delete("searchKeyword");   
+      }
+
+      next.delete("page");
+      setSp(next);
+  }
+
+  // Sidebar -> only min/max + category back to parent 
+  const handleApplyFilters = (f: {
+    category: string;
+    minPrice?: number | null;
+    maxPrice?: number | null;
+  }) => {
+    const next = new URLSearchParams(sp);
+
+    if (f.category && f.category !== 'all') next.set('category', f.category);
+    else next.delete('category');
+
+    if (f.minPrice != null) next.set('minPrice', String(f.minPrice));
+    else next.delete('minPrice');
+
+    if (f.maxPrice != null) next.set('maxPrice', String(f.maxPrice));
+    else next.delete('maxPrice');
+
+    next.delete('page'); // reset page on filter change
+    setSp(next); 
+  };
+
+  // Pagination
   const goPage = (p: number) => {
     const next = new URLSearchParams(sp);
     next.set("page", String(p));
@@ -40,21 +84,24 @@ export default function ProductsSearchPage() {
   const handleCardClick = (id: string) => {
     console.log(id);
   };
-  const handleSearch = (searchKeyword: string) => {
-      const kw = searchKeyword.trim();
-      const next = new URLSearchParams();
-      if (kw) next.set("searchKeyword", kw);
-    }
 
   return (
     <div className={styles['search-layout']}>
     <main className={styles['main-layout']}>
       <SearchBar
+        key={urlKw}
+        defaultValue={urlKw}
         placeholder='상품명을 입력하세요'
         onSearch={handleSearch}
       />
       <div className={styles['search-content']}>
-        <ProductFilterSidebar /> 
+        <ProductFilterSidebar 
+          key={sidebarKey}
+          onApply={handleApplyFilters}
+          initialCategory={urlCat}
+          initialMinPrice={urlMinS ?? ''}
+          initialMaxPrice={urlMaxS ?? ''}
+        /> 
         <div className={styles['results-pane']}>
           <ProductSummaryList>
             <ProductSummaryListHeader totalCount={totalItems} />

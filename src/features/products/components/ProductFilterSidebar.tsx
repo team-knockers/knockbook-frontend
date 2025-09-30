@@ -5,279 +5,205 @@ import { useState } from 'react';
 
 type Filters = {
   category: string;
-  priceRange: string;
   minPrice?: number | null;
   maxPrice?: number | null;
 }
 
-export default function ProductFilterSidebar({
-    onApply = () => {},
-}: {onApply?: (f:Filters) => void}) {
-  const [category, setCategory]     = useState<string>('all')
-  const [priceRange, setPriceRange] = useState<string>('');
-  const [minPrice, setMinPrice]     = useState<string>(''); 
-  const [maxPrice, setMaxPrice]     = useState<string>('');
-  const isCustom = priceRange === 'custom';
+type PriceRadio = '' | 'lt-10000' | '10000-30000' | '30000-100000' | 'gte-100000' | 'custom';
 
-  // 초기화 버튼 
+export default function ProductFilterSidebar({
+  onApply = () => {},
+  initialCategory = 'all',
+  initialMinPrice = '',
+  initialMaxPrice = '',
+}: {
+  onApply?: (f: Filters) => void;
+  initialCategory?: string;
+  initialMinPrice?: string | number;
+  initialMaxPrice?: string | number;
+}) {
+  // ---- helpers for FilterSidebar ----
+  const toNumOrNull = (v: string) => {
+    const n = Number(String(v).replace(/[^\d]/g, ''));
+    return Number.isFinite(n) && String(v).trim() !== '' ? n : null;
+  };
+
+  const deriveRadio = (minS?: string | number, maxS?: string | number): PriceRadio => {
+    const min = (minS === '' || minS == null) ? null : Number(minS);
+    const max = (maxS === '' || maxS == null) ? null : Number(maxS);
+    if (min === null && max === null) return '';
+    if (min === null && max !== null && max <= 10000) return 'lt-10000';
+    if (min === 10000 && max === 30000) return '10000-30000';
+    if (min === 30000 && max === 100000) return '30000-100000';
+    if (min === 100000 && max === null) return 'gte-100000';
+    return 'custom';
+  };
+
+  const radioPresetToFields = (r: PriceRadio) => {
+    switch (r) {
+      case 'lt-10000':      return { min: '',      max: '10000'  };
+      case '10000-30000':   return { min: '10000', max: '30000'  };
+      case '30000-100000':  return { min: '30000', max: '100000' };
+      case 'gte-100000':    return { min: '100000',max: ''       };
+      default:              return { min: '',      max: ''       }; 
+    }
+  };
+
+  // ---- seed local UI state from initial props (parent remounts via key) ----
+  const [category, setCategory]   = useState<string>(initialCategory);
+  const [priceRadio, setPriceRadio] = useState<PriceRadio>(
+    deriveRadio(initialMinPrice, initialMaxPrice)
+  );
+  const [minPrice, setMinPrice]   = useState<string>(String(initialMinPrice ?? ''));
+  const [maxPrice, setMaxPrice]   = useState<string>(String(initialMaxPrice ?? ''));
+
+  // Radio click → sync min/max fields for presets
+  const onChangeRadio = (r: PriceRadio) => {
+    setPriceRadio(r);
+    if (r !== 'custom' && r !== '') {
+      const { min, max } = radioPresetToFields(r);
+      setMinPrice(min);
+      setMaxPrice(max);
+    }
+    if (r === '' || r === 'custom') {
+      // clear fields for 'no filter' or let user type for 'custom'
+      if (r === '') {
+        setMinPrice('');
+        setMaxPrice('');
+      }
+    }
+  };
+
+  // Reset button (UI only)
   const handleReset = () => {
     setCategory('all');
-    setPriceRange('');
+    setPriceRadio('');
     setMinPrice('');
     setMaxPrice('');
-  }
+  };
 
-  // 적용 버튼 
+  // Apply → return only min/max (normalized) + category to parent
   const handleApply = () => {
-    const filters: Filters = {
-      category,
-      priceRange,
-      minPrice: isCustom && minPrice ? Number(minPrice) : null,
-      maxPrice: isCustom && maxPrice ? Number(maxPrice) : null,
-    };
-    // todo
-    onApply(filters);
-  }
+    let min = toNumOrNull(minPrice);
+    let max = toNumOrNull(maxPrice);
+    if (min != null && max != null && min > max) {
+      // exchange 
+      [min, max] = [max, min];
+    }
+
+    onApply({ category, minPrice: min, maxPrice: max });
+  };
 
   return (
     <div className={styles['product-filter-sidebar']}>
-      {/* 헤더: 필터 + 초기화 */}
       <div className={styles['header']}>
         <div className={styles['header-title']}>필터</div>
-        <button 
-          className={styles['header-reset']} 
-          type="button"
-          onClick={handleReset}
-        >
+        <button className={styles['header-reset']} type="button" onClick={handleReset}>
           <FiRefreshCcw size={14} />
         </button>
       </div>
 
-      {/* 카테고리 섹션 */}
+      {/* Category section*/}
       <div className={styles['category-section']}>
         <div className={styles['category-title']}>카테고리</div>
-        
         <div className={styles['category-list']}>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="all" 
-              checked={category === 'all'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>전체</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="bookStand" 
-              checked={category === 'bookStand'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>독서대</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="bookCover" 
-              checked={category === 'bookCover'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>북커버</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="bookMark" 
-              checked={category === 'bookMark'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>북마크</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="bookStorage" 
-              checked={category === 'bookStorage'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>책수납</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="magnifier" 
-              checked={category === 'magnifier'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>돋보기</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="footRest" 
-              checked={category === 'footRest'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>발받침대</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="bookPerfume"
-              checked={category === 'bookPerfume'}
-              onChange={(e) => setCategory(e.target.value)} 
-            />
-            <span className={styles['category-label']}>북퍼퓸</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="bookLight" 
-              checked={category === 'bookLight'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>북라이트</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="paperWeight" 
-              checked={category === 'paperWeight'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>문진</span>
-          </div>
-          <div className={styles['category-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="category" 
-              value="readingNote" 
-              checked={category === 'readingNote'}
-              onChange={(e) => setCategory(e.target.value)}
-            />
-            <span className={styles['category-label']}>독서노트</span>
-          </div>
+          {[
+            ['all', '전체'],
+            ['book_stand','독서대'],
+            ['book_cover','북커버'],
+            ['book_mark','북마크'],
+            ['book_storage','책수납'],
+            ['magnifier','돋보기'],
+            ['foot_rest','발받침대'],
+            ['book_perfume','북퍼퓸'],
+            ['book_light','북라이트'],
+            ['paper_weight','문진'],
+            ['reading_note','독서노트'],
+          ].map(([val, label]) => (
+            <label key={val} className={styles['category-item']}>
+              <Input
+                className={styles['filter-radio']}
+                type="radio"
+                name="category"
+                value={val}
+                checked={category === val}
+                onChange={e => setCategory(e.target.value)}
+              />
+              <span className={styles['category-label']}>{label}</span>
+            </label>
+          ))}
         </div>
       </div>
 
-      {/* 가격 섹션 */}
+      {/* Price section */}
       <div className={styles['price-section']}>
         <div className={styles['price-title']}>가격대</div>
-
         <div className={styles['price-list']}>
-          <div className={styles['price-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="priceRange" 
-              value="lt-10000" 
-              checked={priceRange === 'lt-10000'}
-              onChange={(e) => setPriceRange(e.target.value)}
-            />
-            <span className={styles['price-label']}>1만원 이하</span>
-          </div>
-          <div className={styles['price-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="priceRange" 
-              value="10000-30000"
-              checked={priceRange === '10000-30000'}
-              onChange={(e) => setPriceRange(e.target.value)} 
-            />
-            <span className={styles['price-label']}>1만원–3만원</span>
-          </div>
-          <div className={styles['price-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="priceRange" 
-              value="30000-100000" 
-              checked={priceRange === '30000-100000'}
-              onChange={(e) => setPriceRange(e.target.value)}
-            />
-            <span className={styles['price-label']}>3만원–10만원</span>
-          </div>
-          <div className={styles['price-item']}>
-            <Input 
-              className={styles['filter-radio']} 
-              type="radio" 
-              name="priceRange" 
-              value="gte-100000" 
-              checked={priceRange === 'gte-100000'}
-              onChange={(e) => setPriceRange(e.target.value)}
-            />
-            <span className={styles['price-label']}>10만원 이상</span>
-          </div>
+          {[
+            ['lt-10000','1만원 이하'],
+            ['10000-30000','1만원–3만원'],
+            ['30000-100000','3만원–10만원'],
+            ['gte-100000','10만원 이상'],
+          ].map(([val, label]) => (
+            <label key={val} className={styles['price-item']}>
+              <Input
+                className={styles['filter-radio']}
+                type="radio"
+                name="priceRange"
+                value={val}
+                checked={priceRadio === (val as PriceRadio)}
+                onChange={e => onChangeRadio(e.target.value as PriceRadio)}
+              />
+              <span className={styles['price-label']}>{label}</span>
+            </label>
+          ))}
 
-          {/* 직접 설정 */}
+          {/* Custom range */}
           <div className={styles['custom-price']}>
             <div className={styles['custom-header']}>
-              <Input 
-                className={styles['filter-radio']} 
-                type="radio" 
-                name="priceRange" 
-                value="custom" 
-                checked={priceRange === 'custom'}
-                onChange={(e) => setPriceRange(e.target.value)}
+              <Input
+                className={styles['filter-radio']}
+                type="radio"
+                name="priceRange"
+                value="custom"
+                checked={priceRadio === 'custom'}
+                onChange={e => onChangeRadio(e.target.value as PriceRadio)}
               />
               <span className={styles['custom-label']}>직접 설정</span>
             </div>
-
             <div className={styles['custom-fields']}>
               <div className={styles['min-field']}>
                 <div className={styles['min-label']}>최소 가격</div>
-                <Input 
-                  className={styles['min-input']} 
+                <Input
+                  className={styles['min-input']}
                   type="text"
-                  inputMode="numeric" 
-                  value={minPrice}                     
-                  onChange={(e) => setMinPrice(e.target.value)} 
-                  disabled={!isCustom}
+                  inputMode="numeric"
+                  value={minPrice}
+                  onChange={e => setMinPrice(e.target.value)}
+                  disabled={priceRadio !== 'custom'}
                 />
               </div>
               <div className={styles['max-field']}>
                 <div className={styles['max-label']}>최대 가격</div>
-                <Input 
-                  className={styles['max-input']} 
+                <Input
+                  className={styles['max-input']}
                   type="text"
-                  inputMode="numeric" 
+                  inputMode="numeric"
                   value={maxPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
-                  disabled={!isCustom}
+                  onChange={e => setMaxPrice(e.target.value)}
+                  disabled={priceRadio !== 'custom'}
                 />
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Apply */}
       <div className={styles['apply-row']}>
-        <button type="button" 
-                className={styles['apply-btn']}
-                onClick={handleApply}
-        >적용</button>
+        <button type="button" className={styles['apply-btn']} onClick={handleApply}>
+          적용
+        </button>
       </div>
     </div>
   );
