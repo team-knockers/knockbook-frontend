@@ -1,4 +1,4 @@
-import type { Faq, FaqPage } from "../types";
+import type { Faq, FaqList } from "../types";
 
 const dummy: Array<Pick<Faq, "question" | "answer">> = [
   {
@@ -111,7 +111,7 @@ export const FAQ_DUMMY: Faq[] = dummy.map((x, i) => ({
   createdAt: new Date(now - i * 86400000).toISOString(),
 }));
 
-export function getFaqPage(page = 1, size = 5): FaqPage {
+export function getFaqPage(page = 1, size = 5): FaqList {
   const totalItems = dummy.length;
   const start = (page - 1) * size;
   const content = FAQ_DUMMY.slice(start, start + size);

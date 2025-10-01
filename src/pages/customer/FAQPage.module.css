@@ -32,6 +32,7 @@
   background-position: 0 50%;
   background-repeat: no-repeat;
   padding: 10%;
+  border-radius: 10px;
 }
 
 .banner-title {
@@ -175,5 +176,6 @@
 
   .max-width-container {
     padding-top: 50px;
+    gap: 50px;
   }
 }

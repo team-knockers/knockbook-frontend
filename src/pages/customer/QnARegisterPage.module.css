@@ -1,0 +1,158 @@
+.subpage-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  gap: 20px;
+}
+
+.qna-title-wrapper,
+.qna-content-wrapper,
+.qna-email-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+}
+
+.qna-title-label,
+.qna-content-label,
+.qna-email-label {
+  width: 100%;
+}
+
+.qna-title-input,
+.qna-content-input,
+.qna-email-input {
+ width: 100%;
+}
+
+.qna-content-group {
+  display: block;
+  position: relative;
+  width: 100%;
+  border: 1px solid #d3d6db;
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px; 
+}
+
+.qna-content-group :global(.form-control){
+  border: 0;
+  box-shadow: none;
+  resize: none;
+  padding: 0;
+  min-height: 260px;
+  font-family: Pretendard;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #111;
+}
+
+.qna-content-group :global(.form-control:focus){ 
+  box-shadow: none;
+}
+
+.qna-content-counter {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  height: auto;
+  padding: 4px 8px;
+  background: #fff;
+  line-height: 1;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff !important;
+  border: none !important;
+}
+
+.qna-file-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
+}
+
+.qna-attach-button-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 70px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+}
+
+.qna-attach-button-icon {
+  width: 20px;
+  height: 20px;
+  color: #666;
+}
+
+.qna-attach-button-content {
+  color: #666;
+  font-family: Pretendard;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.qna-file-guide {
+  align-self: flex-end;
+  color: rgba(0, 0, 0, 0.50);
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.qna-preview-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 90%;
+}
+
+.qna-preview-layer {
+  position: relative;
+}
+
+.qna-preview-img {
+  width: 100px;
+  border-radius: 10px;
+}
+
+.qna-preview-img-close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 15px;
+  height: 15px;
+  border: none;
+  background: none;
+  color: #fff;
+}
+
+.qna-policy-wrapper {
+  align-self: self-start;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.qna-policy-checkbox {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+@media (min-width: 1024px) {
+  
+}

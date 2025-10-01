@@ -26,6 +26,8 @@ export const PATHS = {
   customer: "/customer",
   faq: "/customer/faq",
   qna: "/customer/qna",
+  registerQnA: "/customer/qna/register",
+  listQnA: "/customer/qna/list",
   poicy: "/customer/policy",
   notification: "/customer/notification",
 };

@@ -1,34 +1,21 @@
 import { useState } from "react";
 import { PATHS } from "../../routes/paths";
 import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
-import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from "react-icons/io";
-import type { FaqPage } from '../../features/customer/types';
+import type { FaqList } from '../../features/customer/types';
 
 import OneWayButton from "../../components/forms/OneWayButton";
 import FourLevelTabMenu from "../../components/navigation/FourLevelTabMenu";
 import AccordionItem from "../../components/display/AccordionItem";
 import s from "./FAQPage.module.css";
+import SimplePagination from "../../components/navigation/SimplePagination";
 
 export default function FAQPage() {
 
   const nav = useNavigate();
-  const { content, page, size, totalItems } = useLoaderData() as FaqPage;
-  const numPages = totalItems > 0 ? Math.ceil(totalItems / size) : 1;
-
+  const { content, size, totalItems } = useLoaderData() as FaqList;
   const [latestNoticeTitle, ] = useState("최근 공지가 없습니다.");
   const [latestNoticeUrl, ] = useState(PATHS.faq);
   const [, setSerchParam] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(page);
-
-  const goToPrevPage = () => {
-    setCurrentPage(prev => prev - 1);
-    setSerchParam({ page: String(currentPage - 1) });
-  }
-
-  const goToNextPage = () => {
-    setCurrentPage(prev => prev + 1);
-    setSerchParam({ page: String(currentPage + 1) })
-  }
 
   return (
     <main className={s['page-layout']}>
@@ -82,21 +69,13 @@ export default function FAQPage() {
               ))
             )}
           </div>
-          <div className={s['faq-pagination']}>
-            <button 
-              className={s['pagination-prev-button']}
-              disabled={currentPage <= 1}
-              onClick={goToPrevPage}>
-              <IoIosArrowDropleftCircle />
-            </button>
-              <span>{currentPage} / {numPages}</span>
-            <button
-              className={s['pagination-next-button']}
-              disabled={currentPage >= numPages}
-              onClick={goToNextPage}>
-              <IoIosArrowDroprightCircle />
-            </button>
-          </div>
+          <SimplePagination
+            totalItems={totalItems}
+            size={size}
+            onCurrentPageChange={page => setSerchParam({ 
+              page: String(page)
+            })}
+          />
         </div>
         <div className={s['qna-guide-wrapper']}>
             <div className={s['qna-guide-description']}>
