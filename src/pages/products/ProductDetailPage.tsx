@@ -4,10 +4,8 @@ import { Outlet } from 'react-router-dom';
 import { HiStar } from 'react-icons/hi2';
 import ThreeLevelTabMenu from '../../components/navigation/ThreeLevelTabMenu';
 
-
-
 export default function ProductDetailPage() {
-  // TODO: replace with loader-fetched images 
+  // demo only: replace with API/loader data 
   const images = [
     "https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1271/hot1750382587476.png",
     "https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1731/hot1750382596852.png",
@@ -17,7 +15,7 @@ export default function ProductDetailPage() {
 
   // main image index (default : GALLERY first image)
   const [selected, setSelected] = useState(0);
-  const mainSrc = images[selected] ?? ''
+  const mainSrc = images[selected] ?? '';
 
   // main gallery nav 
   const goPrev = () => {
@@ -43,7 +41,11 @@ export default function ProductDetailPage() {
           >
             &lt;
           </button>
-          <img className={styles['gallery-image']} src={mainSrc} alt=""/>
+          <img 
+            className={styles['gallery-image']} 
+            src={mainSrc} 
+            alt="TODO"
+          />
           <button 
             type="button" 
             className={styles['gallery-nav-next']}
@@ -91,7 +93,7 @@ export default function ProductDetailPage() {
                 <img 
                   className={`${styles['gallery-item']} ${i === selected ? styles['is-active'] : ''}`} 
                   src={src}
-                  alt=""
+                  alt="TODO"
                 />
               </button>
             ))}
