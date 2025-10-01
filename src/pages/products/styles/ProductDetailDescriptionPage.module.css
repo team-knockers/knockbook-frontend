@@ -1,0 +1,124 @@
+.description-images {
+  position: relative;
+  overflow: hidden;
+}
+
+.description-images.is-expanded {
+  max-height: none;
+  overflow: visible;
+}
+
+.description-images > .images-toggle-btn {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 0;
+  z-index: 2;
+}
+
+.description-images.is-expanded > .images-toggle-btn {
+  position: static;
+  z-index: auto;
+  margin-top: 16px; 
+}
+
+.images-toggle-btn {
+  display: flex;
+  height: 43px;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  border : 1px solid black;
+}
+
+.images-toggle-btn,
+.images-toggle-btn:focus,
+.images-toggle-btn:active {
+  border: 1px solid #000;  
+  background: #fff;         
+  outline: none;            
+}
+
+/* Collapsed height for description images
+   Update these values if the design spec changes */
+@media (min-width: 1024px) {
+  .description-images {
+    display: flex;
+    padding: 0 50px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    padding-bottom: 64px;
+    /* max collapsed height (desktop) */
+    max-height: 655px; /* ← adjust here */
+  }
+  .description-image {
+    width: 700px;
+  }
+  .description-images > .images-toggle-btn {
+    left: 50px;
+    right: 50px;
+  }
+  .spec-grid {
+    display: flex;
+    width: 1024px;
+    padding: 50px 300px;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 10px solid #F7F7F7;
+  }
+  .spec-labels {
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+  }
+  .spec-values {
+    color: #000;
+    text-align: right;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+  }
+}
+/* Collapsed height for description images
+   Update these values if the design spec changes */
+@media (max-width: 1023.98px) {
+  .description-images {
+    display: flex;
+    max-width: 1024px;
+    padding: 0 20px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+    padding-bottom: 64px;
+    /* max collapsed height (mobile) */
+    max-height: 400px; /* ← adjust here */
+  }
+  .description-image {
+    align-self: stretch;
+  }
+  .spec-grid {
+    display: flex;
+    height: 156px;
+    max-width: 1024px;
+    padding: 30px 50px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    border-top: 5px solid #F7F7F7;
+  }
+  .spec-labels {
+    color: #000;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+  }
+  .spec-values {
+    color: #000;
+    text-align: right;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+  }
+}
