@@ -91,6 +91,13 @@
     align-items: center;
     align-self: stretch;
   }
+  .detail-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    align-self: stretch;
+  }
   .gallery {
     display: flex;
     justify-content: space-between;
@@ -145,6 +152,14 @@
     align-items: center;
     gap: 50px;
     aspect-ratio: 512/239;
+  }
+  .detail-contents {
+    display: flex;
+    width: 1024px;
+    max-width: 1024px;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
   }
   .gallery {
     width: 457px;
