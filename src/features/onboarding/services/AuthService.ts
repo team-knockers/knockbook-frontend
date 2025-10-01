@@ -59,7 +59,7 @@ export const AuthService = {
     const res = await apiPublicJson<LoginResponse, LoginRequest>(
       "/auth/local/login",
       { method: "POST", json: req });
-      useSession.setState({ 
+      useSession.setState({
         accessToken: res.accessToken,
         userId: res.userId });
         console.log(res);

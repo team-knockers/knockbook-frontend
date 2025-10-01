@@ -99,6 +99,60 @@ export function apiAuthPathWithJson<TRes, TBody>(
   return apiAuthJson<TRes, TBody>(buildPath(tpl, path), init);
 }
 
+export async function requestMultipart<TRes>(
+  url: string,
+  form: FormData,
+  init?: RequestInit
+): Promise<TRes> {
+  const res = await doFetch(url, {
+    ...init,
+    body: form,
+    headers: {
+      Accept: "application/json",
+      ...(init?.headers ?? {}),
+    } as HeadersInit,
+  });
+  await ensureOK(res);
+  if (res.status === 204) {
+    return undefined as unknown as TRes;
+  }
+  return res.json() as Promise<TRes>;
+}
+
+export async function apiAuthMultipart<TRes>(
+  url: string,
+  form: FormData,
+  init?: RequestInit,
+  retried = false
+): Promise<TRes> {
+  const { accessToken } = useSession.getState();
+  const withAuth: RequestInit = {
+    ...init,
+    headers: {
+      ...(init?.headers ?? {}),
+      Authorization: accessToken ? `Bearer ${accessToken}` : "",
+    },
+  };
+  try {
+    return await requestMultipart<TRes>(url, form, withAuth);
+  } catch (e) {
+    if (e instanceof ApiError && !retried) {
+      await tryRefereshAccessToken();
+      return apiAuthMultipart<TRes>(url, form, init, true);
+    }
+    throw e;
+  }
+}
+
+export function apiAuthMultipartPath<TRes>(
+  tpl: string,
+  path: Record<string, string | number>,
+  form: FormData,
+  init?: RequestInit
+) {
+  return apiAuthMultipart<TRes>(buildPath(tpl, path), form, init);
+}
+
 //#endregion
 
 //#region URL helpers
@@ -146,7 +200,7 @@ async function doFetch(url: string, init: RequestInit = {}) {
     credentials: "include", // Required when using the refresh cookie
     ...init,
     headers: { 
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       ...(init.headers ?? {}) 
     } as HeadersInit,
   });
