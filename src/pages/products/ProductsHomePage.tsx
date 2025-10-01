@@ -54,7 +54,7 @@ export default function ProductsHomePage() {
   }
 
   const handleCardClick = (id: string) => {
-    nav(generatePath(PATHS.productsDetail, { productId: id }));
+    nav(generatePath(PATHS.productDetail, { productId: id }));
   };
 
   return (
