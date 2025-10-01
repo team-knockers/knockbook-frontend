@@ -16,7 +16,7 @@ export const PATHS = {
   booksSearch: "/books/search",
   productsHome: "/products/home",
   productsSearch: "/products/search",
-  productsDetail: "/products/:productId",
+  productDetail: "/products/:productId",
   loungeHome: "/lounge/home",
   feedHome: "/feed/home",
   cart: "/cart",
@@ -26,6 +26,6 @@ export const PATHS = {
   customer: "/customer",
   faq: "/customer/faq",
   qna: "/customer/qna",
-  poicy: "/customer/policy",
+  policy: "/customer/policy",
   notification: "/customer/notification",
 };

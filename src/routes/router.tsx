@@ -35,6 +35,9 @@ import QnAPage from "../pages/customer/QnAPage";
 import PolicyPage from "../pages/customer/PolicyPage";
 import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader"; 
+import ProductDetailDescriptionPage from "../pages/products/ProductDetailDescriptionPage";
+import ProductDetailReviewsPage from "../pages/products/ProductDetailReviewsPage";
+import ProductDetailQnaPage from "../pages/products/ProductDetailQnaPage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -113,8 +116,31 @@ export const router = createBrowserRouter([
               } 
             } 
           },
-          { path: PATHS.productsDetail,
-            element: <ProductDetailPage />},
+          { path: PATHS.productDetail,
+            element: <ProductDetailPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="description" replace />
+              },
+              {
+                path: "description",
+                element: <ProductDetailDescriptionPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: "reviews",
+                element: <ProductDetailReviewsPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: "qna",
+                element: <ProductDetailQnaPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+            ],
+            handle: { header: { kind: "main", title: "문앞의책방" } } 
+          },  
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,
             handle: { 
@@ -212,7 +238,7 @@ export const router = createBrowserRouter([
             }
           },
           {
-            path: PATHS.poicy,
+            path: PATHS.policy,
             element: <PolicyPage />,
             handle: {
               header: {
