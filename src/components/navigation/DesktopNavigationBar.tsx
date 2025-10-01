@@ -8,31 +8,36 @@ export default function DesktopNavigationBar() {
       <NavLink 
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to={PATHS.home}>
+        to={PATHS.home}
+        end={false}>
         홈
       </NavLink>
       <NavLink
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to={PATHS.booksHome}>
+        to={PATHS.booksHome}
+        end={false}>
         도서
       </NavLink>
       <NavLink
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to={PATHS.productsHome}>
+        to={PATHS.productsHome}
+        end={false}>
         상품
       </NavLink>
       <NavLink
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to={PATHS.loungeHome}>
+        to={PATHS.loungeHome}
+        end={false}>
         라운지
       </NavLink>
       <NavLink 
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
-        to={PATHS.feedHome}>
+        to={PATHS.feed}
+        end={false}>
         피드
       </NavLink>
     </nav>

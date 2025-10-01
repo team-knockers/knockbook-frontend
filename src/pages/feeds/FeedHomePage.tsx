@@ -1,9 +1,9 @@
+import s from './FeedHomePage.module.css';
+
 export default function FeedHomePage() {
   return (
-    <main>
-      <div>
-        <h1>Knockbook FeedHomePage</h1>
-      </div>
-    </main>
+    <div>
+      <span>This is home of Feed page</span>
+    </div>
   );
 }

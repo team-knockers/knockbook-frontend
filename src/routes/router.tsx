@@ -38,6 +38,8 @@ import PolicyPage from "../pages/customer/PolicyPage";
 import QnARegisterPage from "../pages/customer/QnARegisterPage";
 import QnAListPage from "../pages/customer/QnAListPage";
 import QnAPage from "../pages/customer/QnAPage";
+import FeedPage from "../pages/feeds/FeedPage";
+import FeedProfilePage from "../pages/feeds/FeedProfilePage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -127,14 +129,30 @@ export const router = createBrowserRouter([
               } 
             } 
           },
-          { path: PATHS.feedHome,
-            element: <FeedHomePage />,
+          { path: PATHS.feed,
+            element: <FeedPage />,
             handle: { 
               header: { 
                 kind: "main",
                 title: "문앞의책방"
               } 
-            }
+            },
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATHS.feedHome} replace />
+              },
+              {
+                path: PATHS.feedHome,
+                element: <FeedHomePage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: PATHS.feedProfile,
+                element: <FeedProfilePage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+            ]
           },
           { path: PATHS.cart,
             element: <CartPage />,
