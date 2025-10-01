@@ -115,5 +115,5 @@ export function getFaqPage(page = 1, size = 5): FaqList {
   const totalItems = dummy.length;
   const start = (page - 1) * size;
   const content = FAQ_DUMMY.slice(start, start + size);
-  return { content, page, size, totalItems };
+  return { content, size, totalItems };
 }

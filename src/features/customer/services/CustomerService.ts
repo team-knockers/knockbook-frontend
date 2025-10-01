@@ -1,6 +1,6 @@
 import { useSession } from "../../../hooks/useSession";
 import { apiAuthMultipartPath, apiAuthPathAndQuery } from "../../../shared/api";
-import type { CustomerQnaResponse, FaqList, GetQnAListResponse, QnaList } from "../types";
+import type { CustomerQnaResponse, FaqList, GetQnAListResponse } from "../types";
 
 export const CustomerService = {
   async GetFAQlist(
