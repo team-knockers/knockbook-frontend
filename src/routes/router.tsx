@@ -4,6 +4,7 @@ import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
 import { QnAListPageLoader } from "../pages/customer/QnAListPage.loader";
 import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
+import { productDetailLoader } from "../pages/products/ProductDetail.loader";
 import { booksHomeLoader } from "../pages/books/BooksHomePageLoader";
 
 import ResponsiveMainShell from "../components/layout/ResponsiveMainShell";
@@ -108,6 +109,7 @@ export const router = createBrowserRouter([
           },
           { path: PATHS.productDetail,
             element: <ProductDetailPage />,
+            loader: productDetailLoader,
             children: [
               {
                 index: true,
@@ -116,20 +118,38 @@ export const router = createBrowserRouter([
               {
                 path: "description",
                 element: <ProductDetailDescriptionPage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                loader: productDetailLoader,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose", 
+                    back: { type: 'push', to: PATHS.productsHome }, 
+                    close: { type: 'push', to: PATHS.productsHome }
+                  } 
+                } 
               },
               {
                 path: "reviews",
                 element: <ProductDetailReviewsPage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose", 
+                    back: { type: 'push', to: PATHS.productsHome }, 
+                    close: { type: 'push', to: PATHS.productsHome }
+                  } 
+                } 
               },
               {
                 path: "qna",
                 element: <ProductDetailQnaPage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose", 
+                    back: { type: 'push', to: PATHS.productsHome }, 
+                    close: { type: 'push', to: PATHS.productsHome }
+                  } 
+                } 
               },
             ],
-            handle: { header: { kind: "main", title: "문앞의책방" } } 
           },
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,
