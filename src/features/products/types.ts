@@ -18,3 +18,17 @@ export type ProductSummaryList = {
 };
 
 // export type ProductDetail 추후 작성 예정 
+export type ProductDetail = {
+  productId: string;
+  name: string;
+  unitPriceAmount: number;
+  salePriceAmount: number | null;
+  maunfacturerName: string;
+  isImported: string;
+  importCountry: string;
+  averageRating: number;
+  reviewCount: number;
+  stockQty: number;
+  galleryImageUrls: string[];
+  descriptionImageUrls: string[];
+};

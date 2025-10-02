@@ -1,6 +1,7 @@
 import { useSession } from "../../../hooks/useSession";
 import { apiAuthPathAndQuery } from "../../../shared/api";
 import type { ProductSummaryList } from "../types";
+import type { ProductDetail } from "../types";
 
 type GetParams = {
   category: string;
@@ -16,8 +17,7 @@ type GetParams = {
 export const ProductService = {
   async getProductSummaryList(p: GetParams): Promise<ProductSummaryList> {
     const { userId } = useSession.getState();
-    
-    if (!userId) throw new Error("NO_USER");
+    if (!userId) { throw new Error("NO_USER"); }
 
     const q = {
       category: p.category,
@@ -35,6 +35,18 @@ export const ProductService = {
         { userId }, 
         q, 
         { method: "GET" }
+    );
+  },
+
+  async getProductDetail(p: {productId: string}): Promise<ProductDetail> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPathAndQuery<ProductDetail>(
+      "/products/{productId}/{userId}",
+      { productId: p.productId, userId },
+      undefined,
+      { method: "GET" }
     );
   },
 };

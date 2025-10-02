@@ -3,35 +3,48 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { HiStar } from 'react-icons/hi2';
 import ThreeLevelTabMenu from '../../components/navigation/ThreeLevelTabMenu';
+import { useLoaderData, useParams } from "react-router-dom";
 
+// Get server data prepared by the route loader
 export default function ProductDetailPage() {
-  // demo only: replace with API/loader data 
-  const images = [
-    "https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1271/hot1750382587476.png",
-    "https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1731/hot1750382596852.png",
-    "https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1150/hot1750382616799.png",
-    "https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1251/hot1750382625565.png",
-  ]
-
-  // main image index (default : GALLERY first image)
+  const { name, unitPriceAmount, salePriceAmount, averageRating, reviewCount, galleryImageUrls } = useLoaderData() as {
+    name: string;
+    unitPriceAmount: number;
+    salePriceAmount: number | null;
+    averageRating: number;
+    reviewCount: number;
+    galleryImageUrls: string[];
+  };
+  const { productId } = useParams();
+  
+  // Gallery state 
+  const imgs = galleryImageUrls ?? [];
   const [selected, setSelected] = useState(0);
-  const mainSrc = images[selected] ?? '';
+  const mainSrc = imgs[selected] ?? '';
 
-  // main gallery nav 
+  // Gallery navigation  
   const goPrev = () => {
     if (selected > 0){
       setSelected(selected - 1);
     }
   }
   const goNext = () => {
-    if(selected < images.length - 1){
+    if(selected < imgs.length - 1){
       setSelected(selected + 1);
     }
   }
+  
+  // Price helpers 
+  const fmt = (n?: number | null) => n == null ? '-' : n.toLocaleString();
+  const hasSale = salePriceAmount != null && salePriceAmount < unitPriceAmount;
+  const discountRate = hasSale
+    ? Math.round((1 - (salePriceAmount! / unitPriceAmount)) * 100) : 0;
+  
   return (
-    <main className={styles['detail-layout']}>
+    // key(productId): reset internal state when navigating to another product
+    <main key={productId} className={styles['detail-layout']}>
       <section className={styles['detail-top']}>
-        {/* main image */}
+        {/* Main gallery */}
         <div className={styles['gallery']}>
           <button 
             type="button" 
@@ -44,13 +57,13 @@ export default function ProductDetailPage() {
           <img 
             className={styles['gallery-image']} 
             src={mainSrc} 
-            alt="TODO"
+            alt={name}
           />
           <button 
             type="button" 
             className={styles['gallery-nav-next']}
             onClick={goNext}
-            disabled={selected === images.length - 1}
+            disabled={selected === imgs.length - 1}
           >
             &gt;
           </button>
@@ -60,30 +73,40 @@ export default function ProductDetailPage() {
         <aside className={styles['aside']}>
           <div className={styles['info']}>
             <div className={styles['core-info']}>
-              <div className={styles['product-title']}>북메이트 북커버백</div>
+              <div className={styles['product-title']}>{name}</div>
+
+              {/* Pricing */}
               <div className={styles['price-info']}>
-                <div className={styles['unit-price-amount']}>10000원</div>
+                {hasSale && (
+                  <div className={styles['unit-price-amount']}>
+                    {fmt(unitPriceAmount)}원
+                  </div>
+                )}
                 <div>
-                  <span className={styles['discount-rate']}>10%</span>
-                  <span className={styles['discount-amount']}>9000원</span>
+                  {hasSale && <span className={styles['discount-rate']}>{discountRate}%</span>}
+                  <span className={styles['discount-amount']}>
+                    {fmt(hasSale ? salePriceAmount : unitPriceAmount)}원
+                  </span>
                 </div>
               </div>
+
               <div className={styles['shipping-info']}>배송비 4,000원(30,000원이상 무료배송)</div>
             </div>
-
+            
+            {/* Rating */}
             <div className={styles['rating-review']}>
               <HiStar className={styles['star']}/>
-                <span>4.9</span>
+                <span>{averageRating}</span>
                 <span> | </span>
                 <span>리뷰 </span>
-                <span>273</span>
+                <span>{reviewCount}</span>
                 <span>건</span>
             </div>
           </div>
 
           {/* images -> swap main image on click */}
           <div className={styles['galleries']}>
-            {images.map((src, i) => (
+            {imgs.map((src, i) => (
               <button 
                 key={i} 
                 type="button" 
@@ -93,7 +116,7 @@ export default function ProductDetailPage() {
                 <img 
                   className={`${styles['gallery-item']} ${i === selected ? styles['is-active'] : ''}`} 
                   src={src}
-                  alt="TODO"
+                  alt={name}
                 />
               </button>
             ))}
