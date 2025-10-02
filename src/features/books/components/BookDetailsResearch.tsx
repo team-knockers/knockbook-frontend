@@ -42,7 +42,7 @@ export default function BookDetailsResearch({
   const outerRadius = chartWidth * 0.23;
   const innerRadius = outerRadius * 0.5;
 
-  // 안전한 top-N 헬퍼 (없거나 부족하면 가능한 만큼 반환)
+  // Safe top-N helper (returns as many items as available if missing or insufficient)
   const safeTopN = (arr: BookMbtiRate[] | undefined, n = 3) => {
     if (!Array.isArray(arr) || arr.length === 0) return [];
     return arr.slice(0, n);
@@ -50,10 +50,10 @@ export default function BookDetailsResearch({
   
   const top3 = safeTopN(mbtiResearch, 3);
 
-  // 차트에 전달할 데이터: rate가 0보다 큰 항목만 사용
+  // Data passed to the chart: use only items with rate greater than 0
   const filteredData = Array.isArray(mbtiResearch) ? mbtiResearch.filter(item => Number(item.rate) > 0) : [];
 
-  // 설명 텍스트 생성 (안전하게 처리)
+  // Generate description text (handled safely
   const descriptionText = (() => {
     const first = mbtiResearch[0];
     if (!first) return `"리서치 데이터가 없어요"`;
@@ -63,7 +63,7 @@ export default function BookDetailsResearch({
       : `"${first.mbti} 성향의 사람들이 이 책을 가장 선호해요"`;
   })();
   
-  // 1, 2, 3위 결과 출력
+  // Render 1st, 2nd, 3rd rank results
   const renderRankSpan = (item: BookMbtiRate | undefined, rankLabelClass: string, rankLabelText: string) => {
     if (!item) {
       return <span className={styles[rankLabelClass]}>{rankLabelText} 데이터 없음</span>;
