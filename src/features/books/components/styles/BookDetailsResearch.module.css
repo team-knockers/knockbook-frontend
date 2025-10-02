@@ -1,0 +1,183 @@
+.research-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mbti-research {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+}
+
+.research-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.research-result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.research-result-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+}
+
+.research-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #1E1E1E;
+  text-align: center;
+  font-family: Pretendard;
+  font-style: normal;
+}
+
+.top-mbti {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.first-mbti {
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.second-mbti, .third-mbti {
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.research-result-chart {
+  flex: 1 0 0;
+}
+
+.chart-no-data-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+  .mbti-research {
+    width:100%;
+    max-width: 550px;
+    padding: 10px 20px;
+    aspect-ratio: 375/260;
+  }
+
+  .research-title {
+    height: 14%;
+    flex-shrink: 0;
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  .research-result {
+    height: 79%;
+    padding: 0 10px;
+    gap: 30px;
+  }
+
+  .research-result-text {
+    width: 39%;
+    height: 100%;
+  }
+
+  .research-description {
+    font-size: 13px;
+    line-height: 15px;
+  }
+
+  .first-mbti {
+    font-size: 15px;
+    line-height: 130%;
+  }
+
+  .second-mbti, .third-mbti {
+    font-size: 13px;
+    line-height: 130%;
+  }
+
+  .research-result-chart {
+    width: 47%;
+    height: 100%;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .research-container {
+    max-width: 1024px;
+    padding: 30px 100px;
+    flex-direction: column;
+    align-self: stretch;
+  }
+
+  .mbti-research {
+    height: 480px;
+    gap: 7px;
+  }
+
+  .research-title {
+    flex: 1 0 0;
+    font-size: 24px;
+  }
+
+  .research-result {
+    height: 403px;
+    gap: 50px;
+  }
+
+  .research-result-text {
+    flex: 1 0 0;
+  }
+
+  .research-description {
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  .first-mbti {
+    font-size: 24px;
+    line-height: 140%;
+  }
+
+  .second-mbti, .third-mbti {
+    font-size: 20px;
+    line-height: 140%;
+  }
+
+  .research-result-chart {
+    height: 100%;
+  }
+}
