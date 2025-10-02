@@ -1,7 +1,6 @@
 import styles from './BooksDetailsPage.module.css';
 import { Outlet } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
-import { PATHS } from "../../routes/paths";
 import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsSummaryInfo";
 import BookDetailsResearch from "../../features/books/components/BookDetailsResearch";
 import { bookDetailsDummy, mbtiResearchDummy, myMbtiDummy } from '../../features/books/resources/bookDetailsPage.dummy';
@@ -26,8 +25,8 @@ export default function BooksDetailsPage() {
       <TwoLevelTabMenu
         leftTabTitle="상세정보"
         rightTabTitle="리뷰"
-        leftTabPath={PATHS.booksDetailsSub1}
-        rightTabPath={PATHS.booksDetailsSub2}
+        leftTabPath="description"
+        rightTabPath="reviews"
       />
       <Outlet />
     </main>

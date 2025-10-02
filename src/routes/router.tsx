@@ -79,7 +79,8 @@ export const router = createBrowserRouter([
                 element: <BooksDetailsSub1Page />,
                 handle: { 
                   header: { 
-                    kind: "backTitleClos", 
+                    kind: "backTitleClose",
+                    close: { type: 'push', to: PATHS.booksHome }
                   }
                 }
               },
@@ -88,7 +89,8 @@ export const router = createBrowserRouter([
                 element: <BooksDetailsSub2Page />,
                 handle: {
                   header: {
-                    kind: "backTitleClos",
+                    kind: "backTitleClose",
+                    close: { type: 'push', to: PATHS.booksHome }
                   }
                 }
               },
@@ -96,6 +98,7 @@ export const router = createBrowserRouter([
             handle: {
               header: {
                 kind: "backTitleClose",
+                close: { type: 'push', to: PATHS.booksHome }
               }
             }
           },
