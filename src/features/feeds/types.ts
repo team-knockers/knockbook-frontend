@@ -1,1 +1,4 @@
-// Data type definitions in the feeds feature
+export type FeedImages = {
+  id: string;
+  url: string;
+};
