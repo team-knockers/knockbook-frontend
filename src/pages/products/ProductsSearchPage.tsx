@@ -8,8 +8,12 @@ import { useLoaderData, useSearchParams } from "react-router-dom";
 import ProductFilterSidebar from "../../features/products/components/ProductFilterSidebar";
 import Pagination from "../../components/navigation/Pagination";
 import Footer from '../../components/layout/Footer';
+import { useNavigate, generatePath } from 'react-router-dom';
+import { PATHS } from '../../routes/paths';
 
 export default function ProductsSearchPage() {
+  const nav = useNavigate();
+
   // Get server data prepared by the route loader 
   const { products, page, totalItems, totalPages } = useLoaderData() as {
     products: Array<{
@@ -43,12 +47,8 @@ export default function ProductsSearchPage() {
   const handleSearch = (searchKeyword: string) => {
       const kw = searchKeyword.trim();
       const next = new URLSearchParams(sp);
-      if (kw) {
-        next.set("searchKeyword", kw);
-      } else {
-        next.delete("searchKeyword");   
-      }
-
+      if (kw) { next.set("searchKeyword", kw); } 
+      else { next.delete("searchKeyword"); }
       next.delete("page");
       setSp(next);
   }
@@ -61,14 +61,14 @@ export default function ProductsSearchPage() {
   }) => {
     const next = new URLSearchParams(sp);
 
-    if (f.category && f.category !== 'all') next.set('category', f.category);
-    else next.delete('category');
+    if (f.category && f.category !== 'all') { next.set('category', f.category); }
+    else { next.delete('category'); }
 
-    if (f.minPrice != null) next.set('minPrice', String(f.minPrice));
-    else next.delete('minPrice');
+    if (f.minPrice != null) { next.set('minPrice', String(f.minPrice)); }
+    else { next.delete('minPrice'); }
 
-    if (f.maxPrice != null) next.set('maxPrice', String(f.maxPrice));
-    else next.delete('maxPrice');
+    if (f.maxPrice != null) { next.set('maxPrice', String(f.maxPrice)); }
+    else { next.delete('maxPrice'); }
 
     next.delete('page'); // reset page on filter change
     setSp(next); 
@@ -82,53 +82,53 @@ export default function ProductsSearchPage() {
   };
 
   const handleCardClick = (id: string) => {
-    console.log(id);
+    nav(generatePath(PATHS.productDetail, { productId: id }));
   };
 
   return (
     <div className={styles['search-layout']}>
-    <main className={styles['main-layout']}>
-      <SearchBar
-        key={urlKw}
-        defaultValue={urlKw}
-        placeholder='상품명을 입력하세요'
-        onSearch={handleSearch}
-      />
-      <div className={styles['search-content']}>
-        <ProductFilterSidebar 
-          key={sidebarKey}
-          onApply={handleApplyFilters}
-          initialCategory={urlCat}
-          initialMinPrice={urlMinS ?? ''}
-          initialMaxPrice={urlMaxS ?? ''}
-        /> 
-        <div className={styles['results-pane']}>
-          <ProductSummaryList>
-            <ProductSummaryListHeader totalCount={totalItems} />
-            <ProductSummaryListBody>
-              {products.map(p => (
-                <ProductSummaryCard
-                  key={p.productId}
-                  imageSrc={p.thumbnailUrl}
-                  name={p.name}
-                  price={p.unitPriceAmount}
-                  salePrice={p.salePriceAmount ?? undefined}
-                  rating={p.averageRating}
-                  reviewCount={p.reviewCount}
-                  onClick={() => handleCardClick(p.productId)}
-                />
-              ))}
-            </ProductSummaryListBody>  
-          </ProductSummaryList>     
-          <Pagination
-            page={page}  
-            totalPages={totalPages}
-            onChange={goPage}
-          />  
+      <main className={styles['main-layout']}>
+        <SearchBar
+          key={urlKw}
+          defaultValue={urlKw}
+          placeholder='상품명을 입력하세요'
+          onSearch={handleSearch}
+        />
+        <div className={styles['search-content']}>
+          <ProductFilterSidebar 
+            key={sidebarKey}
+            onApply={handleApplyFilters}
+            initialCategory={urlCat}
+            initialMinPrice={urlMinS ?? ''}
+            initialMaxPrice={urlMaxS ?? ''}
+          /> 
+          <div className={styles['results-pane']}>
+            <ProductSummaryList>
+              <ProductSummaryListHeader totalCount={totalItems} />
+              <ProductSummaryListBody>
+                {products.map(p => (
+                  <ProductSummaryCard
+                    key={p.productId}
+                    imageSrc={p.thumbnailUrl}
+                    name={p.name}
+                    price={p.unitPriceAmount}
+                    salePrice={p.salePriceAmount ?? undefined}
+                    rating={p.averageRating}
+                    reviewCount={p.reviewCount}
+                    onClick={() => handleCardClick(p.productId)}
+                  />
+                ))}
+              </ProductSummaryListBody>  
+            </ProductSummaryList>     
+            <Pagination
+              page={page}  
+              totalPages={totalPages}
+              onChange={goPage}
+            />  
+          </div>
         </div>
-      </div>
-    </main>
-    <Footer />
+      </main>
+      <Footer />
     </div>
   );
 }

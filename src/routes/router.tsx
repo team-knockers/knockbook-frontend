@@ -28,6 +28,9 @@ import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
 
+import ProductDetailDescriptionPage from "../pages/products/ProductDetailDescriptionPage";
+import ProductDetailReviewsPage from "../pages/products/ProductDetailReviewsPage";
+import ProductDetailQnaPage from "../pages/products/ProductDetailQnaPage";
 import HomeSub1Page from "../pages/HomeSub1Page";
 import HomeSub2Page from "../pages/HomeSub2Page";
 import HomeSub3Page from "../pages/HomeSub3Page";
@@ -118,8 +121,31 @@ export const router = createBrowserRouter([
               } 
             } 
           },
-          { path: PATHS.productsDetail,
-            element: <ProductDetailPage />},
+          { path: PATHS.productDetail,
+            element: <ProductDetailPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="description" replace />
+              },
+              {
+                path: "description",
+                element: <ProductDetailDescriptionPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: "reviews",
+                element: <ProductDetailReviewsPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: "qna",
+                element: <ProductDetailQnaPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+            ],
+            handle: { header: { kind: "main", title: "문앞의책방" } } 
+          },
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,
             handle: { 

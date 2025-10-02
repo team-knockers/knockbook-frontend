@@ -31,11 +31,11 @@ export default function ProductFilterSidebar({
   const deriveRadio = (minS?: string | number, maxS?: string | number): PriceRadio => {
     const min = (minS === '' || minS == null) ? null : Number(minS);
     const max = (maxS === '' || maxS == null) ? null : Number(maxS);
-    if (min === null && max === null) return '';
-    if (min === null && max !== null && max <= 10000) return 'lt-10000';
-    if (min === 10000 && max === 30000) return '10000-30000';
-    if (min === 30000 && max === 100000) return '30000-100000';
-    if (min === 100000 && max === null) return 'gte-100000';
+    if (min === null && max === null) { return ''; }
+    if (min === null && max !== null && max <= 10000) { return 'lt-10000'; }
+    if (min === 10000 && max === 30000) { return '10000-30000'; }
+    if (min === 30000 && max === 100000) { return '30000-100000'; }
+    if (min === 100000 && max === null) { return 'gte-100000'; }
     return 'custom';
   };
 
