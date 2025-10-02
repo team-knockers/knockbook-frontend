@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import { FiGift, FiHeart } from 'react-icons/fi';
 import Counter from '../../../components/forms/Counter';
-import s from './styles/ProductBottomBar.module.css'
+import s from './styles/ProductOrderBottomBar.module.css'
+import { FaHeart } from 'react-icons/fa';
 
 type ProductBottomBarProps = {
   priceAmount: number;
   onQuantityChange: (quantity: number) => void;
-  onFavoriteButtonClick: () => void;
+  onFavoriteButtonClick: (state: boolean) => void;
   onSendAsGiftButtonClick: () => void;
   onAddToCartButtonClick: () => void;
   onBuyNowButtonClick: () => void;
@@ -19,13 +21,21 @@ export default function ProductBottomBar({
   onAddToCartButtonClick,
   onBuyNowButtonClick
 } : ProductBottomBarProps) {
+
+  const [isFavoriteOn, setIsFavoriteOn] = useState(false);
+  const handleFavoriteClick = () => {
+    const newState = !isFavoriteOn;
+    setIsFavoriteOn(newState);
+    onFavoriteButtonClick(newState);
+  };
+
   return (
     <div className={s['container']}>
       <div className={s['order-summary-panel']}>
         <div className={s['price-wrapper']}>
           <span className={s['price-tag']}>상품 금액</span>
           <span className={s['price-amount']}>
-            <strong>{priceAmount}</strong>원
+            <strong>{priceAmount.toLocaleString("ko-KR")}</strong>원
           </span>
         </div>
         <div className={s['quantity-wrapper']}>
@@ -35,8 +45,10 @@ export default function ProductBottomBar({
       <div className={s['order-action-panel']}>
         <button 
           className={s['favorite-button']}
-          onClick={onFavoriteButtonClick}>
-          <FiHeart size={20}/>
+          onClick={handleFavoriteClick}>
+          {isFavoriteOn ? 
+            <FaHeart size={20} color="red" /> 
+            : <FiHeart size={20} />}
         </button>
         <div className={s['order-action-panel-right']}>
           <button
