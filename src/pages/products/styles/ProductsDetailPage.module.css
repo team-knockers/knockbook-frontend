@@ -85,8 +85,6 @@
   }
   .detail-layout {
     padding-bottom: calc(70px + 90px + env(safe-area-inset-bottom));
-  }
-  .detail-layout {
     display: flex;
     min-width: 375px;
     max-width: 1023.98px;
@@ -159,8 +157,6 @@
   }
   .detail-layout {
     padding-bottom: 90px;
-  }
-  .detail-layout {
     display: flex;
     min-width: 1024px;
     min-height: 768px;
