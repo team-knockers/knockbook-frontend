@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom';
 import { HiStar } from 'react-icons/hi2';
 import ThreeLevelTabMenu from '../../components/navigation/ThreeLevelTabMenu';
 import { useLoaderData, useParams } from "react-router-dom";
+import ProductBottomBar from '../../features/products/components/ProductOrderBottomBar';
+import { toast } from 'react-toastify';
 
 export default function ProductDetailPage() {
   // Get server data prepared by the route loader
@@ -39,10 +41,19 @@ export default function ProductDetailPage() {
   const hasSale = salePriceAmount != null && salePriceAmount < unitPriceAmount;
   const discountRate = hasSale
     ? Math.round((1 - (salePriceAmount! / unitPriceAmount)) * 100) : 0;
+  
   const purchasePriceAmount =
   salePriceAmount != null && salePriceAmount < unitPriceAmount
     ? salePriceAmount
     : unitPriceAmount;
+
+  /* This is a sample code */
+  const qty = (n: number) => toast(`수량: ${n}`);
+  const fav = (isFav?: boolean) => toast(isFav === undefined ? '찜 토글' : (isFav ? '찜 추가' : '찜 해제'));
+  const gift = () => toast('선물하기 클릭');
+  const addToCart = () => toast.success('장바구니 담김');
+  const buyNow = () => toast('바로구매 클릭');
+
   return (
     // key(productId): reset internal state when navigating to another product
     <main key={productId} className={styles['detail-layout']}>
@@ -134,6 +145,16 @@ export default function ProductDetailPage() {
           rightTabPath="qna"
         />
         <Outlet />
+      </section>
+      <section className={styles['bottom-bar-wrap']}>
+        <ProductBottomBar
+          priceAmount={purchasePriceAmount}
+          onQuantityChange={qty}
+          onFavoriteButtonClick={fav}
+          onSendAsGiftButtonClick={gift}
+          onAddToCartButtonClick={addToCart}
+          onBuyNowButtonClick={buyNow} 
+        />
       </section>
     </main>
   );
