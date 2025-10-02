@@ -1,29 +1,16 @@
-import { Outlet } from "react-router-dom";
-import { PATHS } from "../routes/paths";
-
-import TwoLevelTabMenu from "../components/navigation/TwoLevelTabMenu";
-import ThreeLevelTabMenu from "../components/navigation/ThreeLevelTabMenu";
-
+import ProductBottomBar from '../features/products/components/ProductBottomBar';
 import s from './HomePage.module.css';
-
 
 export default function HomePage() {
   return (
-    /* !caution! this is a temporary code for guide */
     <main className={s['home-layout']}>
-      <TwoLevelTabMenu
-        leftTabTitle="상세정보"
-        rightTabTitle="리뷰"
-        leftTabPath={PATHS.homeSub1}
-        rightTabPath={PATHS.homeSub2}/>
-      <ThreeLevelTabMenu
-        leftTabTitle="상품설명"
-        centerTabTitle="리뷰"
-        rightTabTitle="Q&A"
-        leftTabPath={PATHS.homeSub3}
-        centerTabPath={PATHS.homeSub4}
-        rightTabPath={PATHS.homeSub5}/>
-      <Outlet />
+      <ProductBottomBar
+        priceAmount={15000}
+        onQuantityChange={() => {/* TODO */}}
+        onFavoriteButtonClick={() => {/* TODO */}}
+        onSendAsGiftButtonClick={() => {/* TODO */}}
+        onAddToCartButtonClick={() => {/* TODO */}}
+        onBuyNowButtonClick={() => {/* TODO */}} />
     </main>
   );
 }

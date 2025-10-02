@@ -27,15 +27,9 @@ import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
-
 import ProductDetailDescriptionPage from "../pages/products/ProductDetailDescriptionPage";
 import ProductDetailReviewsPage from "../pages/products/ProductDetailReviewsPage";
 import ProductDetailQnaPage from "../pages/products/ProductDetailQnaPage";
-import HomeSub1Page from "../pages/HomeSub1Page";
-import HomeSub2Page from "../pages/HomeSub2Page";
-import HomeSub3Page from "../pages/HomeSub3Page";
-import HomeSub4Page from "../pages/HomeSub4Page";
-import HomeSub5Page from "../pages/HomeSub5Page";
 import FAQPage from "../pages/customer/FAQPage";
 import PolicyPage from "../pages/customer/PolicyPage";
 import QnARegisterPage from "../pages/customer/QnARegisterPage";
@@ -60,39 +54,7 @@ export const router = createBrowserRouter([
         element: <ResponsiveMainShell />,
         children: [
           { path: PATHS.home,
-            /* !caution! this is a temporary code for guide */
             element: <HomePage />,
-            children: [
-              {
-                index: true,
-                element: <Navigate to={PATHS.homeSub1} replace />
-              },
-              {
-                path: PATHS.homeSub1,
-                element: <HomeSub1Page />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
-              },
-              {
-                path: PATHS.homeSub2,
-                element: <HomeSub2Page />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
-              },
-              {
-                path: PATHS.homeSub3,
-                element: <HomeSub3Page />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
-              },
-              {
-                path: PATHS.homeSub4,
-                element: <HomeSub4Page />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
-              },
-              {
-                path: PATHS.homeSub5,
-                element: <HomeSub5Page />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
-              },
-            ],
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksHome,
             loader: booksHomeLoader,
