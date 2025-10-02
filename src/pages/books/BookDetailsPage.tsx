@@ -1,17 +1,21 @@
 import styles from './BookDetailsPage.module.css';
-import { Outlet } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
 import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsSummaryInfo";
 import BookDetailsResearch from "../../features/books/components/BookDetailsResearch";
-import { bookDetailsDummy, mbtiResearchDummy, myMbtiDummy } from '../../features/books/resources/bookDetailsPage.dummy';
+import { mbtiResearchDummy, myMbtiDummy } from '../../features/books/resources/bookDetailsPage.dummy';
+import type { BookDetails } from '../../features/books/types';
 
 // Dummy data for test
-const myMbti = myMbtiDummy;
-const mbtiResearch = mbtiResearchDummy;
-const bookDetails = bookDetailsDummy;
+// const myMbti = myMbtiDummy;
+// const mbtiResearch = mbtiResearchDummy;
+// const bookDetails = bookDetailsDummy;
 
 export default function BookDetailsPage() {
-  
+  const bookDetails = useLoaderData() as BookDetails;
+  const myMbti = myMbtiDummy;
+  const mbtiResearch = mbtiResearchDummy;
+
   return (
     <main className={styles['details-main']}>
       <BookDetailsSummaryInfo 

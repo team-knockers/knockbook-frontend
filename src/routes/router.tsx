@@ -4,7 +4,8 @@ import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
 import { QnAListPageLoader } from "../pages/customer/QnAListPage.loader";
 import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
-import { booksHomeLoader } from "../pages/books/BooksHomePageLoader";
+import { booksHomeLoader } from "../pages/books/BooksHome.loader";
+import { bookDetailsLoader } from "../pages/books/BookDetails.loader";
 
 import ResponsiveMainShell from "../components/layout/ResponsiveMainShell";
 import IntroPage from "../pages/IntroPage";
@@ -68,6 +69,7 @@ export const router = createBrowserRouter([
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { 
             path: PATHS.bookDetails,
+            loader: bookDetailsLoader,
             element: <BookDetailsPage />,
             children: [
               {

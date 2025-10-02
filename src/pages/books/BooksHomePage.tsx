@@ -9,7 +9,7 @@ import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
 import { useState } from "react";
 import { generatePath, useLoaderData, useNavigate } from "react-router-dom";
-import { booksHomeNewReleaseCategories, type BooksHomeLoaderData } from "./BooksHomePageLoader";
+import { booksHomeNewReleaseCategories, type BooksHomeLoaderData } from "./BooksHome.loader";
 import { PATHS } from "../../routes/paths";
 
 export default function BooksHomePage() {
