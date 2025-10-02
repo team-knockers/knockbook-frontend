@@ -121,7 +121,7 @@ export const router = createBrowserRouter([
                 loader: productDetailLoader,
                 handle: { 
                   header: { 
-                    kind: "backTitleClos", 
+                    kind: "backTitleClose", 
                     back: { type: 'push', to: PATHS.productsHome }, 
                     close: { type: 'push', to: PATHS.productsHome }
                   } 
@@ -132,7 +132,7 @@ export const router = createBrowserRouter([
                 element: <ProductDetailReviewsPage />,
                 handle: { 
                   header: { 
-                    kind: "backTitleClos", 
+                    kind: "backTitleClose", 
                     back: { type: 'push', to: PATHS.productsHome }, 
                     close: { type: 'push', to: PATHS.productsHome }
                   } 
@@ -143,7 +143,7 @@ export const router = createBrowserRouter([
                 element: <ProductDetailQnaPage />,
                 handle: { 
                   header: { 
-                    kind: "backTitleClos", 
+                    kind: "backTitleClose", 
                     back: { type: 'push', to: PATHS.productsHome }, 
                     close: { type: 'push', to: PATHS.productsHome }
                   } 
