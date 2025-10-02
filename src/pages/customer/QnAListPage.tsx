@@ -7,9 +7,7 @@ import SimplePagination from '../../components/navigation/SimplePagination';
 export default function QnAListPage() {
 
   const { content, size, totalItems } = useLoaderData() as QnaList;
-  console.log(totalItems);
   const [, setSerchParam] = useSearchParams();
-
   const toDate = (value: string) => new Date(value).toLocaleString();
 
   return (

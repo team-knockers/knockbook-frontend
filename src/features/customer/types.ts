@@ -59,3 +59,36 @@ export type CustomerQnaResponse ={
   createdAt: string;          // ISO 8601 string
   files: CustomerQnaFileResponse[];
 }
+
+export type Notification = {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+}
+
+export type NotificationList = {
+  content: Notification[];
+  size: number;
+  totalItems: number;
+}
+
+export type GetNotificationListResponse = {
+  notifications: Notification[];
+  totalCounts: number;
+}
+
+export type PolicyClause = {
+  id: string;
+  title: string;
+  body: string[];
+};
+
+export type PolicyDoc = {
+  serviceName: string;
+  locale: "ko-KR";
+  version: string;
+  updatedAt: string;
+  clauses: PolicyClause[];
+};
+

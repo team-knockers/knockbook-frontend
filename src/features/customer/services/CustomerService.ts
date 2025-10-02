@@ -1,6 +1,11 @@
 import { useSession } from "../../../hooks/useSession";
 import { apiAuthMultipartPath, apiAuthPathAndQuery } from "../../../shared/api";
-import type { CustomerQnaResponse, FaqList, GetQnAListResponse } from "../types";
+import type { 
+  CustomerQnaResponse, 
+  FaqList, 
+  GetNotificationListResponse, 
+  GetQnAListResponse 
+} from "../types";
 
 export const CustomerService = {
   async GetFAQlist(
@@ -42,6 +47,19 @@ export const CustomerService = {
       if (!userId) { throw new Error("NO_USER") }
       return apiAuthPathAndQuery<GetQnAListResponse>(
         "/customers/{userId}/qna",
+        { userId },
+        { page, size },
+        { method: "GET" }
+      );
+  },
+
+  async GetNotificationList(
+    page: number,
+    size: number) {
+      const { userId } = useSession.getState();
+      if (!userId) { throw new Error("NO_USER") }
+      return apiAuthPathAndQuery<GetNotificationListResponse>(
+        "/customers/{userId}/notification",
         { userId },
         { page, size },
         { method: "GET" }
