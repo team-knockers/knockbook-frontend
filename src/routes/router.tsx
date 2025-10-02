@@ -66,25 +66,38 @@ export const router = createBrowserRouter([
           { path: PATHS.booksSearch,
             element: <BooksSearchPage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
-          { path: PATHS.booksDetails,
+          { 
+            path: PATHS.booksDetails,
             element: <BooksDetailsPage />,
             children: [
               {
                 index: true,
-                element: <Navigate to={PATHS.booksDetailsSub1} replace />
+                element: <Navigate to="description" replace />
               },
               {
-                path: PATHS.booksDetailsSub1,
+                path: "description",
                 element: <BooksDetailsSub1Page />,
-                handle: { header: { kind: "backTitleClos", back: { type: 'push', to: PATHS.booksHome }, close: { type: 'push', to: PATHS.booksHome }} }
+                handle: { 
+                  header: { 
+                    kind: "backTitleClos", 
+                  }
+                }
               },
               {
-                path: PATHS.booksDetailsSub2,
+                path: "reviews",
                 element: <BooksDetailsSub2Page />,
-                handle: { header: { kind: "backTitleClos" } }
+                handle: {
+                  header: {
+                    kind: "backTitleClos",
+                  }
+                }
               },
             ],
-            handle: { header: { kind: "backTitleClose" } }
+            handle: {
+              header: {
+                kind: "backTitleClose",
+              }
+            }
           },
           { path: PATHS.productsHome,
             element: <ProductsHomePage />,
