@@ -1,0 +1,559 @@
+.details-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 0.5px solid #C8C8C8;
+}
+
+.award {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  align-self: stretch;
+}
+
+.award-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.award-sub {
+  color: #2C3E50;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.award-ranks {
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.award-rank-highlight {
+  font-weight: 600;
+}
+
+.book-summary-info-container {
+  display: flex;
+  align-items: center;
+}
+
+.book-cover-image {
+  border-radius: 4px;
+}
+
+.book-meta-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.meta-title {
+  align-self: stretch;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.meta-author {
+  align-self: stretch;
+  color: #1E1E1E;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.meta-publisher {
+  align-self: stretch;
+  color: #706D6D;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 300;
+}
+
+.preference-summary {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #D3D3D3;
+  background: #ECF0EE;
+}
+
+.star-rate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 0;
+  border-right: 0.5px solid #BCBCBC;
+}
+
+.star-score {
+  align-self: stretch;
+  color: #000;
+  text-align: center;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+}
+
+.review-count {
+  align-self: stretch;
+  color: #706D6D;
+  text-align: center;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.mbti-type {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #1E1E1E;
+  text-align: center;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 9px;
+}
+
+.top-mbti {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 0;
+}
+
+.mbti-percent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #706D6D;
+  text-align: center;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.price-buy-discount {
+  display: inline-flex;
+  align-items: center; 
+}
+.discount-rate {
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 700;
+  color: #f73936;
+}
+.original-price {
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 400;
+  color: #6E6E6E;
+  text-decoration: line-through;
+}
+
+.price-buy {
+  display: flex;
+  height: 26px;
+  padding: 0 3px 11px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-bottom: 0.5px solid #706D6D;
+}
+
+.price-rent {
+  display: flex;
+  height: 35px;
+  padding: 4px 3px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-bottom: 0.5px solid #706D6D;
+}
+
+.price-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price-box-title {
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.price-box-contents-container {
+  display:flex;
+  align-items: center;
+}
+
+.price-box-contents {
+  text-align: center;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.price-box-unit {
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.point-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.point-box-title {
+  color: #706D6D;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.point-box-contents{
+  color: #176840;
+  text-align: right;
+  font-family: Pretendard;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+  .details-root {
+    min-width: 375px;
+    max-width: 1023px;
+    min-height: 265.269px;
+    max-height: 723.654px;
+    padding: 20px;
+    margin: 0 auto;
+    align-self: stretch;
+  }
+  .award-sub {
+    font-size: 12px;;
+  }
+
+  .award-ranks {
+    font-size: 12px;
+  }
+
+  .award-rank-main {
+    margin-right: 5px;
+  }
+
+  .book-summary-info-container {
+    min-height: 179px;
+    max-height: 450px;
+    justify-content: center;
+    gap: 25px;
+    align-self: stretch;
+    aspect-ratio: 335/220;
+  }
+
+  .book-cover-image {
+    width: auto;
+    height: 100%;
+    max-width: 308px;
+    align-self: stretch;
+    border-radius: 4px;
+  }
+
+  .book-meta-info {
+    gap: 10px;
+    flex: 1 0 0;
+  }
+
+  .book-meta {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .meta-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .meta-author {
+    font-size: 13px;
+    line-height: 19px;
+  }
+
+  .meta-publisher {
+    font-size: 13px;
+    line-height: 19px;
+  }
+
+  .preference-summary {
+    min-height: 50px;
+    max-height: 50px;
+    align-self: stretch;
+    padding: 6px 2px;
+  }
+
+  .star-rate {
+    justify-content: space-between;
+  }
+
+  .star-score {
+    font-size: 14px;
+    line-height: 14px;
+  }
+
+  .star-rating {
+    font-size: 12px;
+    line-height: 12px;
+    margin-bottom: 2px;
+  }
+
+  .review-count {
+    font-size: 10px;
+    line-height: 12px;
+    }
+
+  .top-mbti {
+    height: 36px;
+  }
+
+  .mbti-type {
+    font-size: 14px;
+  }
+
+  .mbti-percent {
+    font-size: 10px;
+  }
+
+  .price {
+    align-self: stretch;
+  }
+
+  .price-buy-discount {
+    height: 12px;
+    margin-left: 38px;
+  }
+  .discount-rate {
+    line-height: 11px;
+    font-size: 10px;
+  }
+  .original-price {
+    line-height: 11px;
+    font-size: 9px;
+    margin-left: 2px;
+  }
+
+  .price-box {
+    width: 85px;
+  }
+
+  .price-box-title {
+    font-size: 13px;
+  }
+
+  .price-box-contents {
+    font-size: 13px;
+  }
+
+  .price-box-unit {
+    font-size: 12px;
+  }
+
+  .point-box {
+    width: 50px;
+  }
+
+  .point-box-title {
+    font-size: 11px;
+  }
+
+  .point-box-contents {
+    font-size: 11px;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .details-root {
+    width: 1024px;
+    min-width: 1024px;
+    max-width: 1024px;
+    padding: 50px;
+  }
+
+  .award-sub {
+    font-size: 15px;
+  }
+
+  .award-ranks {
+    font-size: 14px;
+  }
+
+  .award-rank-main {
+    margin-right: 8px;
+  }
+
+  .book-summary-info-container {
+    justify-content: space-between;
+    align-self: stretch;
+  }
+
+  .book-cover-image {
+    width: 308px;
+    height:auto;
+    object-fit: contain;
+  }
+
+  .book-meta-info {
+    width: 510px;
+    gap: 30px;
+  }
+
+  .book-meta {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .meta-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .meta-author {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .meta-publisher {
+    font-size: 15px;
+  }
+
+  .preference-summary {
+    width: 100%;
+    padding: 7px 10px;
+  }
+
+  .star-rate {
+    gap: 3px;
+    align-self: stretch;
+  }
+
+  .star-score {
+    font-size: 15px;
+  }
+
+  .star-rating {
+    font-size: 15px;
+    line-height: normal;
+  }
+
+  .review-count {
+    font-size: 13px;;
+    }
+
+  .top-mbti {
+    align-self: stretch;
+  }
+
+  .mbti-type {
+    font-size: 15px;
+  }
+
+  .mbti-percent {
+    font-size: 13px;
+  }
+
+  .price {
+    width: 509.9px;
+  }
+
+  .price-buy-discount {
+    height: 14px;
+    margin-left: 48px;
+  }
+
+  .discount-rate {
+    line-height: 14px;
+    font-size: 13px;
+  }
+
+  .original-price {
+    line-height: 13px;
+    font-size: 12px;
+    margin-left: 2px;
+  }
+  
+  .price-box {
+    width: 100px;
+  }
+
+  .price-box-title {
+    font-size: 15px;
+  }
+
+  .price-box-contents {
+    font-size: 14px;
+  }
+
+  .price-box-unit {
+    font-size: 14px;
+  }
+
+  .point-box {
+    width: 70px;
+  }
+
+  .point-box-title {
+    font-size: 14px;
+  }
+
+  .point-box-contents{
+    font-size: 14px;
+  }
+}

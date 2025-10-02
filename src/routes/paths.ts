@@ -15,6 +15,9 @@ export const PATHS = {
   /* books */
   booksHome: "/books",
   booksSearch: "/books/search",
+  booksDetails: "/books/details",
+  booksDetailsSub1: "/books/details/sub1",
+  booksDetailsSub2: "/books/details/sub2",
 
   /* products */
   productsHome: "/products",

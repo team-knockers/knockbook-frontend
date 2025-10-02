@@ -121,3 +121,8 @@ export const sortOptions = [
   { value: 'rentals', label: '대여순', order: 'desc' },
   { value: 'price', label: '가격순', order: 'asc' }
 ] as const;
+
+export type BookMbtiRate = {
+  mbti: string;
+  rate: number;
+}

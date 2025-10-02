@@ -17,6 +17,9 @@ import SignupDisplayNamePage from "../pages/onboarding/SignupDisplayNamePage";
 import HomePage from "../pages/HomePage";
 import BooksHomePage from "../pages/books/BooksHomePage";
 import BooksSearchPage from "../pages/books/BooksSearchPage";
+import BooksDetailsPage from "../pages/books/BooksDetailsPage";
+import BooksDetailsSub1Page from "../pages/books/BooksDetailsSub1Page";
+import BooksDetailsSub2Page from "../pages/books/BooksDetailsSub2Page";
 import ProductsHomePage from "../pages/products/ProductsHomePage";
 import ProductsSearchPage from "../pages/products/ProductsSearchPage";
 import ProductDetailPage from "../pages/products/ProductDetailPage";
@@ -63,6 +66,26 @@ export const router = createBrowserRouter([
           { path: PATHS.booksSearch,
             element: <BooksSearchPage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
+          { path: PATHS.booksDetails,
+            element: <BooksDetailsPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATHS.booksDetailsSub1} replace />
+              },
+              {
+                path: PATHS.booksDetailsSub1,
+                element: <BooksDetailsSub1Page />,
+                handle: { header: { kind: "backTitleClos", back: { type: 'push', to: PATHS.booksHome }, close: { type: 'push', to: PATHS.booksHome }} }
+              },
+              {
+                path: PATHS.booksDetailsSub2,
+                element: <BooksDetailsSub2Page />,
+                handle: { header: { kind: "backTitleClos" } }
+              },
+            ],
+            handle: { header: { kind: "backTitleClose" } }
+          },
           { path: PATHS.productsHome,
             element: <ProductsHomePage />,
             loader: productSummaryListLoader,
