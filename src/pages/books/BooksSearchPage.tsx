@@ -120,7 +120,7 @@ export default function BooksSearchPage() {
     setQuery(q => q.set('page', String(nextPage)));
   };
   const handleBookItemClick = (id: string) => {
-    navigate(generatePath(PATHS.booksDetails, { bookId: id }));
+    navigate(generatePath(PATHS.bookDetails, { bookId: id }));
   };
 
   // Sync searchState with URL changes

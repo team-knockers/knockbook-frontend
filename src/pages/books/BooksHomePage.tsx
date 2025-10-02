@@ -34,7 +34,7 @@ export default function BooksHomePage() {
   };
 
   const handleBookItemClick = (id: string) => {
-    navigate(generatePath(PATHS.booksDetails, { bookId: id }));
+    navigate(generatePath(PATHS.bookDetails, { bookId: id }));
   };
 
   // Dummy data for Banners

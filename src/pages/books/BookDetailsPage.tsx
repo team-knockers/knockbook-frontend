@@ -1,4 +1,4 @@
-import styles from './BooksDetailsPage.module.css';
+import styles from './BookDetailsPage.module.css';
 import { Outlet } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
 import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsSummaryInfo";
@@ -10,7 +10,7 @@ const myMbti = myMbtiDummy;
 const mbtiResearch = mbtiResearchDummy;
 const bookDetails = bookDetailsDummy;
 
-export default function BooksDetailsPage() {
+export default function BookDetailsPage() {
   
   return (
     <main className={styles['details-main']}>

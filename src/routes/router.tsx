@@ -17,9 +17,9 @@ import SignupDisplayNamePage from "../pages/onboarding/SignupDisplayNamePage";
 import HomePage from "../pages/HomePage";
 import BooksHomePage from "../pages/books/BooksHomePage";
 import BooksSearchPage from "../pages/books/BooksSearchPage";
-import BooksDetailsPage from "../pages/books/BooksDetailsPage";
-import BooksDetailsSub1Page from "../pages/books/BooksDetailsSub1Page";
-import BooksDetailsSub2Page from "../pages/books/BooksDetailsSub2Page";
+import BookDetailsPage from "../pages/books/BookDetailsPage";
+import BookDetailsDescriptionPage from "../pages/books/BookDetailsDescriptionPage";
+import BookDetailsReviewsPage from "../pages/books/BookDetailsReviewsPage";
 import ProductsHomePage from "../pages/products/ProductsHomePage";
 import ProductsSearchPage from "../pages/products/ProductsSearchPage";
 import ProductDetailPage from "../pages/products/ProductDetailPage";
@@ -67,8 +67,8 @@ export const router = createBrowserRouter([
             element: <BooksSearchPage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { 
-            path: PATHS.booksDetails,
-            element: <BooksDetailsPage />,
+            path: PATHS.bookDetails,
+            element: <BookDetailsPage />,
             children: [
               {
                 index: true,
@@ -76,7 +76,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: "description",
-                element: <BooksDetailsSub1Page />,
+                element: <BookDetailsDescriptionPage />,
                 handle: { 
                   header: { 
                     kind: "backTitleClose",
@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: "reviews",
-                element: <BooksDetailsSub2Page />,
+                element: <BookDetailsReviewsPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
