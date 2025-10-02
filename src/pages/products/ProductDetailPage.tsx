@@ -5,8 +5,8 @@ import { HiStar } from 'react-icons/hi2';
 import ThreeLevelTabMenu from '../../components/navigation/ThreeLevelTabMenu';
 import { useLoaderData, useParams } from "react-router-dom";
 
-// Get server data prepared by the route loader
 export default function ProductDetailPage() {
+  // Get server data prepared by the route loader
   const { name, unitPriceAmount, salePriceAmount, averageRating, reviewCount, galleryImageUrls } = useLoaderData() as {
     name: string;
     unitPriceAmount: number;
