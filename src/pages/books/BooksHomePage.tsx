@@ -10,6 +10,7 @@ import BooksCategoryPopup from "../../features/books/components/BooksCategoryPop
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { booksHomeNewReleaseCategories, type BooksHomeLoaderData } from "./BooksHomePageLoader";
+import { PATHS } from "../../routes/paths";
 
 export default function BooksHomePage() {
   const navigate = useNavigate();
@@ -79,7 +80,10 @@ export default function BooksHomePage() {
             />
             <BestSellerSection
               top3Books={top3BestSellers}
-              onFirstBookClicked={() => console.log('1위 도서 클릭')}
+              onFirstBookClicked={() => {
+                navigate(PATHS.booksDetails);
+                console.log('1위 도서 클릭');
+              }}
               onSecondBookClicked={() => console.log('2위 도서 클릭')}
               onThirdBookClicked={() => console.log('3위 도서 클릭')}
             />
