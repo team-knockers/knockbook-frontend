@@ -17,7 +17,6 @@ export type ProductSummaryList = {
   totalPages: number;
 };
 
-// export type ProductDetail 추후 작성 예정 
 export type ProductDetail = {
   productId: string;
   name: string;
