@@ -19,7 +19,7 @@ export const PATHS = {
   /* products */
   productsHome: "/products",
   productsSearch: "/products/search",
-  productsDetail: "/products/:productId",
+  productDetail: "/products/:productId",
 
   /* lounge */
   loungeHome: "/lounge",

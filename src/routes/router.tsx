@@ -27,7 +27,9 @@ import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
-
+import ProductDetailDescriptionPage from "../pages/products/ProductDetailDescriptionPage";
+import ProductDetailReviewsPage from "../pages/products/ProductDetailReviewsPage";
+import ProductDetailQnaPage from "../pages/products/ProductDetailQnaPage";
 import FAQPage from "../pages/customer/FAQPage";
 import PolicyPage from "../pages/customer/PolicyPage";
 import QnARegisterPage from "../pages/customer/QnARegisterPage";
@@ -81,8 +83,31 @@ export const router = createBrowserRouter([
               } 
             } 
           },
-          { path: PATHS.productsDetail,
-            element: <ProductDetailPage />},
+          { path: PATHS.productDetail,
+            element: <ProductDetailPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="description" replace />
+              },
+              {
+                path: "description",
+                element: <ProductDetailDescriptionPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: "reviews",
+                element: <ProductDetailReviewsPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: "qna",
+                element: <ProductDetailQnaPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+            ],
+            handle: { header: { kind: "main", title: "문앞의책방" } } 
+          },
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,
             handle: { 
