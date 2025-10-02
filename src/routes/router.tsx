@@ -6,6 +6,8 @@ import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
 import { productDetailLoader } from "../pages/products/ProductDetail.loader";
 import { booksHomeLoader } from "../pages/books/BooksHomePageLoader";
+import { NotificationPageLoader } from "../pages/customer/NotificationPage.loader";
+import { policyLoader } from "../pages/customer/PolicyPage.loader";
 
 import ResponsiveMainShell from "../components/layout/ResponsiveMainShell";
 import IntroPage from "../pages/IntroPage";
@@ -258,18 +260,33 @@ export const router = createBrowserRouter([
               {
                 path: PATHS.registerQnA,
                 element: <QnARegisterPage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "고객센터",
+                    back: { type: 'push', to:PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.home }
+                  }     
+                }
               },
               {
                 path: PATHS.listQnA,
                 loader: QnAListPageLoader,
                 element: <QnAListPage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "고객센터",
+                    back: { type: 'push', to:PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.home }
+                  }     
+                }
               },
             ]
           },
           {
             path: PATHS.notification,
+            loader: NotificationPageLoader,
             element: <NotificationPage />,
             handle: {
               header: {
@@ -282,6 +299,7 @@ export const router = createBrowserRouter([
           },
           {
             path: PATHS.poicy,
+            loader: policyLoader,
             element: <PolicyPage />,
             handle: {
               header: {
