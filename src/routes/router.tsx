@@ -119,20 +119,37 @@ export const router = createBrowserRouter([
                 path: "description",
                 element: <ProductDetailDescriptionPage />,
                 loader: productDetailLoader,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                handle: { 
+                  header: { 
+                    kind: "backTitleClos", 
+                    back: { type: 'push', to: PATHS.productsHome }, 
+                    close: { type: 'push', to: PATHS.productsHome }
+                  } 
+                } 
               },
               {
                 path: "reviews",
                 element: <ProductDetailReviewsPage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                handle: { 
+                  header: { 
+                    kind: "backTitleClos", 
+                    back: { type: 'push', to: PATHS.productsHome }, 
+                    close: { type: 'push', to: PATHS.productsHome }
+                  } 
+                } 
               },
               {
                 path: "qna",
                 element: <ProductDetailQnaPage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                handle: { 
+                  header: { 
+                    kind: "backTitleClos", 
+                    back: { type: 'push', to: PATHS.productsHome }, 
+                    close: { type: 'push', to: PATHS.productsHome }
+                  } 
+                } 
               },
             ],
-            handle: { header: { kind: "main", title: "문앞의책방" } } 
           },
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,

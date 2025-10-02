@@ -39,7 +39,10 @@ export default function ProductDetailPage() {
   const hasSale = salePriceAmount != null && salePriceAmount < unitPriceAmount;
   const discountRate = hasSale
     ? Math.round((1 - (salePriceAmount! / unitPriceAmount)) * 100) : 0;
-  
+  const purchasePriceAmount =
+  salePriceAmount != null && salePriceAmount < unitPriceAmount
+    ? salePriceAmount
+    : unitPriceAmount;
   return (
     // key(productId): reset internal state when navigating to another product
     <main key={productId} className={styles['detail-layout']}>
@@ -78,15 +81,11 @@ export default function ProductDetailPage() {
               {/* Pricing */}
               <div className={styles['price-info']}>
                 {hasSale && (
-                  <div className={styles['unit-price-amount']}>
-                    {fmt(unitPriceAmount)}원
-                  </div>
+                  <div className={styles['unit-price-amount']}>{fmt(unitPriceAmount)}원</div>
                 )}
                 <div>
                   {hasSale && <span className={styles['discount-rate']}>{discountRate}%</span>}
-                  <span className={styles['discount-amount']}>
-                    {fmt(hasSale ? salePriceAmount : unitPriceAmount)}원
-                  </span>
+                  <span className={styles['discount-amount']}>{fmt(purchasePriceAmount)}원</span>
                 </div>
               </div>
 
