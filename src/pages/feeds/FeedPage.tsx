@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
+import Footer from '../../components/layout/Footer';
 
 import TwoLevelTabMenu from '../../components/navigation/TwoLevelTabMenu';
 
@@ -16,6 +17,7 @@ export default function FeedPage() {
           rightTabPath={PATHS.feedProfile}/>
         <Outlet />
       </div>
+      <Footer />
     </main>
   );
 }

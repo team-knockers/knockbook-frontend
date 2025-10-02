@@ -5,9 +5,10 @@ import { useState } from "react";
 import OneWayButton from "../../../components/forms/OneWayButton";
 import FeedImageSlider from "./FeedImageSlider";
 import type { FeedImages } from "../types";
+import DefaultProfile from "../../../assets/feed_profile.jpg"
 
 type FeedCardProps = {
-  profileImage: string; // Profile image URL
+  profileImage?: string | null; // Profile image URL
   username: string; // User name
   timeAgo: string; // Upload time
   postImage: FeedImages[]; // Feed image URLs
@@ -45,13 +46,15 @@ export default function FeedCard({
     });
   };
 
+  const profileImgSrc = profileImage && profileImage.trim() !== '' ? profileImage : DefaultProfile;
+
   return (
     <div className={styles['feed-card']}>
       <div className={styles['feed-card-content']}>
         <div className={styles['feed-card-header']}>
           <img 
             className={styles['profile-image']}
-            src={profileImage} 
+            src={profileImgSrc} 
             alt={`${username}님의 프로필 사진`} />
           <div className={styles['user-info']}>
             <span className={styles['user-name']}>{username}</span>
