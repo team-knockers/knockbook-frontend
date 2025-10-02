@@ -1,9 +1,9 @@
 import OneWayButton from '../../../components/forms/OneWayButton';
 import styles from './styles/BookListItem.module.css';
-import { IoMdStar, IoMdStarHalf, IoMdStarOutline, IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
+import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 import { IoCartOutline } from "react-icons/io5";
 import { useState } from 'react';
-import { calculateBookDiscountRate } from '../util';
+import { calculateBookDiscountRate, formatDateToDot, renderStars } from '../util';
 
 type BookListItemProps = {
   imageUrl: string;
@@ -17,34 +17,6 @@ type BookListItemProps = {
   discountedPurchaseAmount: number;
   onImageOrTitleClicked: () => void;
 };
-
-/* Change localDate form "2022-05-20" → "2022.05.20" */
-const formatDateToDot = (dateString: string): string => {
-  const [year, month, day] = dateString.split('-');
-  return `${year}.${month}.${day}`;
-};
-
-/* Convert rating to stars */
-function renderStars(rating: number) {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating - fullStars >= 0.5;
-  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-  const stars = [];
-
-  for (let i = 0; i < fullStars; i++) {
-    stars.push(<IoMdStar key={`full-${i}`} />);
-  }
-
-  if (hasHalfStar) {
-    stars.push(<IoMdStarHalf key="half" />);
-  }
-
-  for (let i = 0; i < emptyStars; i++) {
-    stars.push(<IoMdStarOutline key={`empty-${i}`} />);
-  }
-
-  return stars;
-}
 
 export default function BookListItem({
   imageUrl,

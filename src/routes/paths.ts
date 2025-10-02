@@ -11,15 +11,13 @@ export const PATHS = {
 
   /* home */
   home: "/home",
-  homeSub1: "/home/sub1", /* !caution! this is a temporary code for guide */
-  homeSub2: "/home/sub2", /* !caution! this is a temporary code for guide */
-  homeSub3: "/home/sub3", /* !caution! this is a temporary code for guide */
-  homeSub4: "/home/sub4", /* !caution! this is a temporary code for guide */
-  homeSub5: "/home/sub5", /* !caution! this is a temporary code for guide */
 
   /* books */
   booksHome: "/books",
   booksSearch: "/books/search",
+  booksDetails: "/books/details",
+  booksDetailsSub1: "/books/details/sub1",
+  booksDetailsSub2: "/books/details/sub2",
 
   /* products */
   productsHome: "/products",
