@@ -6,15 +6,15 @@ export function calculateBookDiscountRate(discountedPurchaseAmount: number, purc
   return Math.round((purchaseAmount - discountedPurchaseAmount) / purchaseAmount * 100);
 }
 
+/* Purchase points: 1% accrual, round down to the nearest whole point */
 export function calculateBookPurchasePoint(discountedPurchaseAmount: number) {
   const amount = Number(discountedPurchaseAmount) || 0;
-  // 구매 포인트 1% 적립, 정수 포인트로 내림 처리
   return Math.floor(amount * 0.01);
 }
 
+/* Rental points: 2% accrual, round down to the nearest whole point */
 export function calculateBookRentalPoint(rentalAmount: number) {
   const amount = Number(rentalAmount) || 0;
-  // 대여 포인트 2% 적립, 정수 포인트로 내림 처리
   return Math.floor(amount * 0.02);
 }
 
