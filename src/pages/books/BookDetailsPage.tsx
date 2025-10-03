@@ -43,8 +43,7 @@ export default function BookDetailsPage() {
         />
         <Outlet />
       </main>
-      
-      <section className={styles['bottom-bar-wrap']}>
+      <footer className={styles['bottom-bar-wrap']}>
         <BookOrderBottomBar
           rentalPriceAmount={bookDetails.rentalAmount}
           purchasePriceAmount={bookDetails.discountedPurchaseAmount}
@@ -55,7 +54,7 @@ export default function BookDetailsPage() {
           onAddToCartButtonClick={addToCart}
           onBuyNowButtonClick={buyNow} 
         />
-      </section>
+      </footer>
     </>
   );
 }
