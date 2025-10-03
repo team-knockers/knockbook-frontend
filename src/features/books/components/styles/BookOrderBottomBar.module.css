@@ -1,10 +1,12 @@
 .container {
   width: 100%;
+  min-width: 375px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
 }
 
 .order-summary-panel {
@@ -19,29 +21,23 @@
 
 .price-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
-.price-tag {
-  /* layout */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* typography */
-  text-align: center;
+.price-sub-tag {
   font-family: Pretendard;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
+  line-height: 100%; /* 15px */
   letter-spacing: -0.45px;
 }
 
 .price-amount {
   font-family: Pretendard;
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
   letter-spacing: -0.2px;
@@ -63,6 +59,7 @@
 
 .order-action-panel {
   width: 100%;
+  min-width: 375px;
   height: 60px;
   display: flex;
   padding: 10px;
@@ -72,7 +69,7 @@
 
 .order-action-panel-right {
   display: flex;
-  width: 280px;
+  width: 310px;
   align-items: center;
   gap: 5px;
   flex-shrink: 0;
@@ -97,7 +94,7 @@
 .send-as-gift-button {
   /* layout */
   display: flex;
-  padding: 0 7px;
+  padding: 0 8px;
   justify-content: space-around;
   align-items: center;
   flex: 1 0 0;
@@ -108,6 +105,29 @@
   height: 40px;
 
   /* typography */
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.42px;
+}
+
+.rent-button {
+    /* layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 0.5px solid #706D6D;
+  background: #FFF;
+  height: 40px;
+
+  /* typography */
+  color: #000;
   text-align: center;
   font-family: Pretendard;
   font-size: 14px;
@@ -161,36 +181,26 @@
   letter-spacing: -0.42px;
 }
 
-.favorite-button:hover {
-  background: #dadada;
-}
-
-.send-as-gift-button:hover {
+.favorite-button:hover,
+.send-as-gift-button:hover,
+.buy-now-button:hover,
+.rent-button:hover
+ {
   background: #dadada;
 }
 
 .add-to-cart-button:hover {
-  background: #182835;
+  background: #3b4d5f;
 }
 
-.buy-now-button:hover {
-  background: #dadada;
-}
-
-.favorite-button:is(:hover, :focus, :active, :focus-visible) {
-  border-color: #706D6D !important;
-}
-
-.send-as-gift-button:is(:hover, :focus, :active, :focus-visible) {
-  border-color: #706D6D !important;
-}
-
+.favorite-button:is(:hover, :focus, :active, :focus-visible),
+.send-as-gift-button:is(:hover, :focus, :active, :focus-visible),
 .add-to-cart-button:is(:hover, :focus, :active, :focus-visible) {
-  border-color: #D7D2CB !important;
+  border-color: #706D6D !important;
 }
 
 .buy-now-button:is(:hover, :focus, :active, :focus-visible) {
-  border-color: #2C3E50 !important;
+  border-color: #3b4d5f !important;
 }
 
 @media (min-width: 1024px) {
@@ -199,6 +209,10 @@
   }
 
   .order-action-panel {
-    width: 375px;
+    width: 470px;
+  }
+
+  .order-action-panel-right {
+    width: 400px;
   }
 }
