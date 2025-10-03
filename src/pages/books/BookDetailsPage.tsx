@@ -1,4 +1,4 @@
-import styles from './BookDetailsPage.module.css';
+import styles from './styles/BookDetailsPage.module.css';
 import { Outlet, useLoaderData } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
 import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsSummaryInfo";

@@ -1,5 +1,5 @@
+import styles from './styles/BooksSearchPage.module.css';
 import CategoryFilterSearchBar from "../../features/books/components/CategoryFilterSearchBar";
-import styles from './BooksSearchPage.module.css';
 import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
 import { useEffect, useState } from "react";

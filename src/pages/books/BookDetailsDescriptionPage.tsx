@@ -1,5 +1,5 @@
+import styles from './styles/BookDetailsDescriptionPage.module.css';
 import { useLoaderData } from 'react-router-dom';
-import styles from './BookDetailsDescriptionPage.module.css';
 import type { BookDetails } from '../../features/books/types';
 import { useState } from 'react';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
