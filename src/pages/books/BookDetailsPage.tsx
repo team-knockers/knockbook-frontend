@@ -6,7 +6,7 @@ import BookDetailsResearch from "../../features/books/components/BookDetailsRese
 import { mbtiResearchDummy, myMbtiDummy } from '../../features/books/resources/bookDetailsPage.dummy';
 import type { BookDetails } from '../../features/books/types';
 import BookOrderBottomBar from '../../features/books/components/BookOrderBottomBar';
-import { toast } from 'react-toastify';;
+import { toast, ToastContainer } from 'react-toastify';;
 
 export default function BookDetailsPage() {
   const bookDetails = useLoaderData() as BookDetails;
@@ -23,6 +23,9 @@ export default function BookDetailsPage() {
 
   return (
     <>
+      {/*ToastContainer for Test */}
+      <ToastContainer position="top-center" />
+
       <main className={styles['details-main']}>
         <BookDetailsSummaryInfo 
           bookDetails={bookDetails} 
@@ -40,6 +43,7 @@ export default function BookDetailsPage() {
         />
         <Outlet />
       </main>
+      
       <section className={styles['bottom-bar-wrap']}>
         <BookOrderBottomBar
           rentalPriceAmount={bookDetails.rentalAmount}
