@@ -6,6 +6,13 @@
   .details-main {
     width: 100%;
   } 
+  .bottom-bar-wrap {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(69px + env(safe-area-inset-bottom));
+    z-index: 1001;
+  }
 }
 
 /* Desktop rules (≥ 1024px) */
@@ -16,4 +23,12 @@
     width: 1024px;
     margin:0 auto; 
   } 
+  .bottom-bar-wrap {
+    width:100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1001;        
+  }
 }
