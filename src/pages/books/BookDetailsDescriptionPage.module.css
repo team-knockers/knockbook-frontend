@@ -1,0 +1,142 @@
+.description-main {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+.description-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  align-self: stretch;
+}
+
+.section-title {
+  align-self: stretch;
+  font-family: Pretendard;
+  font-style: normal;
+  line-height: 20px;
+}
+
+.introduction-title {
+  margin-bottom: 8px;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 130%; /* 16.9px */
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.introduction-detail, .table-of-contents, .publisher-review  {
+  color: #595959;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 130%; /* 16.9px */
+  white-space: pre-wrap;
+  word-break: keep-all; 
+}
+
+.description-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.description-text.is-expanded {
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+}
+
+.images-toggle-btn {
+  all: unset; /* Reset default button styles applied by the browser */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: Pretendard;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 140%;
+  color: #706D6D;
+  padding: 4px;
+  gap: 6px;
+}
+
+.info-table {
+  width: 100%;
+  border-top: 0.5px solid #C8C8C8;
+}
+
+.meta-info-title {
+  width: 160px;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 100%; /* 12px */
+  padding: 8px 10px;
+}
+
+.meta-info-detail{
+  font-family: Pretendard;
+  font-stretch:100%;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 12px */
+  padding: 8px 5px;
+}
+
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+  .description-main {
+    padding: 30px 20px;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .meta-info-title {
+    padding: 8px 10px;
+  }
+
+  .meta-info-detail{
+    padding: 8px 5px;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .description-main {
+    max-width: 1024px;
+    padding: 50px 100px;
+    align-items: center;
+    gap: 40px;
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .meta-info-title {
+    padding: 12px 10px;
+  }
+
+  .meta-info-detail{
+    padding: 12px 10px;
+  }
+}

@@ -78,6 +78,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: "description",
+                loader: bookDetailsLoader,
                 element: <BookDetailsDescriptionPage />,
                 handle: { 
                   header: { 
