@@ -168,12 +168,14 @@
   display: inline-flex;
   align-items: center; 
 }
+
 .discount-rate {
   font-family: Pretendard;
   font-style: normal;
   font-weight: 700;
   color: #f73936;
 }
+
 .original-price {
   font-family: Pretendard;
   font-style: normal;
@@ -272,6 +274,7 @@
     margin: 0 auto;
     align-self: stretch;
   }
+
   .award-sub {
     font-size: 12px;;
   }
@@ -376,10 +379,12 @@
     height: 12px;
     margin-left: 38px;
   }
+
   .discount-rate {
     line-height: 11px;
     font-size: 10px;
   }
+
   .original-price {
     line-height: 11px;
     font-size: 9px;

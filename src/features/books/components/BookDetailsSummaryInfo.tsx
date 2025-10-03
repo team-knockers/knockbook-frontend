@@ -19,7 +19,7 @@ export default function BookDetailsSummaryInfo({
   const rentalPoint = calculateBookRentalPoint(bookDetails.rentalAmount);
 
   return (
-    <div className={styles['details-root']}>
+    <section className={styles['details-root']}>
       <div className={styles['award']}>
         <div className={styles['award-title']}>
           <LuAward/>
@@ -100,6 +100,6 @@ export default function BookDetailsSummaryInfo({
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
