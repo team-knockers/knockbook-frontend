@@ -1,12 +1,12 @@
 export const myMbtiDummy = 'ISFP';
 
 export const mbtiResearchDummy = [
-  { mbti: 'ISFP', rate: 43.4 },
-  { mbti: 'INTP', rate: 20.7 },
-  { mbti: 'ENFP', rate: 15.6 },
-  { mbti: 'INFJ', rate: 10.5 },
-  { mbti: 'ESFJ', rate: 5.7 },
-  { mbti: 'ISFJ', rate: 4.1 }
+  { mbti: 'ISFP', percentage: 43.4 },
+  { mbti: 'INTP', percentage: 20.7 },
+  { mbti: 'ENFP', percentage: 15.6 },
+  { mbti: 'INFJ', percentage: 10.5 },
+  { mbti: 'ESFJ', percentage: 5.7 },
+  { mbti: 'ISFJ', percentage: 4.1 }
 ];
 
 export const bookDetailsDummy = {

@@ -1,11 +1,11 @@
-import type {  BookDetails, BookMbtiRate } from '../types';
+import type {  BookDetails, BookMbtiPercentage } from '../types';
 import { calculateBookDiscountRate, calculateBookPurchasePoint, calculateBookRentalPoint, formatDateToKoreanFull, renderStars } from '../util';
 import styles from './styles/BookDetailsSummaryInfo.module.css';
 import { LuAward } from "react-icons/lu";
 
 type BookDetailsSummaryInfoProps = {
   bookDetails: BookDetails;
-  mbtiResearch: BookMbtiRate[];
+  mbtiResearch: BookMbtiPercentage[];
 };
 
 export default function BookDetailsSummaryInfo({
@@ -58,7 +58,7 @@ export default function BookDetailsSummaryInfo({
               {topMbtiInfo ? (
                 <>
                   <div className={styles['mbti-type']}>{topMbtiInfo.mbti}</div>
-                  <div className={styles['mbti-percent']}>{`${Number(topMbtiInfo.rate).toFixed(1)}%의 선택`}</div>
+                  <div className={styles['mbti-percent']}>{`${Number(topMbtiInfo.percentage).toFixed(1)}%의 선택`}</div>
                 </>
               ) : (
                 <div className={styles['mbti-percent']}>mbti 정보 없음</div>

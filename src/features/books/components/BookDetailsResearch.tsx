@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import type { BookMbtiRate } from '../types';
+import type { BookMbtiPercentage } from '../types';
 import BookDetailsResearchChart from './BookDetailsResearchChart';
 import styles from './styles/BookDetailsResearch.module.css';
 import ResearchNoData from '../../../assets/book_research_no_data.png';
 
 type BookDetailsResearchProps = {
   myMbti: string;
-  mbtiResearch: BookMbtiRate[];
+  mbtiResearch: BookMbtiPercentage[];
 };
 
 export default function BookDetailsResearch({
@@ -43,15 +43,15 @@ export default function BookDetailsResearch({
   const innerRadius = outerRadius * 0.5;
 
   // Safe top-N helper (returns as many items as available if missing or insufficient)
-  const safeTopN = (arr: BookMbtiRate[] | undefined, n = 3) => {
+  const safeTopN = (arr: BookMbtiPercentage[] | undefined, n = 3) => {
     if (!Array.isArray(arr) || arr.length === 0) return [];
     return arr.slice(0, n);
   };
   
   const top3 = safeTopN(mbtiResearch, 3);
 
-  // Data passed to the chart: use only items with rate greater than 0
-  const filteredData = Array.isArray(mbtiResearch) ? mbtiResearch.filter(item => Number(item.rate) > 0) : [];
+  // Data passed to the chart: use only items with percentage greater than 0
+  const filteredData = Array.isArray(mbtiResearch) ? mbtiResearch.filter(item => Number(item.percentage) > 0) : [];
 
   // Generate description text (handled safely
   const descriptionText = (() => {
@@ -64,14 +64,14 @@ export default function BookDetailsResearch({
   })();
   
   // Render 1st, 2nd, 3rd rank results
-  const renderRankSpan = (item: BookMbtiRate | undefined, rankLabelClass: string, rankLabelText: string) => {
+  const renderRankSpan = (item: BookMbtiPercentage | undefined, rankLabelClass: string, rankLabelText: string) => {
     if (!item) {
       return <span className={styles[rankLabelClass]}>{rankLabelText} 데이터 없음</span>;
     }
-    const rateText = Number.isFinite(Number(item.rate)) ? `${Number(item.rate).toFixed(1)}%` : '0.0%';
+    const percentageText = Number.isFinite(Number(item.percentage)) ? `${Number(item.percentage).toFixed(1)}%` : '0.0%';
     return (
       <span className={styles[rankLabelClass]}>
-        {rankLabelText} {item.mbti} {rateText}
+        {rankLabelText} {item.mbti} {percentageText}
       </span>
     );
   };

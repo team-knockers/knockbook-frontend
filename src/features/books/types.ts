@@ -122,7 +122,7 @@ export const sortOptions = [
   { value: 'price', label: '가격순', order: 'asc' }
 ] as const;
 
-export type BookMbtiRate = {
+export type BookMbtiPercentage = {
   mbti: string;
-  rate: number;
+  percentage: number;
 }
