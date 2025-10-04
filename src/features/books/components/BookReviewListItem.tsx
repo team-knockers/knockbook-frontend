@@ -78,7 +78,7 @@ export default function BookReviewListItem({
       <div className={styles['review-text']}>
         {reviewData.content}
       </div>
-      <div 
+      <button
         className={styles['review-like']}
         onClick={() => onReviewLikeToggled(reviewData.id)}
       >
@@ -97,7 +97,7 @@ export default function BookReviewListItem({
             </span>
           </>
         )}
-      </div>
+      </button>
     </div>
   );
 }
