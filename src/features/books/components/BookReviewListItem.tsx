@@ -57,7 +57,10 @@ export default function BookReviewListItem({
             {isPurchase ? '구매' : '대여'}
           </div>
           <div className={styles['meta-info']}>
-            {`${reviewData.nickname} | ${formatDateToDot(reviewData.createdAt)}`}
+            <span className={styles['nickname']}>{reviewData.nickname}</span>
+            <span className={styles['separator']} aria-hidden="true">|</span>
+
+            <span className={styles['date']}>{formatDateToDot(reviewData.createdAt)}</span>
           </div>
         </div>
         <div className={styles['meta-right']}>

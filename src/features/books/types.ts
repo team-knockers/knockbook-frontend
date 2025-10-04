@@ -140,8 +140,8 @@ export const transactionOptions = [
 
 export const reviewsSortOptions = [
   { value: 'popular', label: '인기순',  sortBy: 'pupular', order: 'desc' },
-  { value: 'lowestRated', label: '별점높은순', sortBy: 'rating', order: 'desc' },
-  { value: 'highestRated', label: '별점낮은순', sortBy: 'rating', order: 'asc' },
+  { value: 'lowestRated', label: '별점 높은순', sortBy: 'rating', order: 'desc' },
+  { value: 'highestRated', label: '별점 낮은순', sortBy: 'rating', order: 'asc' },
 ] as const;
 
 export type BookReviewsApiResponse = {

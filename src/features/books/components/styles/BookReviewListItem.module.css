@@ -33,13 +33,35 @@
 
 .meta-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+}
+
+.nickname {
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%; /* 12px */
+}
+
+.separator {
+  font-family: Pretendard;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 400;
+  /* line-height: 100%; 12px */
+  margin: 0 5px;
+}
+
+.date {
   font-family: Pretendard;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: 100%; /* 12px */
+  color: #4A4A4A;
 }
 
 .meta-right {
