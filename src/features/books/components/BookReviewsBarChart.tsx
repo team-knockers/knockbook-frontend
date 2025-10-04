@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import type { BookStarCount } from '../types';
 import React from 'react';
+import { DESKTOP_MEDIA_QUERY } from '../../../shared/breakpoints';
 
 type BookReviewsBarChartProps = {
   scoreData: BookStarCount[];
@@ -44,7 +45,7 @@ export default function BookReviewsBarChart ({
 }: BookReviewsBarChartProps) {
 
   // Variables that change according to media query
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const isDesktop = useMediaQuery(DESKTOP_MEDIA_QUERY);
   const tickFontSize = isDesktop ? 16 : 11;
   const tickXOffset = isDesktop ? -8 : -6;
   const tickYOffset = isDesktop ? 6 : 4;
