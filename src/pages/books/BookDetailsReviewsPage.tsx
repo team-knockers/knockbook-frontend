@@ -69,7 +69,7 @@ export default function BookDetailsReviewsPage() {
       {/*ToastContainer for Test */}
       <ToastContainer position="top-center" />
 
-      <main className={styles['reviews-main']}>
+      <section className={styles['reviews-layout']}>
         
         {/* Review title */}
         <h2 className={styles['section-title']}>리뷰</h2>
@@ -110,7 +110,7 @@ export default function BookDetailsReviewsPage() {
           ))}
           {/* TODO. API 연결시 Pagination 추가할 것 */}
         </section>
-      </main>
+      </section>
     </>
   );
 }

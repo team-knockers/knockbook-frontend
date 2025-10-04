@@ -1,4 +1,4 @@
-.reviews-main {
+.reviews-layout {
   display: flex;
   flex-direction: column;
   align-self: stretch;
@@ -61,7 +61,7 @@
   - Enforce min width 375px
 */
 @media (max-width: 1023.98px) {
-  .reviews-main {
+  .reviews-layout {
     padding: 30px 20px;
     align-items: flex-start;
   }
@@ -111,7 +111,7 @@
 
 /* Desktop rules (≥ 1024px) */
 @media (min-width: 1024px) {
-  .reviews-main {
+  .reviews-layout {
     max-width: 1024px;
     padding: 50px 100px;
     align-items: center;
