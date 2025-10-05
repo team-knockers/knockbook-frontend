@@ -1,12 +1,12 @@
 export const myMbtiDummy = 'ISFP';
 
 export const mbtiResearchDummy = [
-  { mbti: 'ISFP', rate: 43.4 },
-  { mbti: 'INTP', rate: 20.7 },
-  { mbti: 'ENFP', rate: 15.6 },
-  { mbti: 'INFJ', rate: 10.5 },
-  { mbti: 'ESFJ', rate: 5.7 },
-  { mbti: 'ISFJ', rate: 4.1 }
+  { mbti: 'ISFP', percentage: 43.4 },
+  { mbti: 'INTP', percentage: 20.7 },
+  { mbti: 'ENFP', percentage: 15.6 },
+  { mbti: 'INFJ', percentage: 10.5 },
+  { mbti: 'ESFJ', percentage: 5.7 },
+  { mbti: 'ISFJ', percentage: 4.1 }
 ];
 
 export const bookDetailsDummy = {
@@ -38,3 +38,75 @@ export const bookDetailsDummy = {
   averageRating: 4.5,
   ratingCount: 217
 };
+
+export const bookReviewsScoreDummy = [
+  { score: '5', count: 600 },
+  { score: '4', count: 100 },
+  { score: '3', count: 30 },
+  { score: '2', count: 10 },
+  { score: '1', count: 3 },
+];
+
+export const bookReviewsApiResDummy = {
+  reviews: [
+    {
+      id: '112412',
+      transactionType: 'PURCHASE',
+      nickname: '호랭이',
+      createdAt: '2025-10-05',
+      content: '강력 추천합니다!',
+      rating: 5,
+      mbti: 'ISFP',
+      likeCount: 62,
+      likedByMe: true
+    },
+    {
+      id: '12512',
+      transactionType: 'PURCHASE',
+      nickname: '고양이',
+      createdAt: '2025-10-04',
+      content: '무난하게 읽었습니다.',
+      rating: 3,
+      mbti: 'INTP',
+      likeCount: 10,
+      likedByMe: false
+    },
+    {
+      id: '123',
+      transactionType: 'RENTAL',
+      nickname: '토끼',
+      createdAt: '2025-10-03',
+      content: '생각보다 재미있었어요!',
+      rating: 4,
+      mbti: 'ESTJ',
+      likeCount: 53,
+      likedByMe: false
+    },
+    {
+      id: '20',
+      transactionType: 'PURCHASE',
+      nickname: '거북이',
+      createdAt: '2025-10-02',
+      content: '정말 최고예요!',
+      rating: 5,
+      mbti: 'ISFP',
+      likeCount: 40,
+      likedByMe: false
+    },
+    {
+      id: '5',
+      transactionType: 'PURCHASE',
+      nickname: '여우',
+      createdAt: '2025-09-29',
+      content: '실망스러운 경험이었어요.',
+      rating: 1,
+      mbti: 'ISTJ',
+      likeCount: 10,
+      likedByMe: false
+    },
+  ],
+  page: 1,
+  size: 5,
+  totalItems: 8,
+  totalPages: 2
+}

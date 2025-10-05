@@ -122,7 +122,44 @@ export const sortOptions = [
   { value: 'price', label: '가격순', order: 'asc' }
 ] as const;
 
-export type BookMbtiRate = {
+export type BookMbtiPercentage = {
   mbti: string;
-  rate: number;
+  percentage: number;
+}
+
+export type BookStarCount = {
+  score: string,
+  count: number,
+}
+
+export const transactionOptions = [
+  { value: 'all', label: '전체' },
+  { value: 'purchase', label: '구매' },
+  { value: 'rent', label: '대여' },
+];
+
+export const reviewsSortOptions = [
+  { value: 'popular', label: '인기순',  sortBy: 'pupular', order: 'desc' },
+  { value: 'lowestRated', label: '별점 높은순', sortBy: 'rating', order: 'desc' },
+  { value: 'highestRated', label: '별점 낮은순', sortBy: 'rating', order: 'asc' },
+] as const;
+
+export type BookReviewsApiResponse = {
+  reviews: BookReview[];
+  page: number;
+  size: number;
+  totalItems: number;
+  totalPages: number;
+};
+
+export type BookReview = {
+  id: string,
+  transactionType: string,
+  nickname: string,
+  createdAt: string,
+  content: string,
+  rating: number,
+  mbti: string,
+  likeCount: number,
+  likedByMe: boolean
 }

@@ -1,15 +1,15 @@
+import styles from './styles/BooksHomePage.module.css';
 import BestSellerSection from "../../features/books/components/BookBestSeller";
 import BookSlider from "../../features/books/components/BookSlider";
 import BookSectionHeader from "../../features/books/components/BookSectionHeader";
 import CategoryFilterSearchBar from "../../features/books/components/CategoryFilterSearchBar";
-import styles from './BooksHomePage.module.css';
 import BookCardForBookSlider from "../../features/books/components/BookCardForBookSlider";
 import Banner from "../../components/display/BannerSlider";
 import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
 import { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
-import { booksHomeNewReleaseCategories, type BooksHomeLoaderData } from "./BooksHomePageLoader";
+import { generatePath, useLoaderData, useNavigate } from "react-router-dom";
+import { booksHomeNewReleaseCategories, type BooksHomeLoaderData } from "./BooksHome.loader";
 import { PATHS } from "../../routes/paths";
 
 export default function BooksHomePage() {
@@ -31,6 +31,10 @@ export default function BooksHomePage() {
   const handleCloseCategory = () => {
     setIsCategoryPopupOpen(false);
     console.log('📂 카테고리 팝업 닫기');
+  };
+
+  const handleBookItemClick = (id: string) => {
+    navigate(generatePath(PATHS.bookDetails, { bookId: id }));
   };
 
   // Dummy data for Banners
@@ -81,11 +85,17 @@ export default function BooksHomePage() {
             <BestSellerSection
               top3Books={top3BestSellers}
               onFirstBookClicked={() => {
-                navigate(PATHS.booksDetails);
+                handleBookItemClick(top3BestSellers[0].id);
                 console.log('1위 도서 클릭');
               }}
-              onSecondBookClicked={() => console.log('2위 도서 클릭')}
-              onThirdBookClicked={() => console.log('3위 도서 클릭')}
+              onSecondBookClicked={() => {
+                handleBookItemClick(top3BestSellers[1].id);
+                console.log('2위 도서 클릭');
+              }}
+              onThirdBookClicked={() => {
+                handleBookItemClick(top3BestSellers[2].id);
+                console.log('3위 도서 클릭');
+              }}
             />
           </section>
 
@@ -105,9 +115,10 @@ export default function BooksHomePage() {
                     title={book.title}
                     author={book.author}
                     publisher={book.publisher}
-                    onImageOrTitleClicked={() =>
-                      console.log(`${book.title}(id:${book.id}) 클릭`)
-                    }
+                    onImageOrTitleClicked={() => {
+                      handleBookItemClick(book.id);
+                      console.log(`${book.title} 클릭`);
+                    }}
                   />
                 ))}
               </BookSlider>
