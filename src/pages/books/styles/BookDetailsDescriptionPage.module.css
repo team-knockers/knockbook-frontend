@@ -1,4 +1,4 @@
-.description-main {
+.description-layout {
   display: flex;
   flex-direction: column;
   align-self: stretch;
@@ -99,7 +99,7 @@
   - Enforce min width 375px
 */
 @media (max-width: 1023.98px) {
-  .description-main {
+  .description-layout {
     padding: 30px 20px;
     align-items: flex-start;
     gap: 20px;
@@ -121,7 +121,7 @@
 
 /* Desktop rules (≥ 1024px) */
 @media (min-width: 1024px) {
-  .description-main {
+  .description-layout {
     max-width: 1024px;
     padding: 50px 100px;
     align-items: center;

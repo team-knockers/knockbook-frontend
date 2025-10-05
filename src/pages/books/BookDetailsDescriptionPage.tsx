@@ -1,9 +1,43 @@
 import styles from './styles/BookDetailsDescriptionPage.module.css';
 import { useLoaderData } from 'react-router-dom';
 import type { BookDetails } from '../../features/books/types';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
 import { formatDateToKoreanFull } from '../../features/books/util';
+
+function useIsOverflowing(
+  ref: React.RefObject<HTMLElement | null>,
+  enabled = true
+) {
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  useEffect(() => {
+    if (!enabled) {
+      setIsOverflowing(false);
+      return;
+    }
+    const el = ref.current;
+    if (!el) return;
+
+    const check = () => {
+      setIsOverflowing(el.scrollHeight > el.clientHeight + 1); // +1 to avoid sub-pixel flakiness
+    };
+
+    check();
+
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+
+    window.addEventListener('resize', check);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', check);
+    };
+  }, [ref, enabled]);
+
+  return isOverflowing;
+}
 
 export default function BookDetailsDescriptionPage() {
   const bookDetails = useLoaderData() as BookDetails;
@@ -13,15 +47,27 @@ export default function BookDetailsDescriptionPage() {
   const [expandedTableOfContents, setExpandedTableOfContents] = useState(false);
   const [expandedPublisherReview, setExpandedPublisherReview] = useState(false);
   
+  const introRef = useRef<HTMLDivElement | null>(null);
+  const tocRef = useRef<HTMLDivElement | null>(null);
+  const pubRef = useRef<HTMLDivElement | null>(null);
+
+  const introOverflow = useIsOverflowing(introRef, true);
+  const tocOverflow = useIsOverflowing(tocRef, true);
+  const pubOverflow = useIsOverflowing(pubRef, true);
+
   const hasText = (v?: string) => Boolean(v && v.toString().trim().length > 0);
   
   return (
-    <main className={styles['description-main']}>
+    <section className={styles['description-layout']}>
+
       {/* Book introduction section */}
       { (hasText(bookDetails.introductionTitle) || hasText(bookDetails.introductionDetail)) && (
         <section className={styles['description-section']}>
           <h2 className={styles['section-title']}>책소개</h2>
-          <div className={`${styles['description-text']} ${expandedIntroduction ? styles['is-expanded'] : ''}`}>
+          <div
+            ref={introRef}
+            className={`${styles['description-text']} ${expandedIntroduction ? styles['is-expanded'] : ''}`}
+          >
             {hasText(bookDetails.introductionTitle) && (
               <div className={styles['introduction-title']}>{bookDetails.introductionTitle}</div>
             )}
@@ -29,14 +75,16 @@ export default function BookDetailsDescriptionPage() {
               <div className={styles['introduction-detail']}>{bookDetails.introductionDetail}</div>
             )}
           </div>
-          <button
-            type="button"
-            className={styles['images-toggle-btn']}
-            onClick={() => { setExpandedIntroduction(prev => !prev); }}
-          >
-            {expandedIntroduction ? '접기' : '펼치기'}
-            {expandedIntroduction ? <HiChevronUp /> : <HiChevronDown />}
-          </button>
+          {(introOverflow || expandedIntroduction) && (
+            <button
+              type="button"
+              className={styles['images-toggle-btn']}
+              onClick={() => { setExpandedIntroduction(prev => !prev); }}
+            >
+              {expandedIntroduction ? '접기' : '펼치기'}
+              {expandedIntroduction ? <HiChevronUp /> : <HiChevronDown />}
+            </button>
+          )}
         </section>
       )}
 
@@ -44,38 +92,51 @@ export default function BookDetailsDescriptionPage() {
       { hasText(bookDetails.tableOfContents) && (
         <section className={styles['description-section']}>
           <h2 className={styles['section-title']}>목차</h2>
-          <div className={`${styles['description-text']} ${expandedTableOfContents ? styles['is-expanded'] : ''}`}>
+          <div
+            ref={tocRef}
+            className={`${styles['description-text']} ${expandedTableOfContents ? styles['is-expanded'] : ''}`}
+          >
             <div className={styles['table-of-contents']}>{bookDetails.tableOfContents}</div>
           </div>
-          <button
-            type="button"
-            className={styles['images-toggle-btn']}
-            onClick={() => { setExpandedTableOfContents(prev => !prev); }}
-          >
-            {expandedTableOfContents ? '접기' : '펼치기'}
-            {expandedTableOfContents ? <HiChevronUp /> : <HiChevronDown />}
-          </button>
+
+            {(tocOverflow || expandedTableOfContents) && (
+            <button
+              type="button"
+              className={styles['images-toggle-btn']}
+              onClick={() => { setExpandedTableOfContents(prev => !prev); }}
+            >
+              {expandedTableOfContents ? '접기' : '펼치기'}
+              {expandedTableOfContents ? <HiChevronUp /> : <HiChevronDown />}
+            </button>
+            )}
         </section>
       )}
 
-      {/* Book table of contents section */}
+      {/* Book publisher review section */}
       { hasText(bookDetails.publisherReview) && (
         <section className={styles['description-section']}>
           <h2 className={styles['section-title']}>출판사 서평</h2>
-          <div className={`${styles['description-text']} ${expandedPublisherReview ? styles['is-expanded'] : ''}`}>
+          <div 
+            ref={pubRef}
+            className={`${styles['description-text']} ${expandedPublisherReview ? styles['is-expanded'] : ''}`}
+          >
             <div className={styles['publisher-review']}>{bookDetails.publisherReview}</div>
           </div>
-          <button
-            className={styles['images-toggle-btn']}
-            type="button"
-            onClick={() => { setExpandedPublisherReview(prev => !prev); }}
-          >
-            {expandedPublisherReview ? '접기' : '펼치기'}
-            {expandedPublisherReview ? <HiChevronUp /> : <HiChevronDown />}
-          </button>
+
+          {(pubOverflow || expandedPublisherReview) && (
+            <button
+              className={styles['images-toggle-btn']}
+              type="button"
+              onClick={() => { setExpandedPublisherReview(prev => !prev); }}
+            >
+              {expandedPublisherReview ? '접기' : '펼치기'}
+              {expandedPublisherReview ? <HiChevronUp /> : <HiChevronDown />}
+            </button>
+          )}
         </section>
       )}
 
+      {/* Book metadata table section */}
       <section className={styles['description-section']}>
         <h2 className={styles['section-title']}>기본정보</h2>
         <table className={styles['info-table']}>
@@ -115,6 +176,6 @@ export default function BookDetailsDescriptionPage() {
           </tbody>
         </table>
       </section>
-    </main>
+    </section>
   );
 }

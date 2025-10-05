@@ -1,8 +1,8 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
-import type { BookMbtiRate } from '../types';
+import type { BookMbtiPercentage } from '../types';
 
 type BookDetailsResearchChartProps = {
-  data: BookMbtiRate[];
+  data: BookMbtiPercentage[];
   outerRadius: number;
   innerRadius: number;
 };
@@ -50,7 +50,7 @@ function renderCustomizedLabel(props: any, fontSize: number) {
           {payload.mbti}
         </tspan>
         <tspan x={x} dy={secondDy}>
-          {`(${payload.rate}%)`}
+          {`(${payload.percentage}%)`}
         </tspan>
       </text>
 
@@ -66,7 +66,7 @@ function renderCustomizedLabel(props: any, fontSize: number) {
           {payload.mbti}
         </tspan>
         <tspan x={x} dy={secondDy}>
-          {`(${payload.rate}%)`}
+          {`(${payload.percentage}%)`}
         </tspan>
       </text>
     </g>
@@ -86,7 +86,7 @@ function CustomTooltip({ active, payload, coordinate }: { active?: boolean; payl
   if (!data) return null;
 
   const mbti = data.mbti ?? '';
-  const rate = data.rate ?? '';
+  const percentage = data.percentage ?? '';
 
   // small offsets so the tooltip doesn't sit directly under the cursor
   const OFFSET_X = 12;
@@ -111,7 +111,7 @@ function CustomTooltip({ active, payload, coordinate }: { active?: boolean; payl
         zIndex: 9999,
       }}
     >
-      {`${mbti}:${rate}%`}
+      {`${mbti}:${percentage}%`}
     </div>
   );
 }
@@ -121,7 +121,7 @@ export default function BookDetailsResearchChart({
   outerRadius,
   innerRadius,
 }: BookDetailsResearchChartProps) {
-  const filteredData = data.filter(item => item.rate > 0);
+  const filteredData = data.filter(item => item.percentage > 0);
   const computedLabelFontSize = Math.max(8, Math.round(outerRadius * 0.2));
   const LABEL_THRESHOLD = 8; // hide labels for items below 8%
 
@@ -132,15 +132,15 @@ export default function BookDetailsResearchChart({
           data={filteredData}
           cx="50%"
           cy="50%"
-          dataKey="rate"
+          dataKey="percentage"
           outerRadius={outerRadius}
           innerRadius={innerRadius}
           // disable label lines globally. If you want to keep lines, provide a custom function.
           labelLine={false}
-          // conditionally render labels: return null when rate < LABEL_THRESHOLD
+          // conditionally render labels: return null when percentage < LABEL_THRESHOLD
           label={(props) => {
             if (!props || !props.payload) return null;
-            if (props.payload.rate < LABEL_THRESHOLD) return null;
+            if (props.payload.percentage < LABEL_THRESHOLD) return null;
             return renderCustomizedLabel(props, computedLabelFontSize);
           }}
         >

@@ -92,6 +92,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: "reviews",
+                loader: bookDetailsLoader,
                 element: <BookDetailsReviewsPage />,
                 handle: {
                   header: {
