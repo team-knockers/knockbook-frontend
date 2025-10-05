@@ -1,4 +1,171 @@
 .page-layout {
-  /* TODO */
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-family: Pretendard;
+}
+
+.feed-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.feed-header-left {
+  display: flex;
+  flex: 3;
+  align-items: center;
+  justify-content: center;
+}
+
+.feed-header-left img {
+  width: 100%;
+  max-width: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.feed-header-right {
+  display: flex;
+  flex: 7;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-name span {
+  width: 100%;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.user-profile-button :global(button) {
+  min-width: 90px;
+  font-size: 12px !important;
+}
+
+.user-description p {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 12px;
+  color: #1e1e1e;
+  text-align: start;
+}
+
+.user-information {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.user-information div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-information span {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.user-information p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.insight {
+  width: 100%;
+}
+
+.insight button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #c1c1c1c1;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.insight-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.insight button svg {
+  font-size: 16px;
+}
+
+.post-button :global(button) {
+  width: 100px;
+  height: 30px;
+}
+
+.post-imges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+
+.post-imges img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+@media (min-width: 1023px) {
+  .feed-header-left img {
+    max-width: 200px;
+  }
+
+  .user-name span {
+    font-size: 24px;
+  }
+
+  .user-profile-button :global(button) {
+    min-width: 120px;
+    font-size: 13px !important;
+  }
+
+  .user-description p {
+    font-size: 14px;
+  }
+
+  .user-information span {
+    font-size: 24px;
+  }
+
+  .user-information p {
+    font-size: 15px;
+  }
+
+  .insight button {
+    font-size: 16px;
+  }
+
+  .post-button :global(button) {
+    width: 140px;
+    font-size: 13px !important;
+  }
 }
