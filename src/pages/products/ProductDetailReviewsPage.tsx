@@ -1,9 +1,38 @@
 export default function ProductDetailReviewsPage() {
   return (
-    <main>
+    <>
       <div>
-        <h1>Knockbook ProductDetailPage - reviews</h1>
+        <div>
+          <div>리뷰</div>
+          <div>
+            <div>
+              <div>
+
+              </div>
+              <div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div>
+
+          </div>
+          <div>
+
+          </div>
+          <div>
+
+          </div>
+          <div>
+
+          </div>
+          <div>
+
+          </div>
+        </div>
       </div>
-    </main>
+    </>
   );
 }
