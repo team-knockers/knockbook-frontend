@@ -1,15 +1,16 @@
+import styles from './styles/BooksSearchPage.module.css';
 import CategoryFilterSearchBar from "../../features/books/components/CategoryFilterSearchBar";
-import styles from './BooksSearchPage.module.css';
 import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { generatePath, useNavigate, useSearchParams } from "react-router-dom";
 import { SEARCH_OPTIONS, sortOptions, type BookSummary, type SearchOption, type SearchState } from "../../features/books/types.ts";
 import BookListItem from "../../features/books/components/BookListItem";
 import BookListHeader from "../../features/books/components/BookListHeader";
 import BookFilterSidebar from "../../features/books/components/BookFilterSidebar";
 import { BookService } from "../../features/books/services/BookService.ts";
 import Pagination from "../../components/navigation/Pagination.tsx";
+import { PATHS } from "../../routes/paths.ts";
 
 // Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
 function makeInitialState(params: URLSearchParams): SearchState {
@@ -47,6 +48,8 @@ export default function BooksSearchPage() {
   const [books, setBooks] = useState<BookSummary[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+
+  const navigate = useNavigate();
 
   const searchByLabel = SEARCH_OPTION_MAP[searchState.searchBy];
 
@@ -115,6 +118,9 @@ export default function BooksSearchPage() {
   // Handler for Pagination component page change
   const handlePageChange = (nextPage: number) => {
     setQuery(q => q.set('page', String(nextPage)));
+  };
+  const handleBookItemClick = (id: string) => {
+    navigate(generatePath(PATHS.bookDetails, { bookId: id }));
   };
 
   // Sync searchState with URL changes
@@ -198,7 +204,10 @@ export default function BooksSearchPage() {
                     rentalAmount={book.rentalAmount}
                     purchaseAmount={book.purchaseAmount}
                     discountedPurchaseAmount={book.discountedPurchaseAmount}
-                    onImageOrTitleClicked={() => console.log(`${book.title} 도서 클릭`)}
+                    onImageOrTitleClicked={() => {
+                      handleBookItemClick(book.id);
+                      console.log(`${book.title} 도서 클릭`);
+                    }}
                   />
                 ))}
               </div>

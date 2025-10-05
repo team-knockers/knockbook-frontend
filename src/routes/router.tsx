@@ -5,7 +5,8 @@ import { QnAListPageLoader } from "../pages/customer/QnAListPage.loader";
 import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
 import { productDetailLoader } from "../pages/products/ProductDetail.loader";
-import { booksHomeLoader } from "../pages/books/BooksHomePageLoader";
+import { booksHomeLoader } from "../pages/books/BooksHome.loader";
+import { bookDetailsLoader } from "../pages/books/BookDetails.loader";
 import { NotificationPageLoader } from "../pages/customer/NotificationPage.loader";
 import { policyLoader } from "../pages/customer/PolicyPage.loader";
 
@@ -20,9 +21,9 @@ import SignupDisplayNamePage from "../pages/onboarding/SignupDisplayNamePage";
 import HomePage from "../pages/HomePage";
 import BooksHomePage from "../pages/books/BooksHomePage";
 import BooksSearchPage from "../pages/books/BooksSearchPage";
-import BooksDetailsPage from "../pages/books/BooksDetailsPage";
-import BooksDetailsSub1Page from "../pages/books/BooksDetailsSub1Page";
-import BooksDetailsSub2Page from "../pages/books/BooksDetailsSub2Page";
+import BookDetailsPage from "../pages/books/BookDetailsPage";
+import BookDetailsDescriptionPage from "../pages/books/BookDetailsDescriptionPage";
+import BookDetailsReviewsPage from "../pages/books/BookDetailsReviewsPage";
 import ProductsHomePage from "../pages/products/ProductsHomePage";
 import ProductsSearchPage from "../pages/products/ProductsSearchPage";
 import ProductDetailPage from "../pages/products/ProductDetailPage";
@@ -69,25 +70,43 @@ export const router = createBrowserRouter([
           { path: PATHS.booksSearch,
             element: <BooksSearchPage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
-          { path: PATHS.booksDetails,
-            element: <BooksDetailsPage />,
+          { 
+            path: PATHS.bookDetails,
+            loader: bookDetailsLoader,
+            element: <BookDetailsPage />,
             children: [
               {
                 index: true,
-                element: <Navigate to={PATHS.booksDetailsSub1} replace />
+                element: <Navigate to="description" replace />
               },
               {
-                path: PATHS.booksDetailsSub1,
-                element: <BooksDetailsSub1Page />,
-                handle: { header: { kind: "backTitleClos", back: { type: 'push', to: PATHS.booksHome }, close: { type: 'push', to: PATHS.booksHome }} }
+                path: "description",
+                loader: bookDetailsLoader,
+                element: <BookDetailsDescriptionPage />,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose",
+                    close: { type: 'push', to: PATHS.booksHome }
+                  }
+                }
               },
               {
-                path: PATHS.booksDetailsSub2,
-                element: <BooksDetailsSub2Page />,
-                handle: { header: { kind: "backTitleClos" } }
+                path: "reviews",
+                element: <BookDetailsReviewsPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    close: { type: 'push', to: PATHS.booksHome }
+                  }
+                }
               },
             ],
-            handle: { header: { kind: "backTitleClose" } }
+            handle: {
+              header: {
+                kind: "backTitleClose",
+                close: { type: 'push', to: PATHS.booksHome }
+              }
+            }
           },
           { path: PATHS.productsHome,
             element: <ProductsHomePage />,
