@@ -163,3 +163,25 @@ export type BookReview = {
   likeCount: number,
   likedByMe: boolean
 }
+
+// temp before connect API logic
+export const bookCategoryList = [
+  { value: 'fiction', label: '소설' },
+  { value: 'essay', label: '시/에세이' },
+  { value: 'humanities', label: '인문' },
+  { value: 'parenting', label: '가정/육아' },
+  { value: 'cooking', label: '요리' },
+  { value: 'health', label: '건강' },
+  { value: 'lifestyle', label: '취미/실용/스포츠' },
+  { value: 'business', label: '경제/경영' },
+  { value: 'selfImprovement', label: '자기계발' },
+  { value: 'politics', label: '정치/사회' },
+  { value: 'culture', label: '역사/문화' },
+  { value: 'religion', label: '종교' },
+  { value: 'entertainment', label: '예술/대중문화' },
+  { value: 'technology', label: '기술/공학' },
+  { value: 'language', label: '외국어' },
+  { value: 'science', label: '과학' },
+  { value: 'travel', label: '여행' },
+  { value: 'it', label: '컴퓨터/IT' },
+];

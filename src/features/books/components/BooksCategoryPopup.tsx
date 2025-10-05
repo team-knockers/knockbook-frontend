@@ -1,11 +1,6 @@
+import { bookCategoryList } from '../types';
 import styles from './styles/BooksCategoryPopup.module.css';
 import { IoClose } from "react-icons/io5";
-
-const categories = [
-  "소설", "시/에세이", "인문", "가정/육아", "요리", "건강", "취미/실용/스포츠",
-  "경제/경영", "자기계발", "정치/사회", "역사/문화", "종교", "예술/대중문화",
-  "기술/공학", "외국어", "과학", "여행", "컴퓨터/IT"
-];
 
 type BooksCategoryPopupProps = {
   onClosed?: () => void;
@@ -35,15 +30,15 @@ export default function BooksCategoryPopup({
           전체
         </button>
         <div className={styles['category-items']}>
-          {categories.map((category, idx) => (
+          {bookCategoryList.map(({value, label}) => (
             <button
-              key={idx}
+              key={value}
               className={styles['category-item']}
               onClick={() => {
-                console.log(`카테고리 ${category}항목 클릭`);
+                console.log(`카테고리 ${label}항목 클릭`);
               }}
             >
-              {category}
+              {label}
             </button>
           ))}
         </div>
