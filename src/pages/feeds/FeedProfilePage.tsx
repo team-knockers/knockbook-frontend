@@ -24,50 +24,15 @@ export default function FeedProfilePage() {
     };
 
   const postImage = [
-    {
-      id: '1',
-      url: FeedImgBooklight
-    }
-    ,
-    {
-      id: '2',
-      url: FeedImgGreenBook
-    }
-    ,
-    {
-      id: '3',
-      url: FeedImgWhiteBook
-    }
-    ,
-    {
-      id: '4',
-      url: FeedImgBooks
-    }
-    ,
-    {
-      id: '5',
-      url: FeedImgBox
-    }
-    ,
-    {
-      id: '6',
-      url: FeedImgBook
-    }
-    ,
-    {
-      id: '7',
-      url: FeedImgBooklight
-    }
-    ,
-    {
-      id: '8',
-      url: FeedImgGreenBook
-    }
-    ,
-    {
-      id: '9',
-      url: FeedImgWhiteBook
-    }
+    { id: '1', url: FeedImgBooklight },
+    { id: '2', url: FeedImgGreenBook },
+    { id: '3', url: FeedImgWhiteBook },
+    { id: '4', url: FeedImgBooks },
+    { id: '5', url: FeedImgBox },
+    { id: '6', url: FeedImgBook },
+    { id: '7', url: FeedImgBooklight },
+    { id: '8', url: FeedImgGreenBook },
+    { id: '9', url: FeedImgWhiteBook }
   ];
 
   return (
