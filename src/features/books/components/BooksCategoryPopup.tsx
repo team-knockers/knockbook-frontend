@@ -1,6 +1,8 @@
+import { generatePath, useNavigate } from 'react-router-dom';
 import { bookCategoryList } from '../types';
 import styles from './styles/BooksCategoryPopup.module.css';
 import { IoClose } from "react-icons/io5";
+import { PATHS } from '../../../routes/paths';
 
 type BooksCategoryPopupProps = {
   onClosed?: () => void;
@@ -9,6 +11,14 @@ type BooksCategoryPopupProps = {
 export default function BooksCategoryPopup({
   onClosed
 }: BooksCategoryPopupProps) {
+  const navigate = useNavigate();
+
+  const navigateToCategory = (categoryCodeName: string) => {
+    navigate(generatePath(PATHS.booksCategory, { categoryCodeName: categoryCodeName }));
+    if (onClosed) {
+      onClosed();
+    } // close popup after navigation
+  };
 
   return (
     <div className={styles['books-category-wrapper']}>
@@ -24,7 +34,7 @@ export default function BooksCategoryPopup({
       <div className={styles['category-list-wrapper']}>
         <button className={styles['category-all']}
           onClick={() => {
-            console.log(`카테고리 전체항목 클릭`);
+            navigateToCategory('all');
           }}
         >
           전체
@@ -35,7 +45,7 @@ export default function BooksCategoryPopup({
               key={value}
               className={styles['category-item']}
               onClick={() => {
-                console.log(`카테고리 ${label}항목 클릭`);
+                navigateToCategory(value);
               }}
             >
               {label}

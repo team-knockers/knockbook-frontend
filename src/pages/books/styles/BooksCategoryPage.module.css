@@ -1,0 +1,28 @@
+.book-category-main{
+  display: flex;
+  flex-direction: column;
+}
+.category-popup-overlay {
+  position: relative;
+}
+
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+  .book-home-main{
+    align-self: stretch;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .book-category-main{
+    width: 1024px;
+    margin:0 auto;
+  }
+  .category-popup-overlay {
+    left: 17px;
+  }
+}

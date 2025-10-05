@@ -24,6 +24,9 @@ import BooksSearchPage from "../pages/books/BooksSearchPage";
 import BookDetailsPage from "../pages/books/BookDetailsPage";
 import BookDetailsDescriptionPage from "../pages/books/BookDetailsDescriptionPage";
 import BookDetailsReviewsPage from "../pages/books/BookDetailsReviewsPage";
+import BooksCategoryPage from "../pages/books/BooksCategoryPage";
+import BooksCategoryHomePage from "../pages/books/BooksCategoryHomePage";
+import BooksCategoryAllPage from "../pages/books/BooksCategoryAllPage";
 import ProductsHomePage from "../pages/products/ProductsHomePage";
 import ProductsSearchPage from "../pages/products/ProductsSearchPage";
 import ProductDetailPage from "../pages/products/ProductDetailPage";
@@ -108,6 +111,27 @@ export const router = createBrowserRouter([
                 close: { type: 'push', to: PATHS.booksHome }
               }
             }
+          },
+          { 
+            path: PATHS.booksCategory,
+            element: <BooksCategoryPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="home" replace />
+              },
+              {
+                path: "home",
+                element: <BooksCategoryHomePage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: "all",
+                element: <BooksCategoryAllPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+            ],
+            handle: { header: { kind: "main", title: "문앞의책방" } }
           },
           { path: PATHS.productsHome,
             element: <ProductsHomePage />,
