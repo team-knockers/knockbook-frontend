@@ -1,29 +1,30 @@
-.counter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100px;
-  height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 5px 15px;
+/* Counter.module.css */
+.counter{
+  container-type:inline-size;
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto; /* 가로 고정 */
+  align-items:center; box-sizing:border-box;
+  inline-size:100%; max-inline-size:100%; block-size:100%;
+  padding:.5ch; gap:.25ch; border:1px solid #ccc; border-radius:.5rem;
+  background:#fff; font-size:14px; line-height:1;
+}
+.counter-button{
+  display:grid; place-items:center;
+  inline-size:1.8em; block-size:1.8em; /* 정사각 버튼 */
+  padding:0; background:none; border:0; color:#555; cursor:pointer;
+}
+.counter-value{
+  display:grid; place-items:center; min-inline-size:0;
+  font-weight:600; white-space:nowrap;
 }
 
-.counter-button {
-  background: none;
-  border: none;
-  font-size: 25px;
-  color: #999;
-  cursor: pointer;
+/* 72px↓: 살짝 압축 */
+@container (max-width:72px){
+  .counter{ padding:.25ch; gap:.125ch; font-size:12px; }
+  .counter-button{ inline-size:1.4em; block-size:1.4em; }
+}
+/* 56px↓: 50px까지 수용 (스택 금지) */
+@container (max-width:56px){
+  .counter{ padding:1px; gap:0; font-size:12px; }
+  .counter-button{ inline-size:14px; block-size:14px; }
 }
 
-.counter-button:hover {
-  color: #333;
-}
-
-.counter-value {
-  font-size: 20px;
-  font-weight: 500;
-  min-width: 15px;
-  text-align: center;
-}
