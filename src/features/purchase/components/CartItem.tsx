@@ -1,6 +1,5 @@
 import { Input } from 'reactstrap';
 import s from './CartItem.module.css';
-import { useState } from 'react';
 import Counter from '../../../components/forms/Counter';
 import { FiX } from 'react-icons/fi';
 import { formatWon } from '../utils/formatter';
