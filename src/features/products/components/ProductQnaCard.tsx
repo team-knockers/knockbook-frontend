@@ -13,7 +13,8 @@ export default function ProductQnaCard({ item, isOpen, onToggle }: Props) {
   return (
     <>
       {/* Header row (click to toggle) */}
-      <div 
+      <button 
+        type="button"
         className={styles['qna-card']}
         onClick={() => { onToggle(item.qnaId); }}
       >
@@ -28,7 +29,7 @@ export default function ProductQnaCard({ item, isOpen, onToggle }: Props) {
           </div>
         </div>
         <div className={styles['qna-content']}>{item.summary}</div>
-      </div>
+      </button>
 
       {/* Render details only when open AND answered */}
       {isOpen && item.status === 'ANSWERED' && (
