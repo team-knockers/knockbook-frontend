@@ -47,7 +47,9 @@ export default function BooksCategoryPage() {
             <BooksCategoryPopup onClosed={handleCloseCategory} />
           </div>
         )}
-        <h1>카테고리: {categoryLabel}</h1>
+        <h1 className={styles['book-category-title']}>
+          {`카테고리: ${categoryLabel}`}
+        </h1>
         <section>
           <Banner items={banners}/>
         </section>

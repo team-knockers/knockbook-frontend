@@ -5,6 +5,14 @@
 .category-popup-overlay {
   position: relative;
 }
+.book-category-title {
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0;
+}
 
 /*
   Mobile rules (< 1024px)
@@ -13,6 +21,9 @@
 @media (max-width: 1023.98px) {
   .book-home-main{
     align-self: stretch;
+  }
+  .book-category-title {
+    padding: 15px 20px 0;
   }
 }
 
@@ -24,5 +35,8 @@
   }
   .category-popup-overlay {
     left: 17px;
+  }
+  .book-category-title {
+    padding: 15px 20px 0;
   }
 }
