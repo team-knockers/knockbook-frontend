@@ -144,7 +144,10 @@ export default function ProductDetailPage() {
           centerTabPath="reviews"
           rightTabPath="qna"
         />
-        <Outlet />
+        <Outlet context={{
+          productImageUrl: imgs[0] ?? '',
+          productName: name,
+        }}/>
       </section>
       <section className={styles['bottom-bar-wrap']}>
         <ProductBottomBar

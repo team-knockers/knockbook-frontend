@@ -5,12 +5,22 @@ import { useState } from 'react';
 import { useSearchParams } from "react-router-dom";
 import Pagination from '../../components/navigation/Pagination';
 import { productQnasResponseDummy } from '../../features/products/resources/ProductQnasResponse.dummy';
+import ProductQnAPopup from '../../features/products/components/ProductQnAPopup';
+import { useOutletContext } from 'react-router-dom';
+
+type DetailCtx = {
+  productImageUrl: string;
+  productName: string;
+};
 
 export default function ProductDetailQnaPage() {
   // Dummy data (will be replaced by API)
   const { qnas, page, totalPages } = productQnasResponseDummy;
   
-  // Track expanded items (multi-open)
+  // Read minimal product info from  parent route 
+  const { productImageUrl, productName } = useOutletContext<DetailCtx>();
+
+  // Track expanded items (allow multi-open)
   const [openSet, setOpenSet] = useState<Set<string>>(new Set());
   const toggleOpen = (id: string): void => {
     setOpenSet(prev => {
@@ -38,11 +48,6 @@ export default function ProductDetailQnaPage() {
 
   return (
     <>
-      {/* Render modal when isQnaOpen is true */}
-      {isQnaOpen && (
-        <div>QnA Modal</div>
-      )}
-
       <section className={styles['qna-layout']}>
 
         {/* CTA row */}
@@ -76,6 +81,20 @@ export default function ProductDetailQnaPage() {
           totalPages={totalPages}
           onChange={goPage}
         />
+
+        {/* Modal (mount only when open) */}
+        {isQnaOpen && (
+          <ProductQnAPopup
+            productImageUrl={productImageUrl}
+            productName={productName}
+            onSubmit={(title, content) => {
+              // TODO: API
+              console.log(title, content);
+              setIsQnaOpen(false);
+            }}
+            onClose={() => setIsQnaOpen(false)}
+          />
+        )}
       </section>
     </>
   );
