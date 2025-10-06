@@ -9,6 +9,7 @@ import { booksHomeLoader } from "../pages/books/BooksHome.loader";
 import { bookDetailsLoader } from "../pages/books/BookDetails.loader";
 import { NotificationPageLoader } from "../pages/customer/NotificationPage.loader";
 import { policyLoader } from "../pages/customer/PolicyPage.loader";
+import { cartAction, CartPageLoader } from "../pages/purchase/CartPage.loader";
 
 import ResponsiveMainShell from "../components/layout/ResponsiveMainShell";
 import IntroPage from "../pages/IntroPage";
@@ -209,6 +210,8 @@ export const router = createBrowserRouter([
           },
           { path: PATHS.cart,
             element: <CartPage />,
+            loader: CartPageLoader,
+            action: cartAction,
             handle: { 
               header: { 
                 kind: "backTitleClose", 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import s from './Counter.module.css';
+import { FiMinus, FiPlus } from 'react-icons/fi';
 
 type CounterProps = {
   min?: number;
@@ -18,22 +19,18 @@ export default function Counter({
   const [value, setValue] = useState(initial);
 
   useEffect(() => { if (onChange) { onChange(value); }
-  }, [value, onchange]);
+  }, [value, onChange]);
 
-  const decrement = () => {
-    if (value > min) { setValue(value - 1); }
-  }
-
-  const increment = () => {
-    if (value < max) { setValue(value + 1); }
-  }
+  
+  const decrement = () => value > min && setValue(value - 1);
+  const increment = () => value < max && setValue(value + 1);
 
   return (
     <div className={s['counter']}>
       <button 
         className={s['counter-button']}
         onClick={decrement}>
-          -
+          <FiMinus />
       </button>
       <span className={s['counter-value']}>
         {value}
@@ -41,7 +38,7 @@ export default function Counter({
       <button 
         className={s['counter-button']}
         onClick={increment}>
-        +
+         <FiPlus />
       </button>
     </div>
   );
