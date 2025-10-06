@@ -1,0 +1,51 @@
+.category-popup-overlay {
+  position: relative;
+}
+.book-contents-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.best-seller-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+}
+.book-slider-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+}
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+  .book-contents-container {
+    padding: 2px 20px;
+  }
+  .best-seller-section {
+    padding-bottom: 20px;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .category-popup-overlay {
+    left: 17px;
+  }
+  .book-contents-container {
+    width: 1024px;
+    padding: 20px;
+  }
+  .best-seller-section {
+    max-width: 1024px;
+    padding-bottom: 30px;
+  }
+  .book-slider-section {
+    max-width: 1024px;
+  }
+}
