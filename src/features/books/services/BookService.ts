@@ -1,6 +1,6 @@
 import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { BooksApiResponse, BookSummary, BookDetails } from "../types";
+import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory } from "../types";
 
 export const BookService = {
 
@@ -43,6 +43,34 @@ export const BookService = {
     return apiAuthPath<BookDetails>(
       "/books/{userId}/{bookId}",
       { userId, bookId },
+      { method: "GET" }
+    );
+  },
+
+  // API-BOOKS-11 : Fetch all book categories
+  async getBooksAllCategories(
+  ): Promise<BookCategory[]> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPath<BookCategory[]>(
+      "/books/{userId}/categories",
+      { userId },
+      { method: "GET" }
+    );
+  },
+
+  // API-BOOKS-12 : Fetch subcategories for a specific category
+  async getBookSubcategories(
+    categoryCodeName: string
+  ): Promise<BookSubcategory[]> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!categoryCodeName) { throw new Error("NO_CATERGORY"); }
+
+    return apiAuthPath<BookSubcategory[]>(
+      "/books/{userId}/categories/{categoryCodeName}/subcategories",
+      { userId, categoryCodeName },
       { method: "GET" }
     );
   },
