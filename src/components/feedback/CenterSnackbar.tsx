@@ -19,8 +19,8 @@ export default function CenterSnackbar({
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!open) return;
-    if (timerRef.current) window.clearTimeout(timerRef.current);
+    if (!open) { return; }
+    if (timerRef.current) { window.clearTimeout(timerRef.current); }
     timerRef.current = window.setTimeout(() => onClose?.(), duration);
     return () => {
       if (timerRef.current) window.clearTimeout(timerRef.current);
