@@ -1,0 +1,12 @@
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+
+}
