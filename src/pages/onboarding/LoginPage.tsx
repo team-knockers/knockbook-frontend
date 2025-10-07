@@ -12,6 +12,8 @@ import kakaoUrl from '../../assets/kakao_login_btn.png';
 import googleUrl from '../../assets/google_login_btn.png';
 
 import styles from './styles/LoginPage.module.css';
+import { parseLoginError } from "../../features/onboarding/exception/loginError";
+import CenterSnackbar from "../../components/feedback/CenterSnackbar";
 
 export default function LoginPage() {
   
@@ -21,17 +23,40 @@ export default function LoginPage() {
   const [show, setShow] = useState(false);
   const [remember, setRemember] = useState(false);
 
+  const [submitting, setSubmitting] = useState(false);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMsg, setSnackMsg] = useState("");
+  const [snackVariant, setSnackVariant] = useState<"info"|"success"|"warn"|"error">("info");
+
   async function handleLogin() {
+    if (submitting) {
+      return;
+    }
+    setSubmitting(true);
+
     try {
       await AuthService.localLogin({ email, password });
-      console.log("Welcome");
-      nav(PATHS.home);
-    } catch (e) {
-      if (e instanceof ApiError) {
-        console.error(e.problem.title); // temporary procedure
+      if (remember) {
+        localStorage.setItem("rememberEmail", email);
       }
+      nav(PATHS.home);
+    } catch (err) {
+      const { msg, variant } = parseLoginError(err as ApiError);
+      console.log(err);
+      setSnackMsg(msg);
+      setSnackVariant(variant);
+      setSnackOpen(false);
+      setTimeout(() => setSnackOpen(true), 0);
+    } finally {
+      setSubmitting(false);
     }
   }
+
+  const onKeyDown = (ev: React.KeyboardEvent) => {
+    if (ev.key === "Enter") {
+      handleLogin();
+    }
+  };
 
   return (
     <main>
@@ -59,6 +84,7 @@ export default function LoginPage() {
                 type="text"
                 placeholder="이메일을 입력하세요"
                 value={email}
+                onKeyDown={onKeyDown}
                 onChange={e => setEmail(e.target.value)}/>
             </div>
             <div className={styles['password-section']}>
@@ -75,6 +101,7 @@ export default function LoginPage() {
                     type={show ? "text" : "password"}
                     placeholder="비밀번호를 입력하세요"
                     value={password}
+                    onKeyDown={onKeyDown}
                     onChange={e => setPassword(e.target.value)}/>
                   <InputGroupText
                     className={styles['password-show-icon']}
@@ -151,6 +178,14 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+
+      <CenterSnackbar
+        open={snackOpen}
+        message={snackMsg}
+        variant={snackVariant}
+        duration={3000}
+        onClose={() => setSnackOpen(false)}
+      />
     </main>
   );
 }

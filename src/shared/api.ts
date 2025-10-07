@@ -9,7 +9,7 @@ import { useSession } from "../hooks/useSession";
 export function apiPublicJson<TRes, TBody = unknown>(
   url: string,
   init?: RequestInit & { json?: TBody }) {
-    return requestJson<TRes, TBody>(url, init);
+  return requestJson<TRes, TBody>(url, init);
 }
 
 // use path parameter only
@@ -50,25 +50,20 @@ export async function apiAuthJson<TRes, TBody = unknown>(
   init?: RequestInit & { json?: TBody },
   retried = false
 ): Promise<TRes> {
+  
   const { accessToken } = useSession.getState();
-  const withAuth: RequestInit = {
-    ...init,
-    headers: { 
-      ...(init?.headers ?? {}),
-      Authorization: accessToken ? `Bearer ${accessToken}` : "",
-    },
-  };
+  const withAuth: RequestInit = { ...init, headers: { ...(init?.headers ?? {}), Authorization: accessToken ? `Bearer ${accessToken}` : "" } };
 
   try {
-    return await requestJson<TRes,TBody>(url, withAuth);
+    return await requestJson<TRes, TBody>(url, withAuth);
   } catch (e) {
-    // On 401, refresh once → retry if refresh succeeds
-    if (e instanceof ApiError && !retried) {
-        await tryRefereshAccessToken();
-        return apiAuthJson<TRes, TBody>(url, init, true);
+    if (e instanceof ApiError && e.problem.status === 401 && !retried) {
+      await tryRefreshAccessToken();
+      return apiAuthJson<TRes, TBody>(url, init, true);
     }
     throw e;
   }
+
 }
 
 // use path parameter only
@@ -137,7 +132,7 @@ export async function apiAuthMultipart<TRes>(
     return await requestMultipart<TRes>(url, form, withAuth);
   } catch (e) {
     if (e instanceof ApiError && !retried) {
-      await tryRefereshAccessToken();
+      await tryRefreshAccessToken();
       return apiAuthMultipart<TRes>(url, form, init, true);
     }
     throw e;
@@ -186,7 +181,7 @@ export function withQuery(
 
 //#region implementations 
 // Issue a new access token using the refresh cookie
-async function tryRefereshAccessToken() {
+async function tryRefreshAccessToken() {
   const res = await doFetch("/auth/token/refresh", { method: "POST" });
   await ensureOK(res);
   const data = (await res.json()) as { accessToken: string };
@@ -196,14 +191,20 @@ async function tryRefereshAccessToken() {
 // Low-level fetch with credentials included 
 // (needed for refresh cookie handling)
 async function doFetch(url: string, init: RequestInit = {}) {
-  return fetch(`${API_BASE_URL}${url}`, {
-    credentials: "include", // Required when using the refresh cookie
-    ...init,
-    headers: { 
-      // "Content-Type": "application/json",
-      ...(init.headers ?? {}) 
-    } as HeadersInit,
-  });
+  try {
+    return await fetch(`${API_BASE_URL}${url}`, {
+      credentials: "include",
+      ...init,
+      headers: { ...(init.headers ?? {}) } as HeadersInit,
+    });
+  } catch {
+    throw new ApiError({ 
+      type: "about:blank#network",
+      title: "Network error",
+      status: 0,
+      detail: "네트워크 오류"
+    });
+  }
 }
 
 // Ensures RFC 7807 / 9457-compliant error response
@@ -226,23 +227,34 @@ export async function requestJson<TRes, TBody = unknown>(
 ) : Promise<TRes> {
   
   let finalInit: RequestInit = init ?? {};
+  const base: HeadersInit = { 
+    Accept: "application/json, application/problem+json" 
+  };
+
   if ("json" in (init ?? {}) && init?.json !== undefined) {
-    finalInit = { 
+    finalInit = {
       ...finalInit,
       body: JSON.stringify(init.json),
-      headers : {
-        Accept: "application/json",
+      headers: { 
+        ...base,
         "Content-Type": "application/json",
-        ...(finalInit.headers ?? {}),
-      } as HeadersInit
+        ...(finalInit.headers ?? {}) 
+      }
     };
+  } else {
+    finalInit = { 
+      ...finalInit,
+      headers: { 
+        ...base,
+        ...(finalInit.headers ?? {})
+      }};
   }
-  
+
   const res = await doFetch(url, finalInit);
   await ensureOK(res);
-  if (res.status === 204) {
-    return undefined as unknown as TRes;
-  }
-  return res.json() as Promise<TRes>;
+  return res.status === 204 
+    ? (undefined as unknown as TRes) 
+    : (res.json() as Promise<TRes>);
 }
+
 //#endregion
