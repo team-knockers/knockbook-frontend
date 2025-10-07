@@ -1,25 +1,39 @@
 import styles from './styles/BookDetailsPage.module.css';
-import { Outlet, useLoaderData } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
 import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsSummaryInfo";
 import BookDetailsResearch from "../../features/books/components/BookDetailsResearch";
 import { mbtiResearchDummy, myMbtiDummy } from '../../features/books/resources/bookDetailsPage.dummy';
 import type { BookDetails } from '../../features/books/types';
 import BookOrderBottomBar from '../../features/books/components/BookOrderBottomBar';
-import { toast, ToastContainer } from 'react-toastify';;
+import { toast, ToastContainer } from 'react-toastify';import { useState } from 'react';
+import { PurchaseService } from '../../features/purchase/services/PurchaseService';
+import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
+import { PATHS } from '../../routes/paths';
+import type { OrderType } from '../../features/purchase/type';
+;
 
 export default function BookDetailsPage() {
   const bookDetails = useLoaderData() as BookDetails;
   const myMbti = myMbtiDummy;
   const mbtiResearch = mbtiResearchDummy;
 
+  const nav = useNavigate();
+
+  const [quantity, setQuantity] = useState(1);
+  const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
+  async function handleAddItemsOnCart(type : OrderType) {
+    const refId = bookDetails.id;
+    type === "BOOK_PURCHASE" 
+    ? await PurchaseService.addCartPurchaseItem(type, refId, quantity)
+    : await PurchaseService.addCartRentalItem(type, refId, quantity, 14);
+    setIsCartPopupVisible(true);
+  }
+
   /* This is a sample code for BookOrderBottomBar */
-  const qty = (n: number) => toast(`수량: ${n}`);
   const fav = (isFav?: boolean) => toast(isFav === undefined ? '찜 토글' : (isFav ? '찜 추가' : '찜 해제'));
   const gift = () => toast('선물하기 클릭');
-  const addToCart = () => toast.success('장바구니 담김');
   const buyNow = () => toast('바로구매 클릭');
-  const rent = () => toast('대여하기 클릭');
 
   return (
     <>
@@ -42,16 +56,28 @@ export default function BookDetailsPage() {
           rightTabPath="reviews"
         />
         <Outlet />
+
+        { isCartPopupVisible &&
+        <div className={styles['go-to-cart-popup']}>
+          <TwoButtonPopup
+            title='선택한 상품을 장바구니에 담았어요.'
+            description='장바구니로 이동하시겠어요?'
+            cancelText='취소'
+            confirmText='장바구니 보기'
+            onCancel={() => setIsCartPopupVisible(false)}
+            onConfirm={() => nav(PATHS.cart)}/>
+       </div>
+      }
       </main>
       <footer className={styles['bottom-bar-wrap']}>
         <BookOrderBottomBar
           rentalPriceAmount={bookDetails.rentalAmount}
           purchasePriceAmount={bookDetails.discountedPurchaseAmount}
-          onQuantityChange={qty}
+          onQuantityChange={qty => setQuantity(qty)}
           onFavoriteButtonClick={fav}
           onSendAsGiftButtonClick={gift}
-          onRentButtonClick={rent}
-          onAddToCartButtonClick={addToCart}
+          onRentButtonClick={() => handleAddItemsOnCart("BOOK_RENTAL")}
+          onAddToCartButtonClick={() => handleAddItemsOnCart("BOOK_PURCHASE")}
           onBuyNowButtonClick={buyNow} 
         />
       </footer>

@@ -1,13 +1,19 @@
 import styles from './styles/ProductsDetailPage.module.css';
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { HiStar } from 'react-icons/hi2';
 import ThreeLevelTabMenu from '../../components/navigation/ThreeLevelTabMenu';
 import { useLoaderData, useParams } from "react-router-dom";
 import ProductBottomBar from '../../features/products/components/ProductOrderBottomBar';
 import { toast } from 'react-toastify';
+import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
+import { PATHS } from '../../routes/paths';
+import { PurchaseService } from '../../features/purchase/services/PurchaseService';
 
 export default function ProductDetailPage() {
+
+  const nav = useNavigate();
+
   // Get server data prepared by the route loader
   const { name, unitPriceAmount, salePriceAmount, averageRating, reviewCount, galleryImageUrls } = useLoaderData() as {
     name: string;
@@ -47,11 +53,20 @@ export default function ProductDetailPage() {
     ? salePriceAmount
     : unitPriceAmount;
 
+  const [quantity, setQuantity] = useState(1);
+  const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
+  async function handleAddItemsOnCart() {
+    await PurchaseService.addCartPurchaseItem(
+      "PRODUCT",
+      String(productId),
+      quantity
+    );
+    setIsCartPopupVisible(true);
+  }
+
   /* This is a sample code */
-  const qty = (n: number) => toast(`수량: ${n}`);
   const fav = (isFav?: boolean) => toast(isFav === undefined ? '찜 토글' : (isFav ? '찜 추가' : '찜 해제'));
   const gift = () => toast('선물하기 클릭');
-  const addToCart = () => toast.success('장바구니 담김');
   const buyNow = () => toast('바로구매 클릭');
 
   return (
@@ -152,13 +167,25 @@ export default function ProductDetailPage() {
       <section className={styles['bottom-bar-wrap']}>
         <ProductBottomBar
           priceAmount={purchasePriceAmount}
-          onQuantityChange={qty}
+          onQuantityChange={qty => setQuantity(qty)}
           onFavoriteButtonClick={fav}
           onSendAsGiftButtonClick={gift}
-          onAddToCartButtonClick={addToCart}
-          onBuyNowButtonClick={buyNow} 
+          onAddToCartButtonClick={handleAddItemsOnCart}
+          onBuyNowButtonClick={(buyNow)}
         />
       </section>
+
+      { isCartPopupVisible &&
+        <div className={styles['go-to-cart-popup']}>
+          <TwoButtonPopup
+            title='선택한 상품을 장바구니에 담았어요.'
+            description='장바구니로 이동하시겠어요?'
+            cancelText='취소'
+            confirmText='장바구니 보기'
+            onCancel={() => setIsCartPopupVisible(false)}
+            onConfirm={() => nav(PATHS.cart)}/>
+       </div>
+      }
     </main>
   );
 }

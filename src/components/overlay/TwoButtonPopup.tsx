@@ -1,4 +1,4 @@
-import styles from './TwoButtonPopups.module.css';
+import styles from './TwoButtonPopup.module.css';
 
 type TwoButtonPopupProps = {
   title: string; // Popup Title
