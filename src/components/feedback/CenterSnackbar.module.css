@@ -1,0 +1,32 @@
+.portal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none; /* 클릭 방해 안 함 */
+  z-index: 1000;
+}
+
+.snackbar {
+  max-width: min(90vw, 28rem);
+  pointer-events: auto;
+  padding: .9rem 1rem;
+  border-radius: .75rem;
+  font-size: .95rem;
+  line-height: 1.35;
+  box-shadow: 0 8px 30px rgba(0,0,0,.18);
+  backdrop-filter: saturate(1.2) blur(6px);
+  color: whitesmoke;
+  background: black;
+  opacity: 0;
+  transform: translateY(8px) scale(.98);
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+.show { opacity: 1; transform: translateY(0) scale(1); }
+.hide { opacity: 0; transform: translateY(-6px) scale(.98); }
+.info   { border-color: #dbeafe; background: #ffffff; }
+.success{ border-color: #d1fae5; }
+.warn   { border-color: #fef3c7; }
+.error  { border-color: #fee2e2; }
+

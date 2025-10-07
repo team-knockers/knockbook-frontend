@@ -62,7 +62,6 @@ export const AuthService = {
       useSession.setState({
         accessToken: res.accessToken,
         userId: res.userId });
-        console.log(res);
       return res;
   },
 
