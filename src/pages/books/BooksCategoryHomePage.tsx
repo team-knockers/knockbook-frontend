@@ -30,18 +30,61 @@ export default function BooksCategoryHomePage() {
       try {
         if(!categoryCodeName) { throw new Error; }
         const top3 = await BookService.getDetailedBooks(categoryCodeName, 'all', 1, 3, 'sales', 'desc');
-        const subcats = await BookService.getBookSubcategories(categoryCodeName);
-        const newBooksRes = await Promise.all(
-          (subcats || []).map(async (sub) => {
-            const books = await BookService.getBookSummaries(categoryCodeName, sub.subcategoryCodeName, 1, 7, "published", "desc");
-            return { key: sub.subcategoryCodeName, label: sub.subcategoryDisplayName, books };
-          })
-        );
+        
+        let newBooksRes: SubcategoryWithBooks[] = [];
+
+        if (categoryCodeName === 'all') {
+          try {
+            const categories = await BookService.getBooksAllCategories();
+            const topCategories = categories;
+
+            newBooksRes = await Promise.all(
+              topCategories.map(async (cat) => {
+                try {
+                  const books = await BookService.getBookSummaries(cat.categoryCodeName, 'all', 1, 7, 'published', 'desc');
+                  return {
+                    key: cat.categoryCodeName,
+                    label: cat.categoryDisplayName,
+                    books
+                  };
+                } catch (err) {
+                  return { key: cat.categoryCodeName, label: cat.categoryDisplayName, books: [] };
+                }
+              })
+            );
+          } catch (err) {
+            newBooksRes = [];
+          }
+        } else {
+          try {
+            const subcats = await BookService.getBookSubcategories(categoryCodeName);
+            newBooksRes = await Promise.all(
+              (subcats || []).map(async (sub) => {
+                try {
+                  const books = await BookService.getBookSummaries( categoryCodeName, sub.subcategoryCodeName, 1, 7, 'published', 'desc' );
+                  return { 
+                    key: sub.subcategoryCodeName,
+                    label: sub.subcategoryDisplayName,
+                    books 
+                  };
+                } catch (err) {
+                  return { key: sub.subcategoryCodeName, label: sub.subcategoryDisplayName, books: [] };
+                }
+              })
+            );
+          } catch (err) {
+            newBooksRes = [];
+          }
+        }
+
         if (!mounted) return;
         setTop3BestSellers(top3);
         setNewBooks(newBooksRes);
       } catch (e) {
-        console.error(e);
+        console.error('카테고리 페이지 로드 실패', e);
+        if (!mounted) return;
+        setTop3BestSellers([]);
+        setNewBooks([]);
       }
     }
 
