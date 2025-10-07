@@ -3,19 +3,17 @@ import { type BookCategory } from '../types';
 import styles from './styles/BooksCategoryPopup.module.css';
 import { IoClose } from "react-icons/io5";
 import { PATHS } from '../../../routes/paths';
-import { useEffect, useState } from 'react';
-import { BookService } from '../services/BookService';
 
 type BooksCategoryPopupProps = {
+  categories: BookCategory[];
   onClosed?: () => void;
 };
 
 export default function BooksCategoryPopup({
+  categories,
   onClosed
 }: BooksCategoryPopupProps) {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState<{ value: string; label: string }[]>([]);
-
 
   const navigateToCategory = (categoryCodeName: string) => {
     navigate(generatePath(PATHS.booksCategory, { categoryCodeName: categoryCodeName }));
@@ -23,32 +21,6 @@ export default function BooksCategoryPopup({
       onClosed();
     } // close popup after navigation
   };
-
-  useEffect(() => {
-    let mounted = true;
-
-    async function loadCategories() {
-      try {
-        const data: BookCategory[] = await BookService.getBooksAllCategories();
-        if (!mounted) { return; }
-        const mapped = data.map(item => ({
-          value: item.categoryCodeName,
-          label: item.categoryDisplayName
-        }));
-        setCategories(mapped);
-      } catch {
-        if (!mounted) { return; }
-        setCategories([]);
-      }
-    }
-
-    loadCategories();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
 
   return (
     <div className={styles['books-category-wrapper']}>
@@ -70,15 +42,13 @@ export default function BooksCategoryPopup({
           전체
         </button>
         <div className={styles['category-items']}>
-          {categories.map(({ value, label }) => (
+          {categories.map(cat => (
             <button
-              key={value}
+              key={cat.categoryCodeName}
               className={styles['category-item']}
-              onClick={() => {
-                navigateToCategory(value);
-              }}
+              onClick={() => navigateToCategory(cat.categoryCodeName)}
             >
-              {label}
+              {cat.categoryDisplayName}
             </button>
           ))}
         </div>

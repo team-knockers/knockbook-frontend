@@ -3,7 +3,7 @@ import CategoryFilterSearchBar from "../../features/books/components/CategoryFil
 import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
 import { useEffect, useState } from "react";
-import { generatePath, useNavigate, useSearchParams } from "react-router-dom";
+import { generatePath, useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 import { SEARCH_OPTIONS, sortOptions, type BookSearchState, type BookSummary, type SearchOption } from "../../features/books/types.ts";
 import BookListItem from "../../features/books/components/BookListItem";
 import BookListHeader from "../../features/books/components/BookListHeader";
@@ -11,6 +11,7 @@ import BookFilterSidebar from "../../features/books/components/BookFilterSidebar
 import { BookService } from "../../features/books/services/BookService.ts";
 import Pagination from "../../components/navigation/Pagination.tsx";
 import { PATHS } from "../../routes/paths.ts";
+import type { BooksSearchLoaderData } from './BooksSearch.loader.ts';
 
 // Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
 function makeInitialState(params: URLSearchParams): BookSearchState {
@@ -42,14 +43,15 @@ const applyQueryParam = (q: URLSearchParams, key: string, value: string | number
 };
 
 export default function BooksSearchPage() {
+  const navigate = useNavigate();
+  
+  const { bookCategories } = useLoaderData() as BooksSearchLoaderData;
   const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchState, setSearchState] = useState<BookSearchState>(() => makeInitialState(searchParams));
   const [books, setBooks] = useState<BookSummary[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-
-  const navigate = useNavigate();
 
   const searchByLabel = SEARCH_OPTION_MAP[searchState.searchBy];
 
@@ -167,7 +169,10 @@ export default function BooksSearchPage() {
         />
         {isCategoryPopupOpen && (
           <div className={styles['category-popup-overlay']}>
-            <BooksCategoryPopup onClosed={handleCloseCategory} />
+            <BooksCategoryPopup
+              categories={bookCategories}
+              onClosed={handleCloseCategory}
+            />
           </div>
         )}
         <div className={styles['book-search-container']}>

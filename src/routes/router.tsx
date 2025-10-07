@@ -6,7 +6,9 @@ import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
 import { productDetailLoader } from "../pages/products/ProductDetail.loader";
 import { booksHomeLoader } from "../pages/books/BooksHome.loader";
+import { booksSearchLoader } from "../pages/books/BooksSearch.loader";
 import { bookDetailsLoader } from "../pages/books/BookDetails.loader";
+import { booksCategoryLoader } from "../pages/books/BooksCategory.loader";
 import { NotificationPageLoader } from "../pages/customer/NotificationPage.loader";
 import { policyLoader } from "../pages/customer/PolicyPage.loader";
 
@@ -71,6 +73,7 @@ export const router = createBrowserRouter([
             element: <BooksHomePage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksSearch,
+            loader: booksSearchLoader,
             element: <BooksSearchPage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { 
@@ -115,6 +118,7 @@ export const router = createBrowserRouter([
           { 
             path: PATHS.booksCategory,
             element: <BooksCategoryPage />,
+            loader: booksCategoryLoader,
             children: [
               {
                 index: true,
@@ -123,11 +127,13 @@ export const router = createBrowserRouter([
               {
                 path: "home",
                 element: <BooksCategoryHomePage />,
+                loader: booksCategoryLoader,
                 handle: { header: { kind: "main", title: "문앞의책방" } }
               },
               {
                 path: "all",
                 element: <BooksCategoryAllPage />,
+                loader: booksCategoryLoader,
                 handle: { header: { kind: "main", title: "문앞의책방" } }
               },
             ],

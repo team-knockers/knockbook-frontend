@@ -16,7 +16,7 @@ import { bookBannersDummy } from '../../features/books/resources/bookDetailsPage
 export default function BooksHomePage() {
   const navigate = useNavigate();
   
-  const { top3BestSellers, booksByCategory } = useLoaderData() as BooksHomeLoaderData;
+  const { bookCategories, top3BestSellers, booksByCategory } = useLoaderData() as BooksHomeLoaderData;
   const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
 
   const banners = bookBannersDummy;
@@ -49,7 +49,10 @@ export default function BooksHomePage() {
         />
         {isCategoryPopupOpen && (
           <div className={styles['category-popup-overlay']}>
-            <BooksCategoryPopup onClosed={handleCloseCategory} />
+            <BooksCategoryPopup
+              categories={bookCategories}
+              onClosed={handleCloseCategory}
+            />
           </div>
         )}
         <section>

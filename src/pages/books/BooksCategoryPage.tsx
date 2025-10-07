@@ -4,13 +4,16 @@ import Banner from "../../components/display/BannerSlider";
 import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
 import { useState } from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
 import { bookBannersDummy } from "../../features/books/resources/bookDetailsPage.dummy";
 import { categoryOptions } from "../../features/books/types";
+import type { BooksCategoryLoaderData } from "./BooksCategory.loader";
 
 export default function BooksCategoryPage() {
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+
+  const { bookCategories } = useLoaderData() as BooksCategoryLoaderData;
   const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
 
   const params = useParams();
@@ -44,7 +47,10 @@ export default function BooksCategoryPage() {
         />
         {isCategoryPopupOpen && (
           <div className={styles['category-popup-overlay']}>
-            <BooksCategoryPopup onClosed={handleCloseCategory} />
+            <BooksCategoryPopup
+              categories={bookCategories}
+              onClosed={handleCloseCategory}
+            />
           </div>
         )}
         <h1 className={styles['book-category-title']}>
