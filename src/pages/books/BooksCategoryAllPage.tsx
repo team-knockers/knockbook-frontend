@@ -115,8 +115,8 @@ export default function BooksCategoryAllPage() {
   }, [searchState]);
 
   return (
-    <div className={styles['book-search-results-container']}>
-      <div className={styles['book-search-results']}>
+    <section className={styles['book-category-all-layout']}>
+      <div className={styles['book-category-all-results']}>
         <BookListHeader
           totalCount={totalItems}
           selectedCategory={searchState.category}
@@ -149,6 +149,6 @@ export default function BooksCategoryAllPage() {
         totalPages={totalPages}
         onChange={handlePageChange}
       />
-    </div>
+    </section>
   );
 }

@@ -1,3 +1,11 @@
+.book-category-all-layout {
+  width: 100%;
+}
+
+.book-category-all-results {
+  width: 100%;
+}
+
 /*
   Mobile rules (< 1024px)
   - Enforce min width 375px
