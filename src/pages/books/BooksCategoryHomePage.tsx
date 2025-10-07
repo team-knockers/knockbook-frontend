@@ -1,96 +1,16 @@
 import styles from './styles/BooksCategoryHomePage.module.css';
-import { generatePath, useNavigate, useParams } from "react-router-dom";
-import { type BookDetails, type BookSummary } from "../../features/books/types";
+import { generatePath, useLoaderData, useNavigate} from "react-router-dom";
 import BookSectionHeader from "../../features/books/components/BookSectionHeader";
 import BestSellerSection from "../../features/books/components/BookBestSeller";
 import BookCardForBookSlider from "../../features/books/components/BookCardForBookSlider";
 import BookSlider from "../../features/books/components/BookSlider";
 import { PATHS } from "../../routes/paths";
-import { BookService } from '../../features/books/services/BookService';
-import { useEffect, useState } from 'react';
-
-type SubcategoryWithBooks = {
-  key: string;
-  label: string;
-  books: BookSummary[];
-};
+import type { BooksCategoryLoaderData } from './BooksCategory.loader';
 
 export default function BooksCategoryHomePage() {
   const navigate = useNavigate();
-  const params = useParams();
-  const categoryCodeName = params.categoryCodeName;
-  const [top3BestSellers, setTop3BestSellers] = useState<BookDetails[]>([]);
-  const [newBooks, setNewBooks] = useState<SubcategoryWithBooks[]>([]);
 
-  useEffect(() => {
-    if (!categoryCodeName) return;
-    let mounted = true;
-
-    async function load() {
-      try {
-        if(!categoryCodeName) { throw new Error; }
-        const top3 = await BookService.getDetailedBooks(categoryCodeName, 'all', 1, 3, 'sales', 'desc');
-        
-        let newBooksRes: SubcategoryWithBooks[] = [];
-
-        if (categoryCodeName === 'all') {
-          try {
-            const categories = await BookService.getBooksAllCategories();
-            const topCategories = categories;
-
-            newBooksRes = await Promise.all(
-              topCategories.map(async (cat) => {
-                try {
-                  const books = await BookService.getBookSummaries(cat.categoryCodeName, 'all', 1, 7, 'published', 'desc');
-                  return {
-                    key: cat.categoryCodeName,
-                    label: cat.categoryDisplayName,
-                    books
-                  };
-                } catch (err) {
-                  return { key: cat.categoryCodeName, label: cat.categoryDisplayName, books: [] };
-                }
-              })
-            );
-          } catch (err) {
-            newBooksRes = [];
-          }
-        } else {
-          try {
-            const subcats = await BookService.getBookSubcategories(categoryCodeName);
-            newBooksRes = await Promise.all(
-              (subcats || []).map(async (sub) => {
-                try {
-                  const books = await BookService.getBookSummaries( categoryCodeName, sub.subcategoryCodeName, 1, 7, 'published', 'desc' );
-                  return { 
-                    key: sub.subcategoryCodeName,
-                    label: sub.subcategoryDisplayName,
-                    books 
-                  };
-                } catch (err) {
-                  return { key: sub.subcategoryCodeName, label: sub.subcategoryDisplayName, books: [] };
-                }
-              })
-            );
-          } catch (err) {
-            newBooksRes = [];
-          }
-        }
-
-        if (!mounted) return;
-        setTop3BestSellers(top3);
-        setNewBooks(newBooksRes);
-      } catch (e) {
-        console.error('카테고리 페이지 로드 실패', e);
-        if (!mounted) return;
-        setTop3BestSellers([]);
-        setNewBooks([]);
-      }
-    }
-
-    load();
-    return () => { mounted = false; };
-  }, [categoryCodeName]);
+  const {top3BestSellers, newBooksBySection } = useLoaderData() as BooksCategoryLoaderData;
 
   const handleBookItemClick = (id: string) => {
     navigate(generatePath(PATHS.bookDetails, { bookId: id }));
@@ -121,7 +41,7 @@ export default function BooksCategoryHomePage() {
       </section>
 
       {/* Render category-specific sliders */}
-      {newBooks.map(sub => (
+      {(newBooksBySection || []).map(sub => (
         <section key={sub.key} className={styles['book-slider-section']}>
           <BookSectionHeader 
             headerTitle="새로나온 책" 
