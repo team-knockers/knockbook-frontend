@@ -76,15 +76,18 @@ export const SEARCH_OPTIONS: { value: SearchOption; label: string }[] = [
   { value: 'publisher', label: '출판사' },
 ] as const;
 
-export type SearchState = {
+export type CommonSearchState = {
   category: string;
   subcategory: string;
   page: number;
   size: number;
-  searchBy: 'title' | 'author' | 'publisher';
-  searchKeyword: string;
   sortBy: 'published' | 'views' | 'sales' | 'rentals' | 'price';
   order: 'asc' | 'desc';
+};
+
+export type BookSearchState = CommonSearchState & {
+  searchBy: 'title' | 'author' | 'publisher';
+  searchKeyword: string;
   minPrice?: number;
   maxPrice?: number;
 };

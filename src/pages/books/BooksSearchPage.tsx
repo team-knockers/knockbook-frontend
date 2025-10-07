@@ -4,7 +4,7 @@ import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
 import { useEffect, useState } from "react";
 import { generatePath, useNavigate, useSearchParams } from "react-router-dom";
-import { SEARCH_OPTIONS, sortOptions, type BookSummary, type SearchOption, type SearchState } from "../../features/books/types.ts";
+import { SEARCH_OPTIONS, sortOptions, type BookSearchState, type BookSummary, type SearchOption } from "../../features/books/types.ts";
 import BookListItem from "../../features/books/components/BookListItem";
 import BookListHeader from "../../features/books/components/BookListHeader";
 import BookFilterSidebar from "../../features/books/components/BookFilterSidebar";
@@ -13,7 +13,7 @@ import Pagination from "../../components/navigation/Pagination.tsx";
 import { PATHS } from "../../routes/paths.ts";
 
 // Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
-function makeInitialState(params: URLSearchParams): SearchState {
+function makeInitialState(params: URLSearchParams): BookSearchState {
   return {
     category: params.get('category') ?? 'all',
     subcategory: params.get('subcategory') ?? 'all',
@@ -21,8 +21,8 @@ function makeInitialState(params: URLSearchParams): SearchState {
     size: Number(params.get('size') ?? 10),
     searchBy: (params.get('by') as 'title'|'author'|'publisher') ?? 'title',
     searchKeyword: params.get('keyword') ?? '',
-    sortBy: (params.get('sortBy') as SearchState['sortBy']) ?? 'published',
-    order: (params.get('order') as SearchState['order']) ?? 'desc',
+    sortBy: (params.get('sortBy') as BookSearchState['sortBy']) ?? 'published',
+    order: (params.get('order') as BookSearchState['order']) ?? 'desc',
     minPrice: params.get('minPrice') ? Number(params.get('minPrice')) : undefined,
     maxPrice: params.get('maxPrice') ? Number(params.get('maxPrice')) : undefined
   };
@@ -44,7 +44,7 @@ const applyQueryParam = (q: URLSearchParams, key: string, value: string | number
 export default function BooksSearchPage() {
   const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchState, setSearchState] = useState<SearchState>(() => makeInitialState(searchParams));
+  const [searchState, setSearchState] = useState<BookSearchState>(() => makeInitialState(searchParams));
   const [books, setBooks] = useState<BookSummary[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -61,7 +61,7 @@ export default function BooksSearchPage() {
   };
 
   // Update search state via URL (filters, category, sort, price, page)
-  const updateSearchStateViaUrl = (updates: Partial<SearchState>) => {
+  const updateSearchStateViaUrl = (updates: Partial<BookSearchState>) => {
     setQuery(q => {
       applyQueryParam(q, 'category', updates.category);
       applyQueryParam(q, 'subcategory', updates.subcategory);
@@ -98,7 +98,7 @@ export default function BooksSearchPage() {
   };
 
   // Handler for BookFilterSidebar component filter apply
-  const handleFilterApplied = (newFilters: Partial<SearchState>) => {
+  const handleFilterApplied = (newFilters: Partial<BookSearchState>) => {
     console.log('필터 적용됨:', newFilters);
     updateSearchStateViaUrl(newFilters);
   };
