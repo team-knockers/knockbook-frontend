@@ -27,12 +27,13 @@ export const PurchaseService = {
 
   async addCartPurchaseItem(
     refType : OrderType,
-    refId : string
+    refId : string,
+    quantity: number,
   ) {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }
-    const req : addCartPurchaseItemRequest = { 
-      refType: refType, refId: refId, quantity: 1 
+    const req : addCartPurchaseItemRequest = {
+      refType, refId, quantity
     };
     return apiAuthPathWithJson<GetCartResponse, addCartPurchaseItemRequest>(
       "/users/{userId}/cart/items",
@@ -44,12 +45,13 @@ export const PurchaseService = {
   async addCartRentalItem(
     refType : OrderType,
     refId : string,
+    quantity: number,
     rentalDays: number
   ) {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }
     const req : addCartRentalItemRequest = { 
-      refType: refType, refId: refId, rentalDays: rentalDays, quantity: 1
+      refType, refId, rentalDays, quantity 
     };
     return apiAuthPathWithJson<GetCartResponse, addCartRentalItemRequest>(
       "/users/{userId}/cart/items",

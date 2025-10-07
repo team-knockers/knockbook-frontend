@@ -347,6 +347,7 @@ export default function CartPage() {
                       title={b.titleSnapshot}
                       listPrice={b.listPrice}
                       salePrice={b.salePrice}
+                      quantity={b.quantity}
                       isSelected={selected.has(typedKey)}
                       onSelectChange={checked => handleSelectChange(typedKey, checked)}
                       onQtyChange={(nextQty) => handleQtyChange(typedKey, nextQty)}
@@ -389,6 +390,7 @@ export default function CartPage() {
                       imgUrl={b.thumbnailUrl}
                       title={b.titleSnapshot}
                       salePrice={b.rentalPrice}
+                      quantity={b.quantity}
                       isSelected={selected.has(typedKey)}
                       onSelectChange={checked => handleSelectChange(typedKey, checked)}
                       onQtyChange={(nextQty) => handleQtyChange(typedKey, nextQty)}
@@ -432,6 +434,7 @@ export default function CartPage() {
                       title={p.titleSnapshot}
                       listPrice={p.listPrice}
                       salePrice={p.salePrice}
+                      quantity={p.quantity}
                       isSelected={selected.has(typedKey)}
                       onSelectChange={checked => handleSelectChange(typedKey, checked)}
                       onQtyChange={(nextQty) => handleQtyChange(typedKey, nextQty)}

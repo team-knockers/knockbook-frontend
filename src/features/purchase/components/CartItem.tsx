@@ -3,12 +3,14 @@ import s from './CartItem.module.css';
 import Counter from '../../../components/forms/Counter';
 import { FiX } from 'react-icons/fi';
 import { formatWon } from '../utils/formatter';
+import { useState } from 'react';
 
 type CartItemProps = {
   imgUrl: string,
   title: string,
   listPrice?: number,
   salePrice: number,
+  quantity: number,
   isSelected: boolean,
   onSelectChange: (isSelected: boolean) => void;
   onQtyChange: (qty: number) => void;
@@ -20,11 +22,14 @@ export default function CartItem({
   title,
   listPrice,
   salePrice,
+  quantity,
   isSelected,
   onSelectChange,
   onQtyChange,
   onDeleteClick,
 } : CartItemProps) {
+
+  const [qty, setQty] = useState(quantity);
 
   const getDiscountPercentage = (
     listPrice: number,
@@ -59,7 +64,9 @@ export default function CartItem({
           <span>{title}</span>
         </div>
         <div className={s['cart-item-qty']}>
-          <Counter onChange={qty => onQtyChange(qty)}/>
+          <Counter 
+            initial={qty}
+            onChange={value => { setQty(value); onQtyChange(value); }}/>
         </div>
         <div className={s['cart-item-price']}>
           <div className={s['cart-item-list-price']}>
