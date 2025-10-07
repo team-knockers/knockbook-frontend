@@ -1,8 +1,9 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
-import type { BookDetails, BookSummary } from "../../features/books/types";
+import type { BookCategory, BookDetails, BookSummary } from "../../features/books/types";
 import { BookService } from "../../features/books/services/BookService";
 
 export type BooksHomeLoaderData = {
+  bookCategories: BookCategory[],
   top3BestSellers: BookDetails[];
   booksByCategory: Record<string, BookSummary[]>;
 };
@@ -18,6 +19,8 @@ export const booksHomeNewReleaseCategories = [
 export async function booksHomeLoader(_args: LoaderFunctionArgs): Promise<BooksHomeLoaderData> {
 
   try {
+    const bookCategories = await BookService.getBooksAllCategories();
+
     const top3BestSellers = await BookService.getDetailedBooks('all', 'all', 1, 3, 'sales', 'desc');
 
     const categoryResults = await Promise.all(
@@ -30,9 +33,9 @@ export async function booksHomeLoader(_args: LoaderFunctionArgs): Promise<BooksH
     const booksByCategory: Record<string, BookSummary[]> = {};
     categoryResults.forEach(r => { booksByCategory[r.key] = r.books; });
 
-    return { top3BestSellers, booksByCategory };
+    return { bookCategories, top3BestSellers, booksByCategory };
   } catch (error) {
     console.error("booksHomeLoader error", error);
-    throw new Error("booksHomeLoader: failed to fetch books");
+    throw new Error("booksHomeLoader: failed to fetch");
   }
 }

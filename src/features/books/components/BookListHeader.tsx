@@ -8,6 +8,7 @@ type BookListHeaderProps = {
   selectedSort: string;
   onCategoryChange: (categoryValue: string) => void;
   onSortChange: (sortValue: string) => void;
+  categoryDisabled?: boolean;
 };
 
 export default function BookListHeader({
@@ -16,6 +17,7 @@ export default function BookListHeader({
   selectedSort,
   onCategoryChange,
   onSortChange,
+  categoryDisabled = false
 }: BookListHeaderProps) {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -34,6 +36,7 @@ export default function BookListHeader({
             className={styles['category-select']}
             value={selectedCategory}
             onChange={handleCategoryChange}
+            disabled={categoryDisabled}
           >
             {categoryOptions.map(({ value, label }) => (
               <option key={value} value={value}>{label}</option>

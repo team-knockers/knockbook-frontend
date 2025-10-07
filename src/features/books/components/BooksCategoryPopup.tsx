@@ -1,19 +1,26 @@
+import { generatePath, useNavigate } from 'react-router-dom';
+import { type BookCategory } from '../types';
 import styles from './styles/BooksCategoryPopup.module.css';
 import { IoClose } from "react-icons/io5";
-
-const categories = [
-  "소설", "시/에세이", "인문", "가정/육아", "요리", "건강", "취미/실용/스포츠",
-  "경제/경영", "자기계발", "정치/사회", "역사/문화", "종교", "예술/대중문화",
-  "기술/공학", "외국어", "과학", "여행", "컴퓨터/IT"
-];
+import { PATHS } from '../../../routes/paths';
 
 type BooksCategoryPopupProps = {
+  categories: BookCategory[];
   onClosed?: () => void;
 };
 
 export default function BooksCategoryPopup({
+  categories,
   onClosed
 }: BooksCategoryPopupProps) {
+  const navigate = useNavigate();
+
+  const navigateToCategory = (categoryCodeName: string) => {
+    navigate(generatePath(PATHS.booksCategory, { categoryCodeName: categoryCodeName }));
+    if (onClosed) {
+      onClosed();
+    } // close popup after navigation
+  };
 
   return (
     <div className={styles['books-category-wrapper']}>
@@ -29,26 +36,23 @@ export default function BooksCategoryPopup({
       <div className={styles['category-list-wrapper']}>
         <button className={styles['category-all']}
           onClick={() => {
-            console.log(`카테고리 전체항목 클릭`);
+            navigateToCategory('all');
           }}
         >
           전체
         </button>
         <div className={styles['category-items']}>
-          {categories.map((category, idx) => (
+          {categories.map(cat => (
             <button
-              key={idx}
+              key={cat.categoryCodeName}
               className={styles['category-item']}
-              onClick={() => {
-                console.log(`카테고리 ${category}항목 클릭`);
-              }}
+              onClick={() => navigateToCategory(cat.categoryCodeName)}
             >
-              {category}
+              {cat.categoryDisplayName}
             </button>
           ))}
         </div>
       </div>
-
     </div>
   );
 }

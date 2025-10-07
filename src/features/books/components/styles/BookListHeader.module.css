@@ -32,6 +32,14 @@
   border: none;
   cursor: pointer;
 }
+.category-select:disabled {
+  color: #000;
+  cursor: default;
+}
+
+.disabled-icon {
+  opacity: 0.4;
+}
 .category-icon {
   position: absolute;
   right: 0px;
@@ -66,6 +74,7 @@
   align-items: center;
   align-self: stretch;
   border: none;
+  cursor: pointer;
 }
 
 /*

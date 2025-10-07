@@ -6,7 +6,9 @@ import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
 import { productDetailLoader } from "../pages/products/ProductDetail.loader";
 import { booksHomeLoader } from "../pages/books/BooksHome.loader";
+import { booksSearchLoader } from "../pages/books/BooksSearch.loader";
 import { bookDetailsLoader } from "../pages/books/BookDetails.loader";
+import { booksCategoryLoader } from "../pages/books/BooksCategory.loader";
 import { NotificationPageLoader } from "../pages/customer/NotificationPage.loader";
 import { policyLoader } from "../pages/customer/PolicyPage.loader";
 import { cartAction, CartPageLoader } from "../pages/purchase/CartPage.loader";
@@ -25,6 +27,9 @@ import BooksSearchPage from "../pages/books/BooksSearchPage";
 import BookDetailsPage from "../pages/books/BookDetailsPage";
 import BookDetailsDescriptionPage from "../pages/books/BookDetailsDescriptionPage";
 import BookDetailsReviewsPage from "../pages/books/BookDetailsReviewsPage";
+import BooksCategoryPage from "../pages/books/BooksCategoryPage";
+import BooksCategoryHomePage from "../pages/books/BooksCategoryHomePage";
+import BooksCategoryAllPage from "../pages/books/BooksCategoryAllPage";
 import ProductsHomePage from "../pages/products/ProductsHomePage";
 import ProductsSearchPage from "../pages/products/ProductsSearchPage";
 import ProductDetailPage from "../pages/products/ProductDetailPage";
@@ -69,6 +74,7 @@ export const router = createBrowserRouter([
             element: <BooksHomePage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksSearch,
+            loader: booksSearchLoader,
             element: <BooksSearchPage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { 
@@ -109,6 +115,30 @@ export const router = createBrowserRouter([
                 close: { type: 'push', to: PATHS.booksHome }
               }
             }
+          },
+          { 
+            path: PATHS.booksCategory,
+            element: <BooksCategoryPage />,
+            loader: booksCategoryLoader,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="home" replace />
+              },
+              {
+                path: "home",
+                element: <BooksCategoryHomePage />,
+                loader: booksCategoryLoader,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+              {
+                path: "all",
+                element: <BooksCategoryAllPage />,
+                loader: booksCategoryLoader,
+                handle: { header: { kind: "main", title: "문앞의책방" } }
+              },
+            ],
+            handle: { header: { kind: "main", title: "문앞의책방" } }
           },
           { path: PATHS.productsHome,
             element: <ProductsHomePage />,
