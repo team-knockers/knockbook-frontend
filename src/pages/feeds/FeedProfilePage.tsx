@@ -2,6 +2,8 @@ import s from './FeedProfilePage.module.css';
 import OneWayButton from '../../components/forms/OneWayButton';
 import { IoSunny } from "react-icons/io5";
 import { IoMdArrowRoundForward } from "react-icons/io";
+import { PATHS } from '../../routes/paths';
+import { useNavigate } from 'react-router-dom';
 
 import FeedProfile from '../../assets/feed_profile.jpg';
 import FeedImgGreenBook from '../../assets/feed_slider_img1.png';
@@ -34,6 +36,7 @@ export default function FeedProfilePage() {
     { id: '8', url: FeedImgGreenBook },
     { id: '9', url: FeedImgWhiteBook }
   ];
+  const navigate = useNavigate();
 
   return (
     <div className={s['page-layout']}>
@@ -80,7 +83,7 @@ export default function FeedProfilePage() {
       </div>
 
       <div className={s['insight']}>
-        <button>
+        <button onClick={() => navigate(PATHS.insight)}>
           <span className={s['insight-left']}>
             <IoSunny />
             인사이트 보러가기

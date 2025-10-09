@@ -134,7 +134,7 @@
   cursor: pointer;
 }
 
-@media (min-width: 1023px) {
+@media (min-width: 1024px) {
   .feed-header-left img {
     max-width: 200px;
   }

@@ -50,6 +50,9 @@ import QnAListPage from "../pages/customer/QnAListPage";
 import QnAPage from "../pages/customer/QnAPage";
 import FeedPage from "../pages/feeds/FeedPage";
 import FeedProfilePage from "../pages/feeds/FeedProfilePage";
+import InsightPage from "../pages/feeds/InsightPage";
+import InsightStat from "../pages/feeds/InsightStat";
+import InsightHistory from "../pages/feeds/InsightHistory";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -234,9 +237,41 @@ export const router = createBrowserRouter([
               {
                 path: PATHS.feedProfile,
                 element: <FeedProfilePage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                handle: { header: { kind: "main", title: "문앞의책방" } },
               },
             ]
+          },
+          {
+            path: PATHS.insight,
+            element: <InsightPage />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATHS.insightStat} replace />,
+              },
+              {
+                path: 'stat',
+                element: <InsightStat />,
+                handle: { 
+                  header: { 
+                    kind: "InsightClose", 
+                    back: { type: 'push', to: PATHS.feedProfile }, 
+                    close: { type: 'push', to: PATHS.feedProfile }
+                  } 
+                } 
+              },
+              {
+                path: 'history',
+                element: <InsightHistory />,
+                handle: { 
+                  header: { 
+                    kind: "InsightClose", 
+                    back: { type: 'push', to: PATHS.feedProfile }, 
+                    close: { type: 'push', to: PATHS.feedProfile }
+                  } 
+                }
+              },
+            ],
           },
           { path: PATHS.cart,
             element: <CartPage />,

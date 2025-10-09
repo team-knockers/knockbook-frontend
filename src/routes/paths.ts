@@ -30,6 +30,9 @@ export const PATHS = {
   feed: "/feed",
   feedHome: "/feed/home",
   feedProfile: "/feed/profile",
+  insight: "/insight",
+  insightStat: "/insight/stat",
+  insightHistory: "/insight/history",
 
   /* order */
   cart: "/cart",
