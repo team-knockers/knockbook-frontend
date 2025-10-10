@@ -51,8 +51,8 @@ import QnAPage from "../pages/customer/QnAPage";
 import FeedPage from "../pages/feeds/FeedPage";
 import FeedProfilePage from "../pages/feeds/FeedProfilePage";
 import InsightPage from "../pages/feeds/InsightPage";
-import InsightStat from "../pages/feeds/InsightStat";
-import InsightHistory from "../pages/feeds/InsightHistory";
+import InsightStatPage from "../pages/feeds/InsightStatPage";
+import InsightHistoryPage from "../pages/feeds/InsightHistoryPage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -251,10 +251,11 @@ export const router = createBrowserRouter([
               },
               {
                 path: 'stat',
-                element: <InsightStat />,
+                element: <InsightStatPage />,
                 handle: { 
                   header: { 
-                    kind: "InsightClose", 
+                    kind: "backTitleClose", 
+                    title: "인사이트",
                     back: { type: 'push', to: PATHS.feedProfile }, 
                     close: { type: 'push', to: PATHS.feedProfile }
                   } 
@@ -262,10 +263,11 @@ export const router = createBrowserRouter([
               },
               {
                 path: 'history',
-                element: <InsightHistory />,
+                element: <InsightHistoryPage />,
                 handle: { 
                   header: { 
-                    kind: "InsightClose", 
+                    kind: "backTitleClose", 
+                    title: "인사이트",
                     back: { type: 'push', to: PATHS.feedProfile }, 
                     close: { type: 'push', to: PATHS.feedProfile }
                   } 
