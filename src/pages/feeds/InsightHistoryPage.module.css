@@ -1,0 +1,129 @@
+.page-layout {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  font-family: Pretendard;
+  padding: 30px 20px;
+}
+
+.user-review-wrapper {
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid #c1c1c1;
+  padding: 30px 20px;
+}
+
+.user-review-wrapper p {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.review-header-left .total-count {
+  font-weight: 400;
+  font-size: 12px;
+  color: #8D8D8D;
+}
+
+.review-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.filter-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.filter-select {
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  padding-right: 0;
+}
+
+.user-review-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-review-item {
+  display: flex;
+  padding: 20px 0;
+  gap: 10px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.book-image {
+  width: 80px;
+  height: 110px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.book-info-wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  align-items: flex-start;
+  position: relative;
+  padding: 15px 0;
+}
+
+.book-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.book-author {
+  font-size: 11px;
+  color: #4a4a4a;
+  font-weight: 400;
+}
+
+.book-dates {
+  font-size: 9px;
+  font-weight: 400;
+}
+
+.book-action {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.book-action :global(button) {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+}
+
+@media (min-width: 1024px) {
+  .user-review-wrapper {
+    max-height: 865px;
+    overflow-y: auto;
+  }
+
+  .user-review-wrapper::-webkit-scrollbar {
+    width: 8px;
+  }
+  .user-review-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  .user-review-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
