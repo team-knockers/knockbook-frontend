@@ -1,0 +1,55 @@
+.page-layout {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: Pretendard;
+  padding: 30px 20px;
+}
+
+.page-layout p {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.insight-stat-book {
+  display: flex;
+  padding: 30px 0;
+}
+
+.insight-stat-reading {
+  display: flex;
+  padding: 30px 0;
+}
+
+:global(.fc .fc-toolbar-chunk .fc-button) {
+  font-size: 12px;
+  background-color: #2C3E50;
+}
+
+:global(.fc .fc-day a) {
+  color: #000;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+:global(.fc .fc-daygrid-day-top) {
+  flex-direction: none;
+}
+
+:global(.fc .fc-daygrid-body-natural .fc-daygrid-day-events) {
+  margin: 0;
+}
+
+:global(.rental-event) {
+  background-color: #4da85f;
+  border: none;
+  padding: 2px;
+}
+
+:global(.purchase-event) {
+  background-color: #d98321;
+  border: none;
+  padding: 2px;
+}
