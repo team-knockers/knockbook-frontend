@@ -1,0 +1,75 @@
+/* Backdrop covers the entire viewport */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+}
+
+/* Dialog container with header/body/footer rows */
+.dialog {
+  background: #fff;
+  width: min(92vw, 560px);
+  max-height: 86vh;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+}
+
+/* Fullscreen mode for embedding full pages */
+.fullScreen {
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+  border-radius: 0;
+}
+
+/* Header with title and close button */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+  font-family: Pretendard;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* Minimal close button */
+.closeBtn {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+/* Body area scrolls independently */
+.body {
+  padding: 16px;
+  overflow: auto;
+}
+
+/* Remove default padding (useful for full page components) */
+.noPad {
+  padding: 0;
+}
+
+/* Footer with action buttons aligned to the end */
+.footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+}
