@@ -53,24 +53,19 @@ export type ProductReviewList = {
   starCounts: Array<{ score: 1|2|3|4|5; count: number }>; 
 };
 
-export type QnaStatus = 'ANSWERED' | 'WAITING';
-
-export type QnaItem = {
-  qnaId: string;
-  userName: string;     
-  createdAt: string;   
-  status: QnaStatus;    
-  summary: string;     
-  questionBody: string;  
-  answerBody?: string;
-  answeredAt?: string;
+export type ProductInquiry = {
+  inquiryId: string;
+  displayName: string;
+  title: string;
+  questionBody: string;
+  createdAt: string;
+  answerBody: string | null;
+  answeredAt: string | null;
+  status: string; // "ANSWERED" | "WAITING"
 };
 
-export type ProductQnaList = {
-  qnas: QnaItem[];
-  productId: string;
+export type ProductInquiryList = {
+  productInquiries: ProductInquiry[];
   page: number;
-  size: number;
-  totalItems: number;
   totalPages: number;
 };

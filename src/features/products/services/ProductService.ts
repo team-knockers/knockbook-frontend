@@ -1,9 +1,9 @@
 import { useSession } from "../../../hooks/useSession";
 import { apiAuthPathAndQuery } from "../../../shared/api";
-import type { ProductSummaryList } from "../types";
+import type { ProductInquiryList, ProductSummaryList } from "../types";
 import type { ProductDetail } from "../types";
 
-type GetParams = {
+type SummaryListParams = {
   category: string;
   page: number;
   size: number;
@@ -14,8 +14,14 @@ type GetParams = {
   maxPrice?: number;
 };
 
+type InquiryListParams = {
+  productId: string;
+  page: number;
+  size: number;
+}
+
 export const ProductService = {
-  async getProductSummaryList(p: GetParams): Promise<ProductSummaryList> {
+  async getProductSummaryList(p: SummaryListParams): Promise<ProductSummaryList> {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
 
@@ -46,6 +52,18 @@ export const ProductService = {
       "/products/{productId}/{userId}",
       { productId: p.productId, userId },
       undefined,
+      { method: "GET" }
+    );
+  },
+
+  async getProductInquiryList(p: InquiryListParams): Promise<ProductInquiryList> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery<ProductInquiryList>(
+      "/products/{productId}/inquiries/{userId}",
+      { productId: p.productId, userId },
+      { page: p.page, size: p.size },
       { method: "GET" }
     );
   },

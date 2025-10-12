@@ -13,3 +13,16 @@ export const toChartData = (
     count: map.get(s) ?? 0,
   }));
 };
+
+// "YYYY-MM-DD" (KST)
+const dtfDate = new Intl.DateTimeFormat('ko-KR', {
+  timeZone: 'Asia/Seoul',
+  year: 'numeric', month: '2-digit', day: '2-digit'
+});
+
+export function formatKstDate(iso?: string | null): string {
+  if (!iso) { return ''; }
+  const parts = dtfDate.formatToParts(new Date(iso));
+  const get = (t: string) => parts.find(p => p.type === t)?.value ?? '';
+  return `${get('year')}-${get('month')}-${get('day')}`;
+}
