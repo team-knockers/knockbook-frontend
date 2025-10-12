@@ -32,27 +32,6 @@ export type ProductDetail = {
   descriptionImageUrls: string[];
 };
 
-export type ProductReview = {
-  reviewId: string;
-  userId: string;
-  createdAt: string;      
-  rating: 1|2|3|4|5;      
-  content: string;
-  likesCount: number;
-  liked: boolean;         
-};
-
-export type ProductReviewList = {
-  reviews: ProductReview[];
-  productId: string;
-  page: number;         
-  size: number;         
-  totalItems: number;
-  totalPages: number;
-  averageRating: number;   
-  starCounts: Array<{ score: 1|2|3|4|5; count: number }>; 
-};
-
 export type ProductInquiry = {
   inquiryId: string;
   displayName: string;
@@ -69,3 +48,23 @@ export type ProductInquiryList = {
   page: number;
   totalPages: number;
 };
+
+export type ProductReview = {
+  reviewId: string;
+  displayName: string;
+  body: string;
+  rating: 1|2|3|4|5;
+  createdAt: string;
+  likesCount: number;
+  likedByMe: boolean;
+}
+
+export type ProductReviewList = {
+  productReviews: ProductReview[];
+  page: number;
+  size: number;
+  totalItems: number;
+  totalPages: number;
+  averageRating: number;
+  starCounts: Record<'5'|'4'|'3'|'2'|'1', number>;
+}

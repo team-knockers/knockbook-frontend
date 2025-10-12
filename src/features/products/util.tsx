@@ -3,16 +3,13 @@
 // - Fill missing scores with 0
 // - score must be string for the chart
 export const toChartData = (
-  starCounts: Array<{ score: number | string; count: number }>
-) => {
-  const map = new Map<number, number>(
-    starCounts.map(d => [Number(d.score), Number(d.count) || 0])
-  );
-  return [5, 4, 3, 2, 1].map(s => ({
-    score: String(s),
-    count: map.get(s) ?? 0,
-  }));
-};
+  starCounts: Record<'5'|'4'|'3'|'2'|'1', number>
+) => (
+  (['5','4','3','2','1'] as const).map(k => ({
+    score: k,
+    count: starCounts[k] ?? 0,
+  }))
+);
 
 // "YYYY-MM-DD" (KST)
 const dtfDate = new Intl.DateTimeFormat('ko-KR', {

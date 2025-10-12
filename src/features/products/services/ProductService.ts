@@ -1,6 +1,6 @@
 import { useSession } from "../../../hooks/useSession";
 import { apiAuthPathAndQuery } from "../../../shared/api";
-import type { ProductInquiryList, ProductSummaryList } from "../types";
+import type { ProductInquiryList, ProductReviewList, ProductSummaryList } from "../types";
 import type { ProductDetail } from "../types";
 
 type SummaryListParams = {
@@ -18,6 +18,14 @@ type InquiryListParams = {
   productId: string;
   page: number;
   size: number;
+}
+
+type ReviewListParams = {
+  productId: string;
+  page: number;
+  size: number;
+  sortBy: "createdAt" | "rating" | "likesCount";
+  order: "asc" | "desc";
 }
 
 export const ProductService = {
@@ -67,4 +75,26 @@ export const ProductService = {
       { method: "GET" }
     );
   },
+
+  async getProductReviewList(p: ReviewListParams): Promise<ProductReviewList> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery<ProductReviewList>(
+      "/products/{productId}/reviews/{userId}",
+      { productId: p.productId, userId },
+      { page: p.page, size: p.size, sortBy: p.sortBy, order: p.order },
+      { method: "GET" }
+    );
+  },
+
+  async likeReview(reviewId: string): Promise<void> {
+    // return apiAuthPathAndQuery<void>(`/reviews/${reviewId}/likes`, {}, undefined, { method: 'POST' });
+    return Promise.resolve(); // 백엔드 준비 전 임시
+  },
+  async unlikeReview(reviewId: string): Promise<void> {
+    // return apiAuthPathAndQuery<void>(`/reviews/${reviewId}/likes`, {}, undefined, { method: 'DELETE' });
+    return Promise.resolve(); // 백엔드 준비 전 임시
+  },
+
 };

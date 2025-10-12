@@ -6,6 +6,7 @@ import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
 import { productDetailLoader } from "../pages/products/ProductDetail.loader";
 import { productDetailQnaLoader } from "../pages/products/ProductDetailQna.loader";
+import { productDetailReviewsLoader } from "../pages/products/ProductDetailReviews.loader";
 import { booksHomeLoader } from "../pages/books/BooksHome.loader";
 import { booksSearchLoader } from "../pages/books/BooksSearch.loader";
 import { bookDetailsLoader } from "../pages/books/BookDetails.loader";
@@ -187,6 +188,7 @@ export const router = createBrowserRouter([
               {
                 path: "reviews",
                 element: <ProductDetailReviewsPage />,
+                loader: productDetailReviewsLoader,
                 handle: { 
                   header: { 
                     kind: "backTitleClose", 
