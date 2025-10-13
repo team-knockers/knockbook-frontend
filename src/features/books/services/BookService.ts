@@ -72,7 +72,7 @@ export const BookService = {
   },
 
   // API-BOOKS-04 : Fetch book review statistics
-  async getBookReviewStatics(
+  async getBookReviewStatistics(
     bookId: string,
   ): Promise<BookReviewsStatistics> {
     const { userId } = useSession.getState();
