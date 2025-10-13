@@ -1,19 +1,19 @@
-import type {  BookDetails, BookMbtiPercentage } from '../types';
+import type {  BookDetails, BookReviewsStatistics } from '../types';
 import { calculateBookDiscountRate, formatDateToKoreanFull, renderStars } from '../util';
 import styles from './styles/BookDetailsSummaryInfo.module.css';
 import { LuAward } from "react-icons/lu";
 
 type BookDetailsSummaryInfoProps = {
   bookDetails: BookDetails;
-  mbtiResearch: BookMbtiPercentage[];
+  statistics: BookReviewsStatistics;
 };
 
 export default function BookDetailsSummaryInfo({
   bookDetails,
-  mbtiResearch
+  statistics
 }: BookDetailsSummaryInfoProps) {
 
-  const topMbtiInfo = Array.isArray(mbtiResearch) && mbtiResearch.length > 0 ? mbtiResearch[0] : undefined;
+  const topMbtiInfo = Array.isArray(statistics.mbtiPercentage) && statistics.mbtiPercentage.length > 0 ? statistics.mbtiPercentage[0] : undefined;
 
   return (
     <section className={styles['details-root']}>
@@ -47,9 +47,9 @@ export default function BookDetailsSummaryInfo({
 
           <div className={styles['preference-summary']}>
             <div className={styles['star-rate']}>
-              <div className={styles['star-score']}>{bookDetails.averageRating.toFixed(1)}</div>
-              <div className={styles['star-rating']}>{renderStars(bookDetails.averageRating)}</div>
-              <div className={styles['review-count']}>{bookDetails.ratingCount}개의 리뷰</div>
+              <div className={styles['star-score']}>{statistics.averageRating.toFixed(1)}</div>
+              <div className={styles['star-rating']}>{renderStars(statistics.averageRating)}</div>
+              <div className={styles['review-count']}>{statistics.reviewCount}개의 리뷰</div>
             </div>
             <div className={styles['top-mbti']}>
               {topMbtiInfo ? (
