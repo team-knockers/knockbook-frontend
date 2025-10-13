@@ -3,45 +3,33 @@ import ProductReviewCard from '../../features/products/components/ProductReviewC
 import ProductReviewListHeader from '../../features/products/components/ProductReviewListHeader';
 import BookReviewsBarChart from '../../features/books/components/BookReviewsBarChart';
 import { renderStars } from '../../features/books/util';
-import { productReviewsResponseDummy } from '../../features/products/resources/ProductReviewsResponse.dummy';
-import { useSearchParams } from "react-router-dom";
+import { useLoaderData, useSearchParams, useRevalidator } from "react-router-dom";
 import Pagination from '../../components/navigation/Pagination';
-import { useState } from 'react';
 import { toChartData } from '../../features/products/util';
+import type { ProductReviewList } from '../../features/products/types';
+import { ProductService } from '../../features/products/services/ProductService';
 
 export default function ProductDetailReviewsPage() {
-  // Full response (later: replace with API response)
-  const {
-    reviews: initialReviews,
-    page,
-    totalPages,
-    totalItems,
-    averageRating,
-    starCounts,
-  } = productReviewsResponseDummy;
-
-  // Optimistic like state
-  const [reviews, setReviews] = useState(initialReviews);
+  // Server data from loader 
+  const { productReviews, page, totalItems, totalPages, averageRating, starCounts } = useLoaderData() as ProductReviewList;
+  
+  // Re-run loader without URL change 
+  const { revalidate, state } = useRevalidator();
+  const isBusy = state === 'loading';
 
   // Chart + average
   const scoreData = toChartData(starCounts);
   const avg = averageRating;
   
-  // Toggle like (optimistic)
-  const handleToggleLike = (id: string, next: boolean) => {
-    setReviews(prev =>
-      prev.map(r =>
-        r.reviewId === id
-          ? { ...r, liked: next, likesCount: r.likesCount + (next ? 1 : -1) }
-          : r
-      )
-    );
+  // Like -> call API, then revalidate 
+  const handleToggleLike = async (id: string, next: boolean) => {
+    if (next) { await ProductService.likeReview(id); }
+    else { await ProductService.unlikeReview(id); }
+    revalidate();
   };
 
-  // URL query params (page / sort)
+  // Pagination via URL query
   const [ sp, setSp ] = useSearchParams();
-
-  // Pagination: update only the "page" param in URL
   const goPage = (p: number) => {
     const next = new URLSearchParams(sp);
     next.set("page", String(p));
@@ -70,11 +58,12 @@ export default function ProductDetailReviewsPage() {
         {/* List */}
         <section className={styles['review-list-container']}>
           <ProductReviewListHeader totalCount={totalItems}/>
-          {reviews.map(item => (
+          {productReviews.map(review => (
             <ProductReviewCard
-              key={item.reviewId}
-              item={item}
+              key={review.reviewId}
+              review={review}
               onToggleLike={handleToggleLike}
+              disabled={isBusy} // lock UI while revalidating 
             />
           ))}
         </section>

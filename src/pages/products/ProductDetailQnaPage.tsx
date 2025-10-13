@@ -2,11 +2,12 @@ import OneWayButton from '../../components/forms/OneWayButton';
 import ProductQnaCard from '../../features/products/components/ProductQnaCard';
 import styles from './styles/ProductDetailQnaPage.module.css';
 import { useState } from 'react';
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLoaderData, useParams } from "react-router-dom";
 import Pagination from '../../components/navigation/Pagination';
-import { productQnasResponseDummy } from '../../features/products/resources/ProductQnasResponse.dummy';
 import ProductQnAPopup from '../../features/products/components/ProductQnAPopup';
 import { useOutletContext } from 'react-router-dom';
+import type { ProductInquiryList } from '../../features/products/types';
+import { ProductService } from '../../features/products/services/ProductService';
 
 type DetailCtx = {
   productImageUrl: string;
@@ -14,12 +15,10 @@ type DetailCtx = {
 };
 
 export default function ProductDetailQnaPage() {
-  // Dummy data (will be replaced by API)
-  const { qnas, page, totalPages } = productQnasResponseDummy;
-  
-  // Read minimal product info from  parent route 
+  const { productInquiries, page, totalPages } = useLoaderData() as ProductInquiryList;
+  const { productId } = useParams() as { productId: string };
   const { productImageUrl, productName } = useOutletContext<DetailCtx>();
-
+  
   // Track expanded items (allow multi-open)
   const [openSet, setOpenSet] = useState<Set<string>>(new Set());
   const toggleOpen = (id: string): void => {
@@ -36,10 +35,7 @@ export default function ProductDetailQnaPage() {
     setIsQnaOpen(true); // TODO: show QnA modal
   };
 
-  // URL query params (page / sort)
   const [ sp, setSp ] = useSearchParams();
-
-  // Pagination: update only the "page" param in URL
   const goPage = (p: number) => {
     const next = new URLSearchParams(sp);
     next.set("page", String(p));
@@ -65,11 +61,11 @@ export default function ProductDetailQnaPage() {
         
         {/* QnA list */}
         <section className={styles['qna-list']}>
-          {qnas.map((item) => (
+          {productInquiries.map((inquiry) => (
             <ProductQnaCard
-              key={item.qnaId}
-              item={item}
-              isOpen={openSet.has(item.qnaId)}
+              key={inquiry.inquiryId}
+              inquiry={inquiry}
+              isOpen={openSet.has(inquiry.inquiryId)}
               onToggle={toggleOpen}
             />
           ))}
@@ -87,11 +83,9 @@ export default function ProductDetailQnaPage() {
           <ProductQnAPopup
             productImageUrl={productImageUrl}
             productName={productName}
-            onSubmit={(title, content) => {
-              // TODO: API
-              console.log(title, content);
-              setIsQnaOpen(false);
-            }}
+            onSubmit={async(title, questionBody) =>
+              await ProductService.createInquiry(productId, { title, questionBody }) 
+            }
             onClose={() => setIsQnaOpen(false)}
           />
         )}

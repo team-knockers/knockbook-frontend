@@ -2,11 +2,12 @@ import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import styles from "./styles/ProductQnAPopup.module.css";
 import OneWayButton from "../../../components/forms/OneWayButton";
+import { useRevalidator } from "react-router-dom";
 
 type ProductQnAPopupProps = {
   productImageUrl: string; // Product image URL
   productName: string; // Product name
-  onSubmit: (title: string, content: string) => void; // Function executed on submit button click
+  onSubmit: (title: string, questionBody: string) => void | Promise<void>; // Function executed on submit button click
   onClose: () => void; // Function executed on close button click
 };
 
@@ -20,13 +21,14 @@ export default function ProductQnAPopup ({
   onClose,
 }: ProductQnAPopupProps) {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
+  const [questionBody, setquestionBody] = useState("");
+  const {revalidate} = useRevalidator();
   // Check whether both the title and content are filled in
-  const isFormValid = title.trim() !== "" && content.trim() !== "";
+  const isFormValid = title.trim() !== "" && questionBody.trim() !== "";
 
   const handleSubmit = () => {
-    onSubmit(title, content);
+    onSubmit(title, questionBody);
+    revalidate();
     onClose();
   };
 
@@ -70,12 +72,12 @@ export default function ProductQnAPopup ({
             <div className={styles["form-description-text"]}>
               <textarea
                 placeholder="내용을 입력해주세요."
-                value={content}
-                onChange={(e) => setContent(e.target.value.slice(0, 300))}
+                value={questionBody}
+                onChange={(e) => setquestionBody(e.target.value.slice(0, 300))}
                 maxLength={contentMaxlength}
               />
               <div className={styles["char-count"]}>
-                <span className={styles["current-length"]}>{content.length}</span>
+                <span className={styles["current-length"]}>{questionBody.length}</span>
                 <span className={styles["max-length"]}> / 300자</span>
               </div>
             </div>
