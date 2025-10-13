@@ -1,5 +1,5 @@
 import type {  BookDetails, BookMbtiPercentage } from '../types';
-import { calculateBookDiscountRate, calculateBookPurchasePoint, calculateBookRentalPoint, formatDateToKoreanFull, renderStars } from '../util';
+import { calculateBookDiscountRate, formatDateToKoreanFull, renderStars } from '../util';
 import styles from './styles/BookDetailsSummaryInfo.module.css';
 import { LuAward } from "react-icons/lu";
 
@@ -14,9 +14,6 @@ export default function BookDetailsSummaryInfo({
 }: BookDetailsSummaryInfoProps) {
 
   const topMbtiInfo = Array.isArray(mbtiResearch) && mbtiResearch.length > 0 ? mbtiResearch[0] : undefined;
-
-  const purchasePoint = calculateBookPurchasePoint(bookDetails.discountedPurchaseAmount);
-  const rentalPoint = calculateBookRentalPoint(bookDetails.rentalAmount);
 
   return (
     <section className={styles['details-root']}>
@@ -81,7 +78,7 @@ export default function BookDetailsSummaryInfo({
               </div>
               <div className={styles['point-box']}>
                 <span className={styles['point-box-title']}>적립</span>
-                <span className={styles['point-box-contents']}>{purchasePoint.toLocaleString()}P</span>
+                <span className={styles['point-box-contents']}>{bookDetails.purchasePoint.toLocaleString()}P</span>
               </div>
             </div>
             <div className={styles['price-rent']}>
@@ -94,7 +91,7 @@ export default function BookDetailsSummaryInfo({
               </div>
               <div className={styles['point-box']}>
                 <span className={styles['point-box-title']}>적립</span>
-                <span className={styles['point-box-contents']}>{rentalPoint.toLocaleString()}P</span>
+                <span className={styles['point-box-contents']}>{bookDetails.rentalPoint.toLocaleString()}P</span>
               </div>
             </div>
           </div>
