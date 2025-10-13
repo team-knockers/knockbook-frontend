@@ -66,7 +66,7 @@ export default function BookReviewListItem({
         <div className={styles['meta-right']}>
           <div className={styles['star-score']}>{renderStars(reviewData.rating)}</div>
           <div className={styles['badge-mbti']}>
-            {reviewData.mbti}
+            {reviewData.mbti ?? '미설정'}
           </div>
         </div>
       </div>
