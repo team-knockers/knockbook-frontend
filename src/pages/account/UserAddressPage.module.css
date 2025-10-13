@@ -1,0 +1,86 @@
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  align-self: stretch;
+  width: 100%;
+  padding: 14px 20px;
+}
+
+.max-width-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  gap: 20px;
+}
+
+.add-address-button {
+  align-self: flex-end;
+  width: 120px;
+}
+
+.address-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 0.5px solid #dad9d9;
+  width: 100%;
+}
+
+.address-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.address-card-header-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.address-card-header-title {
+  font-family: Pretendard;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.address-card-edit-button {
+  display: flex;
+  gap: 5px;
+}
+
+.address-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.set-default {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.56px;
+}
+
+

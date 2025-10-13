@@ -123,7 +123,7 @@ export default function AccountHomePage() {
             </button>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => {/* TODO */}}>
+              onClick={() => nav(PATHS.userAddress)}>
               배송지 설정
             </button>
             <button 

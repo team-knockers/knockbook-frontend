@@ -14,6 +14,7 @@ import { booksCategoryLoader } from "../pages/books/BooksCategory.loader";
 import { NotificationPageLoader } from "../pages/customer/NotificationPage.loader";
 import { policyLoader } from "../pages/customer/PolicyPage.loader";
 import { cartAction, CartPageLoader } from "../pages/purchase/CartPage.loader";
+import { UserAddressAction, UserAddressPageLoader } from "../pages/account/UserAddressPage.loader";
 
 import ResponsiveMainShell from "../components/layout/ResponsiveMainShell";
 import IntroPage from "../pages/IntroPage";
@@ -55,6 +56,7 @@ import FeedProfilePage from "../pages/feeds/FeedProfilePage";
 import InsightPage from "../pages/feeds/InsightPage";
 import InsightStatPage from "../pages/feeds/InsightStatPage";
 import InsightHistoryPage from "../pages/feeds/InsightHistoryPage";
+import UserAddressPage from "../pages/account/UserAddressPage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -254,7 +256,7 @@ export const router = createBrowserRouter([
                 element: <Navigate to={PATHS.insightStat} replace />,
               },
               {
-                path: 'stat',
+                path: PATHS.insightStat,
                 element: <InsightStatPage />,
                 handle: { 
                   header: { 
@@ -266,7 +268,7 @@ export const router = createBrowserRouter([
                 } 
               },
               {
-                path: 'history',
+                path: PATHS.insightHistory,
                 element: <InsightHistoryPage />,
                 handle: { 
                   header: { 
@@ -317,6 +319,19 @@ export const router = createBrowserRouter([
               header: { 
                 kind: "backTitleClose",
                 title: "내 정보 관리",
+                back: { type: 'push', to:PATHS.accountHome },
+                close: { type: 'push', to: PATHS.home }
+              } 
+            } 
+          },
+          { path: PATHS.userAddress,
+            element: <UserAddressPage />,
+            loader: UserAddressPageLoader,
+            action: UserAddressAction,
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "배송지 변경",
                 back: { type: 'push', to:PATHS.accountHome },
                 close: { type: 'push', to: PATHS.home }
               } 

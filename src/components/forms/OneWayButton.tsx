@@ -7,6 +7,7 @@ type OneWayButtonProps = {
   widthSizeType: 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
   heightSizeType: 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | 'xxs' | 'xxxs';
   colorType: 'dark' | 'light' | 'natural' | 'outline' | 'light-dark';
+  fontSize?: string;
   disabled?: boolean;
 };
 
@@ -17,6 +18,7 @@ export default function OneWayButton({
   widthSizeType,
   heightSizeType,
   colorType,
+  fontSize,
   disabled = false,
 }: OneWayButtonProps) {
   const className = [
@@ -33,6 +35,7 @@ export default function OneWayButton({
       className={className}
       onClick={onClick}
       disabled={disabled}
+      style={{ fontSize: fontSize }}
     >
       {content}
     </button>

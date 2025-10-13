@@ -1,0 +1,96 @@
+/* shrink the dialog itself */
+.smDialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(92vw, 360px);
+  height: min(180px);
+  padding-top: 20px;
+}
+
+@media (max-width: 1023.98px) { 
+  .smDialog { 
+    width: 92vw;
+  }
+}
+
+/* inner layout */
+.container{ 
+  box-sizing: border-box; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 50px;
+  width: 100%;
+}
+
+.message { 
+  text-align: center;
+}
+
+.title { 
+  margin:0;
+  font-weight: 600;
+  font-size:.95rem; 
+  color:#111827;
+  line-height:1.25; 
+}
+
+.desc { 
+  margin: 6px 0 0;
+  font-size: .85rem;
+  color:#6b7280;
+  line-height: 1.4;
+}
+
+.footer{ 
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px 20px;
+}
+
+.btnCancel,.btnConfirm{
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px; 
+  border-radius: 8px;
+  border:1px solid transparent;
+  font-weight: 500;
+  font-size: .86rem;
+  cursor: pointer;
+  transition:background-color .12s ease, border-color .12s ease, transform .12s ease;
+}
+
+.btnCancel { 
+  background: #e5e7eb;
+  color:#111827;
+  border-color:#e5e7eb;
+}
+
+.btnCancel:hover { 
+  background: #d9dce2; 
+}
+
+.btnConfirm{ 
+  background: #1f2937;
+  color: #fff;
+  border-color: #1f2937; 
+}
+
+.btnConfirm:hover { 
+  background: #1b2431; 
+}
+
+.btnCancel:active,
+.btnConfirm:active { 
+  transform: translateY(1px); 
+}
+
+.btnCancel:focus-visible,
+.btnConfirm:focus-visible { 
+  outline:none; 
+  box-shadow:0 0 0 3px rgba(59,130,246,.25); 
+}

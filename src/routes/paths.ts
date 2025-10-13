@@ -41,6 +41,7 @@ export const PATHS = {
   accountHome: "/account",
   accountSettingsIntro: "/account/settings",
   accountSettingsProfile: "/account/settings/profile",
+  userAddress: "/account/settings/address",
 
   /* customer */
   customer: "/customer",

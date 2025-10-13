@@ -1,6 +1,6 @@
 import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { ChangePasswordRequest, VerifyPasswordRequest, GetMyProfileResponse } from "../types";
+import type { ChangePasswordRequest, VerifyPasswordRequest, GetMyProfileResponse, Address, InsertAddressRequest, UpdateAddressRequest } from "../types";
 
 export const UserService = {
   
@@ -29,7 +29,6 @@ export const UserService = {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
     const req = { password : password } as ChangePasswordRequest;
-    console.log(req);
     return await apiAuthPathWithJson<void, ChangePasswordRequest>(
       "/users/{userId}/password",
       { userId : userId },
@@ -40,10 +39,66 @@ export const UserService = {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
     const req = { password : password } as VerifyPasswordRequest;
-    console.log(req);
     return await apiAuthPathWithJson<void, VerifyPasswordRequest>(
       "/users/{userId}/password/verify",
       { userId : userId },
       { method: "POST", json: req });
+  },
+
+  async getAddresses() {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPath<Address[]>(
+      "/users/{userId}/addresses",
+      { userId : userId },
+      { method: "GET" });
+  },
+
+  async getAddress(addressId : string) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPath<Address>(
+      "/users/{userId}/addresses/{addressId}",
+      { userId, addressId },
+      { method: "GET" });
+  },
+
+   async setDefaultAddressAs(addressId: string) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPath(
+      "/users/{userId}/addresses/{addressId}/make-default",
+      { userId, addressId },
+      { method: "POST" });
+  },
+
+  async deleteAddress(addressId: string) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPath(
+      "/users/{userId}/addresses/{addressId}",
+      { userId, addressId },
+      { method: "DELETE" });
+  },
+
+  async insertAddress(req: InsertAddressRequest) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPathWithJson<void, InsertAddressRequest>(
+      "/users/{userId}/addresses",
+      { userId : userId },
+      { method: "POST", json: req });
+  },
+
+  async updateAddress(
+    addressId: string,
+    req: UpdateAddressRequest) {
+    console.log(req);
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPathWithJson<void, UpdateAddressRequest>(
+      "/users/{userId}/addresses/{addressId}",
+      { userId, addressId },
+      { method: "PATCH", json: req });
   },
 }
