@@ -52,13 +52,13 @@ export const ProductService = {
     );
   },
 
-  async getProductDetail(p: {productId: string}): Promise<ProductDetail> {
+  async getProductDetail(productId: string): Promise<ProductDetail> {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
 
     return apiAuthPathAndQuery<ProductDetail>(
       "/products/{productId}/{userId}",
-      { productId: p.productId, userId },
+      { productId, userId },
       undefined,
       { method: "GET" }
     );
@@ -94,20 +94,37 @@ export const ProductService = {
     
     return apiAuthPathAndQuery<void>(
       "/products/reviews/{reviewId}/likes/{userId}",
-      { reviewId: reviewId, userId},
+      { reviewId, userId},
       undefined,
       { method: "PUT" }
     );
   },
+
   async unlikeReview(reviewId: string): Promise<void> {
     const { userId } = useSession.getState();
     if (!userId) throw new Error("NO_USER");
     
     return apiAuthPathAndQuery<void>(
       "/products/reviews/{reviewId}/likes/{userId}",
-      { reviewId: reviewId, userId},
+      { reviewId, userId},
       undefined,
       { method: "DELETE" }
     );
   },
+
+  // async createInquiry(productId: string): Promise<void>{
+  //   const { userId } = useSession.getState();
+  //   if (!userId) throw new Error("NO_USER");
+
+  //   return apiAuthPathAndQuery<void>(
+  //     "/products/{productId}/inquiries/{userId}",
+  //     { productId, userId },
+  //     undefined,
+  //     { 
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(payload),
+  //     }
+  //   );
+  // }
 };
