@@ -2,11 +2,12 @@ import OneWayButton from '../../components/forms/OneWayButton';
 import ProductQnaCard from '../../features/products/components/ProductQnaCard';
 import styles from './styles/ProductDetailQnaPage.module.css';
 import { useState } from 'react';
-import { useSearchParams, useLoaderData } from "react-router-dom";
+import { useSearchParams, useLoaderData, useParams } from "react-router-dom";
 import Pagination from '../../components/navigation/Pagination';
 import ProductQnAPopup from '../../features/products/components/ProductQnAPopup';
 import { useOutletContext } from 'react-router-dom';
 import type { ProductInquiryList } from '../../features/products/types';
+import { ProductService } from '../../features/products/services/ProductService';
 
 type DetailCtx = {
   productImageUrl: string;
@@ -15,9 +16,9 @@ type DetailCtx = {
 
 export default function ProductDetailQnaPage() {
   const { productInquiries, page, totalPages } = useLoaderData() as ProductInquiryList;
-  
+  const { productId } = useParams() as { productId: string };
   const { productImageUrl, productName } = useOutletContext<DetailCtx>();
-
+  
   // Track expanded items (allow multi-open)
   const [openSet, setOpenSet] = useState<Set<string>>(new Set());
   const toggleOpen = (id: string): void => {
@@ -82,11 +83,9 @@ export default function ProductDetailQnaPage() {
           <ProductQnAPopup
             productImageUrl={productImageUrl}
             productName={productName}
-            onSubmit={(title, content) => {
-              // TODO: API
-              console.log(title, content);
-              setIsQnaOpen(false);
-            }}
+            onSubmit={async(title, questionBody) =>
+              await ProductService.createInquiry(productId, { title, questionBody }) // Promise 반환
+            }
             onClose={() => setIsQnaOpen(false)}
           />
         )}

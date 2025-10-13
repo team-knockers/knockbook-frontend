@@ -83,7 +83,7 @@ export const ProductService = {
     return apiAuthPathAndQuery<ProductReviewList>(
       "/products/{productId}/reviews/{userId}",
       { productId: p.productId, userId },
-      { page: p.page, size: p.size, sortBy: p.sortBy, order: p.order },
+      { page: p.page, size: p.size, sortBy: p.sortBy, order: p.order, _: Date.now() },
       { method: "GET" }
     );
   },
@@ -112,19 +112,22 @@ export const ProductService = {
     );
   },
 
-  // async createInquiry(productId: string): Promise<void>{
-  //   const { userId } = useSession.getState();
-  //   if (!userId) throw new Error("NO_USER");
+  async createInquiry(
+    productId: string,
+    payload: { title: string; questionBody: string; }
+  ): Promise<void>{
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
 
-  //   return apiAuthPathAndQuery<void>(
-  //     "/products/{productId}/inquiries/{userId}",
-  //     { productId, userId },
-  //     undefined,
-  //     { 
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(payload),
-  //     }
-  //   );
-  // }
+    return apiAuthPathAndQuery<void>(
+      "/products/{productId}/inquiries/{userId}",
+      { productId, userId },
+      undefined,
+      { 
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
+  },
 };

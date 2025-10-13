@@ -33,13 +33,14 @@ export default function ProductQnaCard({ inquiry, isOpen, onToggle }: Props) {
       </button>
 
       {/* Render details only when open AND answered */}
-      {isOpen && inquiry.status === 'ANSWERED' && (
+      {isOpen && (
         <div className={styles['qna-detail']}>
           <div className={styles['qna-detail-inner']}>
             <div className={styles['qna-detail-question']}>
               <span className={styles['qna-detail-label']}>Q</span>
               <span className={styles['qna-detail-text']}>{inquiry.questionBody}</span>
             </div>
+            {inquiry.status === 'ANSWERED' && (
             <div className={styles['qna-detail-answer']}>
               <div className={styles['qna-detail-date']}>
                 <span>{formatKstDate(inquiry.answeredAt)}</span>
@@ -49,6 +50,7 @@ export default function ProductQnaCard({ inquiry, isOpen, onToggle }: Props) {
                 <span className={styles['qna-detail-text']}>{inquiry.answerBody}</span>
               </div>
             </div>
+            )}
           </div>
         </div>
       )}
