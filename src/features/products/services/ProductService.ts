@@ -89,12 +89,25 @@ export const ProductService = {
   },
 
   async likeReview(reviewId: string): Promise<void> {
-    // return apiAuthPathAndQuery<void>(`/reviews/${reviewId}/likes`, {}, undefined, { method: 'POST' });
-    return Promise.resolve(); // 백엔드 준비 전 임시
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+    
+    return apiAuthPathAndQuery<void>(
+      "/products/reviews/{reviewId}/likes/{userId}",
+      { reviewId: reviewId, userId},
+      undefined,
+      { method: "PUT" }
+    );
   },
   async unlikeReview(reviewId: string): Promise<void> {
-    // return apiAuthPathAndQuery<void>(`/reviews/${reviewId}/likes`, {}, undefined, { method: 'DELETE' });
-    return Promise.resolve(); // 백엔드 준비 전 임시
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+    
+    return apiAuthPathAndQuery<void>(
+      "/products/reviews/{reviewId}/likes/{userId}",
+      { reviewId: reviewId, userId},
+      undefined,
+      { method: "DELETE" }
+    );
   },
-
 };
