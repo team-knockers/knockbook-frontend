@@ -44,6 +44,7 @@ export default function BookDetailsPage() {
           bookDetails={bookDetails} 
           statistics={statistics}     
         />
+        {/* 내 MBTI조회하는 API확인 후 내 MBTI 반영할 것 */}
         <BookDetailsResearch
           myMbti={myMbti}
           mbtiResearch={statistics.mbtiPercentage}
