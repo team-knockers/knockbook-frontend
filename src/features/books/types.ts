@@ -181,3 +181,10 @@ export type BookReview = {
   likesCount: number,
   likedByMe: boolean
 };
+
+export type BookReviewsStatistics = {
+  averageRating: number,
+  reviewCount: number,
+  scoreCounts: BookStarCount[],
+  mbtiPercentage: BookMbtiPercentage[]
+};
