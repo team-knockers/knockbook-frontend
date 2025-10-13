@@ -55,7 +55,6 @@ import InsightPage from "../pages/feeds/InsightPage";
 import InsightStatPage from "../pages/feeds/InsightStatPage";
 import InsightHistoryPage from "../pages/feeds/InsightHistoryPage";
 import UserAddressPage from "../pages/account/UserAddressPage";
-import EditAddressPage from "../pages/account/EditAddressPage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
