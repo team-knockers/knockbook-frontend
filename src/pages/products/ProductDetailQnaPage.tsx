@@ -84,7 +84,7 @@ export default function ProductDetailQnaPage() {
             productImageUrl={productImageUrl}
             productName={productName}
             onSubmit={async(title, questionBody) =>
-              await ProductService.createInquiry(productId, { title, questionBody }) // Promise 반환
+              await ProductService.createInquiry(productId, { title, questionBody }) 
             }
             onClose={() => setIsQnaOpen(false)}
           />
