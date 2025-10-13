@@ -18,6 +18,15 @@ export function calculateBookRentalPoint(rentalAmount: number) {
   return Math.floor(amount * 0.02);
 }
 
+/* Convert an ISO timestamp or Date to a local YYYY-MM-DD string. */
+export function isoToLocalYmd(iso: string | Date): string {
+  const d = new Date(iso);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 /* Change localDate form "2022-05-20" → "2022.05.20" */
 export function formatDateToDot(dateString: string) {
   const [year, month, day] = dateString.split('-');

@@ -1,6 +1,6 @@
 import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory } from "../types";
+import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, BookReviewsApiResponse } from "../types";
 
 export const BookService = {
 
@@ -44,6 +44,64 @@ export const BookService = {
       "/books/{userId}/{bookId}",
       { userId, bookId },
       { method: "GET" }
+    );
+  },
+
+  // API-BOOKS-03 : Fetch paginated book reviews data
+  async getBookReviews(
+    bookId: string,
+    page: number,
+    size: number,
+    transactionType?: string,
+    sortBy?: string,
+    order?: string,
+    sameMbti?: boolean
+  ): Promise<BookReviewsApiResponse> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!bookId) { throw new Error("NO_BOOK_ID"); }
+    if (page == null) { throw new Error("NO_PAGE"); }
+    if (size == null) { throw new Error("NO_SIZE"); }
+
+    return apiAuthPathAndQuery<BookReviewsApiResponse>(
+      "/books/{userId}/{bookId}/reviews",
+      { userId, bookId },
+      { page, size, transactionType, sortBy, order, sameMbti },
+      { method: "GET" }
+    );
+  },
+
+  // API-BOOKS-05 : Toggle like (PUT) for a review
+  async likeReview(
+    bookId: string,
+    reviewId: string
+  ): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!bookId) { throw new Error("NO_BOOK_ID"); }
+    if (!reviewId) { throw new Error("NO_REVIEW_ID"); }
+
+    await apiAuthPath<void>(
+      "/books/{userId}/{bookId}/reviews/{reviewId}/likes",
+      { userId, bookId, reviewId },
+      { method: "PUT" }
+    );
+  },
+
+  // API-BOOKS-06 : Unlike (DELETE) for a review
+  async unlikeReview(
+    bookId: string,
+    reviewId: string
+  ): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!bookId) { throw new Error("NO_BOOK_ID"); }
+    if (!reviewId) { throw new Error("NO_REVIEW_ID"); }
+
+    await apiAuthPath<void>(
+      "/books/{userId}/{bookId}/reviews/{reviewId}/likes",
+      { userId, bookId, reviewId },
+      { method: "DELETE" }
     );
   },
 
