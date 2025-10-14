@@ -1,6 +1,6 @@
 import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, BookReviewsApiResponse } from "../types";
+import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, BookReviewsApiResponse, BookReviewsStatistics } from "../types";
 
 export const BookService = {
 
@@ -67,6 +67,21 @@ export const BookService = {
       "/books/{userId}/{bookId}/reviews",
       { userId, bookId },
       { page, size, transactionType, sortBy, order, sameMbti },
+      { method: "GET" }
+    );
+  },
+
+  // API-BOOKS-04 : Fetch book review statistics
+  async getBookReviewStatistics(
+    bookId: string,
+  ): Promise<BookReviewsStatistics> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!bookId) { throw new Error("NO_BOOK_ID"); }
+
+    return apiAuthPathAndQuery<BookReviewsStatistics>(
+      "/books/{userId}/{bookId}/reviews/statistics",
+      { userId, bookId },
       { method: "GET" }
     );
   },

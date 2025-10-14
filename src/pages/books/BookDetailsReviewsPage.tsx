@@ -1,5 +1,4 @@
 import styles from './styles/BookDetailsReviewsPage.module.css';
-import { bookReviewsScoreDummy } from "../../features/books/resources/bookDetailsPage.dummy";
 import { renderStars } from '../../features/books/util';
 import BookReviewsBarChart from '../../features/books/components/BookReviewsBarChart';
 import BookReviewListItem from '../../features/books/components/BookReviewListItem';
@@ -7,9 +6,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import BookReviewListHeader from '../../features/books/components/BookReviewListHeader';
 import { reviewsSortOptions, type BookReview } from '../../features/books/types';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useLoaderData, useParams, useSearchParams } from 'react-router-dom';
 import { BookService } from '../../features/books/services/BookService';
 import Pagination from '../../components/navigation/Pagination';
+import type { BookDetailsLoaderData } from './BookDetails.loader';
 
 type ReviewsSearchState = {
   page: number;
@@ -42,6 +42,7 @@ const applyQueryParam = (q: URLSearchParams, key: string, value: string | number
 };
 
 export default function BookDetailsReviewsPage() {
+  const { statistics } = useLoaderData() as BookDetailsLoaderData;
   const { bookId } = useParams(); 
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchState, setSearchState] = useState<ReviewsSearchState>(() => makeInitialState(searchParams));
@@ -51,8 +52,6 @@ export default function BookDetailsReviewsPage() {
   const [reviews, setReview] = useState<BookReview[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-
-  const reviewsScoreData = bookReviewsScoreDummy;
 
   // Keep URL as single source of truth
   const setQuery = (updater: (q: URLSearchParams) => void) => {
@@ -181,12 +180,12 @@ export default function BookDetailsReviewsPage() {
         <section className={styles['reviews-statistics']}>
           <div className={styles['reviews-average']}>
             <span className={styles['reviews-average-label']}>사용자 총점</span>
-            <span className={styles['star-score']}>4.8</span>
-            <span className={styles['star-rating']}>{renderStars(4.8)}</span>
+            <span className={styles['star-score']}>{statistics.averageRating.toFixed(1)}</span>
+            <span className={styles['star-rating']}>{renderStars(statistics.averageRating)}</span>
           </div>
           <div className={styles['reviews-chart']}>
             <BookReviewsBarChart
-              scoreData={reviewsScoreData}
+              scoreData={statistics.scoreCounts}
             />
           </div>
         </section>

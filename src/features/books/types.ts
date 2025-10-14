@@ -54,6 +54,8 @@ export type BookDetails = {
   rentalCount: number;
   averageRating: number;
   ratingCount: number;
+  rentalPoint: number;
+  purchasePoint: number;
 };
 
 export type BookCategory = {
@@ -140,12 +142,12 @@ export const sortOptions = [
 export type BookMbtiPercentage = {
   mbti: string;
   percentage: number;
-}
+};
 
 export type BookStarCount = {
   score: string,
   count: number,
-}
+};
 
 export const transactionOptions = [
   { value: 'all', label: '전체' },
@@ -178,4 +180,11 @@ export type BookReview = {
   imageUrls: string[],
   likesCount: number,
   likedByMe: boolean
-}
+};
+
+export type BookReviewsStatistics = {
+  averageRating: number,
+  reviewCount: number,
+  scoreCounts: BookStarCount[],
+  mbtiPercentage: BookMbtiPercentage[]
+};
