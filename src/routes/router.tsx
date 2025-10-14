@@ -3,6 +3,7 @@ import { PATHS } from "./paths";
 import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
 import { QnAListPageLoader } from "../pages/customer/QnAListPage.loader";
 import { faqLoader } from "../pages/customer/FAQPage.loader";
+import { homeLoader } from "../pages/Home.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
 import { productDetailLoader } from "../pages/products/ProductDetail.loader";
 import { productDetailQnaLoader } from "../pages/products/ProductDetailQna.loader";
@@ -74,6 +75,7 @@ export const router = createBrowserRouter([
         element: <ResponsiveMainShell />,
         children: [
           { path: PATHS.home,
+            loader: homeLoader,
             element: <HomePage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksHome,
