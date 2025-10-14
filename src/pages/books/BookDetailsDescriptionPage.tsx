@@ -1,9 +1,9 @@
 import styles from './styles/BookDetailsDescriptionPage.module.css';
 import { useLoaderData } from 'react-router-dom';
-import type { BookDetails } from '../../features/books/types';
 import { useEffect, useRef, useState } from 'react';
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
 import { formatDateToKoreanFull } from '../../features/books/util';
+import type { BookDetailsLoaderData } from './BookDetails.loader';
 
 function useIsOverflowing(
   ref: React.RefObject<HTMLElement | null>,
@@ -40,7 +40,7 @@ function useIsOverflowing(
 }
 
 export default function BookDetailsDescriptionPage() {
-  const bookDetails = useLoaderData() as BookDetails;
+  const { bookDetails } = useLoaderData() as BookDetailsLoaderData;
 
   // expand/collapse state for the image stack 
   const [expandedIntroduction, setExpandedIntroduction] = useState(false);
