@@ -1,6 +1,10 @@
 export type GetMyProfileResponse = {
+  id: string;
   displayName: string;
   email: string;
+  avartarUrl: string;
+  mbti: string;
+  favoriteBookCategories: string[];
 }
 
 export type ChangePasswordRequest = {
@@ -38,14 +42,14 @@ export type InsertAddressRequest = {
 }
 
 export type UpdateAddressRequest = {
-  recipientName: string;
-  phone: string;
-  postalCode: string;
-  address1: string;
+  recipientName?: string;
+  phone?: string;
+  postalCode?: string;
+  address1?: string;
   address2?: string;
-  label: string;
+  label?: string;
   entryInfo?: string;
   deliveryMemo?: string;
-  isDefault: boolean;
+  isDefault?: boolean;
 }
 
