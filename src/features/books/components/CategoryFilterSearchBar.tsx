@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './styles/CategoryFilterSearchBar.module.css';
-import { FiSearch } from 'react-icons/fi';
-import { GiHamburgerMenu } from 'react-icons/gi';
+import { FiSearch, FiMenu } from 'react-icons/fi';
 import { SEARCH_OPTIONS, type SearchOption } from '../types';
 
 type CategoryFilterSearchBarProps = {
@@ -38,7 +37,7 @@ export default function CategoryFilterSearchBar({
           className={styles['category-button']}
           onClick={onCategoryToggled}
           aria-label="Open category menu">
-          <GiHamburgerMenu className={styles['hamburger-icon']} />
+          <FiMenu className={styles['hamburger-icon']} />
         </button>
       )}
       <div className={styles['search-input-group']}>
