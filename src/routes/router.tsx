@@ -67,6 +67,8 @@ import InsightPage from "../pages/feeds/InsightPage";
 import InsightStatPage from "../pages/feeds/InsightStatPage";
 import InsightHistoryPage from "../pages/feeds/InsightHistoryPage";
 import UserAddressPage from "../pages/account/UserAddressPage";
+import OrderPage from "../pages/purchase/OrderPage";
+import { OrderAction, OrderPageLoader } from "../pages/purchase/OrderPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -303,6 +305,17 @@ export const router = createBrowserRouter([
               } 
             } 
           },
+          { path: PATHS.order,
+            element: <OrderPage />,
+            loader: OrderPageLoader,
+            action: OrderAction,
+            handle: { 
+              header: { 
+                kind: "backTitleClose", 
+                title: "주문하기" 
+              } 
+            } 
+          },
           { path: PATHS.accountHome,
             element: <AccountHomePage />,
             handle: { 
@@ -418,7 +431,7 @@ export const router = createBrowserRouter([
             }
           },
           {
-            path: PATHS.poicy,
+            path: PATHS.policy,
             loader: policyLoader,
             element: <PolicyPage />,
             handle: {

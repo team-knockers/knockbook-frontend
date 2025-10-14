@@ -140,7 +140,7 @@ export default function AccountHomePage() {
             </button>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => nav(PATHS.poicy)}>
+              onClick={() => nav(PATHS.policy)}>
               이용약관
             </button>
             <button 
