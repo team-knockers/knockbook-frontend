@@ -11,12 +11,16 @@ import { homeBookBannerImageDummy, homeProductBannerImageDummy } from '../featur
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { mbtiRecommendations, preferenceRecommendations } = useLoaderData() as HomeLoaderData;
+  const { mbtiRecommendations, preferenceRecommendations, myMbti, myFavoriteBookCategories } = useLoaderData() as HomeLoaderData;
 
   const homeBookBannerImage = homeBookBannerImageDummy;
   const homeProductBannerImage = homeProductBannerImageDummy;
 
-    const handleBookItemClick = (id: string) => {
+  const hasFavorites = Array.isArray(myFavoriteBookCategories) && myFavoriteBookCategories.length > 0;
+
+  const mbtiSectionTitle = myMbti ? `${myMbti}의 선택` : '이러한 책들은 어떠세요?';
+
+  const handleBookItemClick = (id: string) => {
     navigate(generatePath(PATHS.bookDetails, { bookId: id }));
   };
 
@@ -42,7 +46,7 @@ export default function HomePage() {
         </ProductBannerSlider>
       </section>
       <section className={s['home-section']}>
-        <h2 className={s['section-title']}>ISFP의 선택</h2>
+        <h2 className={s['section-title']}>{mbtiSectionTitle}</h2>
         <BookSlider>
           {mbtiRecommendations.map(book => (
             <BookCardForBookSlider
@@ -53,30 +57,37 @@ export default function HomePage() {
               publisher={book.publisher}
               onImageOrTitleClicked={() => {
                 handleBookItemClick(book.id);
-                console.log(`${book.title} 클릭`);
               }}
             />
           ))}
         </BookSlider>
       </section>
-      <section className={s['home-section']}>
-        <h2 className={s['section-title']}>요리를 좋아하는 당신에게</h2>
-        <BookSlider>
-          {preferenceRecommendations.map(book => (
-            <BookCardForBookSlider
-              key={book.id}
-              imageUrl={book.coverThumbnailUrl}
-              title={book.title}
-              author={book.author}
-              publisher={book.publisher}
-              onImageOrTitleClicked={() => {
-                handleBookItemClick(book.id);
-                console.log(`${book.title} 클릭`);
-              }}
-            />
-          ))}
-        </BookSlider>
-      </section>
+
+      {Array.isArray(preferenceRecommendations) && preferenceRecommendations.map((booksForCategory, idx) => {
+        if (!booksForCategory || booksForCategory.length === 0) return null;
+
+        const title = hasFavorites
+          ? `${myFavoriteBookCategories![idx]} 장르를 좋아하는 당신에게`
+          : '이런 책도 있어요';
+
+        return (
+          <section className={s['home-section']} key={`pref-${idx}`}>
+            <h2 className={s['section-title']}>{title}</h2>
+            <BookSlider>
+              {booksForCategory.map(book => (
+                <BookCardForBookSlider
+                  key={book.id}
+                  imageUrl={book.coverThumbnailUrl}
+                  title={book.title}
+                  author={book.author}
+                  publisher={book.publisher}
+                  onImageOrTitleClicked={() => handleBookItemClick(book.id)}
+                />
+              ))}
+            </BookSlider>
+          </section>
+        );
+      })}
     </main>
   );
 }
