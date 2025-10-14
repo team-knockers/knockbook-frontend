@@ -6,9 +6,30 @@ import BooksCategoryPopup from "../../features/books/components/BooksCategoryPop
 import { useState } from "react";
 import { Outlet, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
-import { bookBannersDummy } from "../../features/books/resources/bookDetailsPage.dummy";
+import { 
+  bookBannersDummy, 
+  bookBannersFictionDummy,
+  bookBannersEssayDummy,
+  bookBannersHumanitiesDummy,
+  bookBannersParentingDummy,
+  bookBannersCookingDummy,
+  bookBannersHealthDummy,
+  bookBannersLifestyleDummy,
+  bookBannersBusinessDummy,
+  bookBannersSelfImprovementDummy,
+  bookBannersPoliticsDummy,
+  bookBannersCultureDummy,
+  bookBannersReligionDummy,
+  bookBannersEntertainmentDummy,
+  bookBannersTechnologyDummy,
+  bookBannersLanguageDummy,
+  bookBannersScienceDummy,
+  bookBannersTravelDummy,
+  bookBannersItDummy
+} from "../../features/books/resources/bookDetailsPage.dummy";
 import { categoryOptions } from "../../features/books/types";
 import type { BooksCategoryLoaderData } from "./BooksCategory.loader";
+
 
 export default function BooksCategoryPage() {
   const navigate = useNavigate();
@@ -17,11 +38,32 @@ export default function BooksCategoryPage() {
   const [isCategoryPopupOpen, setIsCategoryPopupOpen] = useState(false);
 
   const params = useParams();
-  const categoryCodeName = params.categoryCodeName;
+  const categoryCodeName = params.categoryCodeName ?? "all";
   const categoryLabel = categoryOptions.find(c => c.value === categoryCodeName)?.label ?? categoryCodeName;
 
-
-  const banners = bookBannersDummy;
+  const bannerMap: Record<string, any[]> = {
+    all: bookBannersDummy,
+    fiction: bookBannersFictionDummy,
+    essay: bookBannersEssayDummy,
+    humanities: bookBannersHumanitiesDummy,
+    parenting: bookBannersParentingDummy,
+    cooking: bookBannersCookingDummy,
+    health: bookBannersHealthDummy,
+    lifestyle: bookBannersLifestyleDummy,
+    business: bookBannersBusinessDummy,
+    selfImprovement: bookBannersSelfImprovementDummy,
+    politics: bookBannersPoliticsDummy,
+    culture: bookBannersCultureDummy,
+    religion: bookBannersReligionDummy,
+    entertainment: bookBannersEntertainmentDummy,
+    technology: bookBannersTechnologyDummy,
+    language: bookBannersLanguageDummy,
+    science: bookBannersScienceDummy,
+    travel: bookBannersTravelDummy,
+    it: bookBannersItDummy,
+  };
+  
+  const banners = bannerMap[categoryCodeName] ?? bookBannersDummy;
 
   const handleSearch = (searchBy: 'title' | 'author' | 'publisher', searchKeyword: string) => {
     navigate(`/books/search?by=${searchBy}&keyword=${encodeURIComponent(searchKeyword)}`);
