@@ -155,8 +155,8 @@ export const bookBannersBusinessDummy = [
   },
   {
     id: '2',
-    mobileImageUrl: 'https://contents.kyobobook.co.kr/display/m_670_440%201_9d7c7e164641443489adba2dea34ebfe.jpg',
-    desktopImageUrl: 'https://contents.kyobobook.co.kr/display/id_1200_340_44015a51db414e03a8bf0da2e8bb90b2.jpg'
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/display/md_670_440_3ac98831452340408a2743aeaba89565.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/display/i_984_340_d341d735f355486cbc8f69bed49c19d3.jpg'
   },
   {
     id: '3',
@@ -204,8 +204,8 @@ export const bookBannersPoliticsDummy = [
 export const bookBannersCultureDummy = [
   {
     id: '1',
-    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2024/event/faed7bdca8144e2884ad35197f9b5ec2.jpg',
-    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2024/event/18549b1430234e048a875192da2734cb.jpg'
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/4bee70d8101f47a9b2aeb8113005c464.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/8c26da7500994a00bd497d728c40fab1.jpg'
   },
   {
     id: '2',
@@ -263,8 +263,8 @@ export const bookBannersTechnologyDummy = [
   },
   {
     id: '2',
-    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2022/event/79ebfcae8d9f494a8c3283ebddea10a1.jpg',
-    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2022/event/2e1c3a718c1044119ddcc4c68e36f8d4.jpg'
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/display/m_670_440_f4a591fa141e4ee69ea5aec33c8a9e35.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/display/i_984_340_d0e4a44dd6a643be86dd3e615688f009.jpg'
   },
   {
     id: '3',
@@ -312,18 +312,18 @@ export const bookBannersScienceDummy = [
 export const bookBannersTravelDummy = [
   {
     id: '1',
-    mobileImageUrl: 'https://contents.kyobobook.co.kr/display/bnX_m04-670-440_b93e7ffe1c7446dc8594c48aa2487f0e.jpg',
-    desktopImageUrl: 'https://contents.kyobobook.co.kr/display/bnX_i07%201200-340_bd664b383b924ba1a9481d40b24e6041.jpg'
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/237e9737fd83449581c53bcf6871664b.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/bc8ebeddbd4e498f80e1f9c80af21823.jpg'
   },
   {
     id: '2',
-    mobileImageUrl: 'https://contents.kyobobook.co.kr/display/m_750_520_bd1fc37b44ef4549a3a025555d3d8024.jpg',
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/display/%EB%AA%A8%EB%B0%94%EC%9D%BC-%EB%A9%94%EC%9D%B8%EB%B0%B0%EB%84%88-%EB%8F%99%EC%95%84%EC%8B%9C%EC%95%84_21aae9cdd1e34cbca376360d534b8e52.jpg',
     desktopImageUrl: 'https://contents.kyobobook.co.kr/display/i_890_380%203_15958c872e71477d89d84df24f1f14c8.jpg'
   },
   {
     id: '3',
-    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/610ed7afa76e43838f70f85dc1e953cf.jpg',
-    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/bc99d7cf10674470ba086d3771fdca28.jpg'
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/display/m_750_520_224bdeed24304664bf43208047c4a732.jpg',
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/display/i_890_380_d03903b0f61e409b857b247aea3ec116.jpg'
   }
 ]; 
 
@@ -331,7 +331,7 @@ export const bookBannersItDummy = [
   {
     id: '1',
     mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/2eeb4d1097d642f4be7c04d26a0c23d7.jpg',
-    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/89d9fd490630498c927c412e71287f6e.jpg'
+    desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/75181cf5d2984de285acd8a9f374e1e5.jpg'
   },
   {
     id: '2',
