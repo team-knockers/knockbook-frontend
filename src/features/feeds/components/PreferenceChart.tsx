@@ -15,7 +15,8 @@ const COLORS = [
   '#0088FE', '#00C49F', '#FFBB28', '#FF8042',
   '#A28BFE', '#FF6B9A', '#60D394', '#FFD166',
   '#8EC5FF', '#C0A3FF', '#FFB86B', '#7CE3E1',
-  '#F6A6FF', '#9BE07A', '#6E8BFF', '#FF8FA3'
+  '#F6A6FF', '#9BE07A', '#6E8BFF', '#FF8FA3',
+  '#5BC0FF', '#FF9BC0'
 ];
 
 function calcLabelPosByAngle(cx: number, cy: number, midAngle: number, outerRadius: number) {
