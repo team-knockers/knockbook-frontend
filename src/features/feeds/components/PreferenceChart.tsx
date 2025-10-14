@@ -81,7 +81,7 @@ function renderCustomizedLabel(props: any, fontSize: number) {
 /**
  * CustomTooltip: Recharts Tooltip content component
  * - Pie's payload is an array and the original data is at payload[0].payload
- * - Here we output in the format "ISFP:43.4%"
+ * - Here we output in the format "추리:43.4%"
  */
 function CustomTooltip({ active, payload, coordinate }: { active?: boolean; payload?: any[]; coordinate?: { x: number; y: number } }) {
   if (!active || !payload || !payload.length || !coordinate) return null;
