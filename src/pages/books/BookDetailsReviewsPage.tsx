@@ -1,65 +1,167 @@
 import styles from './styles/BookDetailsReviewsPage.module.css';
-import { bookReviewsApiResDummy, bookReviewsScoreDummy } from "../../features/books/resources/bookDetailsPage.dummy";
+import { bookReviewsScoreDummy } from "../../features/books/resources/bookDetailsPage.dummy";
 import { renderStars } from '../../features/books/util';
 import BookReviewsBarChart from '../../features/books/components/BookReviewsBarChart';
 import BookReviewListItem from '../../features/books/components/BookReviewListItem';
 import { toast, ToastContainer } from 'react-toastify';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BookReviewListHeader from '../../features/books/components/BookReviewListHeader';
+import { reviewsSortOptions, type BookReview } from '../../features/books/types';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { BookService } from '../../features/books/services/BookService';
+import Pagination from '../../components/navigation/Pagination';
+
+type ReviewsSearchState = {
+  page: number;
+  size: number;
+  transactionType: string;
+  sortBy: 'likes' | 'createdAt' | 'rating';
+  order: 'asc' | 'desc';
+  sameMbti: boolean;
+};
+
+function makeInitialState(params: URLSearchParams): ReviewsSearchState {
+  return {
+    page: Number(params.get('page') ?? 1), // backend expects 1-based
+    size: Number(params.get('size') ?? 5),
+    transactionType: params.get('transactionType') ?? 'all',
+    sortBy: (params.get('sortBy') as ReviewsSearchState['sortBy']) ?? 'likes',
+    order: (params.get('order') as ReviewsSearchState['order']) ?? 'desc',
+    sameMbti: params.get('sameMbti') === 'true' ? true : false
+  };
+}
+
+const applyQueryParam = (q: URLSearchParams, key: string, value: string | number | boolean | undefined, defaultValue?: string) => {
+  if (value === undefined) {
+    if (defaultValue !== undefined) {
+      q.set(key, defaultValue);
+      return;
+    }
+  }
+  q.set(key, String(value));
+};
 
 export default function BookDetailsReviewsPage() {
+  const { bookId } = useParams(); 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchState, setSearchState] = useState<ReviewsSearchState>(() => makeInitialState(searchParams));
 
-  const [transactionType, setTransactionType] = useState('all');
-  const [sortType, setSortType] = useState('popular');
-  const [isMyMbtiOnly, setIsMyMbtiOnly] = useState(false);
 
-  // Track IDs currently processing to prevent duplicate clicks
   const [processingIds, setProcessingIds] = useState<Set<string>>(new Set());
+  const [reviews, setReview] = useState<BookReview[]>([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  // Dummy data for test
-  const reviewApiRes = bookReviewsApiResDummy;
   const reviewsScoreData = bookReviewsScoreDummy;
 
-  // Toast handlers for BookReviewListHeader (test only)
-  const toastOnTransactionChange = (newTransactionValue: string) => {
-    setTransactionType(newTransactionValue);
-    toast(`필터: ${newTransactionValue}로 변경됨`);
-  };
-  const toastOnSortChange = (newSortValue: string) => {
-    setSortType(newSortValue);
-    toast(`정렬: ${newSortValue}로 변경됨`);
-  };
-  const toastOnMbtiFilterChange = (next: boolean) => {
-    setIsMyMbtiOnly(next);
-    toast(`myMbti: ${next}로 변경됨`);
+  // Keep URL as single source of truth
+  const setQuery = (updater: (q: URLSearchParams) => void) => {
+    const q = new URLSearchParams(searchParams.toString());
+    updater(q);
+    setSearchParams(q);
   };
 
-  // Toast handlers for BookReviewListItem (test only)
-  const toastLikeAdd = (reviewId: string) => toast(`좋아요 추가 (id: ${reviewId})`);
-  const toastLikeRemove = (reviewId: string) => toast(`좋아요 삭제 (id: ${reviewId})`);
-  const toastRefreshLike = (reviewId: string) => toast(`좋아요 갱신 요청 (id: ${reviewId})`);
-  const toastError = (msg: string) => toast.error(msg);
+  // Update search state via URL (filters, sort, page)
+  const updateSearchStateViaUrl = (updates: Partial<ReviewsSearchState>) => {
+    const nextState = { ...searchState, ...updates }; 
+    setQuery(q => {
+      applyQueryParam(q, 'transactionType', nextState.transactionType, 'all');
+      applyQueryParam(q, 'sortBy', nextState.sortBy, 'likes');
+      applyQueryParam(q, 'order', nextState.order, 'desc');
+      applyQueryParam(q, 'sameMbti', nextState.sameMbti);
+      applyQueryParam(q, 'page', nextState.page, '1');
+      applyQueryParam(q, 'size', nextState.size, '5');
+    });
+  };
 
+  // Header handlers
+  const handleTransactionChange = (next: string) => updateSearchStateViaUrl({ transactionType: next, page: 1 });
+  const handleSortChange = (nextSortValue: string) => {
+    const option = reviewsSortOptions.find(o => o.value === nextSortValue);
+    if (!option) {
+      return;
+    }
+    updateSearchStateViaUrl({ sortBy: option.value, page: 1 });
+  };
+  const handleMbtiFilterChange = (next: boolean) => updateSearchStateViaUrl({ sameMbti: next, page: 1 });
+
+  // Handler for Pagination component page change
+  const handlePageChange = (nextPage: number) => {
+    setQuery(q => q.set('page', String(nextPage)));
+  };
+
+  // Fetch reviews when dependencies change
+  useEffect(() => {
+    setSearchState(makeInitialState(searchParams));
+  }, [searchParams]);
+
+  // Fetch reviews on searchState change
+  useEffect(() => {
+    if (!bookId) {
+      return;
+    }
+    let cancelled = false;
+
+    const fetch = async () => {
+      try {
+        const res = await BookService.getBookReviews(
+          bookId,
+          searchState.page,
+          searchState.size,
+          searchState.transactionType,
+          searchState.sortBy,
+          searchState.order,
+          searchState.sameMbti
+        );
+        if (cancelled) {
+          return;
+        }
+        setReview(res.reviews);
+        setTotalItems(res.totalItems);
+        setTotalPages(res.totalPages);
+      } catch (err) {
+        if (!cancelled) {
+          toast.error('리뷰 불러오기 실패');
+        }
+      }
+    };
+
+    fetch();
+    return () => { cancelled = true; };
+  }, [bookId, searchState.page, searchState.size, searchState.transactionType, searchState.sortBy, searchState.order, searchState.sameMbti]);
+
+  // Optimistic like toggle
   const onToggleLike = async (reviewId: string, newLiked: boolean) => {
+    if (!bookId) {
+      toast.error('잘못된 접근입니다. 도서 ID가 없습니다.');
+      return;
+    }
+    if (processingIds.has(reviewId)) return;
+
     setProcessingIds(prev => new Set(prev).add(reviewId));
+
+    const prev = reviews;
+    const next = reviews.map((r) =>
+      r.id === reviewId
+        ? { ...r, likedByMe: newLiked, likesCount: r.likesCount + (newLiked ? 1 : -1) }
+        : r
+    );
+    setReview(next);
 
     try {
       if (newLiked) {
-        toastLikeAdd(reviewId);
+        await BookService.likeReview(bookId!, reviewId);
       } else {
-        toastLikeRemove(reviewId);
+        await BookService.unlikeReview(bookId!, reviewId);
       }
-      toastRefreshLike(reviewId);
-
-      return Promise.resolve();
-    } catch (error) {
-      toastError('요청 처리 중 오류가 발생했습니다');
-      throw error;
+    } catch (e) {
+      toast.error('좋아요 처리에 실패했습니다');
+      setReview(prev); // rollback
     } finally {
       setProcessingIds(prev => {
-        const next = new Set(prev);
-        next.delete(reviewId);
-        return next;
+        const nextSet = new Set(prev);
+        nextSet.delete(reviewId);
+        return nextSet;
       });
     }
   };
@@ -92,15 +194,15 @@ export default function BookDetailsReviewsPage() {
         {/* Review list container */}
         <section className={styles['review-list-container']}>
           <BookReviewListHeader
-            totalCount={reviewApiRes.totalItems}
-            selectedTransaction={transactionType}
-            selectedSort={sortType}
-            isMyMbtiOnly={isMyMbtiOnly} 
-            onTransactionChange={toastOnTransactionChange}
-            onSortChange={toastOnSortChange}
-            onMbtiFilterChange={toastOnMbtiFilterChange}
+            totalCount={totalItems}
+            selectedTransaction={searchState.transactionType}
+            selectedSort={searchState.sortBy}
+            isMyMbtiOnly={searchState.sameMbti}
+            onTransactionChange={handleTransactionChange}
+            onSortChange={handleSortChange}
+            onMbtiFilterChange={handleMbtiFilterChange}
           />
-          {reviewApiRes.reviews.map((review) => (
+          {reviews.map((review) => (
             <BookReviewListItem
               key={review.id} 
               reviewData={review}
@@ -108,7 +210,11 @@ export default function BookDetailsReviewsPage() {
               externalProcessing={processingIds.has(review.id)}
             />
           ))}
-          {/* TODO. API 연결시 Pagination 추가할 것 */}
+          <Pagination
+            page={Number(searchParams.get('page') ?? searchState.page)}
+            totalPages={totalPages}
+            onChange={handlePageChange}
+          />
         </section>
       </section>
     </>
