@@ -3,6 +3,7 @@ import { type BookCategory } from '../types';
 import styles from './styles/BooksCategoryPopup.module.css';
 import { IoClose } from "react-icons/io5";
 import { PATHS } from '../../../routes/paths';
+import { LuBookCheck } from "react-icons/lu";
 
 type BooksCategoryPopupProps = {
   categories: BookCategory[];
@@ -25,7 +26,7 @@ export default function BooksCategoryPopup({
   return (
     <div className={styles['books-category-wrapper']}>
       <div className={styles['category-header']}>
-        <span className={styles['category-title']}>카테고리</span>
+        <span className={styles['category-logo']}>문앞의 책방</span>
         <button 
           className={styles['close-button']} 
           onClick={onClosed}
@@ -34,12 +35,13 @@ export default function BooksCategoryPopup({
         </button>
       </div>
       <div className={styles['category-list-wrapper']}>
+        <span className={styles['category-title']}>카테고리</span>
         <button className={styles['category-all']}
           onClick={() => {
             navigateToCategory('all');
           }}
         >
-          전체
+        <LuBookCheck className={styles['category-icon']} />전체
         </button>
         <div className={styles['category-items']}>
           {categories.map(cat => (
@@ -48,6 +50,7 @@ export default function BooksCategoryPopup({
               className={styles['category-item']}
               onClick={() => navigateToCategory(cat.categoryCodeName)}
             >
+              <LuBookCheck className={styles['category-icon']} /> 
               {cat.categoryDisplayName}
             </button>
           ))}
