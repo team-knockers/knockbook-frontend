@@ -43,7 +43,7 @@ export const PATHS = {
   accountSettingsProfile: "/account/settings/profile",
   userAddress: "/account/settings/address",
   accountLike: "/account/likes",
-  accountLikeBook: "/account/likes/Book",
+  accountLikeBook: "/account/likes/book",
   accountLikeProduct: "/account/likes/product",
   accountPoint: "/account/points",
   accountPointAll: "/account/points/all",
