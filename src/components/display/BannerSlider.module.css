@@ -1,71 +1,164 @@
 .banner-wrapper {
+  position: relative;
   padding: 20px;
-  overflow: hidden;
 }
-.banner-layout {
-  display: flex;
+
+.banner-viewport {
+  position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 10px;
 }
+
+.banner-mask {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.banner-layout {
+  width: 100%;
+  height: 100%;
+}
+
 .banner-swiper-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/*
-  Mobile rules (< 1024px)
-  - Enforce min width 375px
-*/
+/* Mobile */
 @media (max-width: 1023.98px) {
-  .banner-wrapper  {
+  .banner-wrapper {
     width: 100%;
     height: 100%;
     min-width: 375px;
     min-height: 260px;
     aspect-ratio: 75/52;
   }
-  .banner-layout :global(.swiper-button-next),
-  .banner-layout :global(.swiper-button-prev) {
-    display: none;
+  .nav-prev,
+  .nav-next {
+    display: none !important;
+  }
+  .banner-controls {
+    display: none !important;
   }
 }
 
-/* Desktop rules (≥ 1024px) */
+/* Desktop */
 @media (min-width: 1024px) {
-  .banner-wrapper  {
+  .banner-wrapper {
     width: 1024px;
     height: 420px;
     min-height: 420px;
     max-height: 420px;
   }
-  .banner-layout :global(.swiper-button-next),
-  .banner-layout :global(.swiper-button-prev) {
+
+  .nav-prev,
+  .nav-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
+    color: #666;
+    cursor: pointer;
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease, box-shadow 0.16s ease, transform 0.08s ease;
+  }
+  .nav-prev {
+    left: -24px;
+  }
+  .nav-next {
+    right: -24px;
+  }
+  .banner-viewport:hover .nav-prev,
+  .banner-viewport:hover .nav-next {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-prev:active,
+  .nav-next:active {
+    transform: translateY(-50%) scale(0.96);
+  }
+  
+  .nav-prev::after,
+  .nav-next::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 28px 28px;
+  }
+
+  .nav-prev::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M15 6 L9 12 L15 18' fill='none' stroke='%23666' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .nav-next::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6 L15 12 L9 18' fill='none' stroke='%23666' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .banner-controls {
+    position: absolute;
+    right: 34px;
+    bottom: 28px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 10px;
+    z-index: 3;
+  }
+  .ctrl-pause {
     width: 36px;
     height: 36px;
-    border-radius: 50%;
-    background-color: black;
-    color: white;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
   }
-  .banner-layout :global(.swiper-button-prev) {
-    left: 18px;
+  .ctrl-page {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.28);
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
   }
-  .banner-layout :global(.swiper-button-next) {
-    right: 18px;
+  .page-now {
+    opacity: 1;
   }
-  .banner-layout :global(.swiper-button-prev::after),
-  .banner-layout :global(.swiper-button-next::after) {
-    font-size: 18px;
-    font-weight: 900;
+  .page-sep {
+    opacity: 0.85;
   }
-  .banner-layout :global(.swiper-button-prev::after) {
-    padding-right: 3px;
+  .page-all {
+    opacity: 0.9;
   }
-  .banner-layout :global(.swiper-button-next::after) {
-    padding-left: 3px;
+  .page-more {
+    margin-left: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.22);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
   }
 }

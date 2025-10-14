@@ -1,6 +1,7 @@
 import { FiBell, FiShoppingCart, FiUser, FiChevronLeft, FiX } from "react-icons/fi";
 import type { MobileHeaderProps } from "../../types/header";
 import styles from './styles/MobileHeader.module.css';
+import logoUrl from '../../assets/header_logo.png';
 
 export default function MobileHeader(props: MobileHeaderProps) {
   return (
@@ -8,7 +9,9 @@ export default function MobileHeader(props: MobileHeaderProps) {
       <div className={styles['app-header-left-section']}>
         {props.kind === 'main' && (
           <button className={styles['app-header-title']}>
-            {props.title}
+            <img 
+              className={styles['app-header-img']}
+              src={logoUrl}/>
           </button>
         )}
         {props.kind === 'backTitleClose' && (
