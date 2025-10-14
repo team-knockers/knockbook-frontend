@@ -3,7 +3,6 @@ import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
 import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsSummaryInfo";
 import BookDetailsResearch from "../../features/books/components/BookDetailsResearch";
-import { myMbtiDummy } from '../../features/books/resources/bookDetailsPage.dummy';
 import BookOrderBottomBar from '../../features/books/components/BookOrderBottomBar';
 import { toast, ToastContainer } from 'react-toastify';import { useState } from 'react';
 import { PurchaseService } from '../../features/purchase/services/PurchaseService';
@@ -14,8 +13,7 @@ import type { BookDetailsLoaderData } from './BookDetails.loader';
 ;
 
 export default function BookDetailsPage() {
-  const { bookDetails, statistics } = useLoaderData() as BookDetailsLoaderData;
-  const myMbti = myMbtiDummy;
+  const { bookDetails, statistics, myMbti } = useLoaderData() as BookDetailsLoaderData;
 
   const nav = useNavigate();
 
