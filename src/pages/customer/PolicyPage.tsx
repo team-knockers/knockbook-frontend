@@ -24,7 +24,7 @@ export default function PolicyPage() {
         thirdTabTitle='공지사항'
         thirdTabPath={PATHS.notification}
         fourthTabTitle='이용약관'
-        fourthTabPath={PATHS.poicy}/>
+        fourthTabPath={PATHS.policy}/>
       <div className={s['page-content']}>
         <div className={s['tos-wrapper']}>
           <div className={s['tos-title']}>

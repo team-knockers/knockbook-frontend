@@ -6,7 +6,7 @@ export const PATHS = {
   signupAgreePolicy: "/signup/agreepolicy",
   signupSetPassword: "/signup/setpassword",
   signupSetName: "/signup/setname",
-  signupSetFavoriteCategory: "signup/setfavoritecategory",
+  signupSetFavoriteCategory: "/signup/setfavoritecategory",
   login: "/login",
 
   /* home */
@@ -36,6 +36,8 @@ export const PATHS = {
 
   /* order */
   cart: "/cart",
+  order: "/order/:orderId",
+  orderById: (orderId: string) => `/order/${orderId}`,
 
   /* account */
   accountHome: "/account",
@@ -58,6 +60,6 @@ export const PATHS = {
   qna: "/customer/qna",
   registerQnA: "/customer/qna/register",
   listQnA: "/customer/qna/list",
-  poicy: "/customer/policy",
+  policy: "/customer/policy",
   notification: "/customer/notification",
 };
