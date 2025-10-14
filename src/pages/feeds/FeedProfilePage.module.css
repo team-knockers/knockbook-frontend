@@ -108,10 +108,13 @@
 .insight-left {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
+  color: #000;
 }
 
 .insight button svg {
+  color: #000;
   font-size: 16px;
 }
 

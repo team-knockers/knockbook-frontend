@@ -54,6 +54,8 @@ export type BookDetails = {
   rentalCount: number;
   averageRating: number;
   ratingCount: number;
+  rentalPoint: number;
+  purchasePoint: number;
 };
 
 export type BookCategory = {
@@ -140,23 +142,23 @@ export const sortOptions = [
 export type BookMbtiPercentage = {
   mbti: string;
   percentage: number;
-}
+};
 
 export type BookStarCount = {
   score: string,
   count: number,
-}
+};
 
 export const transactionOptions = [
   { value: 'all', label: '전체' },
   { value: 'purchase', label: '구매' },
-  { value: 'rent', label: '대여' },
+  { value: 'rental', label: '대여' },
 ];
 
 export const reviewsSortOptions = [
-  { value: 'popular', label: '인기순',  sortBy: 'pupular', order: 'desc' },
-  { value: 'lowestRated', label: '별점 높은순', sortBy: 'rating', order: 'desc' },
-  { value: 'highestRated', label: '별점 낮은순', sortBy: 'rating', order: 'asc' },
+  { value: 'likes', label: '인기순', order: 'desc' },
+  { value: 'createdAt', label: '최신순', rder: 'desc' },
+  { value: 'rating', label: '별점 높은순', order: 'desc' },
 ] as const;
 
 export type BookReviewsApiResponse = {
@@ -169,12 +171,20 @@ export type BookReviewsApiResponse = {
 
 export type BookReview = {
   id: string,
+  displayName: string,
+  mbti: string,
   transactionType: string,
-  nickname: string,
   createdAt: string,
   content: string,
   rating: number,
-  mbti: string,
-  likeCount: number,
+  imageUrls: string[],
+  likesCount: number,
   likedByMe: boolean
-}
+};
+
+export type BookReviewsStatistics = {
+  averageRating: number,
+  reviewCount: number,
+  scoreCounts: BookStarCount[],
+  mbtiPercentage: BookMbtiPercentage[]
+};

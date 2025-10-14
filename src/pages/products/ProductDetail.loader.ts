@@ -7,5 +7,5 @@ export async function productDetailLoader({params}: LoaderFunctionArgs){
     throw new Response("Product not found", { status: 404 });
   }
 
-  return ProductService.getProductDetail({productId});
+  return ProductService.getProductDetail(productId);
 }

@@ -32,45 +32,39 @@ export type ProductDetail = {
   descriptionImageUrls: string[];
 };
 
+export type ProductInquiry = {
+  inquiryId: string;
+  displayName: string;
+  title: string;
+  questionBody: string;
+  createdAt: string;
+  answerBody: string | null;
+  answeredAt: string | null;
+  status: string; // "ANSWERED" | "WAITING"
+};
+
+export type ProductInquiryList = {
+  productInquiries: ProductInquiry[];
+  page: number;
+  totalPages: number;
+};
+
 export type ProductReview = {
   reviewId: string;
-  userId: string;
-  createdAt: string;      
-  rating: 1|2|3|4|5;      
-  content: string;
+  displayName: string;
+  body: string;
+  rating: 1|2|3|4|5;
+  createdAt: string;
   likesCount: number;
-  liked: boolean;         
-};
+  likedByMe: boolean;
+}
 
 export type ProductReviewList = {
-  reviews: ProductReview[];
-  productId: string;
-  page: number;         
-  size: number;         
-  totalItems: number;
-  totalPages: number;
-  averageRating: number;   
-  starCounts: Array<{ score: 1|2|3|4|5; count: number }>; 
-};
-
-export type QnaStatus = 'ANSWERED' | 'WAITING';
-
-export type QnaItem = {
-  qnaId: string;
-  userName: string;     
-  createdAt: string;   
-  status: QnaStatus;    
-  summary: string;     
-  questionBody: string;  
-  answerBody?: string;
-  answeredAt?: string;
-};
-
-export type ProductQnaList = {
-  qnas: QnaItem[];
-  productId: string;
+  productReviews: ProductReview[];
   page: number;
   size: number;
   totalItems: number;
   totalPages: number;
-};
+  averageRating: number;
+  starCounts: Record<'5'|'4'|'3'|'2'|'1', number>;
+}

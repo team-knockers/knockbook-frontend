@@ -5,7 +5,7 @@ import styles from './styles/BookDetailsResearch.module.css';
 import ResearchNoData from '../../../assets/book_research_no_data.png';
 
 type BookDetailsResearchProps = {
-  myMbti: string;
+  myMbti: string | null,
   mbtiResearch: BookMbtiPercentage[];
 };
 
@@ -57,6 +57,10 @@ export default function BookDetailsResearch({
   const descriptionText = (() => {
     const first = mbtiResearch[0];
     if (!first) return `"리서치 데이터가 없어요"`;
+
+    if (myMbti == null) {
+      return `"${first.mbti} 성향의 사람들이 이 책을 가장 선호해요"`;
+    }
     
     return myMbti === first.mbti
       ? `"나와 같은 성향의 사람들이 이 책을 가장 선호해요"`

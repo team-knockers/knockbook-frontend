@@ -1,5 +1,5 @@
 import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
-import { formatDateToDot, renderStars } from '../util';
+import { formatDateToDot, isoToLocalYmd, renderStars } from '../util';
 import styles from './styles/BookReviewListItem.module.css';
 import { useState } from 'react';
 import type { BookReview } from '../types';
@@ -16,7 +16,7 @@ export default function BookReviewListItem({
   onToggleLike
 }: BookReviewListItemProps) {
   const [isReviewLiked, setIsReviewLiked] = useState(reviewData.likedByMe);
-  const [likeCount, setLikeCount] = useState(reviewData.likeCount);
+  const [likesCount, setLikesCount] = useState(reviewData.likesCount);
   const [isProcessing, setIsProcessing] = useState(false); // prevent duplicate executions
   
   const isPurchase = reviewData.transactionType.toLowerCase() === 'purchase';
@@ -28,12 +28,12 @@ export default function BookReviewListItem({
     setIsProcessing(true);
 
     const prevLiked = isReviewLiked; // capture previous liked state
-    const prevCount = likeCount; // capture previous like count
+    const prevCount = likesCount; // capture previous like count
     const nextLiked = !prevLiked; // flip liked state
 
     // Optimistic update
     setIsReviewLiked(nextLiked);
-    setLikeCount(prev => Math.max(0, prev + (nextLiked ? 1 : -1)));
+    setLikesCount(prev => Math.max(0, prev + (nextLiked ? 1 : -1)));
 
     try {
       // Handled by parent
@@ -42,7 +42,7 @@ export default function BookReviewListItem({
     } catch {
       // rollback on failure
       setIsReviewLiked(prevLiked);
-      setLikeCount(prevCount);
+      setLikesCount(prevCount);
 
     } finally {
       setIsProcessing(false);
@@ -57,16 +57,16 @@ export default function BookReviewListItem({
             {isPurchase ? '구매' : '대여'}
           </div>
           <div className={styles['meta-info']}>
-            <span className={styles['nickname']}>{reviewData.nickname}</span>
+            <span className={styles['nickname']}>{reviewData.displayName}</span>
             <span className={styles['separator']} aria-hidden="true">|</span>
 
-            <span className={styles['date']}>{formatDateToDot(reviewData.createdAt)}</span>
+            <span className={styles['date']}>{formatDateToDot(isoToLocalYmd(reviewData.createdAt))}</span>
           </div>
         </div>
         <div className={styles['meta-right']}>
           <div className={styles['star-score']}>{renderStars(reviewData.rating)}</div>
           <div className={styles['badge-mbti']}>
-            {reviewData.mbti}
+            {reviewData.mbti ?? '미설정'}
           </div>
         </div>
       </div>
@@ -83,14 +83,14 @@ export default function BookReviewListItem({
           <>
             <IoMdHeart className={styles['is-liked-icon']}/>
             <span className={styles['is-liked-count']}>
-              {likeCount}
+              {likesCount}
             </span>
           </>
         ) : (
           <>
             <IoMdHeartEmpty className={styles['not-liked-icon']}/>
             <span className={styles['not-liked-count']}>
-              {likeCount}
+              {likesCount}
             </span>
           </>
         )}

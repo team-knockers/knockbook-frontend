@@ -3,8 +3,11 @@ import { PATHS } from "./paths";
 import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
 import { QnAListPageLoader } from "../pages/customer/QnAListPage.loader";
 import { faqLoader } from "../pages/customer/FAQPage.loader";
+import { homeLoader } from "../pages/Home.loader";
 import { productSummaryListLoader } from "../pages/products/ProductSummaryList.loader";
 import { productDetailLoader } from "../pages/products/ProductDetail.loader";
+import { productDetailQnaLoader } from "../pages/products/ProductDetailQna.loader";
+import { productDetailReviewsLoader } from "../pages/products/ProductDetailReviews.loader";
 import { booksHomeLoader } from "../pages/books/BooksHome.loader";
 import { booksSearchLoader } from "../pages/books/BooksSearch.loader";
 import { bookDetailsLoader } from "../pages/books/BookDetails.loader";
@@ -41,6 +44,15 @@ import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
+import AccountLikePage from "../pages/account/AccountLikePage";
+import LikeBookPage from "../pages/account/AccountLikeBookPage";
+import LikeProductPage from "../pages/account/AccountLikeProductPage";
+import AccountPointPage from "../pages/account/AccountPointPage";
+import AccountPointAllPage from "../pages/account/AccountPointAllPage";
+import AccountPointEarnedPage from "../pages/account/AccountPointEarnedPage";
+import AccountPointUsedPage from "../pages/account/AccountPointUsedPage";
+import AccountPointExpiredPage from "../pages/account/AccountPointExpiredPage";
+import AccountCouponPage from "../pages/account/AccountCouponPage";
 import ProductDetailDescriptionPage from "../pages/products/ProductDetailDescriptionPage";
 import ProductDetailReviewsPage from "../pages/products/ProductDetailReviewsPage";
 import ProductDetailQnaPage from "../pages/products/ProductDetailQnaPage";
@@ -72,6 +84,7 @@ export const router = createBrowserRouter([
         element: <ResponsiveMainShell />,
         children: [
           { path: PATHS.home,
+            loader: homeLoader,
             element: <HomePage />,
             handle: { header: { kind: "main", title: "문앞의책방" } } },
           { path: PATHS.booksHome,
@@ -188,6 +201,7 @@ export const router = createBrowserRouter([
               {
                 path: "reviews",
                 element: <ProductDetailReviewsPage />,
+                loader: productDetailReviewsLoader,
                 handle: { 
                   header: { 
                     kind: "backTitleClose", 
@@ -199,6 +213,7 @@ export const router = createBrowserRouter([
               {
                 path: "qna",
                 element: <ProductDetailQnaPage />,
+                loader: productDetailQnaLoader,
                 handle: { 
                   header: { 
                     kind: "backTitleClose", 
@@ -414,7 +429,124 @@ export const router = createBrowserRouter([
                 close: { type: 'push', to: PATHS.home }
               }
             }
-          }
+          },
+          {
+            path: PATHS.accountLike,
+            element: <AccountLikePage />,
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "찜 목록",
+                close: { type: 'push', to: PATHS.accountHome }
+              } 
+            },
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATHS.accountLikeBook} replace />,
+              },
+              {
+                path: PATHS.accountLikeBook,
+                element: <LikeBookPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "찜 목록",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              },
+              {
+                path: PATHS.accountLikeProduct,
+                element: <LikeProductPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "찜 목록",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            path: PATHS.accountPoint,
+            element: <AccountPointPage />,
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "포인트",
+                close: { type: 'push', to: PATHS.accountHome }
+              } 
+            },
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATHS.accountPointAll} replace />,
+              },
+              {
+                path: PATHS.accountPointAll,
+                element: <AccountPointAllPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "포인트",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              },
+              {
+                path: PATHS.accountPointEarned,
+                element: <AccountPointEarnedPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "포인트",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              },
+              {
+                path: PATHS.accountPointUsed,
+                element: <AccountPointUsedPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "포인트",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              },
+              {
+                path: PATHS.accountPointExpired,
+                element: <AccountPointExpiredPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "포인트",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            path: PATHS.accountCoupon,
+            element: <AccountCouponPage />,
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "쿠폰",
+                close: { type: 'push', to: PATHS.accountHome }
+              } 
+            } 
+          },
         ],
       },
     ],

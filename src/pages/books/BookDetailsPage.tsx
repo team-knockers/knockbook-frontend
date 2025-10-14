@@ -3,20 +3,17 @@ import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
 import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsSummaryInfo";
 import BookDetailsResearch from "../../features/books/components/BookDetailsResearch";
-import { mbtiResearchDummy, myMbtiDummy } from '../../features/books/resources/bookDetailsPage.dummy';
-import type { BookDetails } from '../../features/books/types';
 import BookOrderBottomBar from '../../features/books/components/BookOrderBottomBar';
 import { toast, ToastContainer } from 'react-toastify';import { useState } from 'react';
 import { PurchaseService } from '../../features/purchase/services/PurchaseService';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 import { PATHS } from '../../routes/paths';
 import type { OrderType } from '../../features/purchase/type';
+import type { BookDetailsLoaderData } from './BookDetails.loader';
 ;
 
 export default function BookDetailsPage() {
-  const bookDetails = useLoaderData() as BookDetails;
-  const myMbti = myMbtiDummy;
-  const mbtiResearch = mbtiResearchDummy;
+  const { bookDetails, statistics, myMbti } = useLoaderData() as BookDetailsLoaderData;
 
   const nav = useNavigate();
 
@@ -43,11 +40,12 @@ export default function BookDetailsPage() {
       <main className={styles['details-main']}>
         <BookDetailsSummaryInfo 
           bookDetails={bookDetails} 
-          mbtiResearch={mbtiResearch}     
+          statistics={statistics}     
         />
+        {/* TODO. 내 MBTI조회하는 API확인 후 내 MBTI 반영할 것 */}
         <BookDetailsResearch
           myMbti={myMbti}
-          mbtiResearch={mbtiResearch}
+          mbtiResearch={statistics.mbtiPercentage}
         />
         <TwoLevelTabMenu
           leftTabTitle="상세정보"
@@ -66,7 +64,7 @@ export default function BookDetailsPage() {
             confirmText='장바구니 보기'
             onCancel={() => setIsCartPopupVisible(false)}
             onConfirm={() => nav(PATHS.cart)}/>
-       </div>
+        </div>
       }
       </main>
       <footer className={styles['bottom-bar-wrap']}>

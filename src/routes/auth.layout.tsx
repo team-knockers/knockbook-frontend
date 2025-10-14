@@ -7,7 +7,9 @@ export const AUTH_LOADER_ID = "auth";
 
 export async function authLoader() {
   try {
-    return await UserService.getMyProfile();
+    const res = await UserService.getMyProfile();
+    console.log(res);
+    return res;
   } catch (e: any) {
     if (e?.message === "NO_USER") {
       await AuthService.logout();
