@@ -7,7 +7,39 @@
 }
 
 .category-button {
-  font-size: 22px;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid #e6e6e6;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06), inset 0 1px 0 rgba(255,255,255,.7);
+  transition: border-color .18s ease, box-shadow .18s ease, transform .08s ease, background .18s ease;
+}
+
+.category-button:hover {
+  border-color: #cfcfcf;
+  box-shadow: 0 6px 14px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.85);
+  background: #fff;
+}
+
+.category-button:active {
+  transform: scale(.96);
+}
+
+.category-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(33,150,243,.16), 0 6px 14px rgba(0,0,0,.08);
+  border-color: #bdbdbd;
+}
+
+.hamburger-icon {
+  font-size: 18px;
+  color: #333;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .search-input-group {
