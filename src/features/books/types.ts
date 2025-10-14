@@ -70,6 +70,12 @@ export type BookSubcategory = {
   subcategoryDisplayName: string;
 };
 
+// Common SelectOption type
+export type ListHeaderSelectOption = {
+  value: string;
+  label: string;
+};
+
 export type SearchOption = 'title' | 'author' | 'publisher';
 
 export const SEARCH_OPTIONS: { value: SearchOption; label: string }[] = [

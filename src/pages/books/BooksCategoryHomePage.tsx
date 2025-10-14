@@ -1,5 +1,5 @@
 import styles from './styles/BooksCategoryHomePage.module.css';
-import { generatePath, useLoaderData, useNavigate} from "react-router-dom";
+import { generatePath, useLoaderData, useNavigate, useParams} from "react-router-dom";
 import BookSectionHeader from "../../features/books/components/BookSectionHeader";
 import BestSellerSection from "../../features/books/components/BookBestSeller";
 import BookCardForBookSlider from "../../features/books/components/BookCardForBookSlider";
@@ -9,11 +9,21 @@ import type { BooksCategoryLoaderData } from './BooksCategory.loader';
 
 export default function BooksCategoryHomePage() {
   const navigate = useNavigate();
+  const params = useParams();
+  const categoryCodeName = params.categoryCodeName ?? "all";
 
   const {top3BestSellers, newBooksBySection } = useLoaderData() as BooksCategoryLoaderData;
 
   const handleBookItemClick = (id: string) => {
     navigate(generatePath(PATHS.bookDetails, { bookId: id }));
+  };
+  
+  const handleBestSellerMoreClick = (categoryName: string) => {
+    navigate(`${PATHS.booksCategory.replace(':categoryCodeName', categoryName)}/all?sortBy=sales&order=desc`);
+  };
+
+  const handleNewReleasesMoreClick = (categoryName: string, subcategoryName: string) => {
+    navigate(`${PATHS.booksCategory.replace(':categoryCodeName', categoryName)}/all?subcategory=${subcategoryName}&sortBy=published&order=desc`);
   };
 
   return (
@@ -21,7 +31,7 @@ export default function BooksCategoryHomePage() {
       <section className={styles['best-seller-section']}>
         <BookSectionHeader 
           headerTitle="문앞 베스트"
-          onClicked={() => console.log('문앞 베스트 더보기 클릭')}
+          onClicked={() => handleBestSellerMoreClick (categoryCodeName)}
         />
         <BestSellerSection
           top3Books={top3BestSellers}
@@ -46,7 +56,7 @@ export default function BooksCategoryHomePage() {
           <BookSectionHeader 
             headerTitle="새로나온 책" 
             categoryName={sub.label}
-            onClicked={() => console.log(`${sub.label} 더보기 클릭`)}
+            onClicked={() => handleNewReleasesMoreClick(categoryCodeName, sub.key)}
           />
           <BookSlider>
             {(sub.books || []).map(book => (

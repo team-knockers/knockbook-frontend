@@ -40,6 +40,15 @@ export default function BooksHomePage() {
     navigate(generatePath(PATHS.bookDetails, { bookId: id }));
   };
 
+  const handleBestSellerMoreClick = (categoryName: string) => {
+    navigate(`${PATHS.booksCategory.replace(':categoryCodeName', categoryName)}/all?sortBy=sales&order=desc`);
+  }
+
+
+  const handleNewReleasesMoreClick = (categoryName: string) => {
+    navigate(`${PATHS.booksCategory.replace(':categoryCodeName', categoryName)}/all?sortBy=published&order=desc`);
+  }
+
   return (
     <>
       <main className={styles['book-home-main']}>
@@ -62,7 +71,7 @@ export default function BooksHomePage() {
           <section className={styles['best-seller-section']}>
             <BookSectionHeader 
               headerTitle="문앞 베스트"
-              onClicked={() => console.log('문앞 베스트 더보기 클릭')}
+              onClicked={() => handleBestSellerMoreClick ("all")}
             />
             <BestSellerSection
               top3Books={top3BestSellers}
@@ -87,7 +96,7 @@ export default function BooksHomePage() {
               <BookSectionHeader 
                 headerTitle="새로나온 책" 
                 categoryName={cat.label}
-                onClicked={() => console.log(`${cat.label} 더보기 클릭`)}
+                onClicked={() => handleNewReleasesMoreClick(cat.key)}
               />
               <BookSlider>
                 {(booksByCategory[cat.key] || []).map(book => (
