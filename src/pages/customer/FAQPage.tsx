@@ -31,7 +31,7 @@ export default function FAQPage() {
           thirdTabTitle='공지사항'
           thirdTabPath={PATHS.notification}
           fourthTabTitle='이용약관'
-          fourthTabPath={PATHS.poicy}/>
+          fourthTabPath={PATHS.policy}/>
         <div className={s['banner']}>
           <div className={s['banner-title']}>
             <span>무엇을 도와드릴까요?</span>

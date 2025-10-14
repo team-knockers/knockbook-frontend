@@ -78,3 +78,89 @@ export type ProductItem = {
   quantity: number;
   pointsRate: number;
 }
+
+export type createOrderFromCartRequest = {
+  cartItemIds: string[];
+}
+
+export type Order = {
+  id: string;
+  userId: string;
+  cartId: string;
+  status: string;
+  paymentStatus: string;
+  itemCount: number;
+  subtotalAmount: number;
+  discountAmount: number;
+  couponDiscountAmount: number;
+  shippingAmount: number;
+  rentalAmount: number;
+  totalAmount: number;
+  appliedCouponIssuanceId: number;
+  pointsSpent: number;
+  pointsEarned: number;
+  items: OrderItem[];
+}
+
+export type OrderAggregation = {
+  subtotalAmount: number;
+  discountAmount: number;
+  couponDiscountAmount: number;
+  shippingAmount: number;
+  rentalAmount: number;
+  totalAmount: number;
+  pointsSpent: number;
+  pointsEarned: number;
+}
+
+export type OrderItem = {
+  id: string;
+  orderId: string;
+  refType: string;
+  refId: string;
+
+  titleSnapshot: string;
+  thumbnailUrl: string;
+
+  listPriceSnapshot: number;
+  salePriceSnapshot: number;
+  quantity: number;
+
+  rentalDays: number;
+  rentalPriceSnapshot: number;
+
+  pointsRate: number;
+  pointsEarnedItem: number;
+
+  lineSubtotalAmount: number;
+  lineDiscountAmount: number;
+  lineTotalAmount: number;
+}
+
+export type CouponIssuance = {
+  id: string;
+  couponId: string;
+  userId: string;
+  issuedAt: string;
+  expiresAt: string;
+  status: string;
+  code: string;
+  name: string;
+  type: string;
+  discountAmount: number;
+  discountRateBp: number;
+  maxDiscountAmount: number;
+  scope: string;
+}
+
+export type ApplyCouponRequest = {
+  couponIssuanceId: string;
+}
+
+export type ApplyPointsRequest = {
+  points: number;
+}
+
+export type GetPointBalanceResponse = {
+  balance: number;
+}

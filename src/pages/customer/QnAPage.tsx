@@ -25,7 +25,7 @@ export default function QnARegisterPage() {
           thirdTabTitle="공지사항"
           thirdTabPath={PATHS.notification}
           fourthTabTitle="이용약관"
-          fourthTabPath={PATHS.poicy}/>
+          fourthTabPath={PATHS.policy}/>
         <div className={s["content-layout"]}>
           <TwoWayButton
             leftButtonContent="문의하기"

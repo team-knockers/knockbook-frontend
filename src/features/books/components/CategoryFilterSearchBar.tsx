@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './styles/CategoryFilterSearchBar.module.css';
-import { FaSearch } from 'react-icons/fa';
-import { GiHamburgerMenu } from 'react-icons/gi';
+import { FiSearch, FiMenu } from 'react-icons/fi';
 import { SEARCH_OPTIONS, type SearchOption } from '../types';
 
 type CategoryFilterSearchBarProps = {
@@ -38,21 +37,23 @@ export default function CategoryFilterSearchBar({
           className={styles['category-button']}
           onClick={onCategoryToggled}
           aria-label="Open category menu">
-          <GiHamburgerMenu className={styles['hamburger-icon']} />
+          <FiMenu className={styles['hamburger-icon']} />
         </button>
       )}
       <div className={styles['search-input-group']}>
-        <select
-          className={styles['search-option']}
-          value={searchBy}
-          onChange={(e) => setSearchBy(e.target.value as SearchOption)}
-        >
-          {SEARCH_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <div className={styles['select-wrap']}>
+          <select
+            className={styles['search-option']}
+            value={searchBy}
+            onChange={(e) => setSearchBy(e.target.value as SearchOption)}
+          >
+            {SEARCH_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         <input
           type="text"
           className={styles['search-input']}
@@ -67,7 +68,7 @@ export default function CategoryFilterSearchBar({
           onClick={handleSearch}
           aria-label="Search button"
         >
-          <FaSearch className={styles['search-icon']} />
+          <FiSearch className={styles['search-icon']} />
         </button>
       </div>
     </div>

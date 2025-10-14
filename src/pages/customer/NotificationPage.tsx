@@ -26,7 +26,7 @@ export default function NotificationPage() {
         thirdTabTitle='공지사항'
         thirdTabPath={PATHS.notification}
         fourthTabTitle='이용약관'
-        fourthTabPath={PATHS.poicy}/>
+        fourthTabPath={PATHS.policy}/>
       <div className={s['list-wrapper']}>
         <div className={s['list-items']}>
             {content.length === 0 ? (

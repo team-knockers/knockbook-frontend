@@ -72,7 +72,7 @@ export default function AccountHomePage() {
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
-            onClick={() => {/* TODO */}}>
+            onClick={() => nav(PATHS.accountLike)}>
             <div className={styles['bar-menu-likes-icon']} />
             <div className={styles['bar-menu-item-name']}>
               <span>찜 목록</span>
@@ -83,7 +83,7 @@ export default function AccountHomePage() {
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
-            onClick={() => {/* TODO */}}>
+            onClick={() => nav(PATHS.accountPoint)}>
             <div className={styles['bar-menu-point-icon']} />
             <div className={styles['bar-menu-item-name']}>
               <span>포인트</span>
@@ -94,7 +94,7 @@ export default function AccountHomePage() {
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
-            onClick={() => {/* TODO */}}>
+            onClick={() => nav(PATHS.accountCoupon)}>
             <div className={styles['bar-menu-coupon-icon']} />
             <div className={styles['bar-menu-item-name']}>
               <span>쿠폰</span>
@@ -140,7 +140,7 @@ export default function AccountHomePage() {
             </button>
             <button 
               className={styles['list-menu-item']}
-              onClick={() => nav(PATHS.poicy)}>
+              onClick={() => nav(PATHS.policy)}>
               이용약관
             </button>
             <button 

@@ -1,4 +1,4 @@
-import { useFetcher, useLoaderData } from 'react-router-dom';
+import { useFetcher, useLoaderData, useNavigate } from 'react-router-dom';
 import type { CartPageLoaderData } from './CartPage.loader';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Input } from 'reactstrap';
@@ -8,10 +8,14 @@ import type { OrderType } from '../../features/purchase/type';
 
 import CartItem from '../../features/purchase/components/CartItem';
 import s from './CartPage.module.css';
+import { PATHS } from '../../routes/paths';
+import { OrderService } from '../../features/purchase/services/OrderService';
 
 const keyOf = (t: OrderType, id: string) => `${t}:${id}`;
 
 export default function CartPage() {
+
+  const nav = useNavigate();
   const { totalItems, booksToPurchase, booksToRental, products, summary } =
     useLoaderData() as CartPageLoaderData;
 
@@ -215,6 +219,16 @@ export default function CartPage() {
 
     fetcher.submit(fd, { method: 'post' });
   };
+
+  async function handleProceedOrder() {
+    const itemIds = Array.from(selected).map(k => k.split(":")[1]);
+    try {
+      const order = await OrderService.createDraftFromCart(itemIds);
+      nav(PATHS.orderById(order.id));
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   /** compute summary based on *selected* items only */
   const displaySummary = useMemo(() => {
@@ -485,7 +499,9 @@ export default function CartPage() {
             <FiGift size={18} />
             <span>선물하기</span>
           </button>
-          <button className={s['cart-proceed-order']}>
+          <button 
+            className={s['cart-proceed-order']}
+            onClick={handleProceedOrder}>
             주문하기 ({selected.size})
           </button>
         </div>
@@ -499,7 +515,9 @@ export default function CartPage() {
         </div>
         <div className={s['cart-proceed-action']}>
           <button className={s['cart-proceed-gift']}>선물하기</button>
-          <button className={s['cart-proceed-order']}>
+          <button 
+            className={s['cart-proceed-order']}
+            onClick={handleProceedOrder}>
             주문하기 ({selected.size})
           </button>
         </div>
