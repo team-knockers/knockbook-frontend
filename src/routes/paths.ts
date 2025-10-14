@@ -1,3 +1,5 @@
+import type AccountPointEarnedPage from "../pages/account/AccountPointEarnedPage";
+
 export const PATHS = {
   intro: "/",
 
@@ -42,6 +44,15 @@ export const PATHS = {
   accountSettingsIntro: "/account/settings",
   accountSettingsProfile: "/account/settings/profile",
   userAddress: "/account/settings/address",
+  accountLike: "/account/like",
+  accountLikeBook: "/account/like/Book",
+  accountLikeProduct: "/account/like/Product",
+  accountPoint: "/account/point",
+  accountPointAll: "/account/point/All",
+  accountPointEarned: "/account/point/Earned",
+  accountPointUsed: "/account/point/Used",
+  accountPointExpired: "/account/point/Expired",
+  accountCoupon: "/account/coupon",
 
   /* customer */
   customer: "/customer",
