@@ -52,6 +52,7 @@ export default function BooksSearchPage() {
   const [books, setBooks] = useState<BookSummary[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [averageRatings, setAverageRatings] = useState<(number | null)[]>([]);
 
   const searchByLabel = SEARCH_OPTION_MAP[searchState.searchBy];
 
@@ -151,6 +152,16 @@ export default function BooksSearchPage() {
         setBooks(res.books);
         setTotalItems(res.totalItems);
         setTotalPages(res.totalPages);
+
+        const bookIds = res.books.map(b => b.id);
+        const averageRatings = await Promise.all(
+          bookIds.map(async id => {
+            const stat = await BookService.getBookReviewStatistics(id);
+            return typeof stat.averageRating === 'number' ? stat.averageRating : null;
+          })
+        );
+        setAverageRatings(averageRatings);
+        
       } catch (error) {
         if (cancelled) return;
         console.error('검색 결과 불러오기 실패', error);
@@ -197,24 +208,27 @@ export default function BooksSearchPage() {
                   onCategoryChange={handleCategoryChange}
                   onSortChange={handleSortChange}
                 />
-                {books.map((book) => (
-                  <BookListItem
-                    key={book.id}
-                    imageUrl={book.coverThumbnailUrl}
-                    title={book.title}
-                    author={book.author}
-                    publisher={book.publisher}
-                    publishedAt={book.publishedAt}
-                    averageRating={book.averageRating}
-                    rentalAmount={book.rentalAmount}
-                    purchaseAmount={book.purchaseAmount}
-                    discountedPurchaseAmount={book.discountedPurchaseAmount}
-                    onImageOrTitleClicked={() => {
-                      handleBookItemClick(book.id);
-                      console.log(`${book.title} 도서 클릭`);
-                    }}
-                  />
-                ))}
+                {books.map((book, idx) => {
+                  const averageRating = averageRatings[idx] ?? 0;
+                  return (
+                    <BookListItem
+                      key={book.id}
+                      imageUrl={book.coverThumbnailUrl}
+                      title={book.title}
+                      author={book.author}
+                      publisher={book.publisher}
+                      publishedAt={book.publishedAt}
+                      averageRating={averageRating}
+                      rentalAmount={book.rentalAmount}
+                      purchaseAmount={book.purchaseAmount}
+                      discountedPurchaseAmount={book.discountedPurchaseAmount}
+                      onImageOrTitleClicked={() => {
+                        handleBookItemClick(book.id);
+                        console.log(`${book.title} 도서 클릭`);
+                      }}
+                    />
+                  );
+                })}
               </div>
               <Pagination
                 page={Number(searchParams.get('page') ?? searchState.page)}
