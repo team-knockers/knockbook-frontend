@@ -1,5 +1,3 @@
-import type AccountPointEarnedPage from "../pages/account/AccountPointEarnedPage";
-
 export const PATHS = {
   intro: "/",
 
