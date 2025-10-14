@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './styles/CategoryFilterSearchBar.module.css';
-import { FaSearch } from 'react-icons/fa';
+import { FiSearch } from 'react-icons/fi';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { SEARCH_OPTIONS, type SearchOption } from '../types';
 
@@ -67,7 +67,7 @@ export default function CategoryFilterSearchBar({
           onClick={handleSearch}
           aria-label="Search button"
         >
-          <FaSearch className={styles['search-icon']} />
+          <FiSearch className={styles['search-icon']} />
         </button>
       </div>
     </div>
