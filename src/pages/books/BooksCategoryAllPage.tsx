@@ -40,6 +40,7 @@ export default function BooksCategoryAllPage() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [averageRatings, setAverageRatings] = useState<(number | null)[]>([]);
+  const [subcategories, setSubcategories] = useState<{ value: string, label: string }[]>([{ value: 'all', label: '전체' }]);
 
   const [searchState, setSearchState] = useState<CommonSearchState>(() =>
     makeInitialState(searchParams, categoryCodeName)
@@ -64,8 +65,8 @@ export default function BooksCategoryAllPage() {
   };
 
   // Handler for BookListHeader component category select change
-  const handleCategoryChange = (categoryValue: string) => {
-    updateSearchStateViaUrl({ category: categoryValue })
+  const handleSubcategoryChange = (subcategoryValue: string) => {
+    updateSearchStateViaUrl({ subcategory: subcategoryValue })
   };
   
   // Handler for BookListHeader component sort select change
@@ -125,16 +126,41 @@ export default function BooksCategoryAllPage() {
     return () => { cancelled = true; };
   }, [searchState]);
 
+  useEffect(() => {
+  if (searchState.category === 'all') {
+    setSubcategories([{ value: 'all', label: '전체' }]);
+    return;
+  }
+
+  const loadSubcategories = async () => {
+    try {
+      const res = await BookService.getBookSubcategories(searchState.category);
+      const mapped = [
+        { value: 'all', label: '전체' },
+        ...res.map((s: any) => ({
+          value: s.subcategoryCodeName,
+          label: s.subcategoryDisplayName,
+        })),
+      ];
+      setSubcategories(mapped);
+    } catch (error) {
+      console.error('하위 카테고리 불러오기 실패', error);
+    }
+  };
+
+  loadSubcategories();
+}, [searchState.category]);
+
   return (
     <section className={styles['book-category-all-layout']}>
       <div className={styles['book-category-all-results']}>
         <BookListHeader
           totalCount={totalItems}
-          selectedCategory={searchState.category}
+          selectedValue={searchState.subcategory}
           selectedSort={searchState.sortBy}
-          onCategoryChange={handleCategoryChange}
+          options={subcategories}
+          onSelectChange={handleSubcategoryChange}
           onSortChange={handleSortChange}
-          categoryDisabled={true}
         />
         {books.map((book, idx) => {
           const averageRating = averageRatings[idx] ?? 0;

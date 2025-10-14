@@ -1,27 +1,27 @@
 import styles from "./styles/BookListHeader.module.css";
 import { IoIosArrowDropdown } from "react-icons/io";
-import { categoryOptions, sortOptions } from "../types";
+import { sortOptions, type ListHeaderSelectOption } from "../types";
 
 type BookListHeaderProps = {
   totalCount: number;
-  selectedCategory: string;
+  selectedValue: string; // category or subcategory
   selectedSort: string;
-  onCategoryChange: (categoryValue: string) => void;
+  options: ListHeaderSelectOption[];
+  onSelectChange: (value: string) => void;
   onSortChange: (sortValue: string) => void;
-  categoryDisabled?: boolean;
 };
 
 export default function BookListHeader({
   totalCount,
-  selectedCategory,
+  selectedValue,
   selectedSort,
-  onCategoryChange,
+  options,
+  onSelectChange,
   onSortChange,
-  categoryDisabled = false
 }: BookListHeaderProps) {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onCategoryChange(e.target.value);
+    onSelectChange(e.target.value);
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -34,11 +34,10 @@ export default function BookListHeader({
         <div className={styles['category-wrapper']}>
           <select
             className={styles['category-select']}
-            value={selectedCategory}
+            value={selectedValue}
             onChange={handleCategoryChange}
-            disabled={categoryDisabled}
           >
-            {categoryOptions.map(({ value, label }) => (
+            {options.map(({ value, label }) => (
               <option key={value} value={value}>{label}</option>
             ))}
           </select>

@@ -56,6 +56,14 @@ export default function BooksSearchPage() {
 
   const searchByLabel = SEARCH_OPTION_MAP[searchState.searchBy];
 
+  const mappedCategories = [
+    { value: "all", label: "전체" },
+    ...bookCategories.map(c => ({
+      value: c.categoryCodeName,
+      label: c.categoryDisplayName,
+    })),
+  ];
+
   // Update URL (query) as single source of truth
   const setQuery = (updater: (q: URLSearchParams) => void) => {
     const q = new URLSearchParams(searchParams.toString());
@@ -203,9 +211,10 @@ export default function BooksSearchPage() {
               <div className={styles['book-search-results']}>
                 <BookListHeader
                   totalCount={totalItems}
-                  selectedCategory={searchState.category}
+                  selectedValue={searchState.category}
                   selectedSort={searchState.sortBy}
-                  onCategoryChange={handleCategoryChange}
+                  options={mappedCategories}
+                  onSelectChange={handleCategoryChange}
                   onSortChange={handleSortChange}
                 />
                 {books.map((book, idx) => {
