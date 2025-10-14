@@ -1,7 +1,5 @@
-/* !caution! this is a temporary code for guide */
 .home-layout {
   max-width: 1024px;
-  /* width: 100wh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
