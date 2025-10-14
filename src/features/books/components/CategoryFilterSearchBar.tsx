@@ -42,17 +42,19 @@ export default function CategoryFilterSearchBar({
         </button>
       )}
       <div className={styles['search-input-group']}>
-        <select
-          className={styles['search-option']}
-          value={searchBy}
-          onChange={(e) => setSearchBy(e.target.value as SearchOption)}
-        >
-          {SEARCH_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+        <div className={styles['select-wrap']}>
+          <select
+            className={styles['search-option']}
+            value={searchBy}
+            onChange={(e) => setSearchBy(e.target.value as SearchOption)}
+          >
+            {SEARCH_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         <input
           type="text"
           className={styles['search-input']}
