@@ -1,155 +1,227 @@
 .best-seller {
+  --gap-lg: 80px;
+  --gap-md: 40px;
+  --gap-sm: 20px;
+  --radius: 14px;
+  --shadow: 0 10px 24px rgba(0,0,0,.08);
+  --ring: 0 0 0 3px rgba(0,0,0,.12);
+
   display: flex;
-  padding: 10px;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: var(--gap-lg);
   align-self: stretch;
 }
+
 .first-book-wrapper {
   display: flex;
   align-items: center;
+  gap: var(--gap-md);
   align-self: stretch;
 }
+
 .second-third-book-wrapper {
   display: flex;
   flex-direction: column;
+  gap: 30px;
   align-items: center;
   justify-content: center;
   align-self: stretch;
 }
-.first-book, .second-book, .third-book {
-  all: unset; /* Reset default button styles applied by the browser */
+
+.first-book,
+.second-book,
+.third-book {
+  all: unset;
+  position: relative;
+  display: block;
   cursor: pointer;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transform: translateZ(0);
+  transition: transform .18s ease, box-shadow .18s ease;
+  will-change: transform;
 }
 
-/*
-  Mobile rules (< 1024px)
-  - Enforce min width 375px
-*/
+.first-book:focus-visible,
+.second-book:focus-visible,
+.third-book:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow), var(--ring);
+}
+
+.first-book:hover,
+.second-book:hover,
+.third-book:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(0,0,0,.12);
+}
+
+.first-book-image,
+.second-book-image,
+.third-book-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: linear-gradient(180deg, #fafafa, #f3f3f3);
+}
+
+/* badge (desktop default hidden on mobile) */
+.ranking-badge {
+  display: none;
+}
+
+/* desktop book info */
+.book-info-desktop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 408px;
+  padding: 20px 0;
+  gap: 12px;
+}
+
+.book-title {
+  align-self: stretch;
+  font-family: Pretendard, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  color: #111;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-meta {
+  align-self: stretch;
+  font-family: Pretendard, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-price {
+  font-family: Pretendard, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
+}
+
+.book-price-highlight {
+  font-weight: 800;
+  color: #0f766e;
+}
+
+.book-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 18px;
+}
+
+.summary-title {
+  color: #2C3E50;
+  font-family: Pretendard, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.summary-detail {
+  color: #454545;
+  font-family: Pretendard, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  font-size: 13px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== Mobile (<1024px) ===== */
 @media (max-width: 1023.98px) {
   .best-seller {
     gap: 30px;
-    max-width: 500px;
     width: 100%;
+    max-width: 500px;
     margin: 0 auto;
     aspect-ratio: 315/290;
   }
-  .first-book-wrapper {
-    width: 57%
-  }
-  .first-book-image {
+
+  .first-book-wrapper { width: 57%; gap: 0; }
+  .second-third-book-wrapper { width: 27%; gap: var(--gap-sm); }
+
+  .first-book,
+  .second-book,
+  .third-book {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
+    border-radius: 10px;
   }
-  .second-third-book-wrapper {
-    width: 27%;
-    gap: 20px;
-  }
-  .second-book-image, .third-book-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .ranking-badge {
-    display: none;
-  }
-  .book-info-desktop {
-    display: none;
-  }
+
+  .first-book-image { aspect-ratio: 263/380; }
+  .second-book-image,
+  .third-book-image { aspect-ratio: 130/188; }
+
+  .book-info-desktop { display: none; }
+  .ranking-badge { display: none; }
 }
 
-/* Desktop rules (≥ 1024px) */
+/* ===== Desktop (≥1024px) ===== */
 @media (min-width: 1024px) {
-  .best-seller {
-    gap: 80px;
-  }
-  .first-book-wrapper {
-    gap: 40px;
-  }
-  .first-book-image {
-    width: 263px;
-    height: auto;
-  }
-  .second-third-book-wrapper {
-    gap: 30px;
-  }
-  .second-book-image, .third-book-image {
-    width: 130px;
-    height: auto;
-  }
-  .first-book, .second-book, .third-book { /* Desktop Only */
-  position: relative;
-  }
-  .ranking-badge { /* Desktop Only */
-    display: flex; 
+  .best-seller { gap: var(--gap-lg); }
+
+  .first-book-wrapper { gap: var(--gap-md); }
+
+  .first-book { width: 263px; }
+  .second-book,
+  .third-book { width: 130px; }
+
+  .first-book-image { aspect-ratio: 263/380; }
+  .second-book-image,
+  .third-book-image { aspect-ratio: 130/188; }
+
+  .ranking-badge {
+    display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    width: 30px;
-    height: 30px;
-    top: 0px;
-    left: 0px;
-    background-color: black;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    z-index: 2;
-  }
-  .book-info-desktop { /* Desktop Only */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    width: 408px;
-    padding: 20px 0;
-    gap: 10px;
-  }
-  .book-title { /* Desktop Only */
-    align-self: stretch;
-    font-family: Pretendard;
+    inset: 8px auto auto 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: #111;
+    color: #fff;
     font-size: 18px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 100%;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: 0 4px 10px rgba(0,0,0,.18);
+    user-select: none;
+    pointer-events: none;
   }
-  .book-meta { /* Desktop Only */
-    align-self: stretch;
-    font-family: Pretendard;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-  }
-  .book-price { /* Desktop Only */
-    font-family: Pretendard;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-  }
-  .book-price-highlight { /* Desktop Only */
-    font-weight: 700;
-  }
-  .book-summary { /* Desktop Only */
-    display: flex;
-    padding-top: 30px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .summary-title { /* Desktop Only */
-    color: #2C3E50;
-    font-family: Pretendard;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 130%; /* 20.8px */
-  }
-  .summary-detail { /* Desktop Only */
-    color: #454545;
-    font-family: Pretendard;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 130%; /* 18.2px */
+}
+
+/* ===== Large Desktop (≥1440px) — subtle upscale ===== */
+@media (min-width: 1440px) {
+  .best-seller { gap: 96px; }
+  .first-book { width: 280px; }
+  .first-book-image { aspect-ratio: 280/404; }
+  .book-info-desktop { width: 440px; }
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  .first-book,
+  .second-book,
+  .third-book {
+    transition: none;
   }
 }

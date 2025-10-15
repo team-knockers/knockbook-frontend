@@ -50,7 +50,7 @@ export default function BooksHomePage() {
   }
 
   return (
-    <>
+    <div className={styles['page-layout']}>
       <main className={styles['book-home-main']}>
         <CategoryFilterSearchBar
           onSearched={handleSearch}
@@ -116,6 +116,6 @@ export default function BooksHomePage() {
         </div>
       </main>
       <Footer/>
-    </>
+    </div>
   );
 }

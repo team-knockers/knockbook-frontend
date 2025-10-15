@@ -41,7 +41,7 @@
   .banner-controls {
     position: absolute;
     left: 30px;
-    bottom: 30px;
+    bottom: 60px;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -96,7 +96,7 @@
 /* Desktop */
 @media (min-width: 1024px) {
   .banner-wrapper {
-    width: 1024px;
+    max-width: 1024px;
     max-height: 440px;
   }
 
