@@ -81,7 +81,7 @@ export default function BooksCategoryPage() {
   };
 
   return (
-    <>
+    <div className={styles['page-layout']}>
       <main className={styles['book-category-main']}>
         <CategoryFilterSearchBar
           onSearched={handleSearch}
@@ -98,18 +98,19 @@ export default function BooksCategoryPage() {
         <h1 className={styles['book-category-title']}>
           {`카테고리: ${categoryLabel}`}
         </h1>
-        <section>
+        <div className={styles['banner-layout']}>
           <Banner items={banners}/>
-        </section>
-        <TwoLevelTabMenu
-          leftTabTitle="홈"
-          rightTabTitle="전체보기"
-          leftTabPath="home"
-          rightTabPath="all"
-        />
-        <Outlet />
+        </div>
+        <div className={styles['subpage-layout']}>
+            <TwoLevelTabMenu
+              leftTabTitle="홈"
+              rightTabTitle="전체보기"
+              leftTabPath="home"
+              rightTabPath="all"/>
+            <Outlet />
+        </div>        
       </main>
       <Footer/>
-    </>
+    </div>
   );
 }

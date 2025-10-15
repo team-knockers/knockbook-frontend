@@ -1,20 +1,57 @@
+:root {
+  --max: 1024px;
+  --gutter: 20px;
+  --divider: rgba(0,0,0,.06);
+}
+
 .book-category-all-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
+  gap: 50px;
 }
 
 .book-category-all-results {
   width: 100%;
+  max-width: var(--max);
+  padding: 30px var(--gutter);
 }
 
-/*
-  Mobile rules (< 1024px)
-  - Enforce min width 375px
-*/
+.book-category-all-results > :first-child { margin: 8px 0 18px; }
+
+.book-category-all-results > * + * {
+  position: relative;
+  margin-top: 28px;
+  padding-top: 28px;
+}
+
+.book-category-all-results > * + *::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: var(--divider);
+}
+
+.book-category-all-layout > nav,
+.book-category-all-layout > .pagination,
+.book-category-all-layout > [class*="Pagination"] {
+  width: 100%;
+  max-width: var(--max);
+  margin: 24px auto 16px;
+  padding: 0 var(--gutter);
+  border-top: none;
+}
+
 @media (max-width: 1023.98px) {
-
+  .book-category-all-results { padding: 20px 16px; }
+  .book-category-all-results > * + * { margin-top: 22px; padding-top: 22px; }
+  .book-category-all-layout > nav,
+  .book-category-all-layout > .pagination,
+  .book-category-all-layout > [class*="Pagination"] { padding: 0 16px; }
 }
 
-/* Desktop rules (≥ 1024px) */
-@media (min-width: 1024px) {
-
+@media (prefers-color-scheme: dark) {
+  .book-category-all-results > * + *::before { background: rgba(255,255,255,.1); }
 }

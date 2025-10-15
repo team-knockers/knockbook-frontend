@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   align-self: stretch;
-  border-bottom: 0.5px solid #C8C8C8;
+  border-bottom: 0.5px solid #E5E7EB;
 }
 .book-list-wrapper {
   display: flex;
@@ -12,8 +12,8 @@
   align-self: stretch;
 }
 .book-image {
-  all: unset; /* Reset default button styles applied by the browser */
-  height:auto;
+  all: unset;
+  height: auto;
   object-fit: contain;
   cursor: pointer;
 }
@@ -31,16 +31,17 @@
   flex-direction: column;
   align-items: center;
   align-self: stretch;
-  gap: 5px;
+  gap: 6px;
 }
 .book-title {
-  all: unset; /* Reset default button styles applied by the browser */
+  all: unset;
   align-self: stretch;
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 600;
-  line-height: 120%;
+  font-weight: 700;
+  line-height: 140%;
+  color: #0F172A;
   cursor: pointer;
 }
 .book-title:hover {
@@ -48,66 +49,66 @@
 }
 .book-meta {
   align-self: stretch;
-  color: #4A4A4A;
-  font-family: Pretendard;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 120%;
-}
-.book-sub-meta {
-  display: flex;
-  align-self: stretch;
-  color: #4A4A4A;
+  color: #64748B;
   font-family: Pretendard;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
-  line-height: 100%; /* 13px */
+  line-height: 140%;
+}
+.book-sub-meta {
+  display: flex;
+  align-self: stretch;
+  color: #475569;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
 }
 .star-icons {
-  margin-left: 15px;
+  margin-left: 10px;
   display: inline-flex;
 }
 .book-price {
   display: flex;
   flex-direction: column;
   align-self: stretch;
-  color: #4A4A4A;
+  color: #334155;
   font-family: Pretendard;
-  font-size: 13px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  gap: 2px;
+  gap: 4px;
 }
 .price-block {
   display: inline-flex;
   align-items: flex-end;
 }
 .price-label {
-  font-weight: 700;
+  font-weight: 600;
   margin-right: 8px;
+  color: #0F172A;
 }
 .book-price-highlight {
   font-weight: 700;
+  color: #0F172A;
+  font-size: 16px;
 }
 .book-discount-rate-highlight {
   padding-right: 2px;
-  color: #f73936;
+  color: #059669;
   font-weight: 700;
+  font-size: 14px;
 }
 .book-original-price-highlight {
   padding-left: 2px;
-  color: #6E6E6E;
+  color: #94A3B8;
   text-decoration: line-through;
-  font-size: 10px;
+  font-size: 14px;
   align-self: flex-end;
 }
 
-/*
-  Mobile rules (< 1024px)
-  - Enforce min width 375px
-*/
 @media (max-width: 1023.98px) {
   .book-list-item {
     padding: 20px 15px;
@@ -116,7 +117,7 @@
     gap: 15px;
   }
   .book-image {
-    width: 65px;
+    width: 88px;
   }
   .icon-wrapper {
     display: flex;
@@ -125,15 +126,34 @@
     align-items: flex-start;
     gap: 20px;
     align-self: stretch;
-    font-size: 26px;
+    font-size: 20px;
     margin-left: 20px;
   }
   .button-wrapper {
     display: none;
   }
+  .book-title {
+    font-size: 15px;
+    line-height: 140%;
+  }
+  .book-meta {
+    font-size: 12px;
+    line-height: 140%;
+  }
+  .book-sub-meta {
+    font-size: 12px;
+  }
+  .book-price {
+    font-size: 12px;
+  }
+  .book-price-highlight {
+    font-size: 12px;
+  }
+  .book-original-price-highlight {
+    font-size: 12px;
+  }
 }
 
-/* Desktop rules (≥ 1024px) */
 @media (min-width: 1024px) {
   .book-list-item {
     padding: 30px 20px;
@@ -142,7 +162,7 @@
     gap: 20px;
   }
   .book-image {
-    width: 70px;
+    width: 96px;
   }
   .icon-wrapper {
     display: none;
@@ -152,7 +172,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 25px;
+    gap: 15px;
     align-self: stretch;
   }
   .button-wrapper button{

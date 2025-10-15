@@ -45,11 +45,19 @@ export default function BestSellerSection({
             {first.author} · {first.publisher}
           </span>
           <span className={styles['book-price']}>
-            대여 <span className={styles['book-price-highlight']}>{first.rentalAmount.toLocaleString()}원</span> | 구매 <span className={styles['book-price-highlight']}>{first.discountedPurchaseAmount.toLocaleString()}원</span>
+            대여 <span className={styles['book-price-highlight']}>
+              {first.rentalAmount.toLocaleString()}원
+              </span> | 구매 <span className={styles['book-price-highlight']}>
+                {first.discountedPurchaseAmount.toLocaleString()}원
+              </span>
           </span>
           <div className={styles['book-summary']}>
-            <span className={styles['summary-title']}>{first.introductionTitle}</span>
-            <span className={styles['summary-detail']}>{first.introductionDetail}</span>
+            <span className={styles['summary-title']}>
+              {first.introductionTitle}
+            </span>
+            <span className={styles['summary-detail']}>
+              {first.introductionDetail}
+            </span>
           </div>
         </div>
       </div>

@@ -1,98 +1,150 @@
+/* ===== Professional polish (CSS-only, no markup changes) ===== */
+
 .book-list-header {
   display: flex;
-  padding: 10px;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
-  border-bottom: 1px solid #C8C8C8;
+  padding: 30px 16px;
+  border-bottom: 1px solid #dadbdb;
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
 .category-section {
   display: flex;
   align-items: center;
+  gap: 12px;
   flex: 1;
   align-self: stretch;
-  font-family: Pretendard;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%; /* 13px */
-  gap: 10px;
+  font-family: Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #ffffff;
 }
+
 .category-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
+
 .category-select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  height: 29px;
-  padding: 0 18px 0 5px;
-  border: none;
+  height: 32px;
+  padding: 0 28px 0 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #0F172A;
   cursor: pointer;
+  font-size: 13.5px;
+  line-height: 1;
+  box-shadow: 0 1px 1px rgba(0,0,0,.03), inset 0 1px 0 rgba(255,255,255,.6);
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
 }
+
+.category-select:hover {
+  border-color: #D1D5DB;
+  background: #FCFCFC;
+}
+
+.category-select:focus-visible {
+  outline: 0;
+  border-color: #93C5FD;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
+
 .category-select:disabled {
-  color: #000;
+  color: #64748B;
+  background: #F5F5F5;
   cursor: default;
 }
 
-.disabled-icon {
-  opacity: 0.4;
-}
 .category-icon {
   position: absolute;
-  right: 0px;
-  pointer-events: none; /* Prevent click */
-  font-size: 17px;
+  right: 8px;
+  font-size: 18px;
+  color: #64748B;
+  pointer-events: none;
 }
+
 .total-count {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-self: stretch;
-  color: #8D8D8D;
-  font-family: Pretendard;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%; /* 11px */
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #F6F8FA;
+  color: #6B7280;
+  font-family: Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
 }
+
 .sort-section {
   display: flex;
   align-items: center;
+  gap: 8px;
   align-self: stretch;
-  font-family: Pretendard;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%; /* 13px */
-}
-.sort-select {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  border: none;
-  cursor: pointer;
+  font-family: Pretendard, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #0F172A;
 }
 
-/*
-  Mobile rules (< 1024px)
-  - Enforce min width 375px
-*/
+.sort-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #0F172A;
+  cursor: pointer;
+  font-size: 13.5px;
+  line-height: 1;
+  box-shadow: 0 1px 1px rgba(0,0,0,.03), inset 0 1px 0 rgba(255,255,255,.6);
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+
+.sort-select:hover {
+  border-color: #D1D5DB;
+  background: #FCFCFC;
+}
+
+.sort-select:focus-visible {
+  outline: 0;
+  border-color: #93C5FD;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
+
+/* Subtle divider tightening on mobile */
 @media (max-width: 1023.98px) {
   .book-list-header {
-    height: 45px;
+    height: 48px;
+    padding: 8px 12px;
+    border-bottom-color: #d6d6d6;
+    background: #FFFFFF;
   }
+  .category-select,
+  .sort-select,
+  .total-count { height: 30px; }
+  .category-select { font-size: 13px; padding: 0 26px 0 10px; }
+  .sort-select { font-size: 13px; padding: 0 10px; }
+  .category-icon { right: 6px; font-size: 16px; }
 }
 
-/* Desktop rules (≥ 1024px) */
+/* Desktop sizing */
 @media (min-width: 1024px) {
   .book-list-header {
-    height: 50px;
+    height: 56px;
     min-width: 700px;
     max-width: 1024px;
-    min-height: 50px;
   }
 }

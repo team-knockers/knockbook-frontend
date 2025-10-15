@@ -1,10 +1,44 @@
-.book-home-main{
+:root {
+  --font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  --font-size-base: 16px;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --color-primary: #1e88e5;
+  --color-muted: #999;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: #222;
+  line-height: 1.6;
+  background-color: #fafafa;
+}
+
+.page-layout {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 100px;
+}
+
+.book-home-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fefefe;
+  gap: 10px;
 }
 
 .book-home-banner {
-  padding: 10px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0 20px;
 }
 
 .category-popup-overlay {
@@ -14,22 +48,17 @@
 .book-contents-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  gap: 48px;
+  width: 100%;
+  max-width: 1024px;
+  padding: 0 16px;
 }
 
-.best-seller-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: stretch;
-}
-
+.best-seller-section,
 .book-slider-section {
+  align-self: stretch;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
 }
 
 /*
@@ -37,34 +66,38 @@
   - Enforce min width 375px
 */
 @media (max-width: 1023.98px) {
+
   .book-home-main{
     align-self: stretch;
   }
+
   .book-contents-container {
-    padding: 2px 20px;
-  }
-  .best-seller-section {
-    padding-bottom: 20px;
+    padding: 0 16px;
+    gap: 32px;
   }
 }
 
 /* Desktop rules (≥ 1024px) */
 @media (min-width: 1024px) {
+
   .book-home-main{
-    width: 1024px;
+    max-width: 1200px;
     margin:0 auto;
   }
+
   .category-popup-overlay {
     left: 17px;
   }
+
   .book-contents-container {
     width: 1024px;
     padding: 20px;
   }
+
   .best-seller-section {
     max-width: 1024px;
-    padding-bottom: 30px;
   }
+
   .book-slider-section {
     max-width: 1024px;
   }

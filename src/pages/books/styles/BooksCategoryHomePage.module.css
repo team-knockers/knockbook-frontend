@@ -1,51 +1,74 @@
-.category-popup-overlay {
-  position: relative;
-}
+/* ===== Layout tokens ===== */
 .book-contents-container {
+  --max: 1024px;
+  --gutter-m: 20px;
+  --gutter-d: 20px;
+  --section-gap: 28px;
+  --section-gap-lg: 40px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: var(--section-gap);
+  width: 100%;
+  padding-inline: var(--gutter-m);
 }
-.best-seller-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: stretch;
-}
+
+/* Overlay keeps local context (e.g., dropdown anchors) */
+.category-popup-overlay { position: relative; }
+
+/* Sections */
+.best-seller-section,
 .book-slider-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
+  align-items: stretch;
+  width: 100%;
 }
-/*
-  Mobile rules (< 1024px)
-  - Enforce min width 375px
-*/
+
+/* Mobile (<1024px) */
 @media (max-width: 1023.98px) {
   .book-contents-container {
-    padding: 2px 20px;
+    padding: 30px 20px;
   }
-  .best-seller-section {
-    padding-bottom: 20px;
+  .best-seller-section { padding-bottom: 20px; }
+  .book-slider-section { gap: 14px; }
+}
+
+/* Desktop (≥1024px) */
+@media (min-width: 1024px) {
+  .category-popup-overlay { left: 17px; }
+
+  .book-contents-container {
+    max-width: var(--max);
+    padding: 20px var(--gutter-d);
+    gap: var(--section-gap-lg);
+  }
+
+  .best-seller-section,
+  .book-slider-section {
+    max-width: var(--max);
+  }
+
+  .best-seller-section { padding-bottom: 30px; }
+}
+
+/* Safe-area support for iOS notch */
+@supports (padding: max(0px)) {
+  .book-contents-container {
+    padding-inline: max(var(--gutter-m), env(safe-area-inset-left));
+    padding-inline-end: max(var(--gutter-m), env(safe-area-inset-right));
   }
 }
 
-/* Desktop rules (≥ 1024px) */
-@media (min-width: 1024px) {
-  .category-popup-overlay {
-    left: 17px;
-  }
-  .book-contents-container {
-    width: 1024px;
-    padding: 20px;
-  }
-  .best-seller-section {
-    max-width: 1024px;
-    padding-bottom: 30px;
-  }
-  .book-slider-section {
-    max-width: 1024px;
-  }
+/* Dark mode subtle contrast */
+@media (prefers-color-scheme: dark) {
+  .book-contents-container { background: transparent; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .book-contents-container,
+  .best-seller-section,
+  .book-slider-section { scroll-behavior: auto; }
 }
