@@ -153,6 +153,16 @@
   cursor: pointer;
 }
 
+.sentinel {
+  height: 1px;
+}
+
+.loading { 
+  padding: 12px; 
+  text-align: center; 
+  color: #888; 
+}
+
 @media (min-width: 1024px) {
   .feed-header-left img {
     max-width: 200px;
