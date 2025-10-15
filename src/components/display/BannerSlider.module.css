@@ -1,6 +1,6 @@
 .banner-wrapper {
+  width: 100%;
   position: relative;
-  padding: 20px;
 }
 
 .banner-viewport {
@@ -30,19 +30,14 @@
 
   .banner-wrapper {
     width: 100%;
-    height: 100%;
-    min-width: 375px;
-    min-height: 260px;
     aspect-ratio: 75/52;
   }
 
-  /* 화살표는 모바일에서 숨김 */
   .nav-prev,
   .nav-next {
     display: none !important;
   }
 
-  /* === 모바일 전용 페이지 마커 UI === */
   .banner-controls {
     position: absolute;
     left: 30px;
@@ -53,9 +48,8 @@
     z-index: 3;
   }
 
-  /* 정지/재생 버튼: 원형 배경 없이 텍스트 아이콘만 */
   .ctrl-pause {
-    all: unset;                 /* 데스크탑 스타일 제거 */
+    all: unset;
     cursor: pointer;
     font-size: 12px;
     font-weight: 700;
@@ -64,7 +58,6 @@
     opacity: .7;
   }
 
-  /* 페이지 덩어리: 투명 배경 + 얇은 서체 */
   .ctrl-page {
     display: inline-flex;
     align-items: center;
@@ -85,18 +78,16 @@
     letter-spacing: .04em;
   }
 
-  /* 가운데 구분선: 텍스트 대신 가는 라인으로 표시 */
   .page-sep {
     position: relative;
-    width: 56px;         /* 필요시 길이 조절 */
+    width: 56px;
     height: 1px;
     background: #111;
     opacity: .65;
-    font-size: 0;        /* '/' 텍스트 숨김 */
+    font-size: 0;
     line-height: 0;
   }
 
-  /* '+' 배지는 모바일에서는 숨김 */
   .page-more {
     display: none !important;
   }
@@ -106,9 +97,7 @@
 @media (min-width: 1024px) {
   .banner-wrapper {
     width: 1024px;
-    height: 420px;
-    min-height: 420px;
-    max-height: 420px;
+    max-height: 440px;
   }
 
   .nav-prev,
@@ -168,7 +157,7 @@
   .banner-controls {
     position: absolute;
     right: 50px;
-    bottom: 80px;
+    bottom: 50px;
     display: flex;
     align-items: center;
     gap: 10px;
