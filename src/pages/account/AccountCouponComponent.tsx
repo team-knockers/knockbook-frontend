@@ -3,10 +3,10 @@ import s from "./AccountCouponComponent.module.css";
 type CouponType = "book" | "product";
 
 export type CouponProps = {
-  type: CouponType; // 도서 쿠폰 / 상품 쿠폰
-  discountRate: number; // 할인율
-  title: string; // 쿠폰 이름
-  expireDate: string; // 만료일
+  type: CouponType; // Book coupon / Product coupon
+  discountRate: number; // Discount rate
+  title: string; // Coupon title
+  expireDate: string; // Expiration date
 };
 
 export default function AccountCouponComponent({
