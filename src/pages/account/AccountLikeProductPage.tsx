@@ -1,7 +1,88 @@
+import ProductSummaryCard from '../../features/products/components/ProductSummaryCard';
+import s from './AccountLikeProductPage.module.css'
+import ProductImg from '../../assets/feed_slider_img2.png'
+
 export default function AccountLikeProductPage() {
+  // dummy date
+  const likedProducts = [
+    {
+      productId: "p1",
+      name: "2025 다이어리 세트",
+      unitPriceAmount: 18000,
+      salePriceAmount: 15000,
+      averageRating: 4.8,
+      reviewCount: 123,
+      thumbnailUrl: ProductImg,
+    },
+    {
+      productId: "p2",
+      name: "아트 포스터 캘린더",
+      unitPriceAmount: 12000,
+      salePriceAmount: null,
+      averageRating: 4.5,
+      reviewCount: 98,
+      thumbnailUrl: ProductImg,
+    },
+    {
+      productId: "p3",
+      name: "2025 다이어리 세트",
+      unitPriceAmount: 18000,
+      salePriceAmount: 15000,
+      averageRating: 4.8,
+      reviewCount: 123,
+      thumbnailUrl: ProductImg,
+    },
+    {
+      productId: "p4",
+      name: "아트 포스터 캘린더",
+      unitPriceAmount: 12000,
+      salePriceAmount: null,
+      averageRating: 4.5,
+      reviewCount: 98,
+      thumbnailUrl: ProductImg,
+    },
+    {
+      productId: "p5",
+      name: "2025 다이어리 세트",
+      unitPriceAmount: 18000,
+      salePriceAmount: 15000,
+      averageRating: 4.8,
+      reviewCount: 123,
+      thumbnailUrl: ProductImg,
+    },
+    {
+      productId: "p6",
+      name: "아트 포스터 캘린더",
+      unitPriceAmount: 12000,
+      salePriceAmount: null,
+      averageRating: 4.5,
+      reviewCount: 98,
+      thumbnailUrl: ProductImg,
+    },
+  ];
+
+  const handleCardClick = (id: string) => {
+    console.log(`상품 ${id} 클릭됨`);
+  };
+
   return (
-    <main>
-      <div>상품 찜목록</div>
+    <main className={s["page-layout"]}>
+      <div className={s["like-list-layout"]}>
+        {likedProducts.map((p) => (
+          <div key={p.productId} className={s["like-list-item"]}>
+            <ProductSummaryCard
+              key={p.productId}
+              imageSrc={p.thumbnailUrl}
+              name={p.name}
+              price={p.unitPriceAmount}
+              salePrice={p.salePriceAmount ?? undefined}
+              rating={p.averageRating}
+              reviewCount={p.reviewCount}
+              onClick={() => handleCardClick(p.productId)}
+            />
+          </div>
+        ))}
+      </div>
     </main>
   );
 }
