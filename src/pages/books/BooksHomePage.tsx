@@ -54,8 +54,7 @@ export default function BooksHomePage() {
       <main className={styles['book-home-main']}>
         <CategoryFilterSearchBar
           onSearched={handleSearch}
-          onCategoryToggled={toggleCategory}
-        />
+          onCategoryToggled={toggleCategory}/>
         {isCategoryPopupOpen && (
           <div className={styles['category-popup-overlay']}>
             <BooksCategoryPopup
@@ -64,15 +63,14 @@ export default function BooksHomePage() {
             />
           </div>
         )}
-        <section>
+        <div className={styles['book-home-banner']}>
           <Banner items={banners}/>
-        </section>
+        </div>
         <div className={styles['book-contents-container']}>
           <section className={styles['best-seller-section']}>
             <BookSectionHeader 
               headerTitle="문앞 베스트"
-              onClicked={() => handleBestSellerMoreClick ("all")}
-            />
+              onClicked={() => handleBestSellerMoreClick ("all")}/>
             <BestSellerSection
               top3Books={top3BestSellers}
               onFirstBookClicked={() => {

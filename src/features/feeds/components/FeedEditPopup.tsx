@@ -126,6 +126,11 @@ export default function FeedEditPopup({
         <section 
           className={styles.media}
           style={hasImages ? ({ ["--media-bg" as any]: `url("${curr}")` } as React.CSSProperties) : undefined}>
+          <div className={styles.mobileTopBar}>
+            <button className={styles.mobileCloseBtn} onClick={onClose} aria-label="닫기">
+              <FiX />
+            </button>
+          </div>
           {hasImages ? (
             <div className={styles.mediaStage}>
               <img

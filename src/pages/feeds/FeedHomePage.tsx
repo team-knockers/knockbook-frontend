@@ -149,20 +149,20 @@ export default function FeedHomePage() {
     }
   };
 
-  const handleLike = (id: string) => {
+  const handleLikePost = (id: string) => {
     return (liked: boolean) => {
       console.log(`[LIKE] ${id}:`, liked); // test code
       // TODO: call API
     }
   };
 
-  const handleCommentPopupOpen = (id: string) => {
+  const handlePopupOpen = (id: string) => {
     return () => {
       if (isMobile) {
-        setOpenCommentFeedId(id);
+        setSelectedPostId(id);
       }
       else {
-        setOpenEditFeedId(id);
+        setSelectedPostId(id);
 
       }
     }
@@ -175,16 +175,11 @@ export default function FeedHomePage() {
   };
 
   const isMobile = useIsMobile();
-  const [openCommentFeedId, setOpenCommentFeedId] = useState<string | null>(null);
-  const [openEditFeedId, setOpenEditFeedId] = useState<string | null>(null);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
 
-  const currentFeedForComments = useMemo(
-    () => posts.find(p => p.postId === openCommentFeedId) ?? null,
-    [openCommentFeedId]
-  );
-  const currentFeedForEdit = useMemo(
-    () => posts.find(p => p.postId === openEditFeedId) ?? null,
-    [openEditFeedId]
+  const selectedPost = useMemo(
+    () => posts.find(p => p.postId === selectedPostId) ?? null,
+    [selectedPostId]
   );
 
   return (
@@ -203,38 +198,38 @@ export default function FeedHomePage() {
             likesCount={p.likesCount}
             commentsCount={p.commentsCount}
             content={p.content}
-            onLikeToggled={handleLike(p.postId)}
-            onCommentClick={handleCommentPopupOpen(p.postId)}/>
+            onLikeToggled={handleLikePost(p.postId)}
+            onCommentClick={handlePopupOpen(p.postId)}/>
         </div>
       ))}
 
       {/* mobile only : FeedCommentBottomPopup */}
-      {currentFeedForComments && (
+      {selectedPost && isMobile && (
         <FeedCommentBottomPopup
-          open={!!currentFeedForComments}
-          onClose={() => setOpenCommentFeedId(null)}
-          title={`댓글 ${currentFeedForComments.commentsCount}개`}
-          comments={createDemoComments(currentFeedForComments, handleCommentLike)}
-          onCommentSubmit={handleSubmitComment(currentFeedForComments.postId)}
+          open={!!selectedPost}
+          onClose={() => setSelectedPostId(null)}
+          title={`댓글 ${selectedPost.commentsCount}개`}
+          comments={createDemoComments(selectedPost, handleCommentLike)}
+          onCommentSubmit={handleSubmitComment(selectedPost.postId)}
           heightPct={60}
         />
       )}
 
       {/* desktop only : FeedEditPopup */}
-      {currentFeedForEdit && !isMobile && (
+      {selectedPost && !isMobile && (
         <FeedEditPopup
-          open={!!currentFeedForEdit}
-          onClose={() => setOpenEditFeedId(null)}
-          comments={createDemoComments(currentFeedForEdit, handleCommentLike)}
-          onCommentSubmit={handleSubmitComment(currentFeedForEdit.postId)}
-          profileUrl={currentFeedForEdit.avatarUrl ?? profileUrl}
-          displayName={currentFeedForEdit.displayName}
-          createdAt={currentFeedForEdit.createdAt}
-          content={currentFeedForEdit.content}
-          imageUrls={currentFeedForEdit.images}
-          likesCount={currentFeedForEdit.likesCount}
-          likedByMe={currentFeedForComments?.likedByMe}
-          onLikeToggle={handleLike(currentFeedForEdit.postId)}
+          open={!!selectedPostId}
+          onClose={() => setSelectedPostId(null)}
+          comments={createDemoComments(selectedPost, handleCommentLike)}
+          onCommentSubmit={handleSubmitComment(selectedPost.postId)}
+          profileUrl={selectedPost.avatarUrl ?? profileUrl}
+          displayName={selectedPost.displayName}
+          createdAt={selectedPost.createdAt}
+          content={selectedPost.content}
+          imageUrls={selectedPost.images}
+          likesCount={selectedPost.likesCount}
+          likedByMe={selectedPost?.likedByMe}
+          onLikeToggle={handleLikePost(selectedPost.postId)}
           onMoreClick={() => {/* TODO */}}/>
       )}
 

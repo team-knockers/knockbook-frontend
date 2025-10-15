@@ -41,7 +41,7 @@
   .banner-controls {
     position: absolute;
     left: 30px;
-    bottom: 20px;
+    bottom: 30px;
     display: inline-flex;
     align-items: center;
     gap: 10px;
