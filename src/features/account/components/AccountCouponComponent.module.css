@@ -1,11 +1,12 @@
 .coupon-card {
   position: relative;
+  width: 100%;
+  max-width: 400px;
   background: #f4f4f4;
   border-radius: 8px;
   padding: 20px 30px;
   font-family: Pretendard;
-  margin: 20px 0;
-  max-width: 400px;
+  margin: 10px 0;
 }
 
 .coupon-card::before {
