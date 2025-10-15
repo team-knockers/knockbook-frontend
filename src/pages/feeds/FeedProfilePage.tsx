@@ -131,9 +131,11 @@ export default function FeedProfilePage() {
       </div>
       <div className={s['post-imges']}>
         {thumbs.map(t => (
-          <img key={t.postId} 
-          src={t.thumbnailUrl} 
-          alt={`post-${t.postId}`} 
+          <img
+            key={t.postId}
+            src={t.thumbnailUrl}
+            alt={`post-${t.postId}`}
+            onClick={() => {/* TODO */}}
         />
         ))}
       </div>
