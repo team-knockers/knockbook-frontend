@@ -1,22 +1,54 @@
 .home-layout {
-  max-width: 1024px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 20px;
-  margin: 0 auto;
+  gap: 40px;
+  padding-top: 30px;
 }
 
-.home-section {
+.banner-layout {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
 }
 
-.section-title {
+.product-slider-layout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-slider-title {
+  width: 100%;
+  padding: 0 20px;
+  
+  max-width: 1440px;
+  align-self: flex-start;
   font-family: Pretendard;
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: 100%; /* 18px */
   margin-bottom: 10px;
+}
+
+.book-slider-layout {
+  width: 100%;
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.section-title {  
+  max-width: 1440px;
+  align-self: flex-start;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  margin-bottom: 20px;
 }

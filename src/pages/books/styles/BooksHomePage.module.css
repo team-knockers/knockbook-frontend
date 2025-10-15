@@ -2,27 +2,36 @@
   display: flex;
   flex-direction: column;
 }
+
+.book-home-banner {
+  padding: 10px 20px;
+}
+
 .category-popup-overlay {
   position: relative;
 }
+
 .book-contents-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 }
+
 .best-seller-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   align-self: stretch;
 }
+
 .book-slider-section {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   align-self: stretch;
 }
+
 /*
   Mobile rules (< 1024px)
   - Enforce min width 375px
