@@ -26,7 +26,6 @@ export default function AccountCouponComponent({
           {type === "book" ? "도서 쿠폰" : "상품 쿠폰"}
         </span>
       </div>
-
       <div className={s["coupon-body"]}>
         <p className={s["discount"]}>{discountRate}%</p>
         <p className={s["title"]}>{title}</p>
