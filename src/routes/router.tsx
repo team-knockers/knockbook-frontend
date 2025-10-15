@@ -322,6 +322,7 @@ export const router = createBrowserRouter([
               header: { 
                 kind: "backTitleClose",
                 title: "관리",
+                back: { type: 'push', to:PATHS.home },
                 close: { type: 'push', to: PATHS.home }
               } 
             } 
