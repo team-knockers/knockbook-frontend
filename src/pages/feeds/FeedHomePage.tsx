@@ -1,133 +1,106 @@
-import SearchBar from '../../components/navigation/SearchBar';
-import Pagination from '../../components/navigation/Pagination';
+import { useEffect, useRef, useState } from 'react';
+import { timeAgo } from '../../features/feeds/util';
 
+import SearchBar from '../../components/navigation/SearchBar';
 import FeedCard from '../../features/feeds/components/FeedCard';
 import s from './FeedHomePage.module.css';
 
-import FeedSliderGreenBook from '../../assets/feed_slider_img1.png'
-import FeedSliderBooklight from '../../assets/feed_slider_img2.png'
-import FeedSliderWhiteBook from '../../assets/feed_slider_img3.png'
+import { FeedService } from '../../features/feeds/services/FeedService';
+import type { FeedPost } from '../../features/feeds/types';
 
-// dummy data
-const firstSliderImages = [
-  {
-    id: '1',
-    url: FeedSliderGreenBook
-  }
-  ,
-  {
-    id: '2',
-    url: FeedSliderBooklight
-  }
-  ,
-  {
-    id: '3',
-    url: FeedSliderWhiteBook
-  }
-]
-
-const secondSliderImage = [
-  {
-    id: '1',
-    url: FeedSliderBooklight
-  }
-  ,
-  {
-    id: '2',
-    url: FeedSliderGreenBook
-  }
-  ,
-  {
-    id: '3',
-    url: FeedSliderWhiteBook
-  }
-  ,
-  {
-    id: '4',
-    url: FeedSliderGreenBook
-  }
-  ,
-  {
-    id: '5',
-    url: FeedSliderWhiteBook
-  }
-]
-
-const thirdSliderImage = [
-  {
-    id: '1',
-    url: FeedSliderWhiteBook
-  }
-  ,
-  {
-    id: '2',
-    url: FeedSliderBooklight
-  }
-  ,
-  {
-    id: '3',
-    url: FeedSliderGreenBook
-  }
-  ,
-  {
-    id: '4',
-    url: FeedSliderBooklight
-  }
-  ,
-  {
-    id: '5',
-    url: FeedSliderGreenBook
-  }
-]
-
-  // Future SearchBar API integration
-  const handleSearch = (searchKeyword: string) => {
-      console.log(searchKeyword);
-  }
-
-  // Future Pagination API integration
-  const goPage = (p: number) => {
-    console.log(p);
-  };
+const PAGE_SIZE = 3; // number of posts per request 
 
 export default function FeedHomePage() {
+  // list shown on the page
+  const [posts, setPosts] = useState<FeedPost[]>([]);
+  // cursor for next page (null = no more)
+  const [nextAfter, setNextAfter] = useState<string | null>(null);
+  // true while a fetch is running (prevents duplicates)
+  const [loading, setLoading] = useState(false);
+  // searchKeyword
+  const [keyword, setKeyword] = useState<string>('');
+  // bottom trigger element 
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  
+  // 1) first load and reload when search keyword changes
+  useEffect(() => {
+    let alive = true; // ignore setState if unmounted
+    (async () => {
+      try {
+        setLoading(true);
+        // first page : (after = null)
+        const res = await FeedService.getFeedPostList(PAGE_SIZE, null, keyword);
+        if (!alive) return;
+        setPosts(res.feedPosts);      // replace list
+        setNextAfter(res.nextAfter);  // save next cursor 
+      } finally {
+        if (alive) setLoading(false);
+      }
+    })();
+    return () => { alive = false; }; // cleanup on unmout 
+  }, [keyword]);
+
+  // 2) load next page (called when sentinel becomes visible)
+  async function loadMore() {
+    if (loading || !nextAfter) return; // guard: in-flight or no more
+    try {
+      setLoading(true);
+      const res = await FeedService.getFeedPostList(PAGE_SIZE, nextAfter, keyword);
+      setPosts(prev => [...prev, ...res.feedPosts]); // append 
+      setNextAfter(res.nextAfter);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // 3) observe the bottom sentinel
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // trigger when visible
+          loadMore();
+        }
+      },
+      { root: null, rootMargin: '200px 0px', threshold: 0 }
+    );
+    // start
+    io.observe(el);
+    // stop on unmount/update
+    return () => io.disconnect();
+  }, [sentinelRef.current, nextAfter, loading]); 
+
+  // 4) search handler
+  const handleSearch = (searchKeyword: string)=> {
+    setKeyword(searchKeyword.trim()); // triggers first-load effect
+  }
+
   return (
     <div className={s['page-layout']}>
       <SearchBar
         placeholder='아이디를 입력하세요'
         onSearch={handleSearch}
       />
-      <FeedCard
-        profileImage={FeedSliderGreenBook}
-        username='호랭이'
-        timeAgo='1일 전'
-        postImage={firstSliderImages}
-        likes={20}
-        comments={2}
-        description='날씨가 좋으면 찾아가겠어요. 도서 추천해요~'
-      />
-      <FeedCard
-        username='고앵이'
-        timeAgo='4일 전'
-        postImage={secondSliderImage}
-        likes={2}
-        comments={0}
-        description='엊그제 주문한 북라이트 너무 예뻐 :)'
-      />
-      <FeedCard
-        profileImage={FeedSliderWhiteBook}
-        username='스누피'
-        timeAgo='5일 전'
-        postImage={thirdSliderImage}
-        likes={10}
-        comments={1}
-        description='책을 읽다 발견한 좋은 글...'
-      />
-      <Pagination
-        page={1}  
-        totalPages={10}
-        onChange={goPage}
-      />
+
+      {posts.map(p => (
+        <FeedCard
+          key={p.postId}
+          profileImage={p.avatarUrl ?? undefined}
+          username={p.displayName}
+          timeAgo={timeAgo(p.createdAt)}
+          postImage={p.images.map((url, i) => ({ id: String(i + 1), url }))}
+          likes={p.likesCount}
+          comments={p.commentsCount}
+          description={p.content}
+        />
+      ))}
+
+      {/* invisible bottom trigger */}
+      <div ref={sentinelRef} className={s['sentinel']} />
+      {loading && <div className={s['loading']}>Loading…</div>}
     </div>
   );
 }

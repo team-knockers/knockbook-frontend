@@ -123,6 +123,22 @@
   height: 30px;
 }
 
+.post-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; 
+  align-items: center;
+}
+
+.post-count {
+  display: flex;
+  font-family: pretendard;
+  font-size: 14px;
+  transform: translateY(7px);
+  gap: 2px;
+  color: #494949;
+}
+
 .post-imges {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -135,6 +151,16 @@
   aspect-ratio: 1 / 1;
   object-fit: cover;
   cursor: pointer;
+}
+
+.sentinel {
+  height: 1px;
+}
+
+.loading { 
+  padding: 12px; 
+  text-align: center; 
+  color: #888; 
 }
 
 @media (min-width: 1024px) {
