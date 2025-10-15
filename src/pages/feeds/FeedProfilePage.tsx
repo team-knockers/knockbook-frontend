@@ -21,8 +21,6 @@ export default function FeedProfilePage() {
       username: "유저 아이디",
       description: "책 친구 만들고 싶어요 같이 소통해요",
       postCount: 12,
-      followerCount: 350,
-      followingCount: 180,
     };
 
   const postImage = [
@@ -64,21 +62,6 @@ export default function FeedProfilePage() {
           <div className={s['user-description']}>
             <p>{userData.description}</p>
           </div>
-
-          <div className={s['user-information']}>
-            <div className={s['user-post']}>
-              <span>{userData.postCount}</span>
-              <p>포스트</p>
-            </div>
-            <div className={s['user-follower']}>
-              <span>{userData.followerCount}</span>
-              <p>팔로워</p>
-            </div>
-            <div className={s['user-following']}>
-              <span>{userData.followingCount}</span>
-              <p>팔로잉</p>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -91,15 +74,21 @@ export default function FeedProfilePage() {
           <IoMdArrowRoundForward />
         </button>
       </div>
-      <div className={s['post-button']}>
-        <OneWayButton
-          content='+ 포스트 작성'
-          onClick={() => alert(`포스트 버튼이 클릭되었습니다!`)}
-          responsiveType='fluid'
-          widthSizeType='sm'
-          heightSizeType='xxxs'
-          colorType='natural'
-        />
+      <div className={s['post-info']}>
+        <div className={s['post-count']}>
+          <span>{userData.postCount}</span>
+          <span>건</span>
+        </div>
+        <div className={s['post-button']}>
+          <OneWayButton
+            content='+ 포스트 작성'
+            onClick={() => alert(`포스트 버튼이 클릭되었습니다!`)}
+            responsiveType='fluid'
+            widthSizeType='sm'
+            heightSizeType='xxxs'
+            colorType='natural'
+          />
+        </div>
       </div>
       <div className={s['post-imges']}>
         {postImage.map((post) => (

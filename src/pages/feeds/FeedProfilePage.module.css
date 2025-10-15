@@ -123,6 +123,22 @@
   height: 30px;
 }
 
+.post-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; 
+  align-items: center;
+}
+
+.post-count {
+  display: flex;
+  font-family: pretendard;
+  font-size: 14px;
+  transform: translateY(7px);
+  gap: 2px;
+  color: #494949;
+}
+
 .post-imges {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

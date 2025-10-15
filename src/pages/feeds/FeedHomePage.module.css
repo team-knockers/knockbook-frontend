@@ -8,3 +8,12 @@
   gap: 20px;
   padding-bottom: 20px;
 }
+.sentinel {
+  height: 1px;
+}
+
+.loading { 
+  padding: 12px; 
+  text-align: center; 
+  color: #888; 
+}

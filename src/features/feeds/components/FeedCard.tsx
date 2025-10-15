@@ -2,7 +2,6 @@ import styles from "./styles/FeedCard.module.css";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { useState } from "react";
-import OneWayButton from "../../../components/forms/OneWayButton";
 import FeedImageSlider from "./FeedImageSlider";
 import type { FeedImages } from "../types";
 import DefaultProfile from "../../../assets/feed_profile.jpg"
@@ -26,17 +25,7 @@ export default function FeedCard({
   comments,
   description,
 }: FeedCardProps) {
-
-  const [isFollowing, setIsFollowing] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-
-  const onFollowToggled = () => {
-  setIsFollowing((prev) => {
-    const next = !prev;
-    console.log(next ? '팔로잉' : '팔로우');
-    return next;
-    });
-  };
 
   const onWishlistToggled = () => {
   setIsLiked((prev) => {
@@ -59,16 +48,6 @@ export default function FeedCard({
           <div className={styles['user-info']}>
             <span className={styles['user-name']}>{username}</span>
             <span className={styles['time-ago']}>{timeAgo}</span>
-          </div>
-          <div className={styles['follow-button']}>
-            <OneWayButton
-              content={isFollowing ? '팔로잉' : '팔로우'}
-              onClick={onFollowToggled}
-              responsiveType='fixed'
-              widthSizeType='xs'
-              heightSizeType='xs'
-              colorType={isFollowing ? 'natural' : 'dark'}
-            />
           </div>
         </div>
 
