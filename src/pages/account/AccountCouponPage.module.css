@@ -37,3 +37,9 @@
   font-size: 12px;
   font-weight: 400;
 }
+
+@media (min-width: 1024px) {
+  .coupon-layout {
+    margin-top: 50px;
+  }
+}
