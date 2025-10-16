@@ -72,5 +72,57 @@ export const FeedService = {
       undefined,
       { method: "GET" }
     );
+  },
+
+  async likePost(
+    postId: string
+  ): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    
+    return apiAuthPathAndQuery<void>(
+      "/feeds/post/{postId}/likes/{userId}",
+      { postId, userId },
+      undefined,
+      { method: "PUT" }
+    );
+  },
+
+  async unlikePost(
+    postId: string
+  ): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPathAndQuery<void>(
+      "/feeds/post/{postId}/likes/{userId}",
+      { postId, userId },
+      undefined,
+      { method: "DELETE" }
+    );
+  },
+
+  async likeComment(commentId: string): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery<void>(
+      "/feeds/comment/{commentId}/likes/{userId}",
+      { commentId, userId },
+      undefined,
+      { method: "PUT" }
+    );
+  },
+
+  async unlikeComment(commentId: string): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery<void>(
+      "/feeds/comment/{commentId}/likes/{userId}",
+      { commentId, userId },
+      undefined,
+      { method: "DELETE" }
+    );
   }
 }

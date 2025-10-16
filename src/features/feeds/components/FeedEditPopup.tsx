@@ -6,6 +6,7 @@ import { FaHeart } from "react-icons/fa";
 import FeedComment from "./FeedComment";
 import type { FeedPostComment } from "../types";
 import FeedProfileFallback from '../../../assets/feed_profile.jpg';
+import { FeedService } from "../services/FeedService"; 
 import { timeAgo } from "../util";
 
 export type FeedEditPopupProps = {
@@ -15,16 +16,15 @@ export type FeedEditPopupProps = {
   onCommentSubmit: (comment: string) => void;
 
   avatarUrl: string | null;
-  displayName: string | null;
+  displayName: string;
   createdAt: string;
 
   content: string;
   imageUrls: string[];
 
-  likesCount: number | string;
-  likedByMe?: boolean | undefined;
+  likesCount: number;
+  likedByMe: boolean;
   onLikeToggle: (liked: boolean) => void;
-
   onMoreClick?: () => void;
 };
 
@@ -44,10 +44,28 @@ export default function FeedEditPopup({
   onMoreClick,
 }: FeedEditPopupProps) {
   const [text, setText] = useState("");
-  const [liked, setLiked] = useState(likedByMe ?? false);
-  const [likeCountLocal, setLikeCountLocal] = useState<number>(Number(likesCount) || 0);
+  const [isLiked, setIsLiked] = useState<boolean>(!!likedByMe);
+  const [likeCount, setLikeCount] = useState<number>(likesCount);
   const [slide, setSlide] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [localComments, setLocalComments] = useState(items);
+
+  useEffect(() => { 
+    if (open) setLocalComments(items); 
+  }, [open, items]);
+
+  const handleCommentLike = (commentId: string) => (next: boolean) => {
+    if (next) FeedService.likeComment(commentId);
+    else FeedService.unlikeComment(commentId);
+
+    setLocalComments(prev =>
+      prev.map(it =>
+        it.commentId === commentId
+          ? { ...it, likedByMe: next, likesCount: Number(it.likesCount) + (next ? 1 : -1) }
+          : it
+      )
+    );
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -66,12 +84,11 @@ export default function FeedEditPopup({
   }, [open, onClose]);
 
   useEffect(() => {
-    if (open) {
-      setLiked(false);
-      setLikeCountLocal(Number(likesCount) || 0);
-      setSlide(0);
-    }
-  }, [open, likesCount]);
+    if (!open) return;
+    setIsLiked(!!likedByMe);
+    setLikeCount(Number(likesCount) || 0);
+    setSlide(0);
+  }, [open, likedByMe, likesCount]);
 
   const onBackdropPointerDown: React.PointerEventHandler<HTMLDivElement> = (e) => {
     if (e.target === e.currentTarget) onClose();
@@ -85,9 +102,9 @@ export default function FeedEditPopup({
   };
 
   const toggleLike = () => {
-    const next = !liked;
-    setLiked(next);
-    setLikeCountLocal((c) => c + (next ? 1 : -1));
+    const next = !isLiked;
+    setIsLiked(next);
+    setLikeCount(c => c + (next ? 1 : -1));
     onLikeToggle(next);
   };
 
@@ -185,10 +202,10 @@ export default function FeedEditPopup({
               <button 
                 className={styles.iconBtn}
                 onClick={toggleLike} 
-                aria-label={liked ? "좋아요 취소" : "좋아요"}>
-                {liked ? <FaHeart className={styles.heartRed} /> : <FiHeart />}
+                aria-label={isLiked ? "좋아요 취소" : "좋아요"}>
+                {isLiked ? <FaHeart className={styles.heartRed} /> : <FiHeart />}
                 <span className={styles.likeNum}>
-                  {likeCountLocal}
+                  {likeCount}
                 </span>
               </button>
               <button 
@@ -209,7 +226,7 @@ export default function FeedEditPopup({
           <p className={styles.content}>{content}</p>
 
           <div className={styles.comments}>
-            {items.map((it) => (
+            {localComments.map((it) => (
               <FeedComment
                 key={it.commentId}
                 commentId={it.commentId}
@@ -219,7 +236,7 @@ export default function FeedEditPopup({
                 createdAt={it.createdAt}
                 likesCount={it.likesCount}
                 likedByMe={it.likedByMe}
-                onLikeToggle={() => { /* todo */ }}
+                onLikeToggle={handleCommentLike(it.commentId)}
               />
             ))}
           </div>
