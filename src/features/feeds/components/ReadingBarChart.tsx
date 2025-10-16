@@ -1,4 +1,4 @@
-import { BarChart, Bar, Rectangle, XAxis, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, Legend, ResponsiveContainer } from 'recharts';
 
 type ReadingRate = {
   month: string,
@@ -14,7 +14,7 @@ export default function ReadingBarChart({
   readingRateData,
 }: ReadingBarChartProps) {
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height={250}>
       <BarChart
         width={500}
         height={300}
@@ -30,12 +30,23 @@ export default function ReadingBarChart({
         <XAxis
           dataKey="month"
           tickLine={false}
-          axisLine={{ stroke: '#000000', strokeWidth: 2 }}
-          tick={{ fill: '#000000' }}
+          axisLine={{ stroke: '#afafafff', strokeWidth: 1 }}
+          tick={{ fill: '#333', fontSize: 14 , fontFamily: 'Pretendard' }}
         />
-        <Legend />
-        <Bar dataKey="회원 평균" fill="#4200BC" label={{ position: 'top', fill: '#000000', fontSize: 14 }} activeBar={<Rectangle fill="#2555afff" />} />
-        <Bar dataKey="나의 독서량" fill="#c04ca5ff" label={{ position: 'top', fill: '#000000', fontSize: 14 }} activeBar={<Rectangle fill="#d857adff" />} />
+        <Legend
+          layout="horizontal"
+          align="center"
+          verticalAlign="bottom"
+          iconType="square"
+           wrapperStyle={{
+            fontSize: '14px',
+            fontFamily: 'Pretendard',
+            fontWeight: '700',
+            color: '#333',
+          }}
+         />
+        <Bar dataKey="나의 독서량" fill="#6C8CA1" label={{ position: 'top', fill: '#000', fontSize: 12, fontFamily: 'Pretendard' }}/>
+        <Bar dataKey="회원 평균" fill="#A2C5C1" label={{ position: 'top', fill: '#000', fontSize: 12 , fontFamily: 'Pretendard' }}/>
       </BarChart>
     </ResponsiveContainer>
   );
