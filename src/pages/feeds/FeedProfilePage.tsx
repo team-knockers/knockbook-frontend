@@ -94,10 +94,17 @@ export default function FeedProfilePage() {
     };
   };
 
-  const handlePostLike = (id: string) => {
-    return (liked: boolean) => {
-      console.log("[LIKE]", id, liked);
-    };
+  const handlePostLike =
+  (postId: string) =>
+  (next: boolean) => {
+    if (next) FeedService.likePost(postId);
+    else FeedService.unlikePost(postId);
+
+    setSelectedFeed(prev =>
+      prev && prev.postId === postId
+        ? { ...prev, likedByMe: next, likesCount: prev.likesCount + (next ? 1 : -1) }
+        : prev
+    );
   };
 
   return (

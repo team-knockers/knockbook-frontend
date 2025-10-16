@@ -109,12 +109,28 @@ export default function FeedHomePage() {
     }
   };
 
-  const handleLikePost = (id: string) => {
-    return (liked: boolean) => {
-      console.log(`[LIKE] ${id}:`, liked); // test code
-      // TODO: call API
-    }
-  };
+  const handleLikePost =
+    (postId: string) =>
+    (next: boolean) => {
+      if (next) {
+        FeedService.likePost(postId);
+      } else {
+        FeedService.unlikePost(postId);
+      }
+
+      setPosts(prev =>
+        prev.map(p =>
+          p.postId === postId
+            ? { ...p, likedByMe: next, likesCount: p.likesCount + (next ? 1 : -1) }
+            : p
+        )
+      );
+      setSelectedFeed(prev =>
+        prev && prev.postId === postId
+          ? { ...prev, likedByMe: next, likesCount: prev.likesCount + (next ? 1 : -1) }
+          : prev
+      );
+    };
 
   const handlePopupOpen = (postId: string) => {
     console.log('[debug] popup click', { postId, isMobile });
@@ -163,6 +179,7 @@ export default function FeedHomePage() {
             likesCount={p.likesCount}
             commentsCount={p.commentsCount}
             content={p.content}
+            likedByMe={p.likedByMe}
             onLikeToggled={handleLikePost(p.postId)}
             onCommentClick={handlePopupOpen(p.postId)}/>
         </div>
