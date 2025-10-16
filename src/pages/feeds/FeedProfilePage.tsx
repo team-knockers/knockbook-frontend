@@ -7,56 +7,10 @@ import { IoSunny } from "react-icons/io5";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import { PATHS } from '../../routes/paths';
 import { FeedService } from '../../features/feeds/services/FeedService';
-import type { FeedPost, FeedProfileThumbnail } from '../../features/feeds/types';
+import type { FeedPostComment, FeedPost, FeedProfileThumbnail } from '../../features/feeds/types';
 import FeedProfileFallback from '../../assets/feed_profile.jpg';
-import profileUrl from "../../assets/feed_profile.jpg";
-import type { FeedCommentItem } from '../../features/feeds/components/FeedCommentBottomPopup';
 import FeedEditPopup from '../../features/feeds/components/FeedEditPopup';
-
 const PAGE_SIZE = 3; // number of posts per request
-
-
-type OnCommentLike = (commentId: string, liked: boolean) => void;
-
-function createDemoComments(
-  post: FeedPost,
-  onCommentLike?: OnCommentLike
-): FeedCommentItem[] {
-  const now = Date.now();
-  const wrap = (id: string) => (liked: boolean) => {
-    if (onCommentLike) onCommentLike(id, liked);
-    else console.log("[comment-like]", { id, liked });
-  };
-  return [
-    {
-      id: `${post.postId}-c1`,
-      profileUrl,
-      displayName: "독서왕",
-      createdAt: new Date(now - 1000 * 60 * 7),
-      comment: "와 사진 분위기 너무 좋네요! 어디서 찍으신 건가요?",
-      likesCount: 2,
-      onLikeToggle: wrap(`${post.postId}-c1`)
-    },
-    {
-      id: `${post.postId}-c2`,
-      profileUrl,
-      displayName: "책벌레",
-      createdAt: new Date(now - 1000 * 60 * 60 * 2),
-      comment: "추천하신 책 바로 담았습니다 😊",
-      likesCount: 5,
-      onLikeToggle: wrap(`${post.postId}-c2`)
-    },
-    {
-      id: `${post.postId}-c3`,
-      profileUrl,
-      displayName: "홍길동",
-      createdAt: new Date(now - 1000 * 60 * 60 * 24),
-      comment: "문장 너무 멋져요. 다음 글도 기대할게요!",
-      likesCount: 1,
-      onLikeToggle: wrap(`${post.postId}-c3`)
-    }
-  ];
-}
 
 export default function FeedProfilePage() {
   // profile area
@@ -121,34 +75,18 @@ export default function FeedProfilePage() {
     return () => io.disconnect();
   }, [nextAfter, loading]);
 
-  const [selectedPost, setSelectedPost] = useState<FeedPost | null>(null);
+  const [selectedFeed, setSelectedFeed] = useState<FeedPost | null>(null);
+  const [selectedComments, setSelectedComments] = useState<FeedPostComment[] | null>(null);
 
   const onThumbnailClick = (postId: string) => async () => {
-    try {
-      // const p = await FeedService.getFeedPostDetail(postId);
-      // setCurrentPost(p);
-
-      const dummyPost: FeedPost = {
-        postId,
-        displayName: "임의의 유저",
-        avatarUrl: profileUrl,
-        createdAt: new Date().toISOString(),
-        content: "테스트용 더미 포스트 내용입니다. 이 포스트만 계속 뜹니다.",
-        images: [
-          "https://picsum.photos/800/800?random=1",
-          "https://picsum.photos/800/800?random=2",
-          "https://picsum.photos/800/800?random=3"
-        ],
-        likesCount: 42,
-        likedByMe: false,
-        commentsCount: 3,
-        userId: ''
-      };
-      setSelectedPost(dummyPost);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  try {
+    const res = await FeedService.getFeedPostWithCommentList(postId); 
+    setSelectedFeed(res.feedPost);
+    setSelectedComments(res.feedComments);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
   const handleSubmitComment = (feedId: string) => {
     return (text: string) => {
@@ -161,15 +99,6 @@ export default function FeedProfilePage() {
       console.log("[LIKE]", id, liked);
     };
   };
-
-  const handleCommentLike: OnCommentLike = (commentId, liked) => {
-    console.log("API Called:", commentId, liked);
-  };
-
-  const popupComments = useMemo(
-    () => (selectedPost ? createDemoComments(selectedPost, handleCommentLike) : []),
-    [selectedPost]
-  );
 
   return (
     <div className={s['page-layout']}>
@@ -236,23 +165,23 @@ export default function FeedProfilePage() {
         ))}
       </div>
 
-      {selectedPost && (
-        <FeedEditPopup
-          open={true}
-          onClose={() => setSelectedPost(null)}
-          comments={popupComments}
-          onCommentSubmit={handleSubmitComment(selectedPost.postId)}
-          profileUrl={selectedPost.avatarUrl ?? avatarUrl ?? FeedProfileFallback}
-          displayName={selectedPost.displayName || displayName}
-          createdAt={selectedPost.createdAt}
-          content={selectedPost.content}
-          imageUrls={selectedPost.images}
-          likesCount={selectedPost.likesCount}
-          likedByMe={selectedPost.likedByMe}
-          onLikeToggle={handlePostLike(selectedPost.postId)}
-          onMoreClick={() => {/* TODO */}}
-        />
-      )}
+      {selectedFeed && (
+      <FeedEditPopup
+        open={!!selectedFeed}
+        onClose={() => { setSelectedFeed(null); setSelectedComments(null); }}
+        comments={selectedComments ?? []}
+        onCommentSubmit={handleSubmitComment(selectedFeed.postId)}
+        avatarUrl={selectedFeed.avatarUrl || avatarUrl || FeedProfileFallback}
+        displayName={selectedFeed.displayName || displayName}
+        createdAt={selectedFeed.createdAt}
+        content={selectedFeed.content}
+        imageUrls={selectedFeed.images}
+        likesCount={selectedFeed.likesCount}
+        likedByMe={selectedFeed.likedByMe}
+        onLikeToggle={handlePostLike(selectedFeed.postId)}
+        onMoreClick={() => {/* TODO */}}
+      />
+    )}
 
       {/* invisible bottom trigger */}
       <div ref={sentinelRef} className={s['sentinel']} />

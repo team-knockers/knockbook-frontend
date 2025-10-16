@@ -2,31 +2,30 @@ import { useState } from "react";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import styles from "./styles/FeedComment.module.css";
+import { timeAgo } from '../util';
+import FeedProfileFallback from '../../../assets/feed_profile.jpg';
 
 export type FeedCommentProps = {
-  profileUrl: string;
-  displayName: string;
-  createdAt: string | Date;
-  comment: string;
+  commentId: string;
+  displayName: string | null;
+  avatarUrl: string | null;          
+  body: string;
+  createdAt: string;          
   likesCount: number | string;
-  onLikeToggle: (value: boolean) => void;
+  likedByMe: boolean;
+  onLikeToggle: (liked: boolean) => void;
 };
 
 export default function FeedComment({
-  profileUrl,
-  displayName,
+  displayName, 
+  avatarUrl, 
+  body, 
   createdAt,
-  comment,
-  likesCount,
+  likesCount, 
+  likedByMe, 
   onLikeToggle,
 }: FeedCommentProps) {
-  const [liked, setLiked] = useState(false);
-
-  const label =
-    typeof createdAt === "string"
-      ? createdAt
-      : new Intl.DateTimeFormat("ko", { hour: "2-digit", minute: "2-digit" })
-          .format(createdAt);
+  const [liked, setLiked] = useState<boolean>(!!likedByMe);
 
   const toggle = () => {
     const next = !liked;
@@ -36,13 +35,13 @@ export default function FeedComment({
 
   return (
     <div className={styles.item}>
-      <img className={styles.avatar} src={profileUrl} alt="" />
+      <img className={styles.avatar} src={avatarUrl || FeedProfileFallback} alt="" />
       <div className={styles.body}>
         <div className={styles.row1}>
           <strong className={styles.name}>{displayName}</strong>
-          <span className={styles.time}>{label}</span>
+          <span className={styles.time}>{timeAgo(createdAt)}</span>
         </div>
-        <p className={styles.text}>{comment}</p>
+        <p className={styles.text}>{body}</p>
       </div>
       <button 
         className={`${styles.like} ${liked ? styles.liked : ""}`}
@@ -54,4 +53,3 @@ export default function FeedComment({
     </div>
   );
 }
-

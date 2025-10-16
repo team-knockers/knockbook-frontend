@@ -3,18 +3,20 @@ import { createPortal } from "react-dom";
 import styles from "./styles/FeedEditPopup.module.css";
 import { FiX, FiChevronLeft, FiChevronRight, FiHeart, FiMoreHorizontal } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
-import type { FeedCommentItem } from "./FeedCommentBottomPopup";
 import FeedComment from "./FeedComment";
+import type { FeedPostComment } from "../types";
+import FeedProfileFallback from '../../../assets/feed_profile.jpg';
+import { timeAgo } from "../util";
 
 export type FeedEditPopupProps = {
   open: boolean;
   onClose: () => void;
-  comments: FeedCommentItem[];
+  comments: FeedPostComment[];
   onCommentSubmit: (comment: string) => void;
 
-  profileUrl: string;
-  displayName: string;
-  createdAt: string | Date;
+  avatarUrl: string | null;
+  displayName: string | null;
+  createdAt: string;
 
   content: string;
   imageUrls: string[];
@@ -31,7 +33,7 @@ export default function FeedEditPopup({
   onClose,
   comments: items,
   onCommentSubmit,
-  profileUrl,
+  avatarUrl,
   displayName,
   createdAt,
   content,
@@ -46,13 +48,6 @@ export default function FeedEditPopup({
   const [likeCountLocal, setLikeCountLocal] = useState<number>(Number(likesCount) || 0);
   const [slide, setSlide] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const dateLabel =
-    typeof createdAt === "string"
-      ? createdAt
-      : new Intl.DateTimeFormat("ko", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(
-          createdAt
-        );
 
   useEffect(() => {
     if (!open) return;
@@ -175,14 +170,14 @@ export default function FeedEditPopup({
             <div className={styles.user}>
               <img 
                 className={styles.avatar} 
-                src={profileUrl} 
+                src={avatarUrl || FeedProfileFallback} 
                 alt="" />
               <div className={styles.userMeta}>
                 <strong className={styles.name}>
                   {displayName}
                 </strong>
                 <span className={styles.time}>
-                  {dateLabel}
+                  {timeAgo(createdAt)}
                 </span>
               </div>
             </div>
@@ -215,7 +210,17 @@ export default function FeedEditPopup({
 
           <div className={styles.comments}>
             {items.map((it) => (
-              <FeedComment key={it.id} {...it} />
+              <FeedComment
+                key={it.commentId}
+                commentId={it.commentId}
+                displayName={it.displayName}
+                avatarUrl={it.avatarUrl}
+                body={it.body}
+                createdAt={it.createdAt}
+                likesCount={it.likesCount}
+                likedByMe={it.likedByMe}
+                onLikeToggle={() => { /* todo */ }}
+              />
             ))}
           </div>
 
