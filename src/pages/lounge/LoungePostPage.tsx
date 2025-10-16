@@ -3,9 +3,17 @@ import rehypeSanitize from 'rehype-sanitize';
 import { useLoaderData } from 'react-router-dom';
 import s from './LoungePostPage.module.css'
 import type { LoungePostLoaderData } from './LoungePost.loader';
+import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
+import { TfiCommentAlt } from "react-icons/tfi";
+import { useState } from 'react';
 
 export default function LoungePostPage() {
   const { postDetails } = useLoaderData() as LoungePostLoaderData;
+  const [isLiked, setIsLiked] = useState(false); // Post like status
+
+  const onPostLikeToggled = () => {
+    setIsLiked(prev => !prev);
+  };
 
   return (
     <div className={s['page-layout']}>
@@ -29,8 +37,21 @@ export default function LoungePostPage() {
 
       </div>
       <div className={s['post-interaction']}>
-        <button className={s['like-btn']}>좋아요 {postDetails.likeCount}</button>
-        <button className={s['comment-btn']}>댓글</button>
+        <button className={s['like-btn']} onClick={onPostLikeToggled}>
+          {isLiked ? (
+            <IoMdHeart
+              color="#f73936ff"
+            />
+          ) : (
+            <IoMdHeartEmpty
+            />
+          )}
+          {postDetails.likeCount}
+        </button>
+        <button className={s['comment-btn']}>
+          <TfiCommentAlt />
+          댓글
+        </button>
       </div>
       <div className={s['author-info']}>
         <img
