@@ -26,3 +26,9 @@ export type LoungePostDetails = {
   likeCount: number;
   createdAt: string;
 };
+
+export type LoungePostPageState = {
+  page: number;
+  size: number;
+  sortBy: 'newest' | 'popular';
+};

@@ -12,6 +12,7 @@ import { booksHomeLoader } from "../pages/books/BooksHome.loader";
 import { booksSearchLoader } from "../pages/books/BooksSearch.loader";
 import { bookDetailsLoader } from "../pages/books/BookDetails.loader";
 import { booksCategoryLoader } from "../pages/books/BooksCategory.loader";
+import { loungeHomeLoader } from "../pages/lounge/LoungeHome.loader";
 import { loungePostLoader } from "../pages/lounge/LoungePost.loader";
 import { NotificationPageLoader } from "../pages/customer/NotificationPage.loader";
 import { policyLoader } from "../pages/customer/PolicyPage.loader";
@@ -230,6 +231,7 @@ export const router = createBrowserRouter([
           },
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,
+            loader: loungeHomeLoader,
             handle: { 
               header: { 
                 kind: "main", 
