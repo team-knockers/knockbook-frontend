@@ -38,6 +38,7 @@ import ProductsHomePage from "../pages/products/ProductsHomePage";
 import ProductsSearchPage from "../pages/products/ProductsSearchPage";
 import ProductDetailPage from "../pages/products/ProductDetailPage";
 import LoungeHomePage from "../pages/lounge/LoungeHomePage";
+import LoungePostPage from "../pages/lounge/LoungePostPage";
 import FeedHomePage from "../pages/feeds/FeedHomePage";
 import NotificationPage from "../pages/customer/NotificationPage";
 import CartPage from "../pages/purchase/CartPage";
@@ -228,6 +229,15 @@ export const router = createBrowserRouter([
           },
           { path: PATHS.loungeHome,
             element: <LoungeHomePage />,
+            handle: { 
+              header: { 
+                kind: "main", 
+                title: "문앞의책방" 
+              } 
+            } 
+          },
+          { path: PATHS.loungePost,
+            element: <LoungePostPage />,
             handle: { 
               header: { 
                 kind: "main", 

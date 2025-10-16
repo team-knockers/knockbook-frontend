@@ -134,6 +134,7 @@
 }
 
 .official-item {
+  all: unset; /* Reset default button styles applied by the browser */
   display: flex;
   align-items: center;
   gap: 10px;

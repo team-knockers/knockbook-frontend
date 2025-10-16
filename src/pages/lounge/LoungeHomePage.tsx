@@ -22,6 +22,8 @@ import LoungeSliderImg1 from '../../assets/lounge_slider_img1.png'
 import LoungeSliderImg2 from '../../assets/lounge_slider_img2.png'
 import LoungeSliderImg3 from '../../assets/lounge_slider_img3.png'
 import Pagination from '../../components/navigation/Pagination';
+import { PATHS } from '../../routes/paths';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function LoungeHomePage() {
@@ -35,6 +37,7 @@ export default function LoungeHomePage() {
     { id: 6, title: '독서가 만든 나의 하루', author: '라운지지기', imageUrl: OfficialImg6 },
   ];
 
+  const navigate = useNavigate();
   const [visibleCount, setVisibleCount] = useState(3); // 처음엔 3개
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const [page, setPage] = useState(1);
@@ -51,6 +54,10 @@ export default function LoungeHomePage() {
   const handleMore = () => {
     setVisibleCount((prev) => Math.min(prev + 3, officialPosts.length));
   };
+
+  const handlePostClick = (postId: string) => {
+    navigate(PATHS.loungePost.replace(':postId', postId));
+  }
 
   const totalPages = Math.ceil(officialPosts.length / itemsPerPage);
   const startIdx = (page - 1) * itemsPerPage;
@@ -100,13 +107,13 @@ export default function LoungeHomePage() {
           </div>
           <div className={s['official-list']}>
             {currentPosts.map((post) => (
-              <div key={post.id} className={s['official-item']}>
+              <button key={post.id} className={s['official-item']} onClick={() => handlePostClick(String(post.id))}>
                 <img src={post.imageUrl} alt='thumbnail' />
                 <div className={s['official-text']}>
                   <p className={s['item-title']}>{post.title}</p>
                   <p className={s['item-author']}>by {post.author}</p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
           {!isDesktop && visibleCount < officialPosts.length && (
