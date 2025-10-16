@@ -1,8 +1,8 @@
 import ProductSummaryCard from '../../features/products/components/ProductSummaryCard';
-import s from './AccountLikeBookPage.module.css'
+import s from './LikeBookPage.module.css'
 import BookImg from '../../assets/feed_slider_img1.png'
 
-export default function AccountLikeBookPage() {
+export default function LikeBookPage() {
   // dummy date
   const likedBook = [
     {
