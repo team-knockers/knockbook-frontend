@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiHeart } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import styles from "./styles/FeedComment.module.css";
@@ -26,6 +26,7 @@ export default function FeedComment({
   onLikeToggle,
 }: FeedCommentProps) {
   const [liked, setLiked] = useState<boolean>(!!likedByMe);
+  useEffect(() => { setLiked(!!likedByMe); }, [likedByMe]);
 
   const toggle = () => {
     const next = !liked;
