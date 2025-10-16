@@ -44,15 +44,15 @@ import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
-import AccountLikePage from "../pages/account/AccountLikePage";
-import LikeBookPage from "../pages/account/AccountLikeBookPage";
-import LikeProductPage from "../pages/account/AccountLikeProductPage";
-import AccountPointPage from "../pages/account/AccountPointPage";
-import AccountPointAllPage from "../pages/account/AccountPointAllPage";
-import AccountPointEarnedPage from "../pages/account/AccountPointEarnedPage";
-import AccountPointUsedPage from "../pages/account/AccountPointUsedPage";
-import AccountPointExpiredPage from "../pages/account/AccountPointExpiredPage";
-import AccountCouponPage from "../pages/account/AccountCouponPage";
+import LikePage from "../pages/account/LikePage";
+import LikeBookPage from "../pages/account/LikeBookPage";
+import LikeProductPage from "../pages/account/LikeProductPage";
+import PointPage from "../pages/account/PointPage";
+import PointAllPage from "../pages/account/PointAllPage";
+import PointEarnedPage from "../pages/account/PointEarnedPage";
+import PointUsedPage from "../pages/account/PointUsedPage";
+import PointExpiredPage from "../pages/account/PointExpiredPage";
+import CouponPage from "../pages/account/CouponPage";
 import ProductDetailDescriptionPage from "../pages/products/ProductDetailDescriptionPage";
 import ProductDetailReviewsPage from "../pages/products/ProductDetailReviewsPage";
 import ProductDetailQnaPage from "../pages/products/ProductDetailQnaPage";
@@ -445,8 +445,8 @@ export const router = createBrowserRouter([
             }
           },
           {
-            path: PATHS.accountLike,
-            element: <AccountLikePage />,
+            path: PATHS.like,
+            element: <LikePage />,
             handle: { 
               header: { 
                 kind: "backTitleClose",
@@ -457,10 +457,10 @@ export const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Navigate to={PATHS.accountLikeBook} replace />,
+                element: <Navigate to={PATHS.likeBook} replace />,
               },
               {
-                path: PATHS.accountLikeBook,
+                path: PATHS.likeBook,
                 element: <LikeBookPage />,
                 handle: {
                   header: {
@@ -472,7 +472,7 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.accountLikeProduct,
+                path: PATHS.likeProduct,
                 element: <LikeProductPage />,
                 handle: {
                   header: {
@@ -486,8 +486,8 @@ export const router = createBrowserRouter([
             ]
           },
           {
-            path: PATHS.accountPoint,
-            element: <AccountPointPage />,
+            path: PATHS.point,
+            element: <PointPage />,
             handle: { 
               header: { 
                 kind: "backTitleClose",
@@ -498,11 +498,11 @@ export const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Navigate to={PATHS.accountPointAll} replace />,
+                element: <Navigate to={PATHS.pointAll} replace />,
               },
               {
-                path: PATHS.accountPointAll,
-                element: <AccountPointAllPage />,
+                path: PATHS.pointAll,
+                element: <PointAllPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -513,8 +513,8 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.accountPointEarned,
-                element: <AccountPointEarnedPage />,
+                path: PATHS.pointEarned,
+                element: <PointEarnedPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -525,8 +525,8 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.accountPointUsed,
-                element: <AccountPointUsedPage />,
+                path: PATHS.pointUsed,
+                element: <PointUsedPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -537,8 +537,8 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.accountPointExpired,
-                element: <AccountPointExpiredPage />,
+                path: PATHS.pointExpired,
+                element: <PointExpiredPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -551,8 +551,8 @@ export const router = createBrowserRouter([
             ]
           },
           {
-            path: PATHS.accountCoupon,
-            element: <AccountCouponPage />,
+            path: PATHS.coupon,
+            element: <CouponPage />,
             handle: { 
               header: { 
                 kind: "backTitleClose",

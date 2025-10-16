@@ -1,8 +1,8 @@
 import ProductSummaryCard from '../../features/products/components/ProductSummaryCard';
-import s from './AccountLikeProductPage.module.css'
+import s from './LikeProductPage.module.css'
 import ProductImg from '../../assets/feed_slider_img2.png'
 
-export default function AccountLikeProductPage() {
+export default function LikeProductPage() {
   // dummy date
   const likedProducts = [
     {
