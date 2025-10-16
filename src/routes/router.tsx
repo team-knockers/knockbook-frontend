@@ -44,6 +44,11 @@ import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
+import OrdersPage from "../pages/account/OrdersPage";
+import RentalsPage from "../pages/account/RentalsPage";
+import RentalsReadyPage from "../pages/account/RentalsReadyPage";
+import RentalsRentedPage from "../pages/account/RentalsRentedPage";
+import RentalsReturnedPage from "../pages/account/RentalsReturnedPage";
 import LikePage from "../pages/account/LikePage";
 import LikeBookPage from "../pages/account/LikeBookPage";
 import LikeProductPage from "../pages/account/LikeProductPage";
@@ -443,6 +448,70 @@ export const router = createBrowserRouter([
                 close: { type: 'push', to: PATHS.home }
               }
             }
+          },
+          {
+            path: PATHS.orders,
+            element: <OrdersPage />,
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "주문 내역",
+                close: { type: 'push', to: PATHS.accountHome }
+              } 
+            } 
+          },
+          {
+            path: PATHS.rentals,
+            element: <RentalsPage />,
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "대여 내역",
+                close: { type: 'push', to: PATHS.accountHome }
+              } 
+            },
+            children: [
+              {
+                index: true,
+                element: <Navigate to={PATHS.rentalsReady} replace />,
+              },
+              {
+                path: PATHS.rentalsReady,
+                element: <RentalsReadyPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "대여 내역",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              },
+              {
+                path: PATHS.rentalsRented,
+                element: <RentalsRentedPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "대여 내역",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              },
+              {
+                path: PATHS.rentalsReturned,
+                element: <RentalsReturnedPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "대여 내역",
+                    back: { type: 'push', to: PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.accountHome }
+                  }
+                }
+              },
+            ]
           },
           {
             path: PATHS.like,
