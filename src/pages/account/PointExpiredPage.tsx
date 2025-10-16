@@ -1,5 +1,4 @@
-import AccountPointCard from "../../features/account/components/AccountPointCard";
-import s from "./AccountPointAllPage.module.css";
+import s from "./PointAllPage.module.css";
 
 type PointItem = {
   id: number;
@@ -12,7 +11,7 @@ type PointItem = {
   amount: number;
 };
 
-export default function AccountPointAllPage() {
+export default function PointExpiredPage() {
   const pointList: PointItem[] = [
     {
       id: 1,
@@ -28,19 +27,21 @@ export default function AccountPointAllPage() {
       id: 2,
       date: "05.13",
       year: 2025,
-      type: "주문 사용 취소",
+      type: "주문 적립",
       title: "북메이트 북커버백-화이트 M(일반도서)",
       orderId: "ORD20250504-6912245",
+      expireDate: "2030.05.13 소멸예정",
       amount: 2164,
     },
     {
       id: 3,
       date: "05.04",
       year: 2025,
-      type: "주문 사용",
+      type: "리뷰 적립",
       title: "북메이트 북커버백-실버 M(일반도서)",
       orderId: "ORD20250504-6912245",
-      amount: -4407,
+      expireDate: "2030.05.13 소멸예정",
+      amount: 4407,
     },
     {
       id: 4,
@@ -59,6 +60,7 @@ export default function AccountPointAllPage() {
       type: "리뷰 적립",
       title: "희망찬 노란 튤립 문진",
       orderId: "ORD20240611-7547458",
+      expireDate: "2030.05.13 소멸예정",
       amount: 1500,
     },
     {
@@ -68,6 +70,7 @@ export default function AccountPointAllPage() {
       type: "리뷰 적립",
       title: "여름숲 유리 문진",
       orderId: "ORD20240611-7547458",
+      expireDate: "2030.05.13 소멸예정",
       amount: 2500,
     },
     {
@@ -84,10 +87,11 @@ export default function AccountPointAllPage() {
       id: 8,
       date: "06.02",
       year: 2023,
-      type: "주문 사용",
+      type: "주문 적립",
       title: "살아남은 기획자",
       orderId: "ORD20240611-7547458",
-      amount: -1500,
+      expireDate: "2030.05.13 소멸예정",
+      amount: 1500,
     },
   ];
 
@@ -105,6 +109,32 @@ export default function AccountPointAllPage() {
     .map(Number)
     .sort((a, b) => b - a);
 
+  function Pointlist({
+    date,
+    type,
+    title,
+    orderId,
+    expireDate,
+    amount,
+  }: Omit<PointItem, "id" | "year">) {
+    const isPlus = amount > 0;
+
+    return (
+      <div className={s["list-item"]}>
+        <div className={s["date"]}>{date}</div>
+        <div className={s["content"]}>
+          <div className={s["type"]}>{type}</div>
+          <div className={s["title"]}>{title}</div>
+          <div className={s["order-id"]}>{orderId}</div>
+          {expireDate && <div className={s["expire"]}>{expireDate}</div>}
+        </div>
+        <div className={`${s["amount"]} ${isPlus ? s["plus"] : s["minus"]}`}>
+          {isPlus ? `+${amount.toLocaleString()}` : amount.toLocaleString()}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className={s["page-layout"]}>
       <div className={s["point-list-section"]}>
@@ -113,7 +143,7 @@ export default function AccountPointAllPage() {
             <div className={s["year-title"]}>{year}</div>
             <div className={s["point-list"]}>
               {groupedByYear[year].map((p) => (
-                <AccountPointCard key={p.id} {...p} />
+                <Pointlist key={p.id} {...p} />
               ))}
             </div>
           </div>

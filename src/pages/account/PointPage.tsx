@@ -1,9 +1,9 @@
 import FourLevelTabMenu from "../../components/navigation/FourLevelTabMenu";
 import { PATHS } from "../../routes/paths";
 import { Outlet } from "react-router-dom";
-import s from './AccountPointPage.module.css';
+import s from './PointPage.module.css';
 
-export default function AccountPointPage() {
+export default function PointPage() {
   
   // dummy date
   const totalPoint = 3992;
@@ -16,13 +16,13 @@ export default function AccountPointPage() {
       </div>
       <FourLevelTabMenu
         firstTabTitle="전체"
-        firstTabPath={PATHS.accountPointAll}
+        firstTabPath={PATHS.pointAll}
         secondTabTitle="적립"
-        secondTabPath={PATHS.accountPointEarned}
+        secondTabPath={PATHS.pointEarned}
         thirdTabTitle="사용"
-        thirdTabPath={PATHS.accountPointUsed}
+        thirdTabPath={PATHS.pointUsed}
         fourthTabTitle="소멸"
-        fourthTabPath={PATHS.accountPointExpired}/>
+        fourthTabPath={PATHS.pointExpired}/>
       <Outlet />
     </main>
   );

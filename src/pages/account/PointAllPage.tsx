@@ -1,5 +1,4 @@
-import AccountPointCard from "../../features/account/components/AccountPointCard";
-import s from "./AccountPointAllPage.module.css";
+import s from "./PointAllPage.module.css";
 
 type PointItem = {
   id: number;
@@ -12,25 +11,26 @@ type PointItem = {
   amount: number;
 };
 
-export default function AccountPointUsedPage() {
+export default function PointAllPage() {
   const pointList: PointItem[] = [
     {
       id: 1,
       date: "05.14",
       year: 2025,
-      type: "주문 사용",
+      type: "주문 적립",
       title: "날씨가 좋으면 찾아가겠어요",
       orderId: "ORD20250511-0365156",
-      amount: -1281,
+      expireDate: "2030.05.13 소멸예정",
+      amount: 1281,
     },
     {
       id: 2,
       date: "05.13",
       year: 2025,
-      type: "주문 사용",
+      type: "주문 사용 취소",
       title: "북메이트 북커버백-화이트 M(일반도서)",
       orderId: "ORD20250504-6912245",
-      amount: -2164,
+      amount: 2164,
     },
     {
       id: 3,
@@ -45,37 +45,39 @@ export default function AccountPointUsedPage() {
       id: 4,
       date: "06.29",
       year: 2024,
-      type: "주문 사용",
+      type: "주문 적립",
       title: "양면의 조개껍데기",
       orderId: "ORD20240611-7547458",
-      amount: -503,
+      expireDate: "2029.06.28 소멸예정",
+      amount: 503,
     },
     {
       id: 5,
       date: "06.12",
       year: 2024,
-      type: "주문 사용",
+      type: "리뷰 적립",
       title: "희망찬 노란 튤립 문진",
       orderId: "ORD20240611-7547458",
-      amount: -1500,
+      amount: 1500,
     },
     {
       id: 6,
       date: "06.10",
       year: 2024,
-      type: "주문 사용",
+      type: "리뷰 적립",
       title: "여름숲 유리 문진",
       orderId: "ORD20240611-7547458",
-      amount: -2500,
+      amount: 2500,
     },
     {
       id: 7,
       date: "06.08",
       year: 2023,
-      type: "주문 사용",
+      type: "주문 적립",
       title: "비주류 프로젝트",
       orderId: "ORD20240611-7547458",
-      amount: -1500,
+      expireDate: "2030.05.13 소멸예정",
+      amount: 1500,
     },
     {
       id: 8,
@@ -102,6 +104,32 @@ export default function AccountPointUsedPage() {
     .map(Number)
     .sort((a, b) => b - a);
 
+  function Pointlist({
+    date,
+    type,
+    title,
+    orderId,
+    expireDate,
+    amount,
+  }: Omit<PointItem, "id" | "year">) {
+    const isPlus = amount > 0;
+
+    return (
+      <div className={s["list-item"]}>
+        <div className={s["date"]}>{date}</div>
+        <div className={s["content"]}>
+          <div className={s["type"]}>{type}</div>
+          <div className={s["title"]}>{title}</div>
+          <div className={s["order-id"]}>{orderId}</div>
+          {expireDate && <div className={s["expire"]}>{expireDate}</div>}
+        </div>
+        <div className={`${s["amount"]} ${isPlus ? s["plus"] : s["minus"]}`}>
+          {isPlus ? `+${amount.toLocaleString()}` : amount.toLocaleString()}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className={s["page-layout"]}>
       <div className={s["point-list-section"]}>
@@ -110,7 +138,7 @@ export default function AccountPointUsedPage() {
             <div className={s["year-title"]}>{year}</div>
             <div className={s["point-list"]}>
               {groupedByYear[year].map((p) => (
-                <AccountPointCard key={p.id} {...p} />
+                <Pointlist key={p.id} {...p} />
               ))}
             </div>
           </div>
