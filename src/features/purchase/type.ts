@@ -164,3 +164,25 @@ export type ApplyPointsRequest = {
 export type GetPointBalanceResponse = {
   balance: number;
 }
+
+export type KakaoReadyResponse = {
+  tid: string;
+  next_redirect_pc_url?: string;
+  next_redirect_mobile_url?: string;
+  next_redirect_app_url?: string;
+  amount: number;
+  orderId: number;
+};
+
+export type ApprovePaymentResponse = {
+  orderId: number;
+  paymentId: number;
+  paymentStatus: 'PAID' | 'READY' | 'PARTIAL_REFUNDED' | 'REFUNDED' | 'FAILED' | 'CANCELLED';
+  orderStatus: 'PENDING' | 'FULFILLING' | 'COMPLETED' | 'CANCELLED';
+};
+
+export type KakaoApproveRequest = {
+  userId: string | number;
+  orderId: string | number;
+  pg_token: string;
+};

@@ -75,5 +75,15 @@ export const AuthService = {
     } finally {
       useSession.getState().clear();
     }
-  }
+  },
+
+  async refreshAccessToken() {
+    const res = await apiPublicJson<{ accessToken: string }>(
+      "/auth/token/refresh",
+      { method: "POST" }
+    );
+    useSession.setState({ accessToken: res.accessToken });
+    return res;
+  },
+  
 };

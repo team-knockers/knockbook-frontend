@@ -2,25 +2,33 @@ import { Outlet, redirect, useRouteLoaderData } from "react-router-dom";
 import { UserService } from "../features/account/services/UserService";
 import { ApiError } from "../types/http";
 import { AuthService } from "../features/onboarding/services/AuthService";
+import { useSession } from "../hooks/useSession";
 
 export const AUTH_LOADER_ID = "auth";
 
 export async function authLoader() {
   try {
-    const res = await UserService.getMyProfile();
-    console.log(res);
-    return res;
+    const me = await UserService.getMyProfile();
+    return me;
   } catch (e: any) {
-    if (e?.message === "NO_USER") {
-      await AuthService.logout();
+    const isApiErr = e instanceof ApiError;
+    const status = isApiErr ? e.problem?.status : undefined;
+    const codeOrMsg = isApiErr ? e.problem?.title || e.problem?.detail : e?.message;
+
+    const isUnauthed = status === 401 || status === 403 || codeOrMsg === "NO_USER";
+
+    if (!isUnauthed) {
+      throw e;
+    }
+
+    try {
+      await AuthService.refreshAccessToken();
+      const me = await UserService.getMyProfile();
+      return me;
+    } catch {
+      try { useSession.getState().clear?.(); } catch {}
       throw redirect("/login");
     }
-    if (e instanceof ApiError && 
-      (e.problem?.status === 401 || e.problem?.status === 403)) {
-      await AuthService.logout();
-      throw redirect("/login");
-    }
-    throw e;
   }
 }
 
@@ -28,4 +36,3 @@ export default function AuthLayout() {
   useRouteLoaderData(AUTH_LOADER_ID);
   return <Outlet />;
 }
-

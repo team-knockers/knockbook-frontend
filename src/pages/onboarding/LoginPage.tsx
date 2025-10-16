@@ -6,7 +6,7 @@ import { AuthService } from "../../features/onboarding/services/AuthService";
 import { ApiError } from "../../types/http";
 import { PATHS } from "../../routes/paths";
 
-import backgroundUrl from '../../assets/login_page_bg.png';
+import backgroundUrl from '../../assets/intro-background.jpg';
 import naverUrl from '../../assets/naver_login_btn.png';
 import kakaoUrl from '../../assets/kakao_login_btn.png';
 import googleUrl from '../../assets/google_login_btn.png';

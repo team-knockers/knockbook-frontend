@@ -69,6 +69,7 @@ import InsightHistoryPage from "../pages/feeds/InsightHistoryPage";
 import UserAddressPage from "../pages/account/UserAddressPage";
 import OrderPage from "../pages/purchase/OrderPage";
 import { OrderAction, OrderPageLoader } from "../pages/purchase/OrderPage.loader";
+import OrderCompletePage from "../pages/purchase/OrderCompletePage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -313,6 +314,17 @@ export const router = createBrowserRouter([
               header: { 
                 kind: "backTitleClose", 
                 title: "주문하기" 
+              } 
+            } 
+          },
+          { path: PATHS.orderComplete,
+            element: <OrderCompletePage />,
+            handle: { 
+              header: { 
+                kind: "backTitleClose", 
+                title: "주문완료",
+                back: { type: 'push', to:PATHS.home },
+                close: { type: 'push', to: PATHS.home }
               } 
             } 
           },

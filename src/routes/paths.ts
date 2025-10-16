@@ -38,6 +38,8 @@ export const PATHS = {
   cart: "/cart",
   order: "/order/:orderId",
   orderById: (orderId: string) => `/order/${orderId}`,
+  orderComplete: "/order/:orderId/complete",
+  orderCompleteById: (orderId: string) => `/order/${orderId}/complete`,
 
   /* account */
   accountHome: "/account",

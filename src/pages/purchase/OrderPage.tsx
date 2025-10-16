@@ -11,6 +11,7 @@ import { dateLabel, weekday } from '../../utils/dateValidator';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import type { CouponIssuance } from '../../features/purchase/type';
 import { formatPoint, formatWon } from '../../features/purchase/utils/formatter';
+import { PaymentService } from '../../features/purchase/services/PaymentService';
 
 export default function OrderPage() {
 
@@ -185,6 +186,29 @@ export default function OrderPage() {
   useEffect(() => {
     setCanProceed(agreePersonal && agreePg);
   }, [agreePersonal, agreePg]);
+
+   // kakao pay
+  const [payLoading, setPayLoading] = useState(false);
+  const startKakaoPay = async () => {
+    if (!canProceed) { return; }
+    try {
+      setPayLoading(true);
+      const userId = address.userId;
+      const data = await PaymentService.kakaoReady(userId, orderId);
+      console.log(data);
+      PaymentService.redirectToKakao(data);
+    } catch (e) {
+      console.error(e);
+      alert('결제 초기화 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setPayLoading(false);
+    }
+  };
+  const handleOrderButtonClick = () => {
+    if (payMethod === 'KAKAOPAY') {
+      startKakaoPay();
+    }
+  }
 
   return (
     <main className={s['page-layout']}>
@@ -636,14 +660,15 @@ export default function OrderPage() {
           </section>
           <section className={s['order-proceed']}>
             <OneWayButton
-              content={`${formatWon(aggregation.totalAmount)} 결제하기`}
+              content={payLoading ? '결제창 여는 중...' : `${formatWon(aggregation.totalAmount)} 결제하기`}
               responsiveType='fluid'
               widthSizeType='lg'
               heightSizeType='xl'
               colorType='dark'
               fontSize='20px'
-              disabled={!canProceed}
-              onClick={() => {/* TODO */}}/>
+              disabled={!canProceed || payLoading}
+              onClick={handleOrderButtonClick}
+            />
           </section>
         </div>
       </div>
