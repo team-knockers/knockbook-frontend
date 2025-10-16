@@ -1,7 +1,7 @@
 import styles from "./styles/FeedCard.module.css";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import { IoChatbubblesOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FeedImageSlider from "./FeedImageSlider";
 import type { FeedImages } from "../types";
 import DefaultProfile from "../../../assets/feed_profile.jpg";
@@ -14,6 +14,7 @@ type FeedCardProps = {
   likesCount: number;
   commentsCount: number;
   content: string;
+  likedByMe: boolean;
   onLikeToggled: (liked: boolean) => void;
   onCommentClick: () => void;
 };
@@ -23,19 +24,26 @@ export default function FeedCard({
   displayName: username,
   timeAgo,
   postImgUrls: postImage,
-  likesCount: likes,
-  commentsCount: comments,
+  likesCount,
+  commentsCount,
   content: description,
+  likedByMe,
   onLikeToggled,
   onCommentClick
 }: FeedCardProps) {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState<boolean>(!!likedByMe);
+  const [likeCount, setLikeCount] = useState<number>(likesCount);
 
   const handleLikeToggle = () => {
     const next = !isLiked;
+
     setIsLiked(next);
+    setLikeCount(c => c + (next ? 1 : -1));
     onLikeToggled(next);
   };
+
+  useEffect(() => { setIsLiked(!!likedByMe); }, [likedByMe]);
+  useEffect(() => { setLikeCount(likesCount); }, [likesCount]);
 
   const profileImgSrc =
     profileImage && profileImage.trim() !== "" ? profileImage : DefaultProfile;
@@ -69,7 +77,7 @@ export default function FeedCard({
                 aria-label={isLiked ? "좋아요 취소" : "좋아요"}
                 onClick={handleLikeToggle}>
                 {isLiked ? <IoMdHeart /> : <IoMdHeartEmpty />}
-                <span className={styles["fc-count"]}>{likes + (isLiked ? 1 : 0)}</span>
+                <span className={styles["fc-count"]}>{likeCount}</span>
               </button>
 
               <button
@@ -78,7 +86,7 @@ export default function FeedCard({
                 aria-label="댓글 보기"
                 onClick={onCommentClick}>
                 <IoChatbubblesOutline />
-                <span className={styles["fc-count"]}>{comments}</span>
+                <span className={styles["fc-count"]}>{commentsCount}</span>
               </button>
             </div>
 
@@ -89,4 +97,3 @@ export default function FeedCard({
     </article>
   );
 }
-

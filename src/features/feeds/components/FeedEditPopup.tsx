@@ -3,26 +3,28 @@ import { createPortal } from "react-dom";
 import styles from "./styles/FeedEditPopup.module.css";
 import { FiX, FiChevronLeft, FiChevronRight, FiHeart, FiMoreHorizontal } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
-import type { FeedCommentItem } from "./FeedCommentBottomPopup";
 import FeedComment from "./FeedComment";
+import type { FeedPostComment } from "../types";
+import FeedProfileFallback from '../../../assets/feed_profile.jpg';
+import { FeedService } from "../services/FeedService"; 
+import { timeAgo } from "../util";
 
 export type FeedEditPopupProps = {
   open: boolean;
   onClose: () => void;
-  comments: FeedCommentItem[];
+  comments: FeedPostComment[];
   onCommentSubmit: (comment: string) => void;
 
-  profileUrl: string;
+  avatarUrl: string | null;
   displayName: string;
-  createdAt: string | Date;
+  createdAt: string;
 
   content: string;
   imageUrls: string[];
 
-  likesCount: number | string;
-  likedByMe?: boolean | undefined;
+  likesCount: number;
+  likedByMe: boolean;
   onLikeToggle: (liked: boolean) => void;
-
   onMoreClick?: () => void;
 };
 
@@ -31,7 +33,7 @@ export default function FeedEditPopup({
   onClose,
   comments: items,
   onCommentSubmit,
-  profileUrl,
+  avatarUrl,
   displayName,
   createdAt,
   content,
@@ -42,17 +44,28 @@ export default function FeedEditPopup({
   onMoreClick,
 }: FeedEditPopupProps) {
   const [text, setText] = useState("");
-  const [liked, setLiked] = useState(likedByMe ?? false);
-  const [likeCountLocal, setLikeCountLocal] = useState<number>(Number(likesCount) || 0);
+  const [isLiked, setIsLiked] = useState<boolean>(!!likedByMe);
+  const [likeCount, setLikeCount] = useState<number>(likesCount);
   const [slide, setSlide] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [localComments, setLocalComments] = useState(items);
 
-  const dateLabel =
-    typeof createdAt === "string"
-      ? createdAt
-      : new Intl.DateTimeFormat("ko", { month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }).format(
-          createdAt
-        );
+  useEffect(() => { 
+    if (open) setLocalComments(items); 
+  }, [open, items]);
+
+  const handleCommentLike = (commentId: string) => (next: boolean) => {
+    if (next) FeedService.likeComment(commentId);
+    else FeedService.unlikeComment(commentId);
+
+    setLocalComments(prev =>
+      prev.map(it =>
+        it.commentId === commentId
+          ? { ...it, likedByMe: next, likesCount: Number(it.likesCount) + (next ? 1 : -1) }
+          : it
+      )
+    );
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -71,12 +84,11 @@ export default function FeedEditPopup({
   }, [open, onClose]);
 
   useEffect(() => {
-    if (open) {
-      setLiked(false);
-      setLikeCountLocal(Number(likesCount) || 0);
-      setSlide(0);
-    }
-  }, [open, likesCount]);
+    if (!open) return;
+    setIsLiked(!!likedByMe);
+    setLikeCount(Number(likesCount) || 0);
+    setSlide(0);
+  }, [open, likedByMe, likesCount]);
 
   const onBackdropPointerDown: React.PointerEventHandler<HTMLDivElement> = (e) => {
     if (e.target === e.currentTarget) onClose();
@@ -90,9 +102,9 @@ export default function FeedEditPopup({
   };
 
   const toggleLike = () => {
-    const next = !liked;
-    setLiked(next);
-    setLikeCountLocal((c) => c + (next ? 1 : -1));
+    const next = !isLiked;
+    setIsLiked(next);
+    setLikeCount(c => c + (next ? 1 : -1));
     onLikeToggle(next);
   };
 
@@ -175,14 +187,14 @@ export default function FeedEditPopup({
             <div className={styles.user}>
               <img 
                 className={styles.avatar} 
-                src={profileUrl} 
+                src={avatarUrl || FeedProfileFallback} 
                 alt="" />
               <div className={styles.userMeta}>
                 <strong className={styles.name}>
                   {displayName}
                 </strong>
                 <span className={styles.time}>
-                  {dateLabel}
+                  {timeAgo(createdAt)}
                 </span>
               </div>
             </div>
@@ -190,10 +202,10 @@ export default function FeedEditPopup({
               <button 
                 className={styles.iconBtn}
                 onClick={toggleLike} 
-                aria-label={liked ? "좋아요 취소" : "좋아요"}>
-                {liked ? <FaHeart className={styles.heartRed} /> : <FiHeart />}
+                aria-label={isLiked ? "좋아요 취소" : "좋아요"}>
+                {isLiked ? <FaHeart className={styles.heartRed} /> : <FiHeart />}
                 <span className={styles.likeNum}>
-                  {likeCountLocal}
+                  {likeCount}
                 </span>
               </button>
               <button 
@@ -214,8 +226,18 @@ export default function FeedEditPopup({
           <p className={styles.content}>{content}</p>
 
           <div className={styles.comments}>
-            {items.map((it) => (
-              <FeedComment key={it.id} {...it} />
+            {localComments.map((it) => (
+              <FeedComment
+                key={it.commentId}
+                commentId={it.commentId}
+                displayName={it.displayName}
+                avatarUrl={it.avatarUrl}
+                body={it.body}
+                createdAt={it.createdAt}
+                likesCount={it.likesCount}
+                likedByMe={it.likedByMe}
+                onLikeToggle={handleCommentLike(it.commentId)}
+              />
             ))}
           </div>
 

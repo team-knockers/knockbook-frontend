@@ -8,54 +8,10 @@ import FeedCard from '../../features/feeds/components/FeedCard';
 import s from './FeedHomePage.module.css';
 
 import { FeedService } from '../../features/feeds/services/FeedService';
-import type { FeedPost } from '../../features/feeds/types';
+import type { FeedPostComment, FeedPost } from '../../features/feeds/types';
 
-import FeedCommentBottomPopup, { type FeedCommentItem } from "../../features/feeds/components/FeedCommentBottomPopup";
+import FeedCommentBottomPopup from "../../features/feeds/components/FeedCommentBottomPopup";
 import FeedEditPopup from "../../features/feeds/components/FeedEditPopup";
-
-type OnCommentLike = (commentId: string, liked: boolean) => void;
-
-function createDemoComments(
-  post: FeedPost,
-  onCommentLike?: OnCommentLike
-): FeedCommentItem[] {
-  const now = Date.now();
-
-  const wrap = (id: string) => (liked: boolean) => {
-    if (onCommentLike) { onCommentLike(id, liked); }
-    else console.log("[comment-like]", { id, liked });
-  };
-
-  return [
-    {
-      id: `${post.postId}-c1`,
-      profileUrl,
-      displayName: "독서왕",
-      createdAt: new Date(now - 1000 * 60 * 7),
-      comment: "와 사진 분위기 너무 좋네요! 어디서 찍으신 건가요?",
-      likesCount: 2,
-      onLikeToggle: wrap(`${post.postId}-c1`),
-    },
-    {
-      id: `${post.postId}-c2`,
-      profileUrl,
-      displayName: "책벌레",
-      createdAt: new Date(now - 1000 * 60 * 60 * 2),
-      comment: "추천하신 책 바로 담았습니다 😊",
-      likesCount: 5,
-      onLikeToggle: wrap(`${post.postId}-c2`),
-    },
-    {
-      id: `${post.postId}-c3`,
-      profileUrl,
-      displayName: "홍길동",
-      createdAt: new Date(now - 1000 * 60 * 60 * 24),
-      comment: "문장 너무 멋져요. 다음 글도 기대할게요!",
-      likesCount: 1,
-      onLikeToggle: wrap(`${post.postId}-c3`),
-    },
-  ];
-}
 
 function useIsMobile(breakpoint = 1024) {
   const [isMobile, setIsMobile] = useState<boolean>(() =>
@@ -85,6 +41,10 @@ export default function FeedHomePage() {
   const [keyword, setKeyword] = useState<string>('');
   // bottom trigger element 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  const [popupLoading, setPopupLoading] = useState(false);
+  const [selectedComments, setSelectedComments] = useState<FeedPostComment[] | null>(null);
+  const [selectedFeed, setSelectedFeed] = useState<FeedPost | null>(null);
   
   // 1) first load and reload when search keyword changes
   useEffect(() => {
@@ -149,29 +109,50 @@ export default function FeedHomePage() {
     }
   };
 
-  const handleLikePost = (id: string) => {
-    return (liked: boolean) => {
-      console.log(`[LIKE] ${id}:`, liked); // test code
-      // TODO: call API
-    }
-  };
-
-  const handlePopupOpen = (id: string) => {
-    return () => {
-      if (isMobile) {
-        setSelectedPostId(id);
+  const handleLikePost =
+    (postId: string) =>
+    (next: boolean) => {
+      if (next) {
+        FeedService.likePost(postId);
+      } else {
+        FeedService.unlikePost(postId);
       }
-      else {
-        setSelectedPostId(id);
 
+      setPosts(prev =>
+        prev.map(p =>
+          p.postId === postId
+            ? { ...p, likedByMe: next, likesCount: p.likesCount + (next ? 1 : -1) }
+            : p
+        )
+      );
+      setSelectedFeed(prev =>
+        prev && prev.postId === postId
+          ? { ...prev, likedByMe: next, likesCount: prev.likesCount + (next ? 1 : -1) }
+          : prev
+      );
+    };
+
+  const handlePopupOpen = (postId: string) => {
+    console.log('[debug] popup click', { postId, isMobile });
+    return async () => {
+      if (popupLoading) { return; }
+      try {
+        setPopupLoading(true);
+        setSelectedPostId(postId);
+
+        if (isMobile) {
+          const res = await FeedService.getFeedPostCommentList(postId);
+          setSelectedComments(res.feedComments);  
+          setSelectedFeed(null);
+        } else {
+          const res = await FeedService.getFeedPostWithCommentList(postId);
+          setSelectedFeed(res.feedPost);           
+          setSelectedComments(res.feedComments);   
+        }
+      } finally {
+        setPopupLoading(false);
       }
-    }
-  };
-
-  const handleCommentLike: OnCommentLike = (commentId, liked) => {
-    // TODO: call API
-    // await FeedService.toggleCommentLike(commentId, liked)
-    console.log("API Called:", commentId, liked); // for test
+    };
   };
 
   const isMobile = useIsMobile();
@@ -179,7 +160,7 @@ export default function FeedHomePage() {
 
   const selectedPost = useMemo(
     () => posts.find(p => p.postId === selectedPostId) ?? null,
-    [selectedPostId]
+    [selectedPostId, posts]
   );
 
   return (
@@ -198,39 +179,41 @@ export default function FeedHomePage() {
             likesCount={p.likesCount}
             commentsCount={p.commentsCount}
             content={p.content}
+            likedByMe={p.likedByMe}
             onLikeToggled={handleLikePost(p.postId)}
             onCommentClick={handlePopupOpen(p.postId)}/>
         </div>
       ))}
 
       {/* mobile only : FeedCommentBottomPopup */}
-      {selectedPost && isMobile && (
+      {!!selectedPostId && isMobile && (
         <FeedCommentBottomPopup
-          open={!!selectedPost}
-          onClose={() => setSelectedPostId(null)}
-          title={`댓글 ${selectedPost.commentsCount}개`}
-          comments={createDemoComments(selectedPost, handleCommentLike)}
-          onCommentSubmit={handleSubmitComment(selectedPost.postId)}
+          open={!!selectedPostId}
+          onClose={() => { setSelectedPostId(null); setSelectedComments(null); }}
+          title={`댓글 ${selectedPost?.commentsCount}개`}
+          comments={selectedComments ?? []}
+          onCommentSubmit={handleSubmitComment(selectedPostId!)}
           heightPct={60}
         />
       )}
 
       {/* desktop only : FeedEditPopup */}
-      {selectedPost && !isMobile && (
+      {!isMobile && selectedFeed && (
         <FeedEditPopup
-          open={!!selectedPostId}
-          onClose={() => setSelectedPostId(null)}
-          comments={createDemoComments(selectedPost, handleCommentLike)}
-          onCommentSubmit={handleSubmitComment(selectedPost.postId)}
-          profileUrl={selectedPost.avatarUrl ?? profileUrl}
-          displayName={selectedPost.displayName}
-          createdAt={selectedPost.createdAt}
-          content={selectedPost.content}
-          imageUrls={selectedPost.images}
-          likesCount={selectedPost.likesCount}
-          likedByMe={selectedPost?.likedByMe}
-          onLikeToggle={handleLikePost(selectedPost.postId)}
-          onMoreClick={() => {/* TODO */}}/>
+          open={!!selectedFeed}
+          onClose={() => { setSelectedPostId(null); setSelectedFeed(null); setSelectedComments(null); }}
+          comments={selectedComments ?? []}                    
+          onCommentSubmit={handleSubmitComment(selectedFeed.postId)}
+          avatarUrl={selectedFeed.avatarUrl ?? profileUrl}     
+          displayName={selectedFeed.displayName}
+          createdAt={selectedFeed.createdAt}                    
+          content={selectedFeed.content}
+          imageUrls={selectedFeed.images}
+          likesCount={selectedFeed.likesCount}
+          likedByMe={selectedFeed.likedByMe}
+          onLikeToggle={handleLikePost(selectedFeed.postId)}
+          onMoreClick={() => {/* TODO */}}
+        />
       )}
 
       {/* invisible bottom trigger */}
