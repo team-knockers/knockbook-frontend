@@ -1,5 +1,5 @@
 import { useSession } from "../../../hooks/useSession";
-import type { FeedPostList, FeedProfile } from "../types";
+import type { FeedPostList, FeedProfile, FeedPostCommentList, FeedPostDetail } from "../types";
 import {  apiAuthPathAndQuery } from "../../../shared/api";
 
 export const FeedService = {
@@ -45,5 +45,32 @@ export const FeedService = {
       { method: "GET" }
     );
   },
+
+  async getFeedPostCommentList(
+    postId: string
+  ): Promise<FeedPostCommentList> {
+      const { userId } = useSession.getState();
+      if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPathAndQuery<FeedPostCommentList>(
+      "/feeds/post/{postId}/comments/{userId}",
+      { postId, userId },
+      undefined,
+      { method: "GET" }
+    );
+  },
   
+  async getFeedPostWithCommentList(
+    postId: string
+  ): Promise<FeedPostDetail> {
+      const { userId } = useSession.getState();
+      if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPathAndQuery<FeedPostDetail>(
+      "/feeds/post/{postId}/{userId}",
+      { postId, userId },
+      undefined,
+      { method: "GET" }
+    );
+  }
 }

@@ -1,17 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./styles/FeedCommentBottomPopup.module.css";
-import type { FeedCommentProps } from "./FeedComment";
+import type { FeedPostComment } from '../types';
 import FeedComment from "./FeedComment";
 import { FiX } from "react-icons/fi";
-
-export type FeedCommentItem = FeedCommentProps & { id: string };
 
 export type FeedCommentBottomPopupProps = {
   open: boolean;
   onClose: () => void;
   title: string;
-  comments: FeedCommentItem[];
+  comments: FeedPostComment[];
   onCommentSubmit: (comment: string) => void;
   heightPct?: number; // 30~95, default 70
 };
@@ -27,7 +25,7 @@ export default function FeedCommentBottomPopup({
   const [text, setText] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const [localItems, setLocalItems] = useState<FeedCommentItem[]>(items);
+  const [localItems, setLocalItems] = useState<FeedPostComment[]>(items);
   useEffect(() => { if (open) setLocalItems(items); }, [open, items]);
 
   useEffect(() => {
@@ -53,11 +51,11 @@ export default function FeedCommentBottomPopup({
     setText("");
   };
 
-  const handleLikeToggle = (id: string) => (liked: boolean) => {
+  const handleLikeToggle = (commentId: string) => (liked: boolean) => {
     setLocalItems(prev =>
       prev.map(it =>
-        it.id === id
-          ? { ...it, likesCount: Number(it.likesCount) + (liked ? 1 : -1) }
+        it.commentId === commentId
+          ? { ...it, likesCount: Number(it.likesCount) + (liked ? 1 : -1), likedByMe: liked }
           : it
       )
     );
@@ -95,8 +93,16 @@ export default function FeedCommentBottomPopup({
           onPointerDown={e => e.stopPropagation()}>
           {localItems.map((it) => (
             <FeedComment 
-              key={it.id} {...it} 
-              onLikeToggle={handleLikeToggle(it.id)} />
+              key={it.commentId}
+              commentId={it.commentId}
+              displayName={it.displayName}
+              avatarUrl={it.avatarUrl}
+              body={it.body}
+              createdAt={it.createdAt}
+              likesCount={it.likesCount}
+              likedByMe={it.likedByMe}
+              onLikeToggle={handleLikeToggle(it.commentId)}
+            />
           ))}
         </div>
 

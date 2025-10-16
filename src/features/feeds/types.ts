@@ -35,3 +35,24 @@ export type FeedProfile = {
   profileThumbnails: FeedProfileThumbnail[];
   nextAfter: string | null;
 };
+
+export type FeedPostComment = {
+  commentId: string;
+  userId: string;
+  displayName: string | null;
+  avatarUrl: string | null;
+  body: string;
+  createdAt: string;
+  likedByMe: boolean;
+  likesCount: number;
+}
+
+export type FeedPostCommentList = {
+  postId: string;
+  feedComments: FeedPostComment[];
+}
+
+export type FeedPostDetail = {
+  feedPost: FeedPost;
+  feedComments: FeedPostComment[];
+}
