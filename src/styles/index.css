@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
 /* Keep the previous base rules and enforce mobile min width under 1024px */
 * { 
   box-sizing: border-box;
@@ -128,4 +131,22 @@ button, button:focus, button:focus-visible {
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/BMEULJIRO.woff') format('woff');
     font-weight: normal;
     font-display: swap;
+}
+
+@font-face {
+  font-family: 'NanumMyeongjo';
+  src: local('Nanum Myeongjo'), 
+        url('https://fonts.gstatic.com/s/nanummyeongjo/v16/ea8H0Y2W7uJ0F8s2v2w.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NotoSansKR';
+  src: local('Noto Sans KR'), 
+        url('https://fonts.gstatic.com/s/notosanskr/v16/ea8H0Y2W7uJ0F8s2v2w.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
