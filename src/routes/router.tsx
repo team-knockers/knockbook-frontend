@@ -73,6 +73,7 @@ import UserAddressPage from "../pages/account/UserAddressPage";
 import OrderPage from "../pages/purchase/OrderPage";
 import { OrderAction, OrderPageLoader } from "../pages/purchase/OrderPage.loader";
 import OrderCompletePage from "../pages/purchase/OrderCompletePage";
+import AuthCallbackPage from "../pages/auth/AuthCallbackPage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -81,6 +82,7 @@ export const router = createBrowserRouter([
   { path: PATHS.signupAgreePolicy, element: <SignupPolicyPage /> },
   { path: PATHS.signupSetPassword, element: <SignupPasswordPage /> },
   { path: PATHS.signupSetName, element: <SignupDisplayNamePage /> },
+  { path: PATHS.authCallback, element: <AuthCallbackPage /> },
   {
     id: AUTH_LOADER_ID,
     element: <AuthLayout />,

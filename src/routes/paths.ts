@@ -1,6 +1,9 @@
 export const PATHS = {
   intro: "/",
 
+  /* auth */
+  authCallback: "/auth/callback",
+
   /* onboarding */
   signupVerifyEmail: "/signup/verifyemail",
   signupAgreePolicy: "/signup/agreepolicy",

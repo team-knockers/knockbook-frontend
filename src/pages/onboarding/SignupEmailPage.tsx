@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSignupFlow } from '../../features/onboarding/hooks/useSignupFlow';
-import { AuthService } from '../../features/onboarding/services/AuthService';
+import { AuthService } from '../../service/AuthService';
 import { ApiError } from '../../types/http';
 import { PATHS } from '../../routes/paths';
 
