@@ -31,6 +31,8 @@ export async function UserAddressAction({ request }: ActionFunctionArgs) {
   }
 
   if (intent === "insert") {
+    const current = await UserService.getAddresses();
+    const isFirst = !current || current.length === 0;
     const req : InsertAddressRequest = {
       recipientName: String(form.get("recipientName")),
       phone: String(form.get("phone")),
@@ -38,7 +40,7 @@ export async function UserAddressAction({ request }: ActionFunctionArgs) {
       address1: String(form.get("address1")),
       address2: String(form.get("address2")),
       label: String(form.get("label")),
-      isDefault: String(form.get("isDefault")).trim().toLowerCase() === "true",
+      isDefault: isFirst ? true : String(form.get("isDefault")).trim().toLowerCase() === "true",
     }
     await UserService.insertAddress(req);
     return new Response(null, { status: 200 });

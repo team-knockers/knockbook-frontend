@@ -6,7 +6,7 @@ import type { CouponIssuance, OrderAggregation, OrderItem } from "../../features
 
 export type OrderPageLoaderData = {
   orderId: string;
-  address: Address;
+  address: Address | null;
   numPurchaseItems: number;
   purchaseList: OrderItem[];
   numRentalItems: number;
@@ -22,7 +22,9 @@ export async function OrderPageLoader({ params }: LoaderFunctionArgs) {
     throw new Response("Missing orderId", { status: 400 });
   } 
   
-  const address = (await UserService.getAddresses()).find(a => a.isDefault);
+  const addressList = await UserService.getAddresses();
+  const address = 
+    (addressList?.find(a => a.isDefault) ?? addressList?.[0]) ?? null;
   const coupons = await OrderService.getCoupons();
   const points = (await OrderService.getPoints()).balance;
   const order = await OrderService.getOrder(String(orderId));
@@ -49,7 +51,7 @@ export async function OrderPageLoader({ params }: LoaderFunctionArgs) {
 
   return { 
     orderId,
-    address,
+    address, // could be null
     numPurchaseItems, purchaseList, 
     numRentalItems, rentalList,
     coupons, points,
