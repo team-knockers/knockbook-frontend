@@ -1,0 +1,80 @@
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+  width: 100%;
+}
+
+.date {
+  width: 50px;
+  font-weight: 600;
+  color: #222;
+}
+
+.content {
+  flex: 1;
+  padding: 0 10px;
+}
+
+.type {
+  font-weight: 700;
+  color: #111;
+  font-size: 15px;
+}
+
+.title {
+  font-size: 15px;
+  color: #333;
+  margin: 4px 0;
+}
+
+.order-id,
+.expire {
+  font-size: 12px;
+  color: #888;
+}
+
+.amount {
+  font-weight: 600;
+  min-width: 60px;
+  text-align: right;
+  font-size: 15px;
+}
+
+.plus {
+  color: #e74c3c;
+}
+
+.minus {
+  color: #555;
+}
+
+.page-layout {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  font-family: Pretendard;
+}
+
+.summary-section {
+  text-align: center;
+}
+
+.total-point {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111;
+}
+
+.year-group {
+  margin-top: 40px;
+}
+
+.year-title {
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #a1a1a1;
+}
