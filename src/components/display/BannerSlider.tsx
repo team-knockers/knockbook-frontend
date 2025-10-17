@@ -60,7 +60,7 @@ export default function BannerSlider({ items }: BannerSliderProps) {
             {items.map((b) => (
               <SwiperSlide key={b.id}>
                 <picture>
-                  <source media="(max-width: 1023.98px)" srcSet={b.mobileImageUrl} />
+                  <source media="(max-width: 767.98px)" srcSet={b.mobileImageUrl} />
                   <img
                     className={styles['banner-swiper-img']}
                     src={b.desktopImageUrl}
