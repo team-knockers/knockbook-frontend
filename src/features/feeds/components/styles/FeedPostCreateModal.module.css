@@ -1,0 +1,511 @@
+h1 {
+  margin-bottom: 0 !important;
+}
+
+/* Overlay & Sheet */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  font-family: Pretendard;
+}
+
+.sheet {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .sheet {
+    width: 980px;
+    height: 620px;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+}
+
+/* Mobile header (title + X only) */
+.mHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.mTitle {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.iconBtn {
+  background: transparent;
+  border: 0;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .mHeader { display: none; }
+}
+
+/* Desktop header (title only) */
+.dHeader {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .dHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    padding: 0 20px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+  }
+
+  .dTitle {
+    font-size: 16px;
+    font-weight: 500;
+    color: #111;
+  }
+}
+
+/* Desktop close (top-right, borderless) */
+.desktopClose {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktopClose {
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 5;
+    line-height: 1;
+  }
+}
+
+/* Layout */
+.body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(0, auto);
+  flex: 1;
+}
+
+@media (min-width: 1024px) {
+  .body { grid-template-columns: 48% 52%; }
+}
+
+/* Left: uploader/preview */
+.left {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+@media (min-width: 1024px) {
+  .left {
+    padding: 0;
+    border-bottom: 0;
+    border-right: 1px solid #eee;
+    background: #F4F1EE;
+  }
+}
+
+/* mobile: label "사진 첨부 (선택) n / 3" */
+.mobileAttachHeader {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* mobile: plus + thumbnails row */
+.mobileAddRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.plusCard {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  border: 1px solid #E3E3E3;
+  background: #F3F3F3;
+  font-size: 34px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.mobileThumbStrip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  flex: 1;
+  padding: 10px;
+}
+
+.mobileThumbBtn {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  flex: 0 0 auto;
+}
+
+.mobileThumbBtn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* desktop: empty drop area (shown only when no images) */
+.desktopDrop {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktopDrop {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    min-height: 420px;
+    background: #EDE9E6;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: #8B8680;
+  }
+
+  .selectBtn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #D9D4CE;
+    background: #E6E0DA;
+    cursor: pointer;
+  }
+}
+
+/* desktop: slider when images exist */
+.desktopSlider { display: none; }
+
+@media (min-width: 1024px) {
+  .desktopSlider {
+    display: block;
+    height: 100%;
+  }
+
+  .slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;        /* blurred bg가 채움 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 🔹 blurred bg behind the main image */
+  .blurBg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;              /* 배경은 cover */
+    filter: blur(28px) brightness(.85) saturate(1.05);
+    transform: scale(1.1);          /* blur 테두리 보정 */
+    z-index: 0;
+  }
+
+  /* 이미지는 contain 으로 중앙에 */
+  .slideImg {
+    position: relative;
+    z-index: 1;                     /* 블러 배경 위 */
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    background: transparent;
+  }
+
+  /* (선택) 양옆 그라데이션 가드 - 필요시 유지 */
+  .slider::before,
+  .slider::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 88px;
+    pointer-events: none;
+  }
+  .slider::before {
+    left: 0;
+    background: linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,0));
+  }
+  .slider::after {
+    right: 0;
+    background: linear-gradient(270deg, rgba(0,0,0,.45), rgba(0,0,0,0));
+  }
+
+  /* 큼직하고 음영 있는 네비 버튼 */
+  .nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(0, 0, 0, .55);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(0,0,0,.28);
+    z-index: 2;                     /* 이미지 위 */
+  }
+  .leftNav { left: 18px; }
+  .rightNav { right: 18px; }
+
+  /* 하단 도트 */
+  .dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    z-index: 2;                     /* 이미지 위 */
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.5);
+    border: none;
+    cursor: pointer;
+  }
+  .dotActive { background: #fff; }
+}
+
+/* Hidden file input */
+.file { display: none; }
+
+/* Right: text/emoji */
+.right {
+  padding: 16px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+}
+
+@media (min-width: 1024px) {
+  .right {
+    padding: 24px;
+    background: #fff;
+  }
+}
+
+.userRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userName { font-weight: 700; }
+
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.textarea {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  border: 1px solid #ECECEC;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.textarea::placeholder { color: #B7B7B7; }
+
+.inputFooter {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #8B8B8B;
+  padding: 10px;
+}
+
+/* emoji popover */
+.emojiWrap { position: relative; }
+
+.emojiBtn {
+  border: 0;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.emojiPopover {
+  position: absolute;
+  left: 0;
+  bottom: 36px;
+  z-index: 1010;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* counter */
+.counter { font-size: 12px; }
+
+/* Mobile share button */
+.mobileShare {
+  width: 100%;
+  height: 56px;
+  border: 0;
+  border-radius: 10px;
+  background: #DDD5CD;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+  .mobileShare {
+    display: none;
+  }
+
+  /* 강제: 모바일 전용 UI는 데스크탑에서 숨김 */
+  .mobileAttachHeader,
+  .mobileAddRow,
+  .plusCard,
+  .mobileThumbStrip {
+    display: none !important;
+  }
+
+  /* Desktop-only states */
+  .desktopDrop {
+    display: flex !important;
+  }
+  .desktopSlider {
+    display: block !important;
+  }
+}
+
+/* Desktop bottom-right share (이미 TSX에서 사용 시) */
+.desktopBottomShare {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktopBottomShare {
+    display: inline-block;
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    background: #E6E0DA;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+  }
+
+  .desktopBottomShare:hover { 
+    background: #222; 
+  }
+
+  .inputFooter {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+}
+
+/* Mobile thumbnail item wrapper to position the X button */
+.mobileThumbItem {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+/* Mobile thumbnail remove (X) */
+.removeThumb {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .6);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+
+/* Desktop slider remove (X) */
+@media (min-width: 1024px) {
+  .removeOnSlider {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .55);
+    color: #fff;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2; /* above image */
+    box-shadow: 0 4px 18px rgba(0,0,0,.28);
+  }
+}
+
