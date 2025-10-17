@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import ThreeLevelTabMenu from "../../components/navigation/ThreeLevelTabMenu";
 import { PATHS } from "../../routes/paths";
+import s from "./RentalHistoryPage.module.css";
 
-export default function RentalsHistoryPage() {
+export default function RentalHistoryPage() {
   return (
-    <main>
-      대여 내역
+     <main className={s["page-layout"]}>
       <ThreeLevelTabMenu
         leftTabTitle="배송 준비"
         leftTabPath={PATHS.rentalPending}
