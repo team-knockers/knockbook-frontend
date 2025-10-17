@@ -4,7 +4,7 @@ import { useSignupFlow } from '../../features/onboarding/hooks/useSignupFlow';
 import { PATHS } from '../../routes/paths';
 import { checkDisplayNameLength, checkDisplayNameLetter, isDisplayNameValid } from '../../shared/validation/validUserProfile';
 import { Input, Label } from 'reactstrap';
-import { AuthService } from '../../features/onboarding/services/AuthService';
+import { AuthService } from '../../service/AuthService';
 import { ApiError } from '../../types/http';
 
 import OneWayButton from '../../components/forms/OneWayButton';

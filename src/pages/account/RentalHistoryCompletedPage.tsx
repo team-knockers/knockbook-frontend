@@ -10,6 +10,7 @@ export default function RentalHistoryCompletedPage() {
       date: "2025.07.10",
       orderId: "R2200082",
       status: "수거중",
+
       items: [
         {
           id: 1,

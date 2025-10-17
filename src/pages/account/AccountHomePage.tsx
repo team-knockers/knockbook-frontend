@@ -1,6 +1,6 @@
 import { useRouteLoaderData } from 'react-router-dom';
 import { AUTH_LOADER_ID } from '../../routes/auth.layout';
-import { AuthService } from '../../features/onboarding/services/AuthService';
+import { AuthService } from '../../service/AuthService';
 import { useNavigate } from 'react-router-dom';
 import { ApiError } from '../../types/http';
 import type { GetMyProfileResponse } from '../../features/account/types';

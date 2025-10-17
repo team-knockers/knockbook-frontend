@@ -1,8 +1,8 @@
 import { Outlet, redirect, useRouteLoaderData } from "react-router-dom";
 import { UserService } from "../features/account/services/UserService";
 import { ApiError } from "../types/http";
-import { AuthService } from "../features/onboarding/services/AuthService";
 import { useSession } from "../hooks/useSession";
+import { AuthService } from "../service/AuthService";
 
 export const AUTH_LOADER_ID = "auth";
 

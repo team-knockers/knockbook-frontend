@@ -1,6 +1,8 @@
 import s from "./RentalHistoryOngoingPage.module.css";
-import bookImg from "../../assets/feed_slider_img1.png";
 import OneWayButton from "../../components/forms/OneWayButton";
+
+import bookImg from "../../assets/feed_slider_img1.png";
+
 
 export default function RentalHistoryOngoingPage() {
   const rawRentalList = [
