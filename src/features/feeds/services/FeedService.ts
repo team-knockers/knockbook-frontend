@@ -1,5 +1,5 @@
 import { useSession } from "../../../hooks/useSession";
-import type { FeedPostList, FeedProfile, FeedPostCommentList, FeedPostDetail } from "../types";
+import type { FeedPostList, FeedProfile, FeedPostCommentList, FeedPostDetail, FeedPostComment } from "../types";
 import {  apiAuthPathAndQuery } from "../../../shared/api";
 
 export const FeedService = {
@@ -123,6 +123,22 @@ export const FeedService = {
       { commentId, userId },
       undefined,
       { method: "DELETE" }
+    );
+  },
+
+  async createComment(postId: string, body: string): Promise<FeedPostComment> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery<FeedPostComment>(
+      "/feeds/comment/{postId}/{userId}",
+      { postId, userId },
+      undefined,
+      { 
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ commentBody: body.trim().slice(0, 500) }),
+      }
     );
   }
 }

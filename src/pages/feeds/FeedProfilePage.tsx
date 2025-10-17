@@ -88,11 +88,24 @@ export default function FeedProfilePage() {
   }
 };
 
-  const handleSubmitComment = (feedId: string) => {
-    return (text: string) => {
-      console.log("[COMMENT SUBMIT]", feedId, text);
-    };
+  const handleSubmitComment = (postId: string) => {
+  return async (text: string) => {
+    const v = text.trim();
+    if (!v) return;
+
+    try {
+      const created = await FeedService.createComment(postId, v);
+      setSelectedComments(prev => (prev ? [created, ...prev] : [created]));
+      setSelectedFeed(prev =>
+        prev && prev.postId === postId
+          ? { ...prev, commentsCount: prev.commentsCount + 1 }
+          : prev
+      );
+    } catch (e) {
+      console.error(e);
+    }
   };
+};
 
   const handlePostLike =
   (postId: string) =>
