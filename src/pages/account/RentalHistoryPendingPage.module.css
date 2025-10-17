@@ -1,49 +1,69 @@
 .page-layout {
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   margin: 0 auto;
-  font-family: Pretendard;
   padding: 20px;
-  background: #fff;
+  font-family: Pretendard;
 }
 
 .rental-group {
   border-bottom: 1px solid #eee;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  padding-bottom: 40px;
+}
+
+.rental-date-layer {
+  padding-bottom: 15px;
 }
 
 .rental-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  padding: 40px 0 10px;
 }
 
 .rental-date {
-  font-weight: 600;
-  color: #111;
+  font-size: 14px;
+  font-weight: 400;
+  color: #a1a1a1;
+  display: flex;
+  width: 100%;
+  flex: 1;
+}
+
+.rental-date strong {
+  color: #333;
+  padding-right: 4px;
 }
 
 .details-button {
+  display: inline-block;
   font-size: 13px;
-  color: #666;
-  background: none;
-  border: none;
-  cursor: pointer;
+  font-weight: 400;
+}
+
+.rental-status {
+  display: inline;
+  padding: 2px 6px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .book-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 }
 
 .book-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 20px;
+  padding: 10px;
 }
 
 .book-image {
@@ -57,10 +77,10 @@
 }
 
 .book-title {
-  font-size: 14px;
-  color: #111;
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-size: 15px;
+  color: #000;
+  font-weight: 400;
+  margin-bottom: 5px;
 }
 
 .book-meta {
@@ -68,17 +88,23 @@
   color: #666;
 }
 
-.return-info {
-  border: 1px solid #e5e5e5;
+.rental-info {
+  border: 1px solid #c1c1c1;
   border-radius: 4px;
-  padding: 10px;
+  padding: 10px 20px;
   background: #fafafa;
   font-size: 13px;
   color: #333;
 }
 
-.return-row {
+.rental-row {
   display: flex;
   justify-content: space-between;
-  margin: 2px 0;
+  margin: 8px 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.rental-day {
+  font-weight: 600;
 }

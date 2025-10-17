@@ -1,0 +1,107 @@
+.page-layout {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Pretendard;
+}
+
+.rental-group {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 40px;
+}
+
+.rental-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0 30px;
+}
+
+.rental-date {
+  font-size: 14px;
+  font-weight: 400;
+  color: #a1a1a1;
+  display: flex;
+  width: 100%;
+  flex: 1;
+}
+
+.rental-date strong {
+  color: #333;
+  padding-right: 4px;
+}
+
+.details-button {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.book-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.book-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+.book-image {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.book-info {
+  flex: 1;
+}
+
+.book-title {
+  font-size: 15px;
+  color: #000;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
+.book-meta {
+  font-size: 12px;
+  color: #666;
+}
+
+.return-info {
+  border: 1px solid #c1c1c1;
+  border-radius: 4px;
+  padding: 15px 20px;
+  background: #fafafa;
+  font-size: 13px;
+  color: #333;
+}
+
+.return-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.return-dday {
+  padding: 2px 6px;
+  background-color: #222;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.return-day {
+  font-weight: 600;
+}
+
+.return-button :global(button) {
+  font-size: 15px !important;
+}
