@@ -5,10 +5,11 @@ import bookImg from '../../assets/feed_slider_img1.png';
 export default function RentalHistoryCompletedPage() {
   
   // dummy date
-  const rentalList = [
+  const rawRentalList = [
     {
       date: "2025.07.10",
       orderId: "R2200082",
+      status: "수거중",
       items: [
         {
           id: 1,
@@ -38,6 +39,7 @@ export default function RentalHistoryCompletedPage() {
     {
       date: "2025.06.23",
       orderId: "R2200082",
+      status: "검수중",
       items: [
         {
           id: 4,
@@ -66,15 +68,25 @@ export default function RentalHistoryCompletedPage() {
     },
   ];
 
+  // date descending
+  const rentalList = [...rawRentalList].sort(
+    (a, b) =>
+      new Date(b.date.replace(/\./g, "-")).getTime() -
+      new Date(a.date.replace(/\./g, "-")).getTime()
+  );
+
   return (
     <main className={s["page-layout"]}>
       {rentalList.map((group) => (
         <div key={group.date} className={s["rental-group"]}>
-          <div className={s["rental-header"]}>
-            <div className={s["rental-date"]}>
-              {group.date} ({group.orderId})
+          <div className={s["rental-date-layer"]}>
+            <div className={s["rental-header"]}>
+              <div className={s["rental-date"]}>
+                <span><strong>{group.date}</strong>({group.orderId})</span>
+              </div>
+                <button className={s["details-button"]}>상세보기 &gt;</button>
             </div>
-            <button className={s["details-button"]}>상세보기 &gt;</button>
+            <div className={s["rental-status"]}>{group.status}</div>
           </div>
 
           <div className={s["book-list"]}>
@@ -94,11 +106,11 @@ export default function RentalHistoryCompletedPage() {
           <div className={s["return-info"]}>
             <div className={s["return-row"]}>
               <span>반납 신청일</span>
-              <span>{group.returnApplyDate}</span>
+              <span className={s["return-day"]}>{group.returnApplyDate}</span>
             </div>
             <div className={s["return-row"]}>
               <span>수거 예정일</span>
-              <span>{group.pickupDate}</span>
+              <span className={s["return-day"]}>{group.pickupDate}</span>
             </div>
           </div>
         </div>
