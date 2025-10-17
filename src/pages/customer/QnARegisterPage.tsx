@@ -14,7 +14,6 @@ import { ApiError } from "../../types/http";
 import "react-toastify/dist/ReactToastify.css";
 import s from "./QnARegisterPage.module.css";
 
-
 export default function QnARegisterPage() {
 
   const nav = useNavigate();
@@ -62,8 +61,7 @@ export default function QnARegisterPage() {
 
   async function handleSubmit() {
     try {
-      const res = await CustomerService.RegisterQnA(title, content, files);
-      console.log(res);
+      await CustomerService.RegisterQnA(title, content, files);
       nav(PATHS.listQnA);
     } catch (e) {
       if (e instanceof ApiError) {
@@ -194,4 +192,3 @@ export default function QnARegisterPage() {
     </div>
   );
 }
-
