@@ -10,9 +10,13 @@ import { FeedService } from '../../features/feeds/services/FeedService';
 import type { FeedPostComment, FeedPost, FeedProfileThumbnail } from '../../features/feeds/types';
 import FeedProfileFallback from '../../assets/feed_profile.jpg';
 import FeedEditPopup from '../../features/feeds/components/FeedEditPopup';
+import FeedPostCreateModal from '../../features/feeds/components/FeedPostCreateModal';
+
 const PAGE_SIZE = 3; // number of posts per request
+const NUM_MAX_FILES = 3;
 
 export default function FeedProfilePage() {
+
   // profile area
   const [displayName, setDisplayName] = useState<string>('');
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -28,6 +32,31 @@ export default function FeedProfilePage() {
 
   // bottom trigger
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  const [createOpen, setCreateOpen] = useState(false);
+
+  async function handleShare({ 
+    text,
+    files 
+  }: { text: string; files: File[] }) {
+    // >> test code start
+    console.log("text", text);
+    console.log("files", files);
+    // << test code end
+
+    try {
+      // this is sample code to connect to API
+      const form = new FormData();
+      form.append('content', text);
+      files.forEach((f) => form.append('images', f));
+      // TODO: call API (ex. await FeedService.createPost(form);)
+      setCreateOpen(false);
+      // TODO: refresh (ex. await fetchFirstPage();)
+    } catch (e) {
+      console.error(e);
+      alert('업로드 실패');
+    }
+  }
 
   // first load
   useEffect(() => {
@@ -166,7 +195,7 @@ export default function FeedProfilePage() {
         <div className={s['post-button']}>
           <OneWayButton
             content='+ 포스트 작성'
-            onClick={() => alert(`포스트 버튼이 클릭되었습니다!`)}
+            onClick={() => setCreateOpen(true)}
             responsiveType='fluid'
             widthSizeType='sm'
             heightSizeType='xxxs'
@@ -203,8 +232,16 @@ export default function FeedProfilePage() {
       />
     )}
 
-      {/* invisible bottom trigger */}
-      <div ref={sentinelRef} className={s['sentinel']} />
+    <FeedPostCreateModal
+      open={createOpen}
+      onClose={() => setCreateOpen(false)}
+      onShare={handleShare}
+      displayName={displayName}
+      avatarUrl={avatarUrl ?? ''}
+      maxFiles={NUM_MAX_FILES}/>
+
+    {/* invisible bottom trigger */}
+    <div ref={sentinelRef} className={s['sentinel']} />
       {loading && <div className={s['loading']}>Loading…</div>}
     </div>
   );
