@@ -1,27 +1,59 @@
 import { Input, Label } from 'reactstrap';
-import s from './AddAddressPage.module.css';
-import { useMemo, useState } from 'react';
-import OneWayButton from '../../components/forms/OneWayButton';
-import { useKakaoPostcode } from '../../features/account/hooks/useKakaoPostcode';
+import s from './AddressForm.module.css';
+import { useEffect, useMemo, useState } from 'react';
+import OneWayButton from '../../../components/forms/OneWayButton';
+import { useKakaoPostcode } from '../hooks/useKakaoPostcode';
 import { useFetcher } from 'react-router-dom';
 
-type AddAddressPageProps = {
-  onProceedClick: () => void
+type Mode = 'insert' | 'update';
+
+type AddressFormInitial = Partial<{
+  label: string;
+  recipientName: string;
+  phone: string;
+  postalCode: string;
+  address1: string;
+  address2: string;
+  isDefault: boolean;
+}>;
+
+type AddressFormProps = {
+  actionPath: string;
+  onProceedClick: () => void;
+  mode?: Mode;
+  addressId?: string;
+  initial?: AddressFormInitial;
 };
 
-export default function AddAddressPage({ 
-  onProceedClick 
-} : AddAddressPageProps) {
+export default function AddressForm({ 
+  actionPath,
+  onProceedClick,
+  mode = 'insert',
+  addressId,
+  initial,
+} : AddressFormProps) {
 
   const fetcher = useFetcher();
+  const isSubmitting = fetcher.state !== 'idle';
 
-  const [label, setLabel] = useState("");
-  const [recipientName, setRecipientName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [isDefault, setIsDefault] = useState(false);
+  const [label, setLabel] = useState(initial?.label ?? '');
+  const [recipientName, setRecipientName] = useState(initial?.recipientName ?? '');
+  const [phone, setPhone] = useState(initial?.phone ?? '');
+  const [postalCode, setPostalCode] = useState(initial?.postalCode ?? '');
+  const [address1, setAddress1] = useState(initial?.address1 ?? '');
+  const [address2, setAddress2] = useState(initial?.address2 ?? '');
+  const [isDefault, setIsDefault] = useState<boolean>(initial?.isDefault ?? false);
+
+  /* syncronize data */
+  useEffect(() => {
+    setLabel(initial?.label ?? '');
+    setRecipientName(initial?.recipientName ?? '');
+    setPhone(initial?.phone ?? '');
+    setPostalCode(initial?.postalCode ?? '');
+    setAddress1(initial?.address1 ?? '');
+    setAddress2(initial?.address2 ?? '');
+    setIsDefault(initial?.isDefault ?? false);
+  }, [initial]);
 
   const isNonEmpty = (v: string) => v.trim().length > 0;
   const phoneDigits = (v: string) => v.replace(/\D/g, "");
@@ -37,14 +69,24 @@ export default function AddAddressPage({
       isValidPhone(phone) &&
       isNonEmpty(postalCode) &&
       isNonEmpty(address1) &&
-      isNonEmpty(address2)
+      isNonEmpty(address2) &&
+      (mode === 'insert' || !!addressId)
     );
   }, [label, recipientName, phone, postalCode, address1, address2]);
 
   const handleProceed = () => {
+
     if (!canProceed) { return; }
+    
     const fd = new FormData();
-    fd.append('intent', 'insert');
+    
+    if (mode === 'update') {
+      fd.append('intent', 'update');
+      fd.append('addressId', String(addressId));
+    } else {
+      fd.append('intent', 'insert');
+    }
+
     fd.append('label', label);
     fd.append('phone', phone);
     fd.append('recipientName', recipientName);
@@ -52,9 +94,15 @@ export default function AddAddressPage({
     fd.append('address1', address1);
     fd.append('address2', address2);
     fd.append('isDefault', String(isDefault));
-    fetcher.submit(fd, { method: 'post' });
-    onProceedClick();
+
+    fetcher.submit(fd, { method: 'post', action: actionPath });
   };
+
+  useEffect(() => {
+    if (fetcher.state === 'idle' && fetcher.data !== undefined) {
+      onProceedClick();
+    }
+  }, [fetcher.state]);
 
   const openPostcode = useKakaoPostcode();
   const callKakaoPostalAPI = () => {
@@ -64,7 +112,6 @@ export default function AddAddressPage({
         ? ` (${[data.bname, data.buildingName].filter(Boolean).join(", ")})` : "";
       setPostalCode(data.zonecode);
       setAddress1(addr + extra);
-      // setAddress2("") // option: clear detail
     });
   };
 
@@ -145,14 +192,14 @@ export default function AddAddressPage({
           기본 배송지로 설정
         </Label>
       </div>
-      <OneWayButton
-        content='저장'
-        responsiveType='fluid'
-        widthSizeType='md'
-        heightSizeType='xl'
-        colorType='dark'
-        fontSize='15px'
-        disabled={!canProceed}
+       <OneWayButton
+        content={isSubmitting ? '저장 중...' : '저장'}
+        responsiveType="fluid"
+        widthSizeType="md"
+        heightSizeType="xl"
+        colorType="dark"
+        fontSize="15px"
+        disabled={!canProceed || isSubmitting}
         onClick={handleProceed}/>
     </main>
   );

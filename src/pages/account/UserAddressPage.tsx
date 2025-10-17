@@ -5,10 +5,10 @@ import type { Address } from '../../features/account/types';
 import { Input, Label } from 'reactstrap';
 import { useState } from 'react';
 import SimplePopup from '../../components/overlay/SimplePopup';
-import AddAddressPage from './AddAddressPage';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import DuoConfirmPopup from '../../components/overlay/DuoConfirmPopup';
-import EditAddressPage from './EditAddressPage';
+import { PATHS } from '../../routes/paths';
+import AddressForm from '../../features/account/components/AddressForm';
 
 export default function UserAddressPage() {
 
@@ -19,9 +19,11 @@ export default function UserAddressPage() {
   const initialDefaultAddressId = addresses.find(a => a.isDefault)?.id;
   const [defaultAddressId, setDefaultAddressId] = useState(initialDefaultAddressId);
   const [canProceed, setCanProceed] = useState(false);
-  const [isAddAddressPopupOpen, setIsAddAddressPopupOpen] = useState(false);
-  const [isEditAddressPopupOpen, setIsEditAddressPopupOpen] = useState(false);
-  const [addressIdToEdit, setAddressIdToEdit] = useState("");
+
+  const [isAddressPopupOpen, setIsAddressPopupOpen] = useState(false);
+  const [addressFormMode, setAddressFormMode] = useState<"insert" | "update">("insert");
+  const [addressToEdit, setAddressToEdit] = useState<Address | undefined>(undefined);
+
   const [isDeleteAddressPopupOpen, setIsDeleteAddressPopupOpen] = useState(false);
   const [addressIdToDelete, setAddressIdToDelete] = useState("");
 
@@ -45,29 +47,45 @@ export default function UserAddressPage() {
     <main className={s['page-layout']}>
       <div className={s['max-width-container']}>
         <div className={s['add-address-button']}>
+
+          {/* upsert popup */}
           <SimplePopup
-            open={isAddAddressPopupOpen}
-            onClose={() => setIsAddAddressPopupOpen(false)}
-            title="배송지 추가"
+            open={isAddressPopupOpen}
+            onClose={() => setIsAddressPopupOpen(false)}
+            title={addressFormMode === 'insert' ? '배송지 추가' : '배송지 수정'}
             fullScreen={isMobile}
             noBodyPadding
-            showCloseButton={true}
-          >
-            <AddAddressPage
-              onProceedClick={() => setIsAddAddressPopupOpen(false)} />                                    
+            showCloseButton={true}>
+            {addressFormMode === 'insert' ? (
+              <AddressForm
+                key="insert"
+                mode="insert"
+                actionPath={PATHS.userAddress}
+                onProceedClick={() => setIsAddressPopupOpen(false)}
+              />
+            ) : (
+              addressToEdit && (
+                <AddressForm
+                  key={addressToEdit.id}
+                  mode="update"
+                  addressId={addressToEdit.id}
+                  initial={{
+                    label: addressToEdit.label,
+                    recipientName: addressToEdit.recipientName,
+                    phone: addressToEdit.phone,
+                    postalCode: addressToEdit.postalCode,
+                    address1: addressToEdit.address1,
+                    address2: addressToEdit.address2,
+                    isDefault: addressToEdit.isDefault,
+                  }}
+                  actionPath={PATHS.userAddress}
+                  onProceedClick={() => setIsAddressPopupOpen(false)}
+                />
+              )
+            )}                             
           </SimplePopup>
-          <SimplePopup
-            open={isEditAddressPopupOpen}
-            onClose={() => setIsEditAddressPopupOpen(false)}
-            title="배송지 수정"
-            fullScreen={isMobile}
-            noBodyPadding
-            showCloseButton={true}
-          >
-            <EditAddressPage
-              addressId={addressIdToEdit}
-              onProceedClick={() => setIsEditAddressPopupOpen(false)} />                            
-          </SimplePopup>
+
+          {/* delete popup */}
           <DuoConfirmPopup
             open={isDeleteAddressPopupOpen}
             title="선택한 배송지를 삭제하시겠습니까?"
@@ -82,8 +100,11 @@ export default function UserAddressPage() {
             widthSizeType='sm'
             heightSizeType='xs'
             colorType='natural'
-            onClick={() => setIsAddAddressPopupOpen(true)}
-          />
+            onClick={() => {
+              setAddressFormMode("insert");
+              setAddressToEdit(undefined);
+              setIsAddressPopupOpen(true);
+            }}/>
         </div>
         { addresses.length === 0 ? (
           <div className={s['no-content']}>
@@ -91,7 +112,9 @@ export default function UserAddressPage() {
           </div>
         ) : (
           addresses.map(address => (
-            <div className={s['address-card']}>
+            <div 
+              className={s['address-card']}
+              key={address.id}>
               <div className={s['address-card-header']}>
                 <div className={s['address-card-header-check']}>
                   <Input
@@ -114,8 +137,9 @@ export default function UserAddressPage() {
                     colorType='dark'
                     fontSize='12px'
                     onClick={() => {
-                      setAddressIdToEdit(address.id);
-                      setIsEditAddressPopupOpen(true);
+                      setAddressFormMode("update");
+                      setAddressToEdit(address);
+                      setIsAddressPopupOpen(true);
                     }}/>
                   <OneWayButton
                     content='삭제'

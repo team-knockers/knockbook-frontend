@@ -12,6 +12,11 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap
 import type { CouponIssuance } from '../../features/purchase/type';
 import { formatPoint, formatWon } from '../../features/purchase/utils/formatter';
 import { PaymentService } from '../../features/purchase/services/PaymentService';
+import SimplePopup from '../../components/overlay/SimplePopup';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { useSession } from '../../hooks/useSession';
+import { PATHS } from '../../routes/paths';
+import AddressForm from '../../features/account/components/AddressForm';
 
 export default function OrderPage() {
 
@@ -24,10 +29,37 @@ export default function OrderPage() {
     aggregation
   } = useLoaderData() as OrderPageLoaderData;
 
-  const hasEntry = typeof address.entryInfo === "string" && address.entryInfo.trim() !== "";
+  const { revalidate } = useRevalidator();
+  const fetcher = useFetcher();
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const { userId } = useSession.getState();
+
+  /* address section */
+  const hasAddress = !!address;
+  const [isAddressPopupOpen, setIsAddressPopupOpen] = useState(false);
+  const [addressFormMode, setAddressFormMode] = useState<"insert"|"update">("insert");
+
+  const hasEntry = hasAddress && typeof address!.entryInfo === "string" && address!.entryInfo.trim() !== "";
   const [mode, setMode] = useState<"AUTH"|"PUBLIC">(hasEntry ? "AUTH" : "PUBLIC");
-  const [entryInfo, setEntryInfo] = useState(address.entryInfo ?? "");
+  const [entryInfo, setEntryInfo] =  useState(hasAddress ? (address!.entryInfo ?? "") : "");
   
+  /* set a new address */
+  const handleAddressInserted = () => {
+    setIsAddressPopupOpen(false);
+    revalidate();
+  };
+
+  const submitEntryInfo = (value: string) => {
+    if (!hasAddress) {
+      return;
+    }
+    const fd = new FormData();
+    fd.append('intent', 'update-address-entry-info');
+    fd.append("entryInfo", value);
+    fd.append("addressId", address.id);
+    submitWithIntent(fd, "PATCH");
+  };
+
   const [purchaseOpen, setPurchaseOpen] = useState(true);
   const [rentalOpen, setRentalOpen] = useState(true);
   const [discountOpen, setDiscountOpen] = useState(true);
@@ -50,9 +82,6 @@ export default function OrderPage() {
     lastIntentRef.current = (fd.get("intent") as string) ?? null;
     fetcher.submit(fd, { method });
   };
-
-  const fetcher = useFetcher();
-  const { revalidate } = useRevalidator();
 
   useEffect(() => {
     if (fetcher.state === "idle" && lastIntentRef.current) {
@@ -117,14 +146,6 @@ export default function OrderPage() {
     removeCoupon();
   };
 
-  const submitEntryInfo = (value: string) => {
-    const fd = new FormData();
-    fd.append('intent', 'update-address-entry-info');
-    fd.append("entryInfo", value);
-    fd.append("addressId", address.id);
-    submitWithIntent(fd, "PATCH");
-  };
-
    const onToggleAuth = (checked: boolean) => {
     setMode(checked ? "AUTH" : "PUBLIC");
   };
@@ -167,7 +188,8 @@ export default function OrderPage() {
     }
   };
 
-  const onKeyDownPoints: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+  const onKeyDownPoints
+  : React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (e.key === "Enter") {
       e.currentTarget.blur();
     }
@@ -184,18 +206,18 @@ export default function OrderPage() {
   }, [agreePersonal, agreePg]);
 
   useEffect(() => {
-    setCanProceed(agreePersonal && agreePg);
-  }, [agreePersonal, agreePg]);
+    setCanProceed(hasAddress && agreePersonal && agreePg);
+  }, [hasAddress, agreePersonal, agreePg]);
 
-   // kakao pay
+  /* payment using kakaopay */
   const [payLoading, setPayLoading] = useState(false);
+
   const startKakaoPay = async () => {
     if (!canProceed) { return; }
+    if (!userId) { return; }
     try {
       setPayLoading(true);
-      const userId = address.userId;
       const data = await PaymentService.kakaoReady(userId, orderId);
-      console.log(data);
       PaymentService.redirectToKakao(data);
     } catch (e) {
       console.error(e);
@@ -212,97 +234,126 @@ export default function OrderPage() {
 
   return (
     <main className={s['page-layout']}>
+
+      {/* address popup */}
+      <SimplePopup
+        open={isAddressPopupOpen}
+        onClose={() => setIsAddressPopupOpen(false)}
+        title="배송지 추가"
+        fullScreen={isMobile}
+        noBodyPadding
+        showCloseButton={true}>
+          <AddressForm
+            mode={addressFormMode}
+            actionPath={PATHS.userAddress}
+            addressId={address?.id}
+            initial={addressFormMode === "update" ? {
+              label: address?.label,
+              recipientName: address?.recipientName,
+              phone: address?.phone,
+              postalCode: address?.postalCode,
+              address1: address?.address1,
+              address2: address?.address2,
+              isDefault: true
+            } : undefined}
+            onProceedClick={handleAddressInserted}/>
+      </SimplePopup>
+
       <div className={s['max-width-container']}>
         {/* left column */}
         <div className={s['left-col']}>
           <section className={s['shipping-address']}>
-            <div className={s['shipping-address-header']}>
-              <div className={s['shipping-address-header-label']}>
-                <HiLocationMarker size={15} />
-                <span>{address.label}</span>
-                <span className={s['shipping-address-header-label-tag']}>
-                  기본 배송지
-                </span>
-              </div>
-              <OneWayButton
-                  content='변경'
-                  responsiveType='fixed'
-                  widthSizeType='xxs'
-                  heightSizeType='xxs'
-                  colorType='dark'
-                  fontSize='12px'
-                  onClick={() => {/* TODO */}}/>
-            </div>
-            <div className={s['shipping-address-detail']}>
-              <div>
-                <span>
-                  {address.recipientName} {address.phone}
-                </span>
-              </div>
-              <div>
-                <span>
-                  [{address.postalCode}] {address.address1} {address.address2}
-                </span>
-              </div>
-            </div>
-            <div className={s['shipping-address-require']}>
-              <span className={s['shipping-address-require-label']}>배송요청사항</span>
-              <div className={s['shipping-address-require-right']}>
-                <span className={s['shipping-address-require-content']}>
-                  {address.deliveryMemo}
-                </span>
+            {!hasAddress ? (
+              <div className={s['shipping-address-empty']}>
+                <div className={s['shipping-address-empty-title']}>
+                  <HiLocationMarker size={16} />
+                  <span>배송지 없음</span>
+                </div>
+                <p className={s['shipping-address-empty-desc']}>
+                  결제를 진행하려면 배송지를 등록해주세요.
+                </p>
                 <OneWayButton
-                  content='변경'
+                  content='배송지 추가'
                   responsiveType='fixed'
-                  widthSizeType='xxs'
-                  heightSizeType='xxs'
+                  widthSizeType='sm'
+                  heightSizeType='sm'
                   colorType='dark'
-                  fontSize='12px'
-                  onClick={() => {/* TODO */}}/>
+                  fontSize='14px'
+                  onClick={() => {
+                    setAddressFormMode("insert");
+                    setIsAddressPopupOpen(true);
+                  }}
+                />
               </div>
-            </div>
-            <div className={s['shipping-address-entry']}>
-              <div className={s['shipping-address-entry-title']}>
-                공동현관 출입방법
-              </div>
-              <div className={s['shipping-address-entry-method']}>
-                <div className={s['input-label-pair']}>
-                  <Input
-                    className='mt-0'
-                    id='entry-auth'
-                    type="checkbox"
-                    checked={mode === "AUTH"} 
-                    onChange={e => onToggleAuth(e.target.checked)}/>
-                  <Label
-                    className='mb-0'
-                    for='entry-auth'>
-                      공동현관 비밀번호
-                  </Label>
+            ) : (
+              <>
+                <div className={s['shipping-address-header']}>
+                  <div className={s['shipping-address-header-label']}>
+                    <HiLocationMarker size={15} />
+                    <span>{address?.label}</span>
+                    <span className={s['shipping-address-header-label-tag']}>
+                      기본 배송지
+                    </span>
+                  </div>
+                  <OneWayButton
+                    content='변경'
+                    responsiveType='fixed'
+                    widthSizeType='xxs'
+                    heightSizeType='xxs'
+                    colorType='dark'
+                    fontSize='12px'
+                    onClick={() => {
+                      setAddressFormMode("update");
+                      setIsAddressPopupOpen(true);
+                    }}
+                  />
                 </div>
-                <div className={s['input-label-pair']}>
-                  <Input
-                    className='mt-0'
-                    id='entry-public'
-                    type="checkbox"
-                    checked={mode === "PUBLIC"}
-                    onChange={e => onTogglePublic(e.target.checked)}/>
-                  <Label
-                    className='mb-0' 
-                    for='entry-public'>
-                    자유출입가능
-                  </Label>
+                <div className={s['shipping-address-detail']}>
+                  <div><span>{address?.recipientName} {address?.phone}</span></div>
+                  <div><span>[{address?.postalCode}] {address?.address1} {address?.address2}</span></div>
                 </div>
-              </div>
-              <div className={s['shipping-address-entry-pass']}>
-                <Input
-                  className='mt-0 fs-6'
-                  type="text"
-                  placeholder='비밀번호를 입력하세요'
-                  value={entryInfo}
-                  onChange={e => onChangeEntryInfo(e.target.value)}
-                  disabled={mode === "PUBLIC"}/>
-              </div>
-            </div>
+
+                <div className={s['shipping-address-require']}>
+                  <span className={s['shipping-address-require-label']}>배송요청사항</span>
+                  <div className={s['shipping-address-require-right']}>
+                    <span className={s['shipping-address-require-content']}>{address?.deliveryMemo}</span>
+                    <OneWayButton
+                      content='변경'
+                      responsiveType='fixed'
+                      widthSizeType='xxs'
+                      heightSizeType='xxs'
+                      colorType='dark'
+                      fontSize='12px'
+                      onClick={() => {/* TODO */}}
+                    />
+                  </div>
+                </div>
+
+                <div className={s['shipping-address-entry']}>
+                  <div className={s['shipping-address-entry-title']}>공동현관 출입방법</div>
+                  <div className={s['shipping-address-entry-method']}>
+                    <div className={s['input-label-pair']}>
+                      <Input id='entry-auth' type="checkbox"
+                        checked={mode === "AUTH"}
+                        onChange={e => onToggleAuth(e.target.checked)} />
+                      <Label className='mb-0' for='entry-auth'>공동현관 비밀번호</Label>
+                    </div>
+                    <div className={s['input-label-pair']}>
+                      <Input id='entry-public' type="checkbox"
+                        checked={mode === "PUBLIC"}
+                        onChange={e => onTogglePublic(e.target.checked)} />
+                      <Label className='mb-0' for='entry-public'>자유출입가능</Label>
+                    </div>
+                  </div>
+                  <div className={s['shipping-address-entry-pass']}>
+                    <Input className='mt-0 fs-6' type="text" placeholder='비밀번호를 입력하세요'
+                      value={entryInfo}
+                      onChange={e => onChangeEntryInfo(e.target.value)}
+                      disabled={mode === "PUBLIC"} />
+                  </div>
+                </div>
+              </>
+            )}
           </section>
           <section className={s['purchase-list']}>
             <div className={s['purchase-list-header']}>
@@ -666,7 +717,7 @@ export default function OrderPage() {
               heightSizeType='xl'
               colorType='dark'
               fontSize='20px'
-              disabled={!canProceed || payLoading}
+              disabled={!hasAddress || !canProceed || payLoading}
               onClick={handleOrderButtonClick}
             />
           </section>

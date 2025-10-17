@@ -1,4 +1,4 @@
-import { useFetcher, useLoaderData, useNavigate } from 'react-router-dom';
+import { useFetcher, useLoaderData, useNavigate, useRevalidator } from 'react-router-dom';
 import type { CartPageLoaderData } from './CartPage.loader';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Input } from 'reactstrap';
@@ -16,11 +16,27 @@ const keyOf = (t: OrderType, id: string) => `${t}:${id}`;
 export default function CartPage() {
 
   const nav = useNavigate();
+  const fetcher = useFetcher();
+  const { revalidate } = useRevalidator();
+  const lastIntentRef = useRef<string | null>(null);
+  const isMutating = fetcher.state !== 'idle';
+
+  const submit = (
+    fd: FormData,
+    opts: {method: 'post' | 'patch' | 'delete', action?: string}) => {
+    lastIntentRef.current = String(fd.get('intent') ?? '');
+    fetcher.submit(fd, opts);
+  };
+
+  useEffect(() => {
+    if (fetcher.state === 'idle' && lastIntentRef.current) {
+      revalidate();
+      lastIntentRef.current = null;
+    }
+  }, [fetcher.state, revalidate]);
+
   const { totalItems, booksToPurchase, booksToRental, products, summary } =
     useLoaderData() as CartPageLoaderData;
-
-  const fetcher = useFetcher();
-  const isMutating = fetcher.state !== 'idle';
 
   /** typed keys per group (avoid collisions across groups) */
   const purchaseKeys = useMemo(() => {
@@ -130,7 +146,7 @@ export default function CartPage() {
       const fd = new FormData();
       fd.append('intent', 'delete');
       fd.append('cartItemId', cartItemId);
-      fetcher.submit(fd, { method: 'post' });
+      submit(fd, { method: 'post', action: PATHS.cart });
       return;
     }
 
@@ -139,7 +155,7 @@ export default function CartPage() {
     fd.append('cartItemId', cartItemId);
     fd.append('direction', diff > 0 ? 'inc' : 'dec'); // inc → addItem, dec → decreaseItem
     fd.append('by', String(Math.abs(diff)));
-    fetcher.submit(fd, { method: 'post' });
+    submit(fd, { method: 'post', action: PATHS.cart });
   };
 
   /** handle single checkbox change (typed key) */
@@ -188,10 +204,10 @@ export default function CartPage() {
     });
 
     const [, cartItemId] = typedKey.split(':'); // extract raw id for API
-    fetcher.submit(
-      { intent: 'delete', cartItemId },
-      { method: 'post' } // same-route action; method is required
-    );
+    const fd = new FormData();
+    fd.append('intent', 'delete');
+    fd.append('cartItemId', cartItemId);
+    submit(fd, { method: 'post', action: PATHS.cart });
   };
 
   /** bulk delete: submit all selected ids in one request (form.getAll on action) */
@@ -217,7 +233,7 @@ export default function CartPage() {
       fd.append('cartItemId', id); // multiple values under the same name
     }
 
-    fetcher.submit(fd, { method: 'post' });
+    submit(fd, { method: 'post', action: PATHS.cart });
   };
 
   async function handleProceedOrder() {
