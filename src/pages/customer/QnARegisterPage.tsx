@@ -141,7 +141,7 @@ export default function QnARegisterPage() {
         <div className={s['qna-file-guide']}>
           <span>
             - 첨부 파일은 최대 20MB 이내, 3개까지 첨부 가능합니다.<br/> 
-            - 파일 형식은 gif, png, jpg, jpeg, mov, mp4, log, txt 형식이 가능합니다.
+            - 파일 형식은 gif, png, jpg, jpeg 형식이 가능합니다.
           </span>
         </div>
         {/* thumbnail images */}
