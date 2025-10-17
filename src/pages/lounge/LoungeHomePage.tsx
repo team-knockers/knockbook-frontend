@@ -2,13 +2,8 @@ import Footer from '../../components/layout/Footer';
 import s from './LoungeHomePage.module.css'
 import { LuVolume2 } from "react-icons/lu";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import OfficialImg1 from '../../assets/lounge_official_img1.jpg';
-import OfficialImg2 from '../../assets/lounge_official_img2.jpg';
-import OfficialImg3 from '../../assets/lounge_official_img3.png';
-import OfficialImg4 from '../../assets/lounge_official_img4.png';
-import OfficialImg5 from '../../assets/lounge_official_img5.png';
-import OfficialImg6 from '../../assets/lounge_official_img6.png';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 // @ts-ignore
@@ -22,41 +17,173 @@ import LoungeSliderImg1 from '../../assets/lounge_slider_img1.png'
 import LoungeSliderImg2 from '../../assets/lounge_slider_img2.png'
 import LoungeSliderImg3 from '../../assets/lounge_slider_img3.png'
 import Pagination from '../../components/navigation/Pagination';
+import { PATHS } from '../../routes/paths';
+import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
+import type { LoungeHomeLoaderData } from './LoungeHome.loader';
+import type { LoungePostPageState } from '../../features/lounge/types';
+import { LoungeService } from '../../features/lounge/services/LoungeService';
 
+// Parse initial state from URL: page, size, sortBy
+function makeInitialState(params: URLSearchParams): LoungePostPageState {
+  return {
+    page: Number(params.get('page') ?? 1),
+    size: Number(params.get('size') ?? 3),
+    sortBy: (params.get('sortBy') as LoungePostPageState['sortBy']) ?? 'newest',
+  };
+}
+
+// Update or remove query parameters dynamically
+function applyQueryParam(
+  q: URLSearchParams,
+  key: string,
+  value: string | number | undefined,
+  defaultValue?: string
+) {
+  if (value !== null) {
+    q.set(key, String(value));
+  } else if (defaultValue) {
+    q.set(key, defaultValue);
+  } else {
+    q.delete(key);
+  }
+};
+
+const sortOptions = [
+  { value: 'newest', label: '최신순' },
+  { value: 'popular', label: '인기순' },
+] as const;
+
+const DESKTOP_BREAKPOINT = 1024;
 
 export default function LoungeHomePage() {
-  // dummy data
-  const officialPosts = [
-    { id: 1, title: '책 읽기에 멈칫하는 당신에게', author: '라운지지기', imageUrl: OfficialImg1 },
-    { id: 2, title: '내려놓음? 그게 무엇인가', author: '라운지지기', imageUrl: OfficialImg2 },
-    { id: 3, title: '내 여행의 낭만은 무계획에 있다', author: '라운지지기', imageUrl: OfficialImg3 },
-    { id: 4, title: '책으로 떠나는 시간 여행', author: '라운지지기', imageUrl: OfficialImg4 },
-    { id: 5, title: '독서가 만든 나의 하루', author: '라운지지기', imageUrl: OfficialImg5 },
-    { id: 6, title: '독서가 만든 나의 하루', author: '라운지지기', imageUrl: OfficialImg6 },
-  ];
+  const navigate = useNavigate();
+  const { postSummaries } = useLoaderData() as LoungeHomeLoaderData;
 
-  const [visibleCount, setVisibleCount] = useState(3); // 처음엔 3개
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
-  const [page, setPage] = useState(1);
-  const itemsPerPage = 3;
+  const [searchParams] = useSearchParams();
+  const [posts, setPosts] = useState(postSummaries.posts);
+  const [page, setPage] = useState(postSummaries.page);
+  const [totalItems, setTotalItems] = useState(postSummaries.totalItems);
+  const [totalPages, setTotalPages] = useState(postSummaries.totalPages);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= DESKTOP_BREAKPOINT);
+  const prevIsDesktopRef = useRef<boolean>(window.innerWidth >= DESKTOP_BREAKPOINT);
 
+  const [searchState, setSearchState] = useState<LoungePostPageState>(() =>
+    makeInitialState(searchParams)
+  );
+
+  // Track initialization flags to prevent duplicate fetches
+  const initRef = useRef({ synced: false, fetched: false });
+  const prevPageRef = useRef<number>(postSummaries.page);
+
+  // Build query string based on current and updated search state
+  const buildQuery = (base: LoungePostPageState, updates: Partial<LoungePostPageState>) => {
+    const q = new URLSearchParams();
+    applyQueryParam(q, 'sortBy', updates.sortBy ?? base.sortBy);
+    applyQueryParam(q, 'page', updates.page ?? base.page, '1');
+    applyQueryParam(q, 'size', updates.size ?? base.size, '3');
+    return q;
+  };
+
+  // Apply query string to URL and sync it to local state
+  const applyQueryToUrlAndState = (q: URLSearchParams) => {
+    const newSearch = q.toString();
+    const newUrl = window.location.pathname + (newSearch ? `?${newSearch}` : '');
+    window.history.replaceState(null, '', newUrl);
+    setSearchState({
+      page: Number(q.get('page') ?? 1),
+      size: Number(q.get('size') ?? 3),
+      sortBy: (q.get('sortBy') as LoungePostPageState['sortBy']) ?? 'newest',
+    });
+  };
+  //
+
+  // Update search state and URL together
+  const updateSearchStateViaUrl = (updates: Partial<LoungePostPageState>) => {
+    const base = searchState ?? makeInitialState(searchParams);
+    const q = buildQuery(base, updates);
+    applyQueryToUrlAndState(q);
+  };
+
+ // Handle sort dropdown change
+  const handleSortChange = (sortValue: string) => {
+    const option = sortOptions.find(option => option.value === sortValue);
+    if (!option) { return; }
+    updateSearchStateViaUrl({ sortBy: option.value, page: 1 });
+  };
+
+  // Handle viewport resize and breakpoint changes
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
+      const nextIsDesktop = window.innerWidth >= DESKTOP_BREAKPOINT;
+      // Reset page when crossing breakpoint to avoid pagination mismatch
+      if (prevIsDesktopRef.current !== nextIsDesktop) {
+        updateSearchStateViaUrl({ page: 1 });
+        setPosts([]);
+        prevIsDesktopRef.current = nextIsDesktop;
+      }
+      setIsDesktop(nextIsDesktop);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleMore = () => {
-    setVisibleCount((prev) => Math.min(prev + 3, officialPosts.length));
+  // Sync searchState when URL query parameters change
+  useEffect(() => {
+    if (!initRef.current.synced) {
+      initRef.current.synced = true;
+      return;
+    }
+    setSearchState(makeInitialState(searchParams));
+  }, [searchParams]);
+
+  // Fetch lounge posts whenever search state (page/sort) updates
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      if (!initRef.current.fetched) {
+        initRef.current.fetched = true;
+        prevPageRef.current = postSummaries.page;
+        return;
+      }
+
+      try {
+        const res = await LoungeService.getPaginatedLoungePostSummaries(
+          searchState.page,
+          searchState.size,
+          searchState.sortBy,
+        );
+
+        if (cancelled) { return; }
+        if (!isDesktop && searchState.page > prevPageRef.current) {
+          setPosts((prev) => [...prev, ...res.posts]);
+
+        } else {
+          setPosts(res.posts);
+        }
+
+        setPage(res.page);
+        setTotalItems(res.totalItems);
+        setTotalPages(res.totalPages);
+        prevPageRef.current = res.page;
+
+      } catch (error) {
+        if (cancelled) { return;}
+        console.error('검색 결과 불러오기 실패', error);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [searchState]);
+  
+
+  const handleMoreClick = () => {
+    updateSearchStateViaUrl({ page: page + 1 });
   };
 
-  const totalPages = Math.ceil(officialPosts.length / itemsPerPage);
-  const startIdx = (page - 1) * itemsPerPage;
-  const currentPosts = isDesktop
-    ? officialPosts.slice(startIdx, startIdx + itemsPerPage)
-    : officialPosts.slice(0, visibleCount);
+  const handlePostClick = (postId: string) => {
+    navigate(PATHS.loungePost.replace(':postId', postId));
+  }
 
   const sliderImgs = [
     { id: 1, imageUrl: LoungeSliderImg1 },
@@ -93,29 +220,35 @@ export default function LoungeHomePage() {
         <div className={s['official-section']}>
           <div className={s['official-header']}>
             <h3>라운지 오피셜</h3>
-            <select className={s['sort-select']}>
+            <select className={s['sort-select']}
+              value={searchState.sortBy}
+              onChange={(e) => handleSortChange(e.target.value)}>
+              <option value='newest'>최신순</option>
               <option value='popular'>인기순</option>
-              <option value='recent'>최신순</option>
             </select>
           </div>
           <div className={s['official-list']}>
-            {currentPosts.map((post) => (
-              <div key={post.id} className={s['official-item']}>
-                <img src={post.imageUrl} alt='thumbnail' />
+            {posts.map((post) => (
+              <button key={post.id} className={s['official-item']} onClick={() => handlePostClick(String(post.id))}>
+                <img
+                  src={post.previewImageUrl ?? OfficialImg1}
+                  alt='thumbnail image'
+                />
                 <div className={s['official-text']}>
                   <p className={s['item-title']}>{post.title}</p>
-                  <p className={s['item-author']}>by {post.author}</p>
+                  <p className={s['item-author']}>by {post.displayName}</p>
+                  <p className={s['item-like']}>추천 {post.likeCount}</p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
-          {!isDesktop && visibleCount < officialPosts.length && (
-            <button className={s['more-btn']} onClick={handleMore}>
+          {!isDesktop && posts.length < totalItems && (
+            <button className={s['more-btn']} onClick={handleMoreClick}>
               더보기
             </button>
           )}
           {isDesktop && (
-            <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+            <Pagination page={page} totalPages={totalPages} onChange={(p) => updateSearchStateViaUrl({ page: p })} />
           )}
         </div>
 
