@@ -1,4 +1,4 @@
-import s from "./OrdersPage.module.css";
+import s from "./OrderHistoryPage.module.css";
 import { useState } from "react";
 import OneWayButton from '../../components/forms/OneWayButton';
 
@@ -21,7 +21,7 @@ type OrderGroup = {
   items: OrderItem[];
 };
 
-export default function OrdersPage() {
+export default function OrderHistoryPage() {
   const [orders, setOrders] = useState<OrderGroup[]>([
     {
       date: "2025.07.30",

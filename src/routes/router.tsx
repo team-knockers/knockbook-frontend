@@ -44,11 +44,11 @@ import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
-import OrdersPage from "../pages/account/OrdersPage";
-import RentalsPage from "../pages/account/RentalsPage";
-import RentalsReadyPage from "../pages/account/RentalsReadyPage";
-import RentalsRentedPage from "../pages/account/RentalsRentedPage";
-import RentalsReturnedPage from "../pages/account/RentalsReturnedPage";
+import OrderHistoryPage from "../pages/account/OrderHistoryPage";
+import RentalHistoryPage from "../pages/account/RentalHistoryPage";
+import RentalHistoryPendingPage from "../pages/account/RentalHistoryPendingPage";
+import RentalHistoryOngingPage from "../pages/account/RentalHistoryOngingPage";
+import RentalHistoryCompletedPage from "../pages/account/RentalHistoryCompletedPage";
 import LikePage from "../pages/account/LikePage";
 import LikeBookPage from "../pages/account/LikeBookPage";
 import LikeProductPage from "../pages/account/LikeProductPage";
@@ -450,8 +450,8 @@ export const router = createBrowserRouter([
             }
           },
           {
-            path: PATHS.orders,
-            element: <OrdersPage />,
+            path: PATHS.orderHistory,
+            element: <OrderHistoryPage />,
             handle: { 
               header: { 
                 kind: "backTitleClose",
@@ -461,8 +461,8 @@ export const router = createBrowserRouter([
             } 
           },
           {
-            path: PATHS.rentals,
-            element: <RentalsPage />,
+            path: PATHS.rentalHistory,
+            element: <RentalHistoryPage />,
             handle: { 
               header: { 
                 kind: "backTitleClose",
@@ -473,11 +473,11 @@ export const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Navigate to={PATHS.rentalsReady} replace />,
+                element: <Navigate to={PATHS.rentalPending} replace />,
               },
               {
-                path: PATHS.rentalsReady,
-                element: <RentalsReadyPage />,
+                path: PATHS.rentalPending,
+                element: <RentalHistoryPendingPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -488,8 +488,8 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.rentalsRented,
-                element: <RentalsRentedPage />,
+                path: PATHS.rentalOngoing,
+                element: <RentalHistoryOngingPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -500,8 +500,8 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.rentalsReturned,
-                element: <RentalsReturnedPage />,
+                path: PATHS.rentalCompleted,
+                element: <RentalHistoryCompletedPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",

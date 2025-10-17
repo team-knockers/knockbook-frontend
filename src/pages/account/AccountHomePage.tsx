@@ -50,7 +50,7 @@ export default function AccountHomePage() {
         <div className={styles['bar-menu-section']}>
           <button 
             className={styles['bar-menu-item-wrapper']}
-            onClick={() => nav(PATHS.orders)}>
+            onClick={() => nav(PATHS.orderHistory)}>
             <div className={styles['bar-menu-order-icon']} />
             <div className={styles['bar-menu-item-name']}>
               <span>주문내역</span>
@@ -61,7 +61,7 @@ export default function AccountHomePage() {
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
-            onClick={() => nav(PATHS.rentals)}>
+            onClick={() => nav(PATHS.rentalHistory)}>
             <div className={styles['bar-menu-rental-icon']} />
             <div className={styles['bar-menu-item-name']}>
               <span>대여내역</span>
