@@ -61,12 +61,7 @@ export default function QnARegisterPage() {
 
   async function handleSubmit() {
     try {
-      const t0 = performance.now();
       await CustomerService.RegisterQnA(title, content, files);
-      const t1 = performance.now();
-      console.log('[QnA] upload+server(ms):', (t1 - t0).toFixed(0));
-
-      const t2 = performance.now();
       nav(PATHS.listQnA);
     } catch (e) {
       if (e instanceof ApiError) {
