@@ -1,4 +1,4 @@
-import s from "./PointAllPage.module.css";
+import s from "./PointEarnedPage.module.css";
 
 type PointItem = {
   id: number;
