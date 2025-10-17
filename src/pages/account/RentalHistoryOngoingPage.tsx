@@ -1,4 +1,4 @@
-export default function RentalHistoryOngingPage() {
+export default function RentalHistoryOngoingPage() {
   return (
     <main>
       대여 중

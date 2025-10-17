@@ -47,7 +47,7 @@ import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfileP
 import OrderHistoryPage from "../pages/account/OrderHistoryPage";
 import RentalHistoryPage from "../pages/account/RentalHistoryPage";
 import RentalHistoryPendingPage from "../pages/account/RentalHistoryPendingPage";
-import RentalHistoryOngingPage from "../pages/account/RentalHistoryOngingPage";
+import RentalHistoryOngoingPage from "../pages/account/RentalHistoryOngoingPage";
 import RentalHistoryCompletedPage from "../pages/account/RentalHistoryCompletedPage";
 import LikePage from "../pages/account/LikePage";
 import LikeBookPage from "../pages/account/LikeBookPage";
@@ -489,7 +489,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: PATHS.rentalOngoing,
-                element: <RentalHistoryOngingPage />,
+                element: <RentalHistoryOngoingPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
