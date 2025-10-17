@@ -1,10 +1,10 @@
-import { apiPublicJson } from '../../../shared/api';
-import { useSession } from '../../../hooks/useSession';
-import { useSignupFlow } from '../hooks/useSignupFlow';
-import type { LoginRequest, LoginResponse } from '../types';
-import type { CompleteRegistrationRequest, CompleteRegistrationResponse } from '../types';
-import type { SendCodeRequest, SendCodeResponse } from '../types';
-import type { GetCodeRequest, GetCodeResponse } from '../types'
+import { apiPublicJson } from '../shared/api';
+import { useSession } from '../hooks/useSession';
+import { useSignupFlow } from '../features/onboarding/hooks/useSignupFlow';
+import type { LoginRequest, LoginResponse } from '../features/onboarding/types';
+import type { CompleteRegistrationRequest, CompleteRegistrationResponse } from '../features/onboarding/types';
+import type { SendCodeRequest, SendCodeResponse } from '../features/onboarding/types';
+import type { GetCodeRequest, GetCodeResponse } from '../features/onboarding/types'
 
 export const AuthService = {
 

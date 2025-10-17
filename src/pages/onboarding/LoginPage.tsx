@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputGroup, InputGroupText, Input, Label } from "reactstrap";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { AuthService } from "../../features/onboarding/services/AuthService";
+import { AuthService } from "../../service/AuthService";
 import { ApiError } from "../../types/http";
 import { PATHS } from "../../routes/paths";
 
