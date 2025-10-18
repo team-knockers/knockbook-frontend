@@ -59,28 +59,31 @@ export default function LoungePostPage() {
 };
 
   return (
-    <div className={s['lounge-post-main']}>
-      <div className={s['lounge-post-header']}>
-        <div className={s['header-content']}>
-          <h1 className={s['header-title']}>{postDetails.title}</h1>
-          <p className={s['header-subtitle']}>{postDetails.subtitle}</p>
-        </div>
+    <main className={s['lounge-post-main']}>
 
-        <div className={s['post-meta']}>
-          <span className={s['ico-by']}>by</span>
-          <span className={s['author-name']}>{postDetails.displayName}</span>
-          <span className={s['separator']}>·</span>
-          <span className={s['post-date']}>{postDetails.createdAt}</span>
+      <header className={s['post-header']}>
+        <div className={s['post-header__content']}>
+          <h1 className={s['post-header__title']}>{postDetails.title}</h1>
+          <p className={s['post-header__subtitle']}>{postDetails.subtitle}</p>
         </div>
-      </div>
-      <div className={s['post-content']}>
+        <div className={s['post-header__meta']}>
+          <span className={s['post-header__meta-label']}>by</span>
+          <span className={s['post-header__author-name']}>{postDetails.displayName}</span>
+          <span className={s['post-header__separator']}>·</span>
+          <span className={s['post-header__date']}>{postDetails.createdAt}</span>
+        </div>
+      </header>
+
+      {/* Post Body */}
+      <section className={s['post-body']}>
         <ReactMarkdown rehypePlugins={[rehypeSanitize]}>
           {postDetails.content}
         </ReactMarkdown>
+      </section>
 
-      </div>
-      <div className={s['post-interaction']}>
-        <button className={s['like-btn']} onClick={onPostLikeToggled}>
+      {/* Post Actions */}
+      <section className={s['post-actions']}>
+        <button className={s['post-actions__like-btn']} onClick={onPostLikeToggled}>
           {isLiked ? (
             <IoMdHeart
               color="#f73936ff"
@@ -91,34 +94,36 @@ export default function LoungePostPage() {
           )}
           {postDetails.likeCount}
         </button>
-        <button className={s['comment-btn']} onClick={onPostCommentToggled}>
+        <button className={s['post-actions__comment-btn']} onClick={onPostCommentToggled}>
           <TfiCommentAlt />
           댓글
         </button>
-      </div>
+      </section>
+
+      {/* Comments Section */}
       {isCommentOpen && (
-        <div className={s['comments-section-container']}>
-          <ul className={s['comment-section']}>
+        <section className={s['comments-section']}>
+          <ul className={s['comments-section__list']}>
             {comments.map((comment) => (
-              <li key={comment.id} className={s['comment-item']}>
-                <div className={s['comment-container']}>
-                  <img className={s['comment-user-profile-image']}
+              <li key={comment.id} className={s['comments-section__item']}>
+                <div className={s['comments-section__item-container']}>
+                  <img className={s['comments-section__item-author-avatar']}
                     src={comment.avatarUrl}
                     alt={`${comment.displayName}의 프로필 사진`} />
-                  <div className={s['comment-wrapper']}>
-                    <div className={s['info-wrapper']}>
-                      <div className={s['comment-user-name']}>
-                        <span className={s['comment-user']}>{comment.displayName}</span>
+                  <div className={s['comments-section__item-body']}>
+                    <div className={s['comments-section__item-meta']}>
+                      <div className={s['comments-section__item-author-name-container']}>
+                        <span className={s['comments-section__item-author-name']}>{comment.displayName}</span>
                       </div>
-                      <span className={s['comment-date']}>{comment.createdAt}</span>
-                      <span className={s['comment-edit-status']}>{comment.editStatus}</span>
+                      <span className={s['comments-section__item-date']}>{comment.createdAt}</span>
+                      <span className={s['comments-section__item-edit-status']}>{comment.editStatus}</span>
                     </div>
-                    <p className={s['comment-content']}>{comment.content}</p>
+                    <p className={s['comments-section__item-content']}>{comment.content}</p>
                   </div>
-                  <div className={s['comment-setting']}>
+                  <div className={s['comments-section__item-menu']}>
                     <button
                       type="button"
-                      className={s['more-btn']}
+                      className={s['comments-section__item-menu-btn']}
                       aria-expanded={openCommentMenuId === comment.id}
                       onClick={() => toggleCommentMenu(comment.id)}
                     >
@@ -126,19 +131,19 @@ export default function LoungePostPage() {
                     </button>
 
                     {openCommentMenuId === comment.id && (
-                      <div className={s['comment-menu']}>
+                      <div className={s['comments-section__item-menu-list']}>
                         {comment.userid === myInfo.id ? (
                           <>
                             <button
                               type="button"
-                              className={s['comment-menu-item']}
+                              className={s['comments-section__item-menu-option']}
                               onClick={() => handleEditComment(comment.id)}
                             >
                               수정
                             </button>
                             <button
                               type="button"
-                              className={s['comment-menu-item']}
+                              className={s['comments-section__item-menu-option']}
                               onClick={() => handleDeleteComment(comment.id)}
                             >
                               삭제
@@ -147,7 +152,7 @@ export default function LoungePostPage() {
                         ) : (
                           <button
                             type="button"
-                            className={s['comment-menu-item']}
+                            className={s['comments-section__item-menu-option']}
                             onClick={() => handleReportComment(comment.id)}
                           >
                             신고
@@ -160,22 +165,24 @@ export default function LoungePostPage() {
               </li>
             ))}
           </ul>
-          <div className={s['comment-writer-container']}>
-            <div className={s['comment-write-box']}>
-              <div className={s['current-user-info']}>
-                <img className={s['current-user-profile-image']}
+
+          {/* Comment Editor */}
+          <div className={s['comment-editor']}>
+            <div className={s['comment-editor__box']}>
+              <div className={s['comment-editor__user']}>
+                <img className={s['comment-editor__user-avatar']}
                   src={myInfo.avatarUrl}
                   alt={`${myInfo.displayName}의 프로필 사진`} />
-                <span className={s['current-user-name']}>{myInfo.displayName}</span>
+                <span className={s['comment-editor__user-name']}>{myInfo.displayName}</span>
               </div>
               <input
                 type="text"
-                className={s['comment-input']}
+                className={s['comment-editor__input']}
                 placeholder="댓글을 작성해 주세요."
               />
-              <div className={s['editor-footer']}>
+              <div className={s['comment-editor__footer']}>
                 <button
-                  className={s['submit-button']}
+                  className={s['comment-editor__submit-btn']}
                   onClick={handleSubmitComment}
                 >
                   등록
@@ -183,17 +190,19 @@ export default function LoungePostPage() {
               </div>
             </div>
           </div>
-        </div>
+        </section>
       )}
-      <div className={s['author-info']}>
+
+      {/* Author Info */}
+      <section className={s['post-author']}>
         <img
-          className={s['profile-picture']}
+          className={s['post-author__avatar']}
           src={postDetails.avatarUrl}
           alt={`${postDetails.displayName}의 프로필 사진`} 
         />          
-        <p>{postDetails.displayName}</p>
-        <span>{postDetails.bio}</span>
-      </div>
-    </div>
+        <p className={s['post-author__name']}>{postDetails.displayName}</p>
+        <span className={s['post-author__bio']}>{postDetails.bio}</span>
+      </section>
+    </main>
   )
 }
