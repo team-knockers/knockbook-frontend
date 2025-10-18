@@ -1,6 +1,6 @@
 import { useSession } from "../../../hooks/useSession";
-import type { FeedPostList, FeedProfile, FeedPostCommentList, FeedPostDetail, FeedPostComment } from "../types";
-import {  apiAuthPathAndQuery } from "../../../shared/api";
+import type { FeedPostList, FeedProfile, FeedPostCommentList, FeedPostDetail, FeedPostComment, FeedProfileThumbnail } from "../types";
+import { apiAuthMultipartPath, apiAuthPathAndQuery } from "../../../shared/api";
 
 export const FeedService = {
 
@@ -139,6 +139,25 @@ export const FeedService = {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ commentBody: body.trim().slice(0, 500) }),
       }
+    );
+  },
+
+  async createPost(
+    content: string,
+    files: File[]
+  ): Promise<FeedProfileThumbnail> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    const form = new FormData();
+    form.append("content", content);
+    files.forEach((f: File) => form.append("files", f));
+
+    return apiAuthMultipartPath<FeedProfileThumbnail>(
+      "/feeds/post/{userId}",
+      { userId },
+      form,
+      { method: "POST" }
     );
   }
 }

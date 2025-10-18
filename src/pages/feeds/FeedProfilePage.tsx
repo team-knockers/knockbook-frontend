@@ -35,23 +35,12 @@ export default function FeedProfilePage() {
 
   const [createOpen, setCreateOpen] = useState(false);
 
-  async function handleShare({ 
-    text,
-    files 
-  }: { text: string; files: File[] }) {
-    // >> test code start
-    console.log("text", text);
-    console.log("files", files);
-    // << test code end
-
+  async function handleShare({ text, files }: { text: string; files: File[] }) {
     try {
-      // this is sample code to connect to API
-      const form = new FormData();
-      form.append('content', text);
-      files.forEach((f) => form.append('images', f));
-      // TODO: call API (ex. await FeedService.createPost(form);)
+      const created = await FeedService.createPost(text, files); 
       setCreateOpen(false);
-      // TODO: refresh (ex. await fetchFirstPage();)
+      setThumbs(prev => [{ postId: created.postId, thumbnailUrl: created.thumbnailUrl }, ...prev]);
+      setPostsCount(p => p + 1);
     } catch (e) {
       console.error(e);
       alert('업로드 실패');
