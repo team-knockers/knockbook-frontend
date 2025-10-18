@@ -223,6 +223,7 @@
 }
 
 .comment-editor__input {
+  width: 100%;
   padding: 12px 21px;
   border: none;
   color: #111111;
