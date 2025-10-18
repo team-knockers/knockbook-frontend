@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import s from './HomePage.module.css';
 import { generatePath, useLoaderData, useNavigate } from 'react-router-dom';
 import { PATHS } from '../routes/paths';
@@ -51,6 +50,47 @@ const categories = [
   { id: '10', categoryCodeName: 'travel', categoryDisplayName: '여행' },
 ];
 
+export const todayBookDummy = {
+  book: {
+    id: "1",
+    title: "다정한 사람이 이긴다",
+    author: "이혜린",
+    coverImage:
+      "https://image.millie.co.kr/service/cover/180115960/c872d40651af4bd1b62a07265cb9a9f2.jpg?w=352&f=webp&q=80",
+  },
+  reviewer: {
+    username: "홍길동",
+    review: "착해지고 싶을 때 다시 읽기",
+  },
+};
+
+const feedDummy = [
+  {
+    id: 1,
+    userId: "DDodo02",
+    userProfile: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1840/A201509051656037332.jpg",
+    feedImage: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1840/A201509051656037332.jpg",
+  },
+  {
+    id: 2,
+    userId: "헬리카체",
+    userProfile: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1461/hot1706010655077.jpg",
+    feedImage: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1461/hot1706010655077.jpg",
+  },
+  {
+    id: 3,
+    userId: "samchu",
+    userProfile: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1059/hot1757647347642.jpg",
+    feedImage: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1059/hot1757647347642.jpg",
+  },
+  {
+    id: 4,
+    userId: "모나리자208",
+    userProfile: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1044/hot1714366495367.jpg",
+    feedImage: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1044/hot1714366495367.jpg",
+  },
+];
+
 export default function HomePage() {
   const navigate = useNavigate();
 
@@ -86,7 +126,7 @@ export default function HomePage() {
         <BannerSlider items={homeBookBannerImage} />
       </div>
 
-      {/* book-category-buttons */}
+      {/* Book-category */}
       <div className={s['book-category-layout']}>
         {categories && categories.length > 0 && (
           <div className={s['category-buttons']}>
@@ -116,8 +156,36 @@ export default function HomePage() {
         )}
       </div>
 
+      {/* Today-Book */}
       <div className={s['today-book-layout']}>
-        <div></div>
+        <div className={s['today-book-header']}>
+          <h2>오늘의 인생책</h2>
+        </div>
+        <div className={s['today-book-card']}>
+          <div 
+            className={s['today-book-image']}
+            style={{ backgroundImage: `url(${todayBookDummy.book.coverImage})` }}
+            >
+            <img
+              src={todayBookDummy.book.coverImage}
+              alt={todayBookDummy.book.title}
+            />
+          </div>
+
+          <div className={s['today-book-info']}>
+            <div className={s['today-book-content']}>
+              <h3>문앞의 책방 회원의 인생책</h3>
+              <p className={s['today-book-sub']}>
+                {todayBookDummy.reviewer.username}님의 추천
+              </p>
+            </div>
+            <div>
+              <p className={s['today-book-review']}>
+                "{todayBookDummy.reviewer.review}"
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* MBTI Picks */}
@@ -190,7 +258,33 @@ export default function HomePage() {
       </section>
 
       <div className={s['feed-card-layout']}>
-        <div></div>
+        <div className={s['feed-card-header']}> 
+          <h2>새로 올라온 피드 보셨나요?</h2>
+          <p>회원들의 피드 구경해보세요</p>
+        </div>
+        <div className={s['feed-card-wrapper']}>
+          {feedDummy.map(feed => (
+            <div key={feed.id} className={s['feed-card']}>
+              <div className={s['feed-image-wrapper']}>
+                <img 
+                  className={s['feed-image']}
+                  src={feed.feedImage} 
+                  alt={`feed-${feed.id}`} 
+                />
+                <div className={s['feed-user-info']}>
+                  <img 
+                    className={s['feed-profile']}
+                    src={feed.userProfile} 
+                    alt={`${feed.userId}-profile`} 
+                  />
+                  <span className={s['feed-user-id']}>
+                    {feed.userId}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );

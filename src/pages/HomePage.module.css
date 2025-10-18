@@ -14,9 +14,8 @@
 }
 
 .book-category-layout {
-  padding: 16px;
+  padding: 0 20px;
 }
-
 .category-buttons {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -28,7 +27,6 @@
   max-width: 450px;
   margin: 0 auto;
 }
-
 .category-button {
   display: flex;
   flex-direction: column;
@@ -43,24 +41,115 @@
   font-weight: 500;
   transition: all 0.2s;
 }
-
 .category-button:hover {
   background-color: #e0e0e0;
   border-color: #ccc;
 }
-
 .category-icon {
   width: 40%;
   height: auto;
   object-fit: contain;
 }
-
 .category-button span {
   margin-top: 6px;
   font-family: Pretendard;
   color: #888;
   font-size: 10px;
   font-weight: 700;
+}
+
+.today-book-layout {
+  width: 100%;
+  max-width: 1024px;
+  padding: 0 20px;
+  font-family: Pretendard;
+}
+.today-book-header h2 {
+  align-self: flex-start;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.today-book-card {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+.today-book-image {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+.today-book-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px) brightness(0.8);
+  transform: scale(1.8);
+  z-index: 1;
+}
+.today-book-image img {
+  position: relative;
+  z-index: 2;
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  filter: none;
+  padding: 20px;
+}
+.today-book-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+.today-book-content {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.today-book-content h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #444;
+}
+.today-book-sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: #777;
+  margin: 0;
+}
+.today-book-review {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  padding-top: 10px;
 }
 
 .ad-banner-layout {
@@ -72,7 +161,6 @@
   background-color: #f0f0f0;
   padding: 20px;
 }
-
 .ad-banner-img {
   width: 100%;
   height: 100%;
@@ -81,22 +169,6 @@
   background-position: center;
   background-size: contain;
   opacity: 0.8;
-}
-
-.product-slider-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.product-slider-title {
-  max-width: 1024px;
-  width: 100%;
-  padding: 20px 0;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: left;
 }
 
 .book-slider-layout {
@@ -118,6 +190,80 @@
   margin-bottom: 20px;
 }
 
+.feed-card-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 1024px;
+  font-family: Pretendard;
+}
+.feed-card-header {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.feed-card-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+}
+.feed-card-header p {
+  font-size: 14px;
+  color: #888;
+  font-weight: 400;
+  margin: 0;
+  text-align: left;
+}
+.feed-card-wrapper {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 600px;
+}
+.feed-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.feed-image-wrapper {
+  width: 100%;
+  max-width: 300px;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+}
+.feed-image {
+  width: 100%;
+  max-width: 300px;
+  display: block;
+  z-index: 1;
+}
+.feed-user-info {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 20px;
+  bottom: 10px;
+  gap: 6px;
+  z-index: 2;
+}
+.feed-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.feed-user-id {
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
 @media (min-width: 1024px) {
   .category-buttons {
     display: flex;
@@ -136,11 +282,36 @@
     height: 35px;
   }
   .category-button span {
-    margin-top: 12px;
-    font-size: 10px;
+    font-size: 12px;
+  }
+
+  .today-book-card {
+    flex-direction: row;
+    align-items: center;
+  }
+  .today-book-review {
+    height: 180px;
   }
 
   .ad-banner-img {
     background-image: url("https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/10/01/66416/1001_04.png");
+  }
+
+  .product-slider-title {
+    font-family: Pretendard;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    margin: 0;
+  }
+
+  .feed-card-layout {
+    padding: 0;
+  }
+  .feed-card-wrapper {
+    max-width: 1024px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 0;
   }
 }
