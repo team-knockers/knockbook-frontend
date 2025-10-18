@@ -46,7 +46,7 @@ export default function LoungePostPage() {
     setOpenCommentMenuId(null);
   };
 
-  // 데이터 연결 전 임시데이터
+  // Mock data for testing before API integration
   const comments = [
     { id: '1', postId: '1', userid: '7', displayName: '호랭이', avatarUrl: 'https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg', content: '좋은 글이에요!', createdAt: '2025-10-15', editStatus: null },
     { id: '2', postId: '1', userid: '8', displayName: '강아지', avatarUrl: 'https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg', content: '정말 감사합니다.', createdAt: '2025-10-16', editStatus: '수정됨' },
