@@ -79,6 +79,9 @@ import OrderPage from "../pages/purchase/OrderPage";
 import { OrderAction, OrderPageLoader } from "../pages/purchase/OrderPage.loader";
 import OrderCompletePage from "../pages/purchase/OrderCompletePage";
 import AuthCallbackPage from "../pages/auth/AuthCallbackPage";
+import { OrderCompletePageLoader } from "../pages/purchase/OrderCompletePage.loader";
+import SelectAddressPage from "../pages/account/SelectAddressPage";
+import { SelectAddressPageLoader } from "../pages/account/SelectAddressPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -339,11 +342,12 @@ export const router = createBrowserRouter([
             } 
           },
           { path: PATHS.orderComplete,
+            loader: OrderCompletePageLoader,
             element: <OrderCompletePage />,
             handle: { 
               header: { 
                 kind: "backTitleClose", 
-                title: "주문완료",
+                title: "주문 상세 정보",
                 back: { type: 'push', to:PATHS.home },
                 close: { type: 'push', to: PATHS.home }
               } 
@@ -386,6 +390,18 @@ export const router = createBrowserRouter([
             element: <UserAddressPage />,
             loader: UserAddressPageLoader,
             action: UserAddressAction,
+            handle: { 
+              header: { 
+                kind: "backTitleClose",
+                title: "배송지 변경",
+                back: { type: 'push', to:PATHS.accountHome },
+                close: { type: 'push', to: PATHS.home }
+              } 
+            } 
+          },
+          { path: PATHS.userAddress,
+            element: <SelectAddressPage />,
+            loader: SelectAddressPageLoader,
             handle: { 
               header: { 
                 kind: "backTitleClose",
