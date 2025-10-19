@@ -17,6 +17,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useSession } from '../../hooks/useSession';
 import { PATHS } from '../../routes/paths';
 import AddressForm from '../../features/account/components/AddressForm';
+import SelectAddressPage from '../account/SelectAddressPage';
 
 export default function OrderPage() {
 
@@ -36,16 +37,45 @@ export default function OrderPage() {
 
   /* address section */
   const hasAddress = !!address;
-  const [isAddressPopupOpen, setIsAddressPopupOpen] = useState(false);
-  const [addressFormMode, setAddressFormMode] = useState<"insert"|"update">("insert");
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(address?.id ?? null);
+  const [isAddressInsertPopupOpen, setIsAddressInsertPopupOpen] = useState(false);
+  const [isAddressChangePopupOpen, setIsAddressChangePopupOpen] = useState(false);
 
   const hasEntry = hasAddress && typeof address!.entryInfo === "string" && address!.entryInfo.trim() !== "";
   const [mode, setMode] = useState<"AUTH"|"PUBLIC">(hasEntry ? "AUTH" : "PUBLIC");
   const [entryInfo, setEntryInfo] =  useState(hasAddress ? (address!.entryInfo ?? "") : "");
   
+  /* select address */
+  const handleAddressSelected = (id: string) => {
+    setSelectedAddressId(id);
+  };
+
+  const lastAppliedAddressIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedAddressId) return;
+    if (lastAppliedAddressIdRef.current === selectedAddressId) return;
+
+    const fd = new FormData();
+    fd.append("intent", "apply-address");
+    fd.append("orderId", orderId);
+    fd.append("addressId", selectedAddressId);
+
+    fetcher.submit(fd, { method: "post" });
+    lastAppliedAddressIdRef.current = selectedAddressId;
+  }, [selectedAddressId, orderId, fetcher]);
+
+
+  useEffect(() => {
+    if (fetcher.state === "idle" && lastIntentRef.current === null) {
+      revalidate();
+      setIsAddressChangePopupOpen(false);
+    }
+  }, [fetcher.state, revalidate]);
+
   /* set a new address */
   const handleAddressInserted = () => {
-    setIsAddressPopupOpen(false);
+    setIsAddressInsertPopupOpen(false);
     revalidate();
   };
 
@@ -235,19 +265,18 @@ export default function OrderPage() {
   return (
     <main className={s['page-layout']}>
 
-      {/* address popup */}
+      {/* address insert popup */}
       <SimplePopup
-        open={isAddressPopupOpen}
-        onClose={() => setIsAddressPopupOpen(false)}
+        open={isAddressInsertPopupOpen}
+        onClose={() => setIsAddressInsertPopupOpen(false)}
         title="배송지 추가"
         fullScreen={isMobile}
         noBodyPadding
         showCloseButton={true}>
           <AddressForm
-            mode={addressFormMode}
             actionPath={PATHS.userAddress}
             addressId={address?.id}
-            initial={addressFormMode === "update" ? {
+            initial={{
               label: address?.label,
               recipientName: address?.recipientName,
               phone: address?.phone,
@@ -255,8 +284,20 @@ export default function OrderPage() {
               address1: address?.address1,
               address2: address?.address2,
               isDefault: true
-            } : undefined}
+            }}
             onProceedClick={handleAddressInserted}/>
+      </SimplePopup>
+
+      {/* address change popup */}
+      <SimplePopup
+        open={isAddressChangePopupOpen}
+        onClose={() => setIsAddressChangePopupOpen(false)}
+        title="배송지 변경"
+        fullScreen={isMobile}
+        noBodyPadding
+        showCloseButton={true}>
+          <SelectAddressPage
+            onSelect={handleAddressSelected}/>
       </SimplePopup>
 
       <div className={s['max-width-container']}>
@@ -273,15 +314,14 @@ export default function OrderPage() {
                   결제를 진행하려면 배송지를 등록해주세요.
                 </p>
                 <OneWayButton
-                  content='배송지 추가'
+                  content='배송지 변경'
                   responsiveType='fixed'
                   widthSizeType='sm'
                   heightSizeType='sm'
                   colorType='dark'
                   fontSize='14px'
                   onClick={() => {
-                    setAddressFormMode("insert");
-                    setIsAddressPopupOpen(true);
+                    setIsAddressInsertPopupOpen(true);
                   }}
                 />
               </div>
@@ -303,8 +343,7 @@ export default function OrderPage() {
                     colorType='dark'
                     fontSize='12px'
                     onClick={() => {
-                      setAddressFormMode("update");
-                      setIsAddressPopupOpen(true);
+                      setIsAddressChangePopupOpen(true);
                     }}
                   />
                 </div>
