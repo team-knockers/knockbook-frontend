@@ -94,6 +94,7 @@ export default function FeedCommentBottomPopup({
           {localItems.map((it) => (
             <FeedComment 
               key={it.commentId}
+              id={it.userId}
               commentId={it.commentId}
               displayName={it.displayName}
               avatarUrl={it.avatarUrl}
@@ -102,6 +103,7 @@ export default function FeedCommentBottomPopup({
               likesCount={it.likesCount}
               likedByMe={it.likedByMe}
               onLikeToggle={handleLikeToggle(it.commentId)}
+              onDeleted={(cid) => setLocalItems(prev => prev.filter(c => c.commentId !== cid))}
             />
           ))}
         </div>
