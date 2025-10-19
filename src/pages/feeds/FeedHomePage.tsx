@@ -1,5 +1,4 @@
 import profileUrl from "../../assets/feed_profile.jpg";
-
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { timeAgo } from '../../features/feeds/util';
 
@@ -12,6 +11,8 @@ import type { FeedPostComment, FeedPost } from '../../features/feeds/types';
 
 import FeedCommentBottomPopup from "../../features/feeds/components/FeedCommentBottomPopup";
 import FeedEditPopup from "../../features/feeds/components/FeedEditPopup";
+import { UserService } from "../../features/account/services/UserService";
+import type { GetMyProfileResponse } from "../../features/account/types";
 
 function useIsMobile(breakpoint = 1024) {
   const [isMobile, setIsMobile] = useState<boolean>(() =>
@@ -45,7 +46,7 @@ export default function FeedHomePage() {
   const [popupLoading, setPopupLoading] = useState(false);
   const [selectedComments, setSelectedComments] = useState<FeedPostComment[] | null>(null);
   const [selectedFeed, setSelectedFeed] = useState<FeedPost | null>(null);
-  
+  const [userInfo, setUserInfo] = useState<GetMyProfileResponse | null>(null);
   // 1) first load and reload when search keyword changes
   useEffect(() => {
     let alive = true; // ignore setState if unmounted
@@ -57,6 +58,8 @@ export default function FeedHomePage() {
         if (!alive) return;
         setPosts(res.feedPosts);      // replace list
         setNextAfter(res.nextAfter);  // save next cursor 
+        const userInfo = await UserService.getMyProfile();
+        setUserInfo(userInfo);
       } finally {
         if (alive) setLoading(false);
       }
@@ -178,7 +181,7 @@ export default function FeedHomePage() {
 
   return (
     <div className={s['page-layout']}>
-      <SearchBar placeholder="검색어를 입력하세요" onSearch={handleSearch} />
+      <SearchBar placeholder={`${userInfo?.displayName}님, 무슨 생각을 하고 계신가요?`} onSearch={handleSearch} />
 
       {posts.map(p => (
         <div 
@@ -225,7 +228,6 @@ export default function FeedHomePage() {
           likesCount={selectedFeed.likesCount}
           likedByMe={selectedFeed.likedByMe}
           onLikeToggle={handleLikePost(selectedFeed.postId)}
-          onMoreClick={() => {/* TODO */}}
         />
       )}
 
