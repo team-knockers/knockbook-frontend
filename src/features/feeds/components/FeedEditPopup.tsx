@@ -60,7 +60,7 @@ export default function FeedEditPopup({
         setMenuOpen(false);
       }
     };
-    if (menuOpen) document.addEventListener('mousedown', h);
+    if (menuOpen) { document.addEventListener('mousedown', h); }
     return () => document.removeEventListener('mousedown', h);
   }, [menuOpen]);
 

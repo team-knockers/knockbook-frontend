@@ -45,7 +45,7 @@ export default function FeedComment({
         setMenuOpen(false);
       }
     };
-    if (menuOpen) document.addEventListener('mousedown', h);
+    if (menuOpen) { document.addEventListener('mousedown', h); }
     return () => document.removeEventListener('mousedown', h);
   }, [menuOpen]);
 
@@ -59,7 +59,7 @@ export default function FeedComment({
   const byMe = !!userId && userId === authorId;
 
   const handleDelete = async () => {
-    if (pending) return;
+    if (pending) { return; }
     setPending("delete");
     try {
       await FeedService.deleteComment(commentId);
@@ -74,7 +74,7 @@ export default function FeedComment({
   };
 
   const handleReport = async () => {
-    if (pending) return;
+    if (pending) { return; }
     setPending("report");
     try {
       // TODO

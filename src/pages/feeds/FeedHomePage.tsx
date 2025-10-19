@@ -19,7 +19,7 @@ function useIsMobile(breakpoint = 1024) {
     typeof window === "undefined" ? false : window.innerWidth < breakpoint
   );
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined") { return; }
     const mq = window.matchMedia(`(max-width:${breakpoint - 1}px)`);
     const onChange = () => setIsMobile(mq.matches);
     onChange();
@@ -55,13 +55,13 @@ export default function FeedHomePage() {
         setLoading(true);
         // first page : (after = null)
         const res = await FeedService.getFeedPostList(PAGE_SIZE, null, keyword);
-        if (!alive) return;
+        if (!alive) { return; }
         setPosts(res.feedPosts);      // replace list
         setNextAfter(res.nextAfter);  // save next cursor 
         const userInfo = await UserService.getMyProfile();
         setUserInfo(userInfo);
       } finally {
-        if (alive) setLoading(false);
+        if (alive) { setLoading(false); }
       }
     })();
     return () => { alive = false; }; // cleanup on unmout 
@@ -69,7 +69,7 @@ export default function FeedHomePage() {
 
   // 2) load next page (called when sentinel becomes visible)
   async function loadMore() {
-    if (loading || !nextAfter) return; // guard: in-flight or no more
+    if (loading || !nextAfter) { return; } // guard: in-flight or no more
     try {
       setLoading(true);
       const res = await FeedService.getFeedPostList(PAGE_SIZE, nextAfter, keyword);
@@ -83,7 +83,7 @@ export default function FeedHomePage() {
   // 3) observe the bottom sentinel
   useEffect(() => {
     const el = sentinelRef.current;
-    if (!el) return;
+    if (!el) { return; }
 
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -108,7 +108,7 @@ export default function FeedHomePage() {
   const handleSubmitComment = (postId: string) => {
     return async (text: string) => {
       const v = text.trim();
-      if (!v) return;
+      if (!v) { return; }
 
       try {
         const created = await FeedService.createComment(postId, v);

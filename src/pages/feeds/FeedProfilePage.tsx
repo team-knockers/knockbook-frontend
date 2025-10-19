@@ -58,7 +58,7 @@ export default function FeedProfilePage() {
       setLoading(true);
       try {
         const r = await FeedService.getFeedProfile(PAGE_SIZE, null);
-        if (!alive) return;
+        if (!alive) { return; }
         setDisplayName(r.displayName ?? '');
         setAvatarUrl(r.avatarUrl ?? null);
         setBio(r.bio ?? null);
@@ -66,7 +66,7 @@ export default function FeedProfilePage() {
         setThumbs(r.profileThumbnails ?? []);
         setNextAfter(r.nextAfter ?? null);
       } finally {
-        if (alive) setLoading(false);
+        if (alive) { setLoading(false); }
       }
     })();
     return () => { alive = false; };
@@ -74,7 +74,7 @@ export default function FeedProfilePage() {
 
   // load next page
   async function loadMore() {
-    if (loading || !nextAfter) return;
+    if (loading || !nextAfter) { return; }
     setLoading(true);
     try {
       const r = await FeedService.getFeedProfile(PAGE_SIZE, nextAfter);
@@ -88,9 +88,9 @@ export default function FeedProfilePage() {
   // observe sentinel
   useEffect(() => {
     const el = sentinelRef.current;
-    if (!el) return;
+    if (!el) { return; }
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) loadMore(); },
+      ([entry]) => { if (entry.isIntersecting) { loadMore(); } },
       { root: null, rootMargin: '200px 0px', threshold: 0 }
     );
     io.observe(el);
@@ -113,7 +113,7 @@ export default function FeedProfilePage() {
   const handleSubmitComment = (postId: string) => {
   return async (text: string) => {
     const v = text.trim();
-    if (!v) return;
+    if (!v) { return; }
 
     try {
       const created = await FeedService.createComment(postId, v);
@@ -132,8 +132,8 @@ export default function FeedProfilePage() {
   const handlePostLike =
   (postId: string) =>
   (next: boolean) => {
-    if (next) FeedService.likePost(postId);
-    else FeedService.unlikePost(postId);
+    if (next) { FeedService.likePost(postId); }
+    else { FeedService.unlikePost(postId); }
 
     setSelectedFeed(prev =>
       prev && prev.postId === postId

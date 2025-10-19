@@ -104,7 +104,7 @@ export const FeedService = {
 
   async likeComment(commentId: string): Promise<void> {
     const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
+    if (!userId) { throw new Error("NO_USER"); }
 
     return apiAuthPathAndQuery<void>(
       "/feeds/comment/{commentId}/likes/{userId}",
@@ -116,7 +116,7 @@ export const FeedService = {
 
   async unlikeComment(commentId: string): Promise<void> {
     const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
+    if (!userId) { throw new Error("NO_USER"); }
 
     return apiAuthPathAndQuery<void>(
       "/feeds/comment/{commentId}/likes/{userId}",
@@ -128,7 +128,7 @@ export const FeedService = {
 
   async createComment(postId: string, body: string): Promise<FeedPostComment> {
     const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
+    if (!userId) { throw new Error("NO_USER"); }
 
     return apiAuthPathAndQuery<FeedPostComment>(
       "/feeds/comment/{postId}/{userId}",
@@ -147,7 +147,7 @@ export const FeedService = {
     files: File[]
   ): Promise<FeedProfileThumbnail> {
     const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
+    if (!userId) { throw new Error("NO_USER"); }
 
     const form = new FormData();
     form.append("content", content);
@@ -165,7 +165,7 @@ export const FeedService = {
     commentId: string
   ): Promise<void> {
     const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
+    if (!userId) { throw new Error("NO_USER"); }
 
     return apiAuthPathAndQuery(
       "/feeds/comment/{commentId}/{userId}",
@@ -179,7 +179,7 @@ export const FeedService = {
     postId: string
   ): Promise<void> {
     const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
+    if (!userId) { throw new Error("NO_USER"); }
 
     return apiAuthPathAndQuery(
       "/feeds/post/{postId}/{userId}",
