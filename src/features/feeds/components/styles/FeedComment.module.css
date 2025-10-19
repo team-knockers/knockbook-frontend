@@ -80,3 +80,34 @@
   font-size: 13px;
   text-align: center;
 }
+
+.moreWrap { position: relative; }
+
+.menu {
+  position: absolute;
+  top: -10px;
+  right: -100px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  min-width: 80px;
+  padding: 6px;
+  z-index: 30;
+}
+
+.menuItemDanger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  color: #d93025;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.trashIcon { width: 18px; height: 18px; }
