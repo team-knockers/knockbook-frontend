@@ -159,5 +159,33 @@ export const FeedService = {
       form,
       { method: "POST" }
     );
+  },
+
+  async deleteComment(
+    commentId: string
+  ): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery(
+      "/feeds/comment/{commentId}/{userId}",
+      { commentId, userId },
+      undefined,
+      { method: "DELETE" }
+    );
+  },
+
+  async deletePost(
+    postId: string
+  ): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery(
+      "/feeds/post/{postId}/{userId}",
+      { postId, userId },
+      undefined,
+      { method: "DELETE" }
+    );
   }
 }
