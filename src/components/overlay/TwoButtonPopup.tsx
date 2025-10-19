@@ -18,27 +18,29 @@ export default function TwoButtonPopup({
   onConfirm,
 }: TwoButtonPopupProps) {
   return (
-    <div className={styles['popup-container']}>
-      <div className={styles['popup-content']}>
-        <h2 className={styles['popup-title']}>{title}</h2>
-        {description && (
-          <p className={styles['popup-description']}>{description}</p>
-        )}
-      </div>
+    <div className={styles['popup-backdrop']} onClick={onCancel}>
+      <div className={styles['popup-container']} onClick={(e) => e.stopPropagation()}>
+        <div className={styles['popup-content']}>
+          <h2 className={styles['popup-title']}>{title}</h2>
+          {description && (
+            <p className={styles['popup-description']}>{description}</p>
+          )}
+        </div>
 
-      <div className={styles['popup-buttons']}>
-        <button
-          className={`${styles['popup-button']} ${styles['cancel-button']}`}
-          onClick={onCancel}
-        >
-          {cancelText}
-        </button>
-        <button
-          className={`${styles['popup-button']} ${styles['confirm-button']}`}
-          onClick={onConfirm}
-        >
-          {confirmText}
-        </button>
+        <div className={styles['popup-buttons']}>
+          <button
+            className={`${styles['popup-button']} ${styles['cancel-button']}`}
+            onClick={onCancel}
+          >
+            {cancelText}
+          </button>
+          <button
+            className={`${styles['popup-button']} ${styles['confirm-button']}`}
+            onClick={onConfirm}
+          >
+            {confirmText}
+          </button>
+        </div>
       </div>
     </div>
   );
