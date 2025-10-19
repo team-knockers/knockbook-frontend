@@ -85,8 +85,10 @@ export type createOrderFromCartRequest = {
 
 export type Order = {
   id: string;
+  orderNo: string;
   userId: string;
   cartId: string;
+  shippingAddressId: string;
   status: string;
   paymentStatus: string;
   itemCount: number;
@@ -96,6 +98,11 @@ export type Order = {
   shippingAmount: number;
   rentalAmount: number;
   totalAmount: number;
+  placedAt: string;
+  paidAt: string;
+  cancelledAt: string;
+  completedAt: string;
+  
   appliedCouponIssuanceId: number;
   pointsSpent: number;
   pointsEarned: number;

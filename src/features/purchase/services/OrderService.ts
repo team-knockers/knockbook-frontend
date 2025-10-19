@@ -91,5 +91,18 @@ export const OrderService = {
       { method: "DELETE" }
     );
   },
+
+  async setAddress(orderId: string, addressId: string) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER") }
+    const body = { addressId } as { addressId: string };
+    const res = await apiAuthPathWithJson<Order, { addressId: string }>(
+      "/users/{userId}/orders/{orderId}/address",
+      { userId, orderId },
+      { method: "POST", json: body }
+    );
+    console.log(res);
+    return res;
+  }
 }
 

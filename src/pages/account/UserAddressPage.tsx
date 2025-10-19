@@ -1,9 +1,9 @@
-import { useFetcher, useLoaderData } from 'react-router-dom';
+import { useFetcher } from 'react-router-dom';
 import OneWayButton from '../../components/forms/OneWayButton';
 import s from './UserAddressPage.module.css';
 import type { Address } from '../../features/account/types';
 import { Input, Label } from 'reactstrap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SimplePopup from '../../components/overlay/SimplePopup';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import DuoConfirmPopup from '../../components/overlay/DuoConfirmPopup';
@@ -13,9 +13,16 @@ import AddressForm from '../../features/account/components/AddressForm';
 export default function UserAddressPage() {
 
   const isMobile = useMediaQuery('(max-width: 1023.98px)');
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<Address[]>();
 
-  const addresses = useLoaderData() as Address[];
+  useEffect(() => {
+    if (fetcher.state === 'idle' && !fetcher.data) {
+      fetcher.load(PATHS.userAddress);
+    }
+  }, [fetcher.state, fetcher.data]);
+
+  const addresses = fetcher.data ?? [];
+
   const initialDefaultAddressId = addresses.find(a => a.isDefault)?.id;
   const [defaultAddressId, setDefaultAddressId] = useState(initialDefaultAddressId);
   const [canProceed, setCanProceed] = useState(false);
@@ -31,7 +38,7 @@ export default function UserAddressPage() {
     const fd = new FormData();
     fd.append('intent', 'change-default');
     fd.append('addressId', String(defaultAddressId));
-    fetcher.submit(fd, { method: 'post' });
+    fetcher.submit(fd, { method: 'post', action: PATHS.userAddress });
   };
 
   const handleDeleteAddress = (addressId: string) => {
@@ -39,7 +46,7 @@ export default function UserAddressPage() {
     const fd = new FormData();
     fd.append('intent', 'delete');
     fd.append('addressId', String(addressId));
-    fetcher.submit(fd, { method: 'post' });
+    fetcher.submit(fd, { method: 'post', action: PATHS.userAddress });
     setIsDeleteAddressPopupOpen(false);
   };
 

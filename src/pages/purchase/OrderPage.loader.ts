@@ -22,12 +22,10 @@ export async function OrderPageLoader({ params }: LoaderFunctionArgs) {
     throw new Response("Missing orderId", { status: 400 });
   } 
   
-  const addressList = await UserService.getAddresses();
-  const address = 
-    (addressList?.find(a => a.isDefault) ?? addressList?.[0]) ?? null;
   const coupons = await OrderService.getCoupons();
   const points = (await OrderService.getPoints()).balance;
   const order = await OrderService.getOrder(String(orderId));
+  const address = await UserService.getAddress(order.shippingAddressId);
   
   const purchaseList = order.items.filter(i => i.refType !== "BOOK_RENTAL");
   const rentalList = order.items.filter(i => i.refType === "BOOK_RENTAL");
@@ -133,6 +131,19 @@ export async function OrderAction({ request }: ActionFunctionArgs) {
     const orderId = form.get("orderId")?.toString();
     if (!orderId) return new Response("Missing orderId", { status: 400 });
     await OrderService.removePoints(orderId);
+    return new Response(null, { status: 204 });
+  }
+
+  if (intent === "apply-address") {
+    const orderId = form.get("orderId")?.toString();
+    const addressId = form.get("addressId")?.toString();
+    if (!orderId) {
+      return new Response("Missing orderId", { status: 400 });
+    }
+    if (!addressId) {
+      return new Response("Missing addressId", { status: 400 });
+    }
+    await OrderService.setAddress(orderId, addressId);
     return new Response(null, { status: 204 });
   }
 }
