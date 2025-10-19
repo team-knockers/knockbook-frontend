@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./styles/FeedEditPopup.module.css";
-import { FiX, FiChevronLeft, FiChevronRight, FiHeart, FiMoreHorizontal } from "react-icons/fi";
+import { FiX, FiChevronLeft, FiChevronRight, FiHeart, FiMoreHorizontal, FiTrash2 } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import FeedComment from "./FeedComment";
 import type { FeedPostComment } from "../types";
@@ -25,7 +25,8 @@ export type FeedEditPopupProps = {
   likesCount: number;
   likedByMe: boolean;
   onLikeToggle: (liked: boolean) => void;
-  onMoreClick?: () => void;
+  showMore?: boolean;
+  onDeleteClick?: () => void;
 };
 
 export default function FeedEditPopup({
@@ -41,7 +42,8 @@ export default function FeedEditPopup({
   likesCount,
   likedByMe,
   onLikeToggle,
-  onMoreClick,
+  showMore = false,
+  onDeleteClick, 
 }: FeedEditPopupProps) {
   const [text, setText] = useState("");
   const [isLiked, setIsLiked] = useState<boolean>(!!likedByMe);
@@ -49,6 +51,18 @@ export default function FeedEditPopup({
   const [slide, setSlide] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [localComments, setLocalComments] = useState(items);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const h = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [menuOpen]);
 
   useEffect(() => { 
     if (open) setLocalComments(items); 
@@ -208,18 +222,30 @@ export default function FeedEditPopup({
                   {likeCount}
                 </span>
               </button>
-              <button 
-                className={styles.iconBtn}
-                onClick={onMoreClick}
-                aria-label="더보기">
-                <FiMoreHorizontal />
-              </button>
-              <button 
-                className={styles.iconBtn}
-                onClick={onClose}
-                aria-label="닫기">
-                <FiX />
-              </button>
+              {showMore && (
+                <div className={styles.moreWrap} ref={menuRef}>
+                  <button
+                    className={styles.iconBtn}
+                    onClick={() => setMenuOpen(v => !v)}
+                    aria-haspopup="menu"
+                    aria-expanded={menuOpen}
+                    aria-label="더보기">
+                    <FiMoreHorizontal />
+                  </button>
+
+                  {menuOpen && (
+                    <div className={styles.menu} role="menu">
+                      <button
+                        className={styles.menuItemDanger}
+                        role="menuitem"
+                        onClick={() => { setMenuOpen(false); onDeleteClick?.(); }}>
+                        <FiTrash2 className={styles.trashIcon} />
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </header>
 
@@ -229,6 +255,7 @@ export default function FeedEditPopup({
             {localComments.map((it) => (
               <FeedComment
                 key={it.commentId}
+                id={it.userId}
                 commentId={it.commentId}
                 displayName={it.displayName}
                 avatarUrl={it.avatarUrl}
@@ -237,6 +264,7 @@ export default function FeedEditPopup({
                 likesCount={it.likesCount}
                 likedByMe={it.likedByMe}
                 onLikeToggle={handleCommentLike(it.commentId)}
+                onDeleted={(cid) => setLocalComments(prev => prev.filter(c => c.commentId !== cid))}
               />
             ))}
           </div>
