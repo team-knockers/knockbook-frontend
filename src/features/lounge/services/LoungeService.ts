@@ -2,7 +2,8 @@ import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../
 import { useSession } from "../../../hooks/useSession";
 import type { CreateCommentRequest, LoungePostDetails, LoungePostsSummaryApiResponse, 
   CreateLoungePostCommentResponse, GetLoungePostCommentsResponse , GetLoungePostCommentResponse, 
-  UpdateLoungePostCommentResponse, DeleteLoungePostCommentResponse} from "../types";
+  UpdateLoungePostCommentResponse, 
+  UpdateCommentRequest} from "../types";
 
 export const LoungeService = {
 
@@ -47,12 +48,11 @@ export const LoungeService = {
   ): Promise<CreateLoungePostCommentResponse> {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
-    if (!postId) { throw new Error("NO_POST_ID"); }
 
     const req : CreateCommentRequest = { content };
     return await apiAuthPathWithJson<CreateLoungePostCommentResponse, CreateCommentRequest>(
       "/lounge/{userId}/{postId}/comments",
-      { userId: userId },
+      { userId, postId },
       { method: "POST", json: req }
     );
   },
@@ -96,9 +96,8 @@ export const LoungeService = {
     const { userId } = useSession.getState();
     if (!userId) throw new Error("NO_USER");
 
-    const req: CreateCommentRequest = { content };
-
-    return await apiAuthPathWithJson<UpdateLoungePostCommentResponse, CreateCommentRequest>(
+    const req: UpdateCommentRequest = { content };
+    return await apiAuthPathWithJson<UpdateLoungePostCommentResponse, UpdateCommentRequest>(
       "/lounge/{userId}/comments/{commentId}",
       { userId, commentId },
       { method: "PUT", json: req }
@@ -108,11 +107,11 @@ export const LoungeService = {
   // API-LOUNGE-07: Delete a comment and return the updated page
   async deleteComment(
     commentId: string
-  ): Promise<DeleteLoungePostCommentResponse> {
+  ): Promise<void> {
     const { userId } = useSession.getState();
     if (!userId) throw new Error("NO_USER");
 
-    return await apiAuthPath<DeleteLoungePostCommentResponse>(
+    return await apiAuthPath<void>(
       "/lounge/{userId}/comments/{commentId}",
       { userId, commentId },
       { method: "DELETE" }
