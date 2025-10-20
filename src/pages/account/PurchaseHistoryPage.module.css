@@ -38,6 +38,10 @@
   padding: 10px;  
 }
 
+.filter-button {
+  width: 100%;
+}
+
 .history-summary-item {
   width: 100%;
   display: flex;
@@ -183,5 +187,9 @@
 .policy-content-row {
   margin: 6px 0 0;
   padding: 0 0 0 9px;
+}
+
+.empty-message {
+  margin: 20px;
 }
 

@@ -48,9 +48,6 @@ import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
 import RentalHistoryPage from "../pages/account/RentalHistoryPage";
-import RentalHistoryPendingPage from "../pages/account/RentalHistoryPendingPage";
-import RentalHistoryOngoingPage from "../pages/account/RentalHistoryOngoingPage";
-import RentalHistoryCompletedPage from "../pages/account/RentalHistoryCompletedPage";
 import LikePage from "../pages/account/LikePage";
 import LikeBookPage from "../pages/account/LikeBookPage";
 import LikeProductPage from "../pages/account/LikeProductPage";
@@ -82,7 +79,8 @@ import { OrderCompletePageLoader } from "../pages/purchase/OrderCompletePage.loa
 import SelectAddressPage from "../pages/account/SelectAddressPage";
 import { SelectAddressPageLoader } from "../pages/account/SelectAddressPage.loader";
 import PurchaseHistoryPage from "../pages/account/PurchaseHistoryPage";
-import { PurchaseHistoryPageLoader } from "../pages/account/PurchaseHistory.loader";
+import { PurchaseHistoryPageLoader } from "../pages/account/PurchaseHistoryPage.loader";
+import { RentalHistoryPageLoader } from "../pages/account/RentalHistoryPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -508,6 +506,7 @@ export const router = createBrowserRouter([
           },
           {
             path: PATHS.rentalHistory,
+            loader: RentalHistoryPageLoader,
             element: <RentalHistoryPage />,
             handle: { 
               header: { 
@@ -515,49 +514,7 @@ export const router = createBrowserRouter([
                 title: "대여 내역",
                 close: { type: 'push', to: PATHS.accountHome }
               } 
-            },
-            children: [
-              {
-                index: true,
-                element: <Navigate to={PATHS.rentalPending} replace />,
-              },
-              {
-                path: PATHS.rentalPending,
-                element: <RentalHistoryPendingPage />,
-                handle: {
-                  header: {
-                    kind: "backTitleClose",
-                    title: "대여 내역",
-                    back: { type: 'push', to: PATHS.accountHome },
-                    close: { type: 'push', to: PATHS.accountHome }
-                  }
-                }
-              },
-              {
-                path: PATHS.rentalOngoing,
-                element: <RentalHistoryOngoingPage />,
-                handle: {
-                  header: {
-                    kind: "backTitleClose",
-                    title: "대여 내역",
-                    back: { type: 'push', to: PATHS.accountHome },
-                    close: { type: 'push', to: PATHS.accountHome }
-                  }
-                }
-              },
-              {
-                path: PATHS.rentalCompleted,
-                element: <RentalHistoryCompletedPage />,
-                handle: {
-                  header: {
-                    kind: "backTitleClose",
-                    title: "대여 내역",
-                    back: { type: 'push', to: PATHS.accountHome },
-                    close: { type: 'push', to: PATHS.accountHome }
-                  }
-                }
-              },
-            ]
+            }
           },
           {
             path: PATHS.like,
