@@ -11,6 +11,7 @@ import type { FeedPostComment, FeedPost } from '../../features/feeds/types';
 
 import FeedCommentBottomPopup from "../../features/feeds/components/FeedCommentBottomPopup";
 import FeedEditPopup from "../../features/feeds/components/FeedEditPopup";
+import FeedSlider from "../../features/feeds/components/FeedSlider";
 import { UserService } from "../../features/account/services/UserService";
 import type { GetMyProfileResponse } from "../../features/account/types";
 
@@ -29,7 +30,8 @@ function useIsMobile(breakpoint = 1024) {
   return isMobile;
 }
 
-const PAGE_SIZE = 3; // number of posts per request 
+const POST_SIZE = 5; // number of posts per request 
+const BANNER_SIZE=20;
 
 export default function FeedHomePage() {
   // list shown on the page
@@ -43,10 +45,16 @@ export default function FeedHomePage() {
   // bottom trigger element 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
+  const [mbtiItems, setMbtiItems] = useState<FeedPost[]>([]);
+  const [mbtiLoading, setMbtiLoading] = useState(false);
+
   const [popupLoading, setPopupLoading] = useState(false);
   const [selectedComments, setSelectedComments] = useState<FeedPostComment[] | null>(null);
   const [selectedFeed, setSelectedFeed] = useState<FeedPost | null>(null);
   const [userInfo, setUserInfo] = useState<GetMyProfileResponse | null>(null);
+
+  const [forceEditPopup, setForceEditPopup] = useState(false);
+
   // 1) first load and reload when search keyword changes
   useEffect(() => {
     let alive = true; // ignore setState if unmounted
@@ -54,7 +62,7 @@ export default function FeedHomePage() {
       try {
         setLoading(true);
         // first page : (after = null)
-        const res = await FeedService.getFeedPostList(PAGE_SIZE, null, keyword);
+        const res = await FeedService.getFeedPostList(POST_SIZE, null, keyword);
         if (!alive) { return; }
         setPosts(res.feedPosts);      // replace list
         setNextAfter(res.nextAfter);  // save next cursor 
@@ -72,13 +80,29 @@ export default function FeedHomePage() {
     if (loading || !nextAfter) { return; } // guard: in-flight or no more
     try {
       setLoading(true);
-      const res = await FeedService.getFeedPostList(PAGE_SIZE, nextAfter, keyword);
+      const res = await FeedService.getFeedPostList(POST_SIZE, nextAfter, keyword);
       setPosts(prev => [...prev, ...res.feedPosts]); // append 
       setNextAfter(res.nextAfter);
     } finally {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!userInfo?.mbti || mbtiLoading || mbtiItems.length) return; 
+    let alive = true;
+    (async () => {
+      try {
+        setMbtiLoading(true);
+        const res = await FeedService.getFeedPostList(BANNER_SIZE, null, "", userInfo.mbti);
+        if (!alive) return;
+        setMbtiItems(res.feedPosts);
+      } finally {
+        if (alive) setMbtiLoading(false);
+      }
+    })();
+    return () => { alive = false; };
+  }, [userInfo?.mbti]);
 
   // 3) observe the bottom sentinel
   useEffect(() => {
@@ -149,22 +173,39 @@ export default function FeedHomePage() {
     };
 
   const handlePopupOpen = (postId: string) => {
-    console.log('[debug] popup click', { postId, isMobile });
     return async () => {
       if (popupLoading) { return; }
       try {
         setPopupLoading(true);
         setSelectedPostId(postId);
+        setForceEditPopup(false); 
 
         if (isMobile) {
           const res = await FeedService.getFeedPostCommentList(postId);
-          setSelectedComments(res.feedComments);  
+          setSelectedComments(res.feedComments);
           setSelectedFeed(null);
         } else {
           const res = await FeedService.getFeedPostWithCommentList(postId);
-          setSelectedFeed(res.feedPost);           
-          setSelectedComments(res.feedComments);   
+          setSelectedFeed(res.feedPost);
+          setSelectedComments(res.feedComments);
         }
+      } finally {
+        setPopupLoading(false);
+      }
+    };
+  };
+
+  const handleSliderOpen = (postId: string) => {
+    return async () => {
+      if (popupLoading) return;
+      try {
+        setPopupLoading(true);
+        setSelectedPostId(postId);
+        setForceEditPopup(true); 
+
+        const res = await FeedService.getFeedPostWithCommentList(postId);
+        setSelectedFeed(res.feedPost);
+        setSelectedComments(res.feedComments);
       } finally {
         setPopupLoading(false);
       }
@@ -182,6 +223,12 @@ export default function FeedHomePage() {
   return (
     <div className={s['page-layout']}>
       <SearchBar placeholder={`${userInfo?.displayName}님, 무슨 생각을 하고 계신가요?`} onSearch={handleSearch} />
+      <FeedSlider
+        title={`${userInfo?.mbti} 유저들의 이야기 궁금하신가요?`}
+        subtitle="회원님과 동일한 MBTI 유저들의 콘텐츠를 추천해드려요"
+        items={mbtiItems} 
+        onClickItem={(postId) => handleSliderOpen(postId)()}
+      />
 
       {posts.map(p => (
         <div 
@@ -202,7 +249,7 @@ export default function FeedHomePage() {
       ))}
 
       {/* mobile only : FeedCommentBottomPopup */}
-      {!!selectedPostId && isMobile && (
+      {!!selectedPostId && isMobile && !forceEditPopup && (
         <FeedCommentBottomPopup
           open={!!selectedPostId}
           onClose={() => { setSelectedPostId(null); setSelectedComments(null); }}
@@ -214,7 +261,7 @@ export default function FeedHomePage() {
       )}
 
       {/* desktop only : FeedEditPopup */}
-      {!isMobile && selectedFeed && (
+      {selectedFeed && (!isMobile || forceEditPopup) && (
         <FeedEditPopup
           open={!!selectedFeed}
           onClose={() => { setSelectedPostId(null); setSelectedFeed(null); setSelectedComments(null); }}

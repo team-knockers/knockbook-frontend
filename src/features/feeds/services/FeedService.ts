@@ -7,7 +7,8 @@ export const FeedService = {
   async getFeedPostList(
     size: number,
     after: string | null,
-    searchKeyword?: string
+    searchKeyword?: string,
+    mbti?: string
   ): Promise<FeedPostList> {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
@@ -16,6 +17,7 @@ export const FeedService = {
       size,
       ...(after ? { after } : {}),
       ...(searchKeyword && searchKeyword.trim() ? { searchKeyword: searchKeyword.trim() } : {}),
+      ...(mbti && mbti.trim() ? { mbti: mbti.trim().toUpperCase() } : {}),
     };
 
     return apiAuthPathAndQuery<FeedPostList>(
