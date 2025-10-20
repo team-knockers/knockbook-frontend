@@ -1,0 +1,165 @@
+.page-layout {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-right-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.text-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.subtitle {
+  color: #837F7F;
+  font-family: "GmarketSans";
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.title {
+  width: 100%;
+  color: #1E1E1E;
+  font-family: "GmarketSans";
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  padding: 2px 0 15px;
+}
+
+.description {
+  color: #4A4A4A;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.genre-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.genre-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.genre-card:hover {
+  transform: scale(1.03);
+}
+
+.genre-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.genre-card.selected {
+  outline: 5px solid #4CAF50;
+}
+
+.genre-name {
+  position: relative;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.70);
+  text-align: center;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: "GmarketSans";
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 5px;
+  white-space: pre-line;
+}
+
+.button-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 40px;
+}
+
+.skip-button {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-family: Pretendard;
+}
+
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+  .page-layout {
+    min-width: 375px;
+    max-width: 1023px;
+    min-height: 667px;
+  }
+
+  .page-left-section {
+    display: none;
+  }
+
+  .page-right-section {
+    min-height: 667px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .page-layout {
+    min-width: 1024px;
+    min-height: 768px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .page-left-section {
+    flex: 1 0 0;
+    align-self: stretch;
+  }
+
+  .page-left-section-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-position: 30% center;
+    object-fit: cover;
+    opacity: 0.94;
+    filter: contrast(1.1) brightness(0.9) saturate(0.7);
+  }
+
+  .page-right-section {
+    width: 600px;
+    padding: 50px 60px;
+  }
+}

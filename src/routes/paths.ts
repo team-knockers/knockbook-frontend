@@ -10,6 +10,9 @@ export const PATHS = {
   signupSetPassword: "/signup/setpassword",
   signupSetName: "/signup/setname",
   signupSetFavoriteCategory: "/signup/setfavoritecategory",
+  signupSelectMbti: "/signup/selectmbti",
+  signupMbtiResult: "/signup/mbtiresult",
+  signupComplete: "/signup/complete",
   login: "/login",
 
   /* home */
