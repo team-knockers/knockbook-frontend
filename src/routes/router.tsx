@@ -47,7 +47,6 @@ import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
 import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
 import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
-import OrderHistoryPage from "../pages/account/OrderHistoryPage";
 import RentalHistoryPage from "../pages/account/RentalHistoryPage";
 import RentalHistoryPendingPage from "../pages/account/RentalHistoryPendingPage";
 import RentalHistoryOngoingPage from "../pages/account/RentalHistoryOngoingPage";
@@ -82,6 +81,8 @@ import AuthCallbackPage from "../pages/auth/AuthCallbackPage";
 import { OrderCompletePageLoader } from "../pages/purchase/OrderCompletePage.loader";
 import SelectAddressPage from "../pages/account/SelectAddressPage";
 import { SelectAddressPageLoader } from "../pages/account/SelectAddressPage.loader";
+import PurchaseHistoryPage from "../pages/account/PurchaseHistoryPage";
+import { PurchaseHistoryPageLoader } from "../pages/account/PurchaseHistory.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -494,12 +495,13 @@ export const router = createBrowserRouter([
             }
           },
           {
-            path: PATHS.orderHistory,
-            element: <OrderHistoryPage />,
+            path: PATHS.purchaseHistory,
+            loader: PurchaseHistoryPageLoader,
+            element: <PurchaseHistoryPage />,
             handle: { 
               header: { 
                 kind: "backTitleClose",
-                title: "주문 내역",
+                title: "구매 내역",
                 close: { type: 'push', to: PATHS.accountHome }
               } 
             } 

@@ -25,6 +25,16 @@ export const OrderService = {
     );
   },
 
+  async getPaidOrders() {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER") }
+    return await apiAuthPath<Order[]>(
+      "/users/{userId}/orders/paid",
+      { userId },
+      { method: "GET" }
+    );
+  },
+
   async getCoupons(status: string = "AVAILABLE" ) {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }    
