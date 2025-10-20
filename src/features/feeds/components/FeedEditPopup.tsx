@@ -246,6 +246,12 @@ export default function FeedEditPopup({
                   )}
                 </div>
               )}
+              <button
+                className={styles.desktopCloseBtn}
+                onClick={onClose}
+              >
+                <FiX />
+              </button>
             </div>
           </header>
 
