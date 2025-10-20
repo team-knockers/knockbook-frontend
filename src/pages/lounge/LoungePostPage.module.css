@@ -65,7 +65,45 @@
   padding: 30px 40px;
 }
 
-.post-body :global(img) {
+.post-body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #222;
+  font-family: 'Noto Sans KR';
+}
+
+.post-body h1,
+.post-body h2,
+.post-body h3 {
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  font-weight: 600;
+}
+
+.post-body h1 {
+  font-size: 24px;
+}
+
+.post-body h2 {
+  font-size: 20px;
+}
+
+.post-body h3 {
+  font-size: 18px;
+}
+
+.post-body p {
+  font-size: 15px;
+  margin: 0.8em 0;
+}
+
+.post-body ul,
+.post-body ol {
+  margin-left: 1.5em;
+  padding-left: 1em;
+}
+
+.post-body img {
   display: block;
   margin: 1rem auto;
   max-width: 100%;
