@@ -1,0 +1,142 @@
+.page-layout {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-right-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.text-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.subtitle {
+  color: #2C3E50;
+  font-family: "GmarketSans";
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.title {
+  width: 100%;
+  color: #2C3E50;
+  font-family: "GmarketSans";
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  padding: 2px 0 15px;
+}
+
+.intro-text {
+  color: #2C3E50;
+  font-family: Pretendard;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+.images-section {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(60px, 120px);
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.highlight-text {
+  color: #4A4A4A;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.description {
+  color: #4A4A4A;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.button-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 40px;
+}
+
+/*
+  Mobile rules (< 1024px)
+  - Enforce min width 375px
+*/
+@media (max-width: 1023.98px) {
+  .page-layout {
+    min-width: 375px;
+    max-width: 1023px;
+    min-height: 667px;
+  }
+
+  .page-left-section {
+    display: none;
+  }
+
+  .page-right-section {
+    min-height: 667px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* Desktop rules (≥ 1024px) */
+@media (min-width: 1024px) {
+  .page-layout {
+    min-width: 1024px;
+    min-height: 768px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .page-left-section {
+    flex: 1 0 0;
+    align-self: stretch;
+  }
+
+  .page-left-section-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-position: 30% center;
+    object-fit: cover;
+    opacity: 0.94;
+    filter: contrast(1.1) brightness(0.9) saturate(0.7);
+  }
+
+  .page-right-section {
+    width: 600px;
+    padding: 50px 60px;
+  }
+}

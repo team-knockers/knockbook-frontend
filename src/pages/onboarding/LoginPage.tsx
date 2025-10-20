@@ -127,7 +127,7 @@ export default function LoginPage() {
               </div>
               <button 
                   className={styles['find-password-button']}
-                  onClick={() => {/* TODO */}}>
+                  onClick={() => {/* TEST */ nav(PATHS.signupSetFavoriteCategory)}}>
                   비밀번호 찾기
               </button>
             </div>

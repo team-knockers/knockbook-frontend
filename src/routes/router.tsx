@@ -26,6 +26,10 @@ import SignupEmailPage from "../pages/onboarding/SignupEmailPage";
 import SignupPolicyPage from "../pages/onboarding/SignupPolicyPage";
 import SignupPasswordPage from "../pages/onboarding/SignupPasswordPage";
 import SignupDisplayNamePage from "../pages/onboarding/SignupDisplayNamePage";
+import SignupSetFavoriteCategory from "../pages/onboarding/SignupSetFavoriteCategoryPage";
+import SignupSelectMbti from "../pages/onboarding/SignupSelectMbitPage";
+import SignupMbtiResult from "../pages/onboarding/SignupMbtiResultPage";
+import SignupComplete from "../pages/onboarding/SignupCompletePage";
 
 import HomePage from "../pages/HomePage";
 import BooksHomePage from "../pages/books/BooksHomePage";
@@ -91,6 +95,10 @@ export const router = createBrowserRouter([
   { path: PATHS.signupSetPassword, element: <SignupPasswordPage /> },
   { path: PATHS.signupSetName, element: <SignupDisplayNamePage /> },
   { path: PATHS.authCallback, element: <AuthCallbackPage /> },
+  { path: PATHS.signupSetFavoriteCategory, element: <SignupSetFavoriteCategory /> },
+  { path: PATHS.signupSelectMbti, element: <SignupSelectMbti /> },
+  { path: PATHS.signupMbtiResult, element: <SignupMbtiResult /> },
+  { path: PATHS.signupComplete, element: <SignupComplete /> },
   {
     id: AUTH_LOADER_ID,
     element: <AuthLayout />,
