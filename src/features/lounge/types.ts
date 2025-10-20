@@ -66,7 +66,7 @@ export type CurrentUserInfo = {
   avatarUrl: string;
 };
 
-// API-LOUNGE-03: Create a comment → 댓글 생성 후 생성된 comment 반환
+// API-LOUNGE-03: Create a comment → Returns the created comment after creation
 export type CreateLoungePostCommentResponse = LoungePostComment;
 
 // API-LOUNGE-04: Get multiple comments
@@ -75,10 +75,10 @@ export type GetLoungePostCommentsResponse = LoungePostCommentsPageResponse;
 // API-LOUNGE-05: Get a single comment
 export type GetLoungePostCommentResponse = LoungePostComment;
 
-// API-LOUNGE-06: Update comment → 수정 후 수정된 comment 반환
+// API-LOUNGE-06: Update comment → Returns the updated comment after modification
 export type UpdateLoungePostCommentResponse = LoungePostComment;
 
-// API-LOUNGE-10
+// API-LOUNGE-10: Check if the current user has liked a post → Returns the like status of the post
 export type LoungePostLikeStatusResponse = {
   liked: boolean;
 }
