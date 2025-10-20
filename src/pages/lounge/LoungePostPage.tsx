@@ -5,58 +5,276 @@ import s from './LoungePostPage.module.css'
 import type { LoungePostLoaderData } from './LoungePost.loader';
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 import { TfiCommentAlt } from "react-icons/tfi";
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { TfiMoreAlt } from "react-icons/tfi";
+import { LoungeService } from '../../features/lounge/services/LoungeService';
+import type { LoungePostComment, LoungePostCommentsPageResponse } from '../../features/lounge/types';
 
 export default function LoungePostPage() {
-  const { postDetails } = useLoaderData() as LoungePostLoaderData;
-  const [isLiked, setIsLiked] = useState(false); // Post like status
-  const [isCommentOpen, setIsCommentOpen] = useState(false); // Post comment status
+// 1. Loader data
+  const { postDetails, currentUserInfo } = useLoaderData() as LoungePostLoaderData;
 
+// 2. State & Ref
+  // Post like / comment toggle
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(postDetails.likeCount);
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
+
+  // Comments: menu & edit
   const [openCommentMenuId, setOpenCommentMenuId] = useState<string | null>(null);
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [editingCommentContent, setEditingCommentContent] = useState("");
 
-  const toggleCommentMenu = (commentId: string) => {
-    setOpenCommentMenuId(prev => (prev === commentId ? null : commentId));
+  // Comments: pagination / list data
+  const [loadedPages, setLoadedPages] = useState<Array<{page: number; comments: LoungePostCommentsPageResponse['comments']}>>([]);
+  const [commentsMeta, setCommentsMeta] = useState({ page: 1, size: 20, totalItems: 0, totalPages: 0 });
+  const [displayCount, setDisplayCount] = useState<number>(20);
+  const [pendingNewComments, setPendingNewComments] = useState<LoungePostCommentsPageResponse['comments']>([]);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const inFlightPagesRef = useRef<Set<number>>(new Set())
+
+  // Comments: editor
+  const [newComment, setNewComment] = useState("");
+
+// 3. Derived logic
+  // Return all comments from loaded pages plus any locally appended pending comments
+  const getAllLoadedComments = () => {
+    const pages = [...loadedPages].sort((a, b) => b.page - a.page);
+    return [...pages.flatMap(p => p.comments), ...pendingNewComments];
   };
 
+  // Return the subset of comments that should be shown based on displayCount
+  const getDisplayedComments = () => {
+    const all = getAllLoadedComments();
+    if (all.length <= displayCount) { return all; }
+    return all.slice(all.length - displayCount);
+  };
+
+// 4. Event handlers
   const onPostLikeToggled = () => {
     setIsLiked(prev => !prev);
+    setLikeCount(prev => prev + (isLiked ? -1 : 1));
   };
 
   const onPostCommentToggled = () => {
     setIsCommentOpen(prev => !prev);
   };
 
-  const handleSubmitComment = () => {
-    console.log('댓글이 제출되었습니다.');
-  }
+  // Create a comment and append it locally; increase visible count by 1 if panel open
+  const handleSubmitComment = async () => {
+    const content = newComment?.trim();
+    if (!content) { 
+      alert("내용을 입력해주세요.");
+      return; }
+
+    try {
+      const createdComment: LoungePostComment = await LoungeService.createComment(postDetails.id, content);
+      if (!createdComment) { return; }
+
+      const newTotal = (commentsMeta.totalItems || 0) + 1;
+      setCommentsMeta(prev => ({ ...prev, totalItems: newTotal }));
+      setPendingNewComments(prev => {
+        if (prev.some(c => c.id === createdComment.id)) { return prev; }
+        return [...prev, createdComment];
+      });
+
+      if (isCommentOpen) {
+        setDisplayCount(prev => Math.min(prev + 1, newTotal));
+      }
+      setNewComment("");
+
+    } catch (err) {
+      console.error("댓글 등록 실패:", err);
+    }
+  };
+
+  // Update a comment locally using the single-comment response
+  const handleEditComment = async (commentId: string, newContent: string) => {
+    const content = newContent?.trim();
+    if (!content) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const updatedComment = await LoungeService.updateComment(commentId, content);
+      if (!isCommentOpen) {
+        setEditingCommentId(null);
+        return;
+      }
+
+      setPendingNewComments(prev => prev.map(c => c.id === updatedComment.id ? updatedComment : c));
+      setLoadedPages(prev => {
+        const next = prev.map(p => ({ ...p, comments: p.comments.map(c => c.id === updatedComment.id ? updatedComment : c) }));
+        return next;
+      });
+      setEditingCommentId(null);
+
+    } catch (err) {
+      console.error("댓글 수정 실패", err);
+    }
+  };
+
+  // Delete a comment and remove it from local caches
+  const handleDeleteComment = async (commentId: string) => {
+    const ok = window.confirm("정말로 이 댓글을 삭제하시겠습니까?");
+    if (!ok) { return; }
+
+    try {
+      await LoungeService.deleteComment(commentId);
+      if (!isCommentOpen) {
+        setCommentsMeta(prev => ({ ...prev, totalItems: Math.max(0, prev.totalItems - 1) }));
+        return;
+      }
+
+      setPendingNewComments(prev => prev.filter(c => c.id !== commentId));
+      setLoadedPages(prev => {
+        const next = prev.map(p => ({ ...p, comments: p.comments.filter(c => c.id !== commentId) }));
+        return next;
+      });
+
+      setCommentsMeta(prev => {
+        const newTotal = Math.max(0, prev.totalItems - 1);
+        setDisplayCount(dPrev => Math.min(dPrev, newTotal));
+        return { ...prev, totalItems: newTotal };
+      });
+
+    } catch (err) {
+      console.error("댓글 삭제 실패", err);
+    }
+  };
+
+  // Load a single comment for editing and open the editor
+  const handleStartEditComment = async (commentId: string) => {
+
+    try {
+      const comment = await LoungeService.getCommentById(commentId);
+      setEditingCommentId(commentId);
+      setEditingCommentContent(comment.content);
+      setOpenCommentMenuId(null);
+
+    } catch (err) {
+      console.error("댓글 불러오기 실패", err);
+    }
+  };
 
   const handleReportComment = (commentId: string) => {
     console.log('신고', commentId);
     setOpenCommentMenuId(null);
   };
 
-  const handleEditComment = (commentId: string) => {
-    console.log('수정', commentId);
-    setOpenCommentMenuId(null);
+  const toggleCommentMenu = (commentId: string) => {
+    setOpenCommentMenuId(prev => (prev === commentId ? null : commentId));
   };
 
-  const handleDeleteComment = (commentId: string) => {
-    console.log('삭제', commentId);
-    setOpenCommentMenuId(null);
+// 5. Data fetching & sync
+  // Fetch a page of comments and merge into local pages (skip if already loaded)
+  const loadComments = async (page = 1, size = 20, force = false): Promise<LoungePostCommentsPageResponse | null> => {
+    if (!postDetails.id) { return null; }
+    if (!force && loadedPages.some(p => p.page === page)) { return null; }
+    if (!force && inFlightPagesRef.current.has(page)) { return null; }
+
+    try {
+      inFlightPagesRef.current.add(page);
+      setIsLoadingMore(true);
+      const data = await LoungeService.getCommentsByPost(postDetails.id, page, size);
+      upsertLoadedPage(data);
+      return data;
+    } catch (err) {
+      console.error("댓글 불러오기 실패", err);
+      if (!force) { inFlightPagesRef.current.delete(page); }
+      return null;
+    } finally {
+      setIsLoadingMore(false);
+    }
+  };
+  
+  // Merge a loaded page into local cache and drop any pending duplicates
+  const upsertLoadedPage = (data: LoungePostCommentsPageResponse) => {
+    console.debug('[comments] upsertLoadedPage', { page: data.page, totalItems: data.totalItems, count: data.comments.length });
+    setLoadedPages(prev => {
+      const normalizedComments = data.comments ? data.comments.slice().reverse() : [];
+      const existingIdx = prev.findIndex(p => p.page === data.page);
+      let next = [...prev];
+      if (existingIdx >= 0) {
+        next[existingIdx] = { page: data.page, comments: normalizedComments };
+      } else {
+        next.push({ page: data.page, comments: normalizedComments });
+        next.sort((a, b) => a.page - b.page);
+      }
+      inFlightPagesRef.current.delete(data.page);
+      return next;
+    });
+
+    setCommentsMeta({ page: data.page, size: data.size, totalItems: data.totalItems, totalPages: data.totalPages });
+    setPendingNewComments(prev => prev.filter(pc => !data.comments.some(c => c.id === pc.id)));
   };
 
-  // Mock data for testing before API integration
-  const comments = [
-    { id: '1', postId: '1', userid: '7', displayName: '호랭이', avatarUrl: 'https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg', content: '좋은 글이에요!', createdAt: '2025-10-15', editStatus: null },
-    { id: '2', postId: '1', userid: '8', displayName: '강아지', avatarUrl: 'https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg', content: '정말 감사합니다.', createdAt: '2025-10-16', editStatus: '수정됨' },
-    { id: '3', postId: '1', userid: '9', displayName: '고양이', avatarUrl: 'https://i.pinimg.com/200x/23/43/9e/23439e5b75335092d8e10af4776f44e7.jpg', content: '정말 유익했어요.', createdAt: '2025-10-16', editStatus: null },
-    { id: '4', postId: '1', userid: '15', displayName: '토끼', avatarUrl: 'https://i.pinimg.com/200x/19/fd/a7/19fda7fd1edc919b5d887b319f0db00d.jpg', content: '항상 잘 보고 있어요.', createdAt: '2025-10-16', editStatus: null }
-  ];
+  // When comment panel opens, load latest pages backwards until we have enough items to display
+  useEffect(() => {
+    if (!isCommentOpen || !postDetails.id) { return; }
+    let cancelled = false;
+    
+    (async () => {
+      try {
+        setIsLoadingMore(true);
+        const meta = await LoungeService.getCommentsByPost(postDetails.id, 1, commentsMeta.size);
+        const totalPages = meta.totalPages || 1;
+        const totalItems = meta.totalItems || 0;
+        setCommentsMeta(prev => ({ ...prev, totalItems, totalPages }));
+        const initialDisplay = Math.min(20, totalItems);
+        setDisplayCount(initialDisplay);
 
-  const myInfo = {
-    id: '8', displayName: '강아지', avatarUrl: 'https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg', bio: '안녕하세요! 저는 호랭이입니다.'
-};
+        let pageToLoad = totalPages;
+        while (!cancelled && pageToLoad >= 1) {
+          const data = await loadComments(pageToLoad, commentsMeta.size, true);
+          if (!data) { break; }
+          const loadedCount = data.comments.length + pendingNewComments.length;
+          if (loadedCount >= initialDisplay) { break; }
+          pageToLoad -= 1;
+        }
+      } catch (err) {
+        console.error('댓글 초기 로드 실패', err);
+      } finally {
+        setIsLoadingMore(false);
+      }
+    })();
+
+    return () => { cancelled = true; };
+  }, [isCommentOpen, postDetails.id]);
+
+// 6. Render helpers
+  function renderLoadMoreButton() {
+    const hasMore = commentsMeta.totalItems > displayCount;
+    if (!hasMore) { return null; }
+
+    const loadedPageNumbers = loadedPages.map(p => p.page);
+    const minLoadedPage = loadedPageNumbers.length > 0 ? Math.min(...loadedPageNumbers) : Infinity;
+
+    const prevPage =
+      minLoadedPage !== Infinity && minLoadedPage > 1
+        ? minLoadedPage - 1
+        : Math.max(
+            1,
+            commentsMeta.totalPages -
+              Math.ceil(displayCount / (commentsMeta.size || 20))
+          );
+
+    const handleClick = async () => {
+      await loadComments(prevPage, commentsMeta.size);
+      setDisplayCount(prev => Math.min(commentsMeta.totalItems, prev + 20));
+    };
+
+    return (
+      <button
+        className={s['comments-section__load-more']}
+        disabled={isLoadingMore}
+        onClick={handleClick}
+      >
+        이전 댓글 더보기
+      </button>
+    );
+  }
 
   return (
     <main className={s['lounge-post-main']}>
@@ -92,7 +310,7 @@ export default function LoungePostPage() {
             <IoMdHeartEmpty
             />
           )}
-          {postDetails.likeCount}
+          {likeCount}
         </button>
         <button className={s['post-actions__comment-btn']} onClick={onPostCommentToggled}>
           <TfiCommentAlt />
@@ -103,8 +321,15 @@ export default function LoungePostPage() {
       {/* Comments Section */}
       {isCommentOpen && (
         <section className={s['comments-section']}>
+          <div className={s['comments-section__header']}>
+            <strong className={s['comments-section__header-title']}>
+              댓글
+              <span className={s['comments-section__header-count']}>{commentsMeta.totalItems}</span>
+            </strong>
+          </div>
+          {renderLoadMoreButton()}
           <ul className={s['comments-section__list']}>
-            {comments.map((comment) => (
+            {getDisplayedComments().map((comment) => (
               <li key={comment.id} className={s['comments-section__item']}>
                 <div className={s['comments-section__item-container']}>
                   <img className={s['comments-section__item-author-avatar']}
@@ -118,11 +343,45 @@ export default function LoungePostPage() {
                       <span className={s['comments-section__item-date']}>{comment.createdAt}</span>
                       <span className={s['comments-section__item-edit-status']}>{comment.editStatus}</span>
                     </div>
-                    <p className={s['comments-section__item-content']}>{comment.content}</p>
+                    {editingCommentId === comment.id ? (
+                      <div className={s['comments-section__item-edit-box']}>
+                        <textarea
+                          className={s['comments-section__item-content-input']}
+                          value={editingCommentContent}
+                          onChange={(e) => setEditingCommentContent(e.target.value)}
+                          maxLength={500}
+                          rows={2}
+                          onKeyDown={async (e) => {
+                            // Shift+Enter: line break, Enter: submit
+                            if (e.key === "Enter" && !e.shiftKey) {
+                              e.preventDefault();
+                              await handleEditComment(comment.id, editingCommentContent);
+                            }
+                          }}
+                        />
+                        <div className={s['comments-section__item-actions']}>
+                          <button
+                            className={s['comments-section__item-actions-edit-btn']}
+                            onClick={async () => {
+                              await handleEditComment(comment.id, editingCommentContent);
+                            }}
+                          >
+                            수정완료
+                          </button>
+                          <button
+                            className={s['comments-section__item-actions-cancel-btn']}
+                            onClick={() => setEditingCommentId(null)}
+                          >
+                            취소
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className={s['comments-section__item-content']}>{comment.content}</p>
+                    )}
                   </div>
                   <div className={s['comments-section__item-menu']}>
                     <button
-                      type="button"
                       className={s['comments-section__item-menu-btn']}
                       aria-expanded={openCommentMenuId === comment.id}
                       onClick={() => toggleCommentMenu(comment.id)}
@@ -132,17 +391,15 @@ export default function LoungePostPage() {
 
                     {openCommentMenuId === comment.id && (
                       <div className={s['comments-section__item-menu-list']}>
-                        {comment.userid === myInfo.id ? (
+                        {currentUserInfo && comment.userId === currentUserInfo.id ? (
                           <>
                             <button
-                              type="button"
                               className={s['comments-section__item-menu-option']}
-                              onClick={() => handleEditComment(comment.id)}
+                              onClick={() => handleStartEditComment(comment.id)}
                             >
                               수정
                             </button>
                             <button
-                              type="button"
                               className={s['comments-section__item-menu-option']}
                               onClick={() => handleDeleteComment(comment.id)}
                             >
@@ -151,7 +408,6 @@ export default function LoungePostPage() {
                           </>
                         ) : (
                           <button
-                            type="button"
                             className={s['comments-section__item-menu-option']}
                             onClick={() => handleReportComment(comment.id)}
                           >
@@ -171,14 +427,24 @@ export default function LoungePostPage() {
             <div className={s['comment-editor__box']}>
               <div className={s['comment-editor__user']}>
                 <img className={s['comment-editor__user-avatar']}
-                  src={myInfo.avatarUrl}
-                  alt={`${myInfo.displayName}의 프로필 사진`} />
-                <span className={s['comment-editor__user-name']}>{myInfo.displayName}</span>
+                  src={currentUserInfo.avartarUrl}
+                  alt={`${currentUserInfo.displayName}의 프로필 사진`} />
+                <span className={s['comment-editor__user-name']}>{currentUserInfo.displayName}</span>
               </div>
-              <input
-                type="text"
+              <textarea
                 className={s['comment-editor__input']}
+                value={newComment}
+                onChange={e => setNewComment(e.target.value)}
                 placeholder="댓글을 작성해 주세요."
+                maxLength={500}
+                rows={2}
+                onKeyDown={e => {
+                  // Shift+Enter: line break, Enter: submit
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmitComment();
+                  }
+                }}
               />
               <div className={s['comment-editor__footer']}>
                 <button

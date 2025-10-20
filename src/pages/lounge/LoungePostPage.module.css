@@ -92,11 +92,33 @@
 }
 
 .comments-section {
-  padding-bottom: 120px;
+  padding: 0 40px 120px;
+}
+
+.comments-section__header {
+  padding-bottom: 15px;
+}
+
+.comments-section__header-title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.comments-section__header-count {
+  margin-left: 4px;
+  color: #00c6be;
+}
+
+.comments-section__load-more {
+  width: 100%;
+  height: 50px;
+  border: #EEEEEE solid 1px;
+  margin-bottom: -1px;
+  z-index: 10;
 }
 
 .comments-section__list {
-  padding: 0 40px;
+  padding: 0;
 }
 
 .comments-section__item {
@@ -152,6 +174,37 @@
   color: #BBBBBB;
 }
 
+
+.comments-section__item-edit-box {
+  margin: 10px 0 0;
+  width: 100%;
+}
+
+.comments-section__item-content-input {
+  width: 100%;
+  border: #BBBBBB solid 1px;
+  border-radius: 3px;
+  resize: none;
+  color: #383838;
+}
+
+.comments-section__item-actions {
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.comments-section__item-actions-edit-btn, .comments-section__item-actions-cancel-btn {
+  width: 52px;
+  height: 32px;
+  font-size: 12px;
+  color: #666666;
+  border: #BBBBBB solid 1px;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
 .comments-section__item-content {
   margin: 10px 0 0;
   font-size: 15px;
@@ -191,7 +244,7 @@
 
 
 .comment-editor {
-  padding: 0 40px;
+  padding: 0;
 }
 
 .comment-editor__box {
@@ -223,8 +276,11 @@
 }
 
 .comment-editor__input {
-  padding: 12px 21px;
+  width: 100%;
+  padding: 0 21px;
+  margin: 12px 0;
   border: none;
+  resize: none;
   color: #111111;
 }
 
