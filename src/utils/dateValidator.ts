@@ -12,3 +12,9 @@ export const dateLabel = new Intl.DateTimeFormat("ko-KR", {
   day: "numeric",
   timeZone: tz,
 }).format(tomorrow);
+
+export const formatYmdDots = (iso: string) => {
+  return new Date(iso)
+  .toLocaleDateString('en-CA', { timeZone: tz })
+  .replace(/-/g, '.');
+};

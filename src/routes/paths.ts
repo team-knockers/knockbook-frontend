@@ -51,7 +51,7 @@ export const PATHS = {
   accountSettingsProfile: "/account/settings/profile",
   userAddress: "/account/settings/address",
   selectAddress: "/account/settings/address/select",
-  orderHistory: "/account/history/orders",
+  purchaseHistory: "/account/history/purchase",
   rentalHistory: "/account/history/rental",
   rentalPending: "/account/history/rental/pending",
   rentalOngoing: "/account/history/rental/ongoing",

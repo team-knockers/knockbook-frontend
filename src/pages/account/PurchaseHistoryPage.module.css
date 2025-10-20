@@ -1,0 +1,187 @@
+.page-layout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Pretendard;
+}
+
+.max-width-container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.history-summary {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  padding: 0 0 0 20px;
+}
+
+.history-summary-title {
+  width: 25%;
+  font-size: 14px;
+  font-weight: 600;
+  padding-right: 10px;
+}
+
+.history-summary-items {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;  
+}
+
+.history-summary-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 5px;
+}
+
+.history-summary-item-count {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.history-summary-item-name {
+  font-size: 11px;
+  color: #767676;
+}
+
+.order-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+}
+
+.order-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  border-top: 0.5px solid rgb(36, 36, 36);
+  border-bottom: 0.5px solid #c3c3c3;
+}
+
+.order-header-left {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.order-detail {
+  font-size: 13px;
+  color: #727272;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px 10px;
+}
+
+.order-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.order-item-left {
+  width: 75%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.order-item-img {
+  width: 82px;
+  border-radius: 5px;
+}
+
+.order-item-desc {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 5px;
+}
+
+.order-item-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.order-item-qty {
+  font-size: 12px;
+  color: #595959;
+}
+
+.order-item-price {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.order-item-status {
+  display: flex;
+  justify-content: center;
+  width: 65px;
+  padding: 3px 0;
+  background-color: #474c98;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.order-item-review-btn {
+  align-self: flex-end;
+  width: 60px;
+  height: 32px;
+  border: 1px solid #474c98;
+  padding: 0 5px 1px;
+  border-radius: 10px;
+  color: #474c98;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.policy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 30px 0 0;
+  padding: 18px;
+  background-color: #F7F7F7;
+  border-radius: 10px;
+}
+
+.policy-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.policy-content {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #595959;
+}
+
+.policy-content-row {
+  margin: 6px 0 0;
+  padding: 0 0 0 9px;
+}
+
