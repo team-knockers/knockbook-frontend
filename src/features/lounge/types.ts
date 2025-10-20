@@ -77,3 +77,8 @@ export type GetLoungePostCommentResponse = LoungePostComment;
 
 // API-LOUNGE-06: Update comment → 수정 후 수정된 comment 반환
 export type UpdateLoungePostCommentResponse = LoungePostComment;
+
+// API-LOUNGE-10
+export type LoungePostLikeStatusResponse = {
+  liked: boolean;
+}

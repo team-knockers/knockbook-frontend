@@ -2,8 +2,7 @@ import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../
 import { useSession } from "../../../hooks/useSession";
 import type { CreateCommentRequest, LoungePostDetails, LoungePostsSummaryApiResponse, 
   CreateLoungePostCommentResponse, GetLoungePostCommentsResponse , GetLoungePostCommentResponse, 
-  UpdateLoungePostCommentResponse, 
-  UpdateCommentRequest} from "../types";
+  UpdateLoungePostCommentResponse, UpdateCommentRequest, LoungePostLikeStatusResponse } from "../types";
 
 export const LoungeService = {
 
@@ -143,6 +142,20 @@ export const LoungeService = {
       "/lounge/{userId}/{postId}/likes",
       { userId, postId },
       { method: "DELETE" }
+    );
+  },
+
+  // API-LOUNGE-10: Check if the current user has liked a post
+  async isPostLiked(
+    postId: string
+  ): Promise<LoungePostLikeStatusResponse> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return await apiAuthPath<LoungePostLikeStatusResponse>(
+      "/lounge/{userId}/{postId}/likes",
+      { userId, postId },
+      { method: "GET" }
     );
   }
 };
