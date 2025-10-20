@@ -4,6 +4,7 @@ export type GetMyProfileResponse = {
   email: string;
   avartarUrl: string;
   mbti: string;
+  bio: string;
   favoriteBookCategories: string[];
 }
 
