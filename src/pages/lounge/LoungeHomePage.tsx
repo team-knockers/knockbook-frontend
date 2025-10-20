@@ -27,7 +27,7 @@ import { LoungeService } from '../../features/lounge/services/LoungeService';
 function makeInitialState(params: URLSearchParams): LoungePostPageState {
   return {
     page: Number(params.get('page') ?? 1),
-    size: Number(params.get('size') ?? 3),
+    size: Number(params.get('size') ?? 6),
     sortBy: (params.get('sortBy') as LoungePostPageState['sortBy']) ?? 'newest',
   };
 }
@@ -80,7 +80,7 @@ export default function LoungeHomePage() {
     const q = new URLSearchParams();
     applyQueryParam(q, 'sortBy', updates.sortBy ?? base.sortBy);
     applyQueryParam(q, 'page', updates.page ?? base.page, '1');
-    applyQueryParam(q, 'size', updates.size ?? base.size, '3');
+    applyQueryParam(q, 'size', updates.size ?? base.size, '6');
     return q;
   };
 
@@ -230,15 +230,15 @@ export default function LoungeHomePage() {
           <div className={s['official-list']}>
             {posts.map((post) => (
               <button key={post.id} className={s['official-item']} onClick={() => handlePostClick(String(post.id))}>
+                <div className={s['official-text']}>
+                  <p className={s['item-title']}>{post.title}</p>
+                  <p className={s['item-author']}><span>by</span> {post.displayName}</p>
+                  <p className={s['item-like']}>추천 {post.likeCount}</p>
+                </div>
                 <img
                   src={post.previewImageUrl ?? DefaultImg}
                   alt={`${post.title} thumbnail image`}
                 />
-                <div className={s['official-text']}>
-                  <p className={s['item-title']}>{post.title}</p>
-                  <p className={s['item-author']}>by {post.displayName}</p>
-                  <p className={s['item-like']}>추천 {post.likeCount}</p>
-                </div>
               </button>
             ))}
           </div>

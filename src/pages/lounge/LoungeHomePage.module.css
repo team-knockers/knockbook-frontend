@@ -138,39 +138,50 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid #c1c1c1;
-  border-radius: 4px;
-  padding: 15px;
+  border: 1px solid #e0e0e0;
+  padding: 19px;
   background-color: #fff;
 }
 
+.official-item:hover {
+  background-color: #fafafa;
+}
+
 .official-item img {
-  width: 80px;
-  height: 80px;
-  border-radius: 4px;
+  width: 100px;
+  height: 100px;
 }
 
 .official-text {
-  align-items: center;
+  font-family: 'Noto Sans KR';
+  align-items: start;
+  flex:1;
 }
 
 .item-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 8px;
 }
 
 .item-author {
   font-weight: 400;
-  font-size: 12px;
-  color: #4a4a4a;
-  margin-bottom: 10px;
+  font-size: 14px;
+  color: #959595;
+  margin-bottom: 5px;
+}
+
+.item-author span {
+  font-family: Georgia, sans-serif;
+  font-style: italic;
+  color: #BBBBBB;
+  margin-right: 4px;
 }
 
 .item-like {
   font-weight: 400;
-  font-size: 10px;
-  color: #4a4a4a;
+  font-size: 12px;
+  color: #666666;
   margin: 0;
 }
 
@@ -179,8 +190,7 @@
   width: 100%;
   text-align: center;
   border: 1px solid #e1e1e1;
-  border-radius: 6px;
-  font-size: 13px;
+  font-size: 16px;
   padding: 6px 10px;
   margin: 10px auto 0;
   color: #000;
@@ -282,7 +292,7 @@
     max-height: 750px;
   }
 
- .banner-subtitle {
+  .banner-subtitle {
     font-size: 20px;
   }
 
@@ -301,5 +311,12 @@
   .banner-desc {
     font-size: 16px;
     margin: 0;
+  }
+
+  .official-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 1.5rem; /* 행, 열 간격 */
+    margin-bottom: 20px;
   }
 }
