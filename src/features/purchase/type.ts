@@ -90,6 +90,7 @@ export type Order = {
   cartId: string;
   shippingAddressId: string;
   status: string;
+  rentalStatus: string;
   paymentStatus: string;
   itemCount: number;
   subtotalAmount: number;
