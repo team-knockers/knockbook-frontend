@@ -14,7 +14,7 @@ export default function LoungePostPage() {
 // 1. Loader data
   const { postDetails, currentUserInfo } = useLoaderData() as LoungePostLoaderData;
 
-// 2. State & Ref
+// 2. State, Ref & Initial Data
   // Post like / comment toggle
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(postDetails.likeCount);
@@ -36,6 +36,24 @@ export default function LoungePostPage() {
   // Comments: editor
   const [newComment, setNewComment] = useState("");
 
+  // Fetch initial like status for the post
+  useEffect(() => {
+  let cancelled = false;
+
+  (async () => {
+    try {
+      const res = await LoungeService.isPostLiked(postDetails.id);
+      if (!cancelled) {
+        setIsLiked(res.liked);
+      }
+    } catch (err) {
+      console.error("좋아요 상태 가져오기 실패", err);
+    }
+  })();
+
+  return () => { cancelled = true; };
+}, [postDetails.id]);
+
 // 3. Derived logic
   // Return all comments from loaded pages plus any locally appended pending comments
   const getAllLoadedComments = () => {
@@ -51,9 +69,21 @@ export default function LoungePostPage() {
   };
 
 // 4. Event handlers
-  const onPostLikeToggled = () => {
-    setIsLiked(prev => !prev);
-    setLikeCount(prev => prev + (isLiked ? -1 : 1));
+  const onPostLikeToggled = async () => {
+    try {
+      if (isLiked) {
+        // like → unlike
+        await LoungeService.unlikePost(postDetails.id);
+        setLikeCount(prev => prev - 1);
+      } else {
+        // unlike → like
+        await LoungeService.likePost(postDetails.id);
+        setLikeCount(prev => prev + 1);
+      }
+      setIsLiked(prev => !prev);
+    } catch (err) {
+      console.error("좋아요 토글 실패", err);
+    }
   };
 
   const onPostCommentToggled = () => {
