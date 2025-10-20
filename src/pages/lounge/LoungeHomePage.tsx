@@ -55,6 +55,13 @@ const sortOptions = [
 
 const DESKTOP_BREAKPOINT = 1024;
 
+const spotlight = {
+  quote: "서울에도 아직 청춘이 내 집 마련할 수 있는 기회가 열려 있습니다.",
+  author: "스케치",
+  bookTitle: "청춘의 재테크 상담소",
+  coverImageUrl: "https://contents.kyobobook.co.kr/sih/fit-in/250x0/pdt/9788947545273.jpg"
+}
+
 export default function LoungeHomePage() {
   const navigate = useNavigate();
   const { postSummaries } = useLoaderData() as LoungeHomeLoaderData;
@@ -250,6 +257,22 @@ export default function LoungeHomePage() {
           {isDesktop && (
             <Pagination page={page} totalPages={totalPages} onChange={(p) => updateSearchStateViaUrl({ page: p })} />
           )}
+        </div>
+
+        <div className={s['lounge-spotlight']}>
+          <div className={s['spotlight-content']}>
+            <p className={s['spotlight-title']}>문앞지기가 사랑한 책 속의 한 문장</p>
+            <p className={s['spotlight-quote']}>{spotlight.quote}</p>
+            <p className={s['spotlight-meta']}>
+              <span className={s['spotlight-author-label']}>by</span>&nbsp;
+              {spotlight.author} / {spotlight.bookTitle}
+            </p>
+          </div>
+          <div className={s['spotlight-book']}>
+            <div className={s['spotlight-book-cover']}>
+              <img src={spotlight.coverImageUrl} alt={`${spotlight.bookTitle}의 커버이미지`}/>
+            </div>
+          </div>
         </div>
 
         <div className={s['slider-section']}>

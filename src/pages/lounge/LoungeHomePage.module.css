@@ -196,6 +196,59 @@
   color: #000;
 }
 
+.lounge-spotlight {
+  min-width: 375px;
+  width: 100%;
+  background: #5B6772;
+  margin-bottom: 100px;
+}
+
+.spotlight-content {
+  padding: 24px;
+}
+
+.spotlight-title {
+  font-size: 14px;
+  color: #D6C7D1;
+  margin-bottom: 40px;
+}
+
+.spotlight-quote {
+  font-size: 24px;
+  color: #F8F8F8F8;
+  margin-bottom: 30px;
+}
+
+.spotlight-meta {
+  font-size: 13px;
+  color: #F8F8F8F8;
+  margin-bottom: 0;
+}
+
+.spotlight-author-label {
+  font-family: Georgia, sans-serif;
+  font-style: italic;
+  color: #BBBBBB;
+}
+
+.spotlight-book {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 24px;
+}
+
+.spotlight-book-cover {
+  height: 250px;
+  width: auto;
+  overflow: hidden;
+}
+.spotlight-book-cover img {
+  height: 250px;
+  width: auto;
+  object-fit: cover;
+}
+
 .slider-section {
   width: 100%;
   overflow: hidden;
@@ -289,7 +342,7 @@
 
 @media (min-width: 1024px) {
   .lounge-banner {
-    max-height: 750px;
+    max-height: 600px;
   }
 
   .banner-subtitle {
@@ -318,5 +371,30 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem 1.5rem; /* 행, 열 간격 */
     margin-bottom: 20px;
+  }
+
+  .lounge-spotlight {
+    display: flex;
+  }
+
+  .spotlight-content {
+    width: 50%;
+    padding: 60px;
+  }
+
+  .spotlight-quote {
+    font-size: 34px;
+  }
+
+  .spotlight-book {
+    width: 50%;
+    padding: 20px;
+  }
+
+  .spotlight-book-cover {
+    height: 350px;
+  }
+  .spotlight-book-cover img {
+    height: 350px;
   }
 }
