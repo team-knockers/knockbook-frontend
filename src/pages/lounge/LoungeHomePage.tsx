@@ -3,7 +3,7 @@ import s from './LoungeHomePage.module.css'
 import { LuVolume2 } from "react-icons/lu";
 
 import { useEffect, useRef, useState } from 'react';
-import OfficialImg1 from '../../assets/lounge_official_img1.jpg';
+import DefaultImg from '../../assets/lounge_post_default_thumbnail.png';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 // @ts-ignore
@@ -231,8 +231,8 @@ export default function LoungeHomePage() {
             {posts.map((post) => (
               <button key={post.id} className={s['official-item']} onClick={() => handlePostClick(String(post.id))}>
                 <img
-                  src={post.previewImageUrl ?? OfficialImg1}
-                  alt='thumbnail image'
+                  src={post.previewImageUrl ?? DefaultImg}
+                  alt={`${post.title} thumbnail image`}
                 />
                 <div className={s['official-text']}>
                   <p className={s['item-title']}>{post.title}</p>
