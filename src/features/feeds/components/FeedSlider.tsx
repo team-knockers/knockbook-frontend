@@ -4,7 +4,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 // @ts-ignore
 import "swiper/css/navigation";
-import styles from "./styles/FeedSlider.module.css"; // 기존 CSS 그대로 사용
+import styles from "./styles/FeedSlider.module.css";
 import type { FeedPost } from "../types";
 
 type Props = {

@@ -31,7 +31,7 @@ function useIsMobile(breakpoint = 1024) {
 }
 
 const POST_SIZE = 5; // number of posts per request 
-const BANNER_SIZE=20; // 이거 api 어디서 부르면됨 얘는그냥 20개만 불르고 추가로딩안할건데 
+const BANNER_SIZE=20;
 
 export default function FeedHomePage() {
   // list shown on the page
@@ -89,7 +89,7 @@ export default function FeedHomePage() {
   }
 
   useEffect(() => {
-    if (!userInfo?.mbti || mbtiLoading || mbtiItems.length) return; // 이미 있으면 스킵
+    if (!userInfo?.mbti || mbtiLoading || mbtiItems.length) return; 
     let alive = true;
     (async () => {
       try {
@@ -178,7 +178,7 @@ export default function FeedHomePage() {
       try {
         setPopupLoading(true);
         setSelectedPostId(postId);
-        setForceEditPopup(false); // 일반 카드에서는 강제 해제
+        setForceEditPopup(false); 
 
         if (isMobile) {
           const res = await FeedService.getFeedPostCommentList(postId);
