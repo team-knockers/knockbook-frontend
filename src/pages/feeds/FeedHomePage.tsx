@@ -30,7 +30,8 @@ function useIsMobile(breakpoint = 1024) {
   return isMobile;
 }
 
-const PAGE_SIZE = 20; // number of posts per request 
+const POST_SIZE = 5; // number of posts per request 
+const BANNER_SIZE=20; // 이거 api 어디서 부르면됨 얘는그냥 20개만 불르고 추가로딩안할건데 
 
 export default function FeedHomePage() {
   // list shown on the page
@@ -43,6 +44,9 @@ export default function FeedHomePage() {
   const [keyword, setKeyword] = useState<string>('');
   // bottom trigger element 
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+  const [mbtiItems, setMbtiItems] = useState<FeedPost[]>([]);
+  const [mbtiLoading, setMbtiLoading] = useState(false);
 
   const [popupLoading, setPopupLoading] = useState(false);
   const [selectedComments, setSelectedComments] = useState<FeedPostComment[] | null>(null);
@@ -58,7 +62,7 @@ export default function FeedHomePage() {
       try {
         setLoading(true);
         // first page : (after = null)
-        const res = await FeedService.getFeedPostList(PAGE_SIZE, null, keyword);
+        const res = await FeedService.getFeedPostList(POST_SIZE, null, keyword);
         if (!alive) { return; }
         setPosts(res.feedPosts);      // replace list
         setNextAfter(res.nextAfter);  // save next cursor 
@@ -76,13 +80,29 @@ export default function FeedHomePage() {
     if (loading || !nextAfter) { return; } // guard: in-flight or no more
     try {
       setLoading(true);
-      const res = await FeedService.getFeedPostList(PAGE_SIZE, nextAfter, keyword);
+      const res = await FeedService.getFeedPostList(POST_SIZE, nextAfter, keyword);
       setPosts(prev => [...prev, ...res.feedPosts]); // append 
       setNextAfter(res.nextAfter);
     } finally {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!userInfo?.mbti || mbtiLoading || mbtiItems.length) return; // 이미 있으면 스킵
+    let alive = true;
+    (async () => {
+      try {
+        setMbtiLoading(true);
+        const res = await FeedService.getFeedPostList(BANNER_SIZE, null, "", userInfo.mbti);
+        if (!alive) return;
+        setMbtiItems(res.feedPosts);
+      } finally {
+        if (alive) setMbtiLoading(false);
+      }
+    })();
+    return () => { alive = false; };
+  }, [userInfo?.mbti]);
 
   // 3) observe the bottom sentinel
   useEffect(() => {
@@ -206,7 +226,7 @@ export default function FeedHomePage() {
       <FeedSlider
         title={`${userInfo?.mbti} 유저들의 이야기 궁금하신가요?`}
         subtitle="회원님과 동일한 MBTI 유저들의 콘텐츠를 추천해드려요"
-        items={posts} 
+        items={mbtiItems} 
         onClickItem={(postId) => handleSliderOpen(postId)()}
       />
 
