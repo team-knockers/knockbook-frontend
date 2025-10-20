@@ -18,6 +18,7 @@ export async function loungePostLoader({ params }: LoaderFunctionArgs): Promise<
 
   const postDetails = await LoungeService.getLoungePostDetails(postId);
   const currentUserInfo = await UserService.getMyProfile();
+  console.log(currentUserInfo); // for test
 
   return { postDetails, currentUserInfo };
 }

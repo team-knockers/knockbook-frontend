@@ -19,8 +19,41 @@ export const UserService = {
     if (!userId) { throw new Error("NO_USER"); }
     return await apiAuthPathAndQuery<void>(
       "/users/{userId}",
-      { userId: userId },
+      { userId },
       { displayName: name },
+      { method: "PUT"}
+    );
+  },
+
+  async changeMbti(mbti: string) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPathAndQuery<void>(
+      "/users/{userId}",
+      { userId },
+      { mbti },
+      { method: "PUT"}
+    );
+  },
+
+  async changeBio(bio: string) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPathAndQuery<void>(
+      "/users/{userId}",
+      { userId },
+      { bio },
+      { method: "PUT"}
+    );
+  },
+
+  async changeFavoriteBookCategories(categories: string[]) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPathAndQuery<void>(
+      "/users/{userId}",
+      { userId },
+      { categories },
       { method: "PUT"}
     );
   },
