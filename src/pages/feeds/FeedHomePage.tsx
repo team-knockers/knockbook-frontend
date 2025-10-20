@@ -1,5 +1,4 @@
 import profileUrl from "../../assets/feed_profile.jpg";
-
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { timeAgo } from '../../features/feeds/util';
 
@@ -12,13 +11,15 @@ import type { FeedPostComment, FeedPost } from '../../features/feeds/types';
 
 import FeedCommentBottomPopup from "../../features/feeds/components/FeedCommentBottomPopup";
 import FeedEditPopup from "../../features/feeds/components/FeedEditPopup";
+import { UserService } from "../../features/account/services/UserService";
+import type { GetMyProfileResponse } from "../../features/account/types";
 
 function useIsMobile(breakpoint = 1024) {
   const [isMobile, setIsMobile] = useState<boolean>(() =>
     typeof window === "undefined" ? false : window.innerWidth < breakpoint
   );
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined") { return; }
     const mq = window.matchMedia(`(max-width:${breakpoint - 1}px)`);
     const onChange = () => setIsMobile(mq.matches);
     onChange();
@@ -45,7 +46,7 @@ export default function FeedHomePage() {
   const [popupLoading, setPopupLoading] = useState(false);
   const [selectedComments, setSelectedComments] = useState<FeedPostComment[] | null>(null);
   const [selectedFeed, setSelectedFeed] = useState<FeedPost | null>(null);
-  
+  const [userInfo, setUserInfo] = useState<GetMyProfileResponse | null>(null);
   // 1) first load and reload when search keyword changes
   useEffect(() => {
     let alive = true; // ignore setState if unmounted
@@ -54,11 +55,13 @@ export default function FeedHomePage() {
         setLoading(true);
         // first page : (after = null)
         const res = await FeedService.getFeedPostList(PAGE_SIZE, null, keyword);
-        if (!alive) return;
+        if (!alive) { return; }
         setPosts(res.feedPosts);      // replace list
         setNextAfter(res.nextAfter);  // save next cursor 
+        const userInfo = await UserService.getMyProfile();
+        setUserInfo(userInfo);
       } finally {
-        if (alive) setLoading(false);
+        if (alive) { setLoading(false); }
       }
     })();
     return () => { alive = false; }; // cleanup on unmout 
@@ -66,7 +69,7 @@ export default function FeedHomePage() {
 
   // 2) load next page (called when sentinel becomes visible)
   async function loadMore() {
-    if (loading || !nextAfter) return; // guard: in-flight or no more
+    if (loading || !nextAfter) { return; } // guard: in-flight or no more
     try {
       setLoading(true);
       const res = await FeedService.getFeedPostList(PAGE_SIZE, nextAfter, keyword);
@@ -80,7 +83,7 @@ export default function FeedHomePage() {
   // 3) observe the bottom sentinel
   useEffect(() => {
     const el = sentinelRef.current;
-    if (!el) return;
+    if (!el) { return; }
 
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -105,7 +108,7 @@ export default function FeedHomePage() {
   const handleSubmitComment = (postId: string) => {
     return async (text: string) => {
       const v = text.trim();
-      if (!v) return;
+      if (!v) { return; }
 
       try {
         const created = await FeedService.createComment(postId, v);
@@ -178,7 +181,7 @@ export default function FeedHomePage() {
 
   return (
     <div className={s['page-layout']}>
-      <SearchBar placeholder="검색어를 입력하세요" onSearch={handleSearch} />
+      <SearchBar placeholder={`${userInfo?.displayName}님, 무슨 생각을 하고 계신가요?`} onSearch={handleSearch} />
 
       {posts.map(p => (
         <div 
@@ -225,7 +228,6 @@ export default function FeedHomePage() {
           likesCount={selectedFeed.likesCount}
           likedByMe={selectedFeed.likedByMe}
           onLikeToggle={handleLikePost(selectedFeed.postId)}
-          onMoreClick={() => {/* TODO */}}
         />
       )}
 

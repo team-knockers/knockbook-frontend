@@ -11,6 +11,7 @@ import type { FeedPostComment, FeedPost, FeedProfileThumbnail } from '../../feat
 import FeedProfileFallback from '../../assets/feed_profile.jpg';
 import FeedEditPopup from '../../features/feeds/components/FeedEditPopup';
 import FeedPostCreateModal from '../../features/feeds/components/FeedPostCreateModal';
+import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 
 const PAGE_SIZE = 3; // number of posts per request
 const NUM_MAX_FILES = 3;
@@ -29,6 +30,9 @@ export default function FeedProfilePage() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedFeedId, setSelectedFeedId] = useState<string|null>(null);
 
   // bottom trigger
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -54,7 +58,7 @@ export default function FeedProfilePage() {
       setLoading(true);
       try {
         const r = await FeedService.getFeedProfile(PAGE_SIZE, null);
-        if (!alive) return;
+        if (!alive) { return; }
         setDisplayName(r.displayName ?? '');
         setAvatarUrl(r.avatarUrl ?? null);
         setBio(r.bio ?? null);
@@ -62,7 +66,7 @@ export default function FeedProfilePage() {
         setThumbs(r.profileThumbnails ?? []);
         setNextAfter(r.nextAfter ?? null);
       } finally {
-        if (alive) setLoading(false);
+        if (alive) { setLoading(false); }
       }
     })();
     return () => { alive = false; };
@@ -70,7 +74,7 @@ export default function FeedProfilePage() {
 
   // load next page
   async function loadMore() {
-    if (loading || !nextAfter) return;
+    if (loading || !nextAfter) { return; }
     setLoading(true);
     try {
       const r = await FeedService.getFeedProfile(PAGE_SIZE, nextAfter);
@@ -84,9 +88,9 @@ export default function FeedProfilePage() {
   // observe sentinel
   useEffect(() => {
     const el = sentinelRef.current;
-    if (!el) return;
+    if (!el) { return; }
     const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) loadMore(); },
+      ([entry]) => { if (entry.isIntersecting) { loadMore(); } },
       { root: null, rootMargin: '200px 0px', threshold: 0 }
     );
     io.observe(el);
@@ -109,7 +113,7 @@ export default function FeedProfilePage() {
   const handleSubmitComment = (postId: string) => {
   return async (text: string) => {
     const v = text.trim();
-    if (!v) return;
+    if (!v) { return; }
 
     try {
       const created = await FeedService.createComment(postId, v);
@@ -128,8 +132,8 @@ export default function FeedProfilePage() {
   const handlePostLike =
   (postId: string) =>
   (next: boolean) => {
-    if (next) FeedService.likePost(postId);
-    else FeedService.unlikePost(postId);
+    if (next) { FeedService.likePost(postId); }
+    else { FeedService.unlikePost(postId); }
 
     setSelectedFeed(prev =>
       prev && prev.postId === postId
@@ -139,6 +143,7 @@ export default function FeedProfilePage() {
   };
 
   return (
+    <>
     <div className={s['page-layout']}>
       <div className={s['feed-header']}>
         <div className={s['feed-header-left']}>
@@ -217,7 +222,11 @@ export default function FeedProfilePage() {
         likesCount={selectedFeed.likesCount}
         likedByMe={selectedFeed.likedByMe}
         onLikeToggle={handlePostLike(selectedFeed.postId)}
-        onMoreClick={() => {/* TODO */}}
+        showMore
+        onDeleteClick={() => {
+          setConfirmOpen(true);   
+          setSelectedFeedId(selectedFeed!.postId);
+        }}
       />
     )}
 
@@ -233,5 +242,32 @@ export default function FeedProfilePage() {
     <div ref={sentinelRef} className={s['sentinel']} />
       {loading && <div className={s['loading']}>Loading…</div>}
     </div>
+
+     {confirmOpen && (
+      <TwoButtonPopup
+        title="정말 삭제하시겠습니까?"
+        description="이 작업은 되돌릴 수 없습니다."
+        cancelText="취소"
+        confirmText="삭제"
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={async () => {
+          if (!selectedFeedId) return;
+          try {
+            await FeedService.deletePost(selectedFeedId);
+            setThumbs(prev => prev.filter(t => t.postId !== selectedFeedId));
+            setPostsCount(p => Math.max(0, p - 1));
+          } catch (e) {
+            alert('삭제 실패');
+            console.error(e);
+          } finally {
+            setConfirmOpen(false);
+            setSelectedFeedId(null);
+            setSelectedFeed(null);
+            setSelectedComments(null);
+          }
+        }}
+      />
+    )}
+    </>
   );
 }
