@@ -5,7 +5,7 @@
   padding-bottom: 80px;
   background-color: #fff;
   font-family: 'Pretendard';
-  max-width: 1024px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -16,7 +16,7 @@
 
 .title {
   width: 100%;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -107,7 +107,7 @@
 }
 
 .official-header h3 {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -308,7 +308,7 @@
 }
 
 .challenge-section h3 {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 10px;
 }
@@ -369,7 +369,7 @@
   .official-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem 1.5rem; /* 행, 열 간격 */
+    gap: 1.5rem 1.5rem;
     margin-bottom: 20px;
   }
 
