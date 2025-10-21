@@ -291,7 +291,6 @@
   pointer-events: none;
 }
 
-/* 텍스트 영역 - 오버레이 위에 표시 */
 .slide-overlay {
   position: relative;
   z-index: 2;
