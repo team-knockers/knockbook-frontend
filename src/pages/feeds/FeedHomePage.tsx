@@ -171,6 +171,30 @@ export default function FeedHomePage() {
           : prev
       );
     };
+  
+  const handleSavePost = 
+    (postId: string) =>
+    (next: boolean) => {
+      if(next) {
+        FeedService.savePost(postId);
+      } else {
+        FeedService.unSavePost(postId);
+      }
+
+      setPosts(prev =>
+        prev.map(p =>
+          p.postId === postId
+            ? { ...p, savedByMe: next }
+            : p
+        )    
+      );
+
+      setSelectedFeed(prev =>
+        prev && prev.postId === postId 
+        ? { ...prev, savedByMe: next }
+        : prev 
+      )
+    }
 
   const handlePopupOpen = (postId: string) => {
     return async () => {
@@ -244,6 +268,8 @@ export default function FeedHomePage() {
             content={p.content}
             likedByMe={p.likedByMe}
             onLikeToggled={handleLikePost(p.postId)}
+            savedByMe={p.savedByMe}
+            onSaveToggled={handleSavePost(p.postId)}
             onCommentClick={handlePopupOpen(p.postId)}/>
         </div>
       ))}

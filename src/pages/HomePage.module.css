@@ -46,16 +46,15 @@
   transform: translateY(-4px);
 }
 .category-icon {
-  width: 50%;
+  width: 45%;
   height: auto;
   object-fit: contain;
 }
 .category-name {
-  margin-top: 6px;
-  font-family: Pretendard;
-  color: #333;
-  font-size: 14px;
-  font-weight: 400;
+  font-family: Pretendard !important;
+  color: #333 !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
 }
 /* Today-Book */
 .today-book-layout {
@@ -171,25 +170,22 @@
 /* Ad banner */
 .ad-banner-layout {
   width: 100%;
-  display: flex;
+  max-width: 1024px;
+  display: grid;
+  gap: 20px;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 20px;
-  flex-wrap: wrap;
-  max-width: 1024px;
+  margin: 0;
+  padding: 0 20px;
 }
 .ad-banner-img {
-  flex: 1;
-  /* min-width: 250px; */
-  height: 300px;
-  background-repeat: no-repeat;
-  border-radius: 12px;
-  background-size: contain;
+  width: 100%;
+  height: auto;
+  display: block;
+  height: auto;
+  max-width: 500px;
+  border-radius: 8px;
 }
-/* .ad-banner-img:nth-child(2) {
-  display: none;
-} */
 /*  Product Promo */
 .product-slider-title {
   display: none;
@@ -287,16 +283,13 @@
     max-width: none;
   }
   .category-button {
-    width: 85px;
-    height: 85px;
+    width: 80px;
+    height: 80px;
     border-radius: 20px;
   }
   .category-icon {
     width: 35px;
     height: 35px;
-  }
-  .category-button span {
-    font-size: 12px;
   }
   /* Today Book */
   .today-book-card {
@@ -307,7 +300,10 @@
     height: 180px;
   }
   /* Ad banner */
-  
+   .ad-banner-layout {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0;
+  }
   /* Product Promo */
   .product-slider-title {
     display: flex;

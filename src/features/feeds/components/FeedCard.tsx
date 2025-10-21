@@ -1,6 +1,6 @@
 import styles from "./styles/FeedCard.module.css";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
-import { IoChatbubblesOutline } from "react-icons/io5";
+import { IoChatbubblesOutline, IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { useState, useEffect } from "react";
 import FeedImageSlider from "./FeedImageSlider";
 import type { FeedImages } from "../types";
@@ -16,6 +16,8 @@ type FeedCardProps = {
   content: string;
   likedByMe: boolean;
   onLikeToggled: (liked: boolean) => void;
+  savedByMe: boolean;
+  onSaveToggled: (saved: boolean) => void;
   onCommentClick: () => void;
 };
 
@@ -29,6 +31,8 @@ export default function FeedCard({
   content: description,
   likedByMe,
   onLikeToggled,
+  savedByMe,
+  onSaveToggled,
   onCommentClick
 }: FeedCardProps) {
   const [isLiked, setIsLiked] = useState<boolean>(!!likedByMe);
@@ -45,6 +49,14 @@ export default function FeedCard({
   useEffect(() => { setIsLiked(!!likedByMe); }, [likedByMe]);
   useEffect(() => { setLikeCount(likesCount); }, [likesCount]);
 
+  const [isSaved, setIsSaved] = useState<boolean>(!!savedByMe);
+  const handleSaveToggle = () => {
+    const next = !isSaved;
+    setIsSaved(next);
+    onSaveToggled(next);
+  };
+  useEffect(() => { setIsSaved(!!savedByMe); }, [savedByMe]);
+
   const profileImgSrc =
     profileImage && profileImage.trim() !== "" ? profileImage : DefaultProfile;
 
@@ -60,6 +72,18 @@ export default function FeedCard({
           <div className={styles["fc-meta"]}>
             <span className={styles["fc-name"]}>{username}</span>
             <span className={styles["fc-time"]}>{timeAgo}</span>
+          </div>
+
+          <div className={styles["fc-headerAction"]}>
+            <button
+              type="button"
+              className={`${styles["fc-saveBtn"]} ${isSaved ? styles["is-saved"] : ""}`}
+              aria-pressed={isSaved}
+              aria-label={isSaved ? "저장 취소" : "저장"}
+              onClick={handleSaveToggle}
+            >
+              {isSaved ? <IoBookmark /> : <IoBookmarkOutline />}
+            </button>
           </div>
         </header>
 

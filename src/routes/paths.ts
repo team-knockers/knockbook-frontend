@@ -59,11 +59,10 @@ export const PATHS = {
   like: "/account/likes",
   likeBook: "/account/likes/book",
   likeProduct: "/account/likes/product",
-  point: "/account/points",
-  pointAll: "/account/points/all",
-  pointEarned: "/account/points/earned",
-  pointUsed: "/account/points/used",
-  pointExpired: "/account/points/expired",
+  pointTransactions: "/account/points",
+  pointTransactionsAll: "/account/points/all",
+  pointTransactionsEarned: "/account/points/earned",
+  pointTransactionsUsed: "/account/points/used",
   coupon: "/account/coupon",
 
   /* customer */

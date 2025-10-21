@@ -156,7 +156,10 @@ export default function HomePage() {
         {categories && categories.length > 0 && (
           <div className={s['category-buttons']}>
             {categories.map((cat) => (
-              <div key={cat.id} className={s['category-item']}>
+              <div 
+                className={s['category-item']}
+                key={cat.id} 
+              >
                 <button
                   className={s['category-button']}
                   onClick={() =>
@@ -261,20 +264,16 @@ export default function HomePage() {
 
       {/* Ad banner */}
       <div className={s['ad-banner-layout']}>
-        <div
+        <img
           className={s['ad-banner-img']}
-          style={{
-            backgroundImage:
-              'url("https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/09/29/59288/595x180.png")',
-          }}
-        ></div>
-        <div
+          src="https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/09/29/59288/595x180.png"
+          alt="Ad banner 1"
+        />
+        <img
           className={s['ad-banner-img']}
-          style={{
-            backgroundImage:
-              'url("https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/10/16/69461/pc_wtight_20251027.png")',
-          }}
-        ></div>
+          src="https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/10/16/69461/pc_wtight_20251027.png"
+          alt="Ad banner 2"
+        />
       </div>
 
       {/* Product Promo */}
