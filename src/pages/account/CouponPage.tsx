@@ -19,7 +19,12 @@ export default function CouponPage() {
           </div>
         </div>
 
-        <div className={s['coupon-list-layout']}>
+        {coupons.length === 0 ? (
+          <div className={s['empty-list-layout']}>
+            <span>사용할 수 있는 쿠폰이 없습니다.</span>
+          </div>
+        ) : 
+        (<div className={s['coupon-list-layout']}>
           {coupons.map((coupon, idx) => (
             <div 
               className={s["coupon-layout"]}
@@ -48,7 +53,7 @@ export default function CouponPage() {
               </div>
             </div>
           ))}
-        </div>
+        </div>)}
         <div className={s['use-guide-layout']}>
           <div className={s['use-guide-title']}>
             <span>쿠폰 사용 안내</span>
@@ -60,6 +65,7 @@ export default function CouponPage() {
             <li>주문 취소 시 쿠폰은 재발급되지 않습니다.</li>
           </ul>
         </div>
+      
       </div>
     </main>
   );
