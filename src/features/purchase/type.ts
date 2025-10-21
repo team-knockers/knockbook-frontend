@@ -173,6 +173,16 @@ export type GetPointBalanceResponse = {
   balance: number;
 }
 
+export type PointTransaction = {
+  id: string;
+  kind: string;
+  amountSigned: string;
+  orderId: string;
+  orderNo: string;
+  memo: string;
+  createdAt: string;
+}
+
 export type KakaoReadyResponse = {
   tid: string;
   next_redirect_pc_url?: string;

@@ -55,11 +55,10 @@ import RentalHistoryPage from "../pages/account/RentalHistoryPage";
 import LikePage from "../pages/account/LikePage";
 import LikeBookPage from "../pages/account/LikeBookPage";
 import LikeProductPage from "../pages/account/LikeProductPage";
-import PointPage from "../pages/account/PointPage";
-import PointAllPage from "../pages/account/PointAllPage";
-import PointEarnedPage from "../pages/account/PointEarnedPage";
-import PointUsedPage from "../pages/account/PointUsedPage";
-import PointExpiredPage from "../pages/account/PointExpiredPage";
+import PointTransactionsPage from "../pages/account/PointTransactionsPage";
+import PointTransactionsAllPage from "../pages/account/PointTransactionsAllPage";
+import PointTransactionsEarnedPage from "../pages/account/PointTransactionsEarnedPage";
+import PointTransactionsUsedPage from "../pages/account/PointTransactionsUsedPage";
 import CouponPage from "../pages/account/CouponPage";
 import ProductDetailDescriptionPage from "../pages/products/ProductDetailDescriptionPage";
 import ProductDetailReviewsPage from "../pages/products/ProductDetailReviewsPage";
@@ -86,6 +85,10 @@ import PurchaseHistoryPage from "../pages/account/PurchaseHistoryPage";
 import { PurchaseHistoryPageLoader } from "../pages/account/PurchaseHistoryPage.loader";
 import { RentalHistoryPageLoader } from "../pages/account/RentalHistoryPage.loader";
 import { CouponPageLoader } from "../pages/account/CouponPage.loader";
+import { PointTransactionsPageLoader } from "../pages/account/PointTransactionsPage.loader";
+import { PointTransactionsAllPageLoader } from "../pages/account/PointTransactionsAllPage.loader";
+import { PointTransactionsUsedPageLoader } from "../pages/account/PointTransactionsUsedPage.loader";
+import { PointTransactionsEarnedPageLoader } from "../pages/account/PointTransactionsEarnedPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -567,8 +570,9 @@ export const router = createBrowserRouter([
             ]
           },
           {
-            path: PATHS.point,
-            element: <PointPage />,
+            path: PATHS.pointTransactions,
+            element: <PointTransactionsPage />,
+            loader: PointTransactionsPageLoader,
             handle: { 
               header: { 
                 kind: "backTitleClose",
@@ -579,11 +583,12 @@ export const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Navigate to={PATHS.pointAll} replace />,
+                element: <Navigate to={PATHS.pointTransactionsAll} replace />,
               },
               {
-                path: PATHS.pointAll,
-                element: <PointAllPage />,
+                path: PATHS.pointTransactionsAll,
+                loader: PointTransactionsAllPageLoader,
+                element: <PointTransactionsAllPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -594,8 +599,9 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.pointEarned,
-                element: <PointEarnedPage />,
+                path: PATHS.pointTransactionsEarned,
+                loader: PointTransactionsEarnedPageLoader,
+                element: <PointTransactionsEarnedPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -606,20 +612,9 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.pointUsed,
-                element: <PointUsedPage />,
-                handle: {
-                  header: {
-                    kind: "backTitleClose",
-                    title: "포인트",
-                    back: { type: 'push', to: PATHS.accountHome },
-                    close: { type: 'push', to: PATHS.accountHome }
-                  }
-                }
-              },
-              {
-                path: PATHS.pointExpired,
-                element: <PointExpiredPage />,
+                path: PATHS.pointTransactionsUsed,
+                loader: PointTransactionsUsedPageLoader,
+                element: <PointTransactionsUsedPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
