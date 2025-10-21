@@ -26,14 +26,10 @@ export type FeedProfileThumbnail = {
   thumbnailUrl: string 
 };
 
-export type FeedProfile = {
-  userId: string;
-  displayName: string | null;
-  avatarUrl: string | null;
-  bio: string | null;
+export type FeedProfileThumbnailList = {
   postsCount: number;
-  profileThumbnails: FeedProfileThumbnail[];
   nextAfter: string | null;
+  profileThumbnails: FeedProfileThumbnail[];
 };
 
 export type FeedPostComment = {

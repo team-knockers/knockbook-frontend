@@ -1,5 +1,5 @@
 import { useSession } from "../../../hooks/useSession";
-import type { FeedPostList, FeedProfile, FeedPostCommentList, FeedPostDetail, FeedPostComment, FeedProfileThumbnail } from "../types";
+import type { FeedPostList, FeedPostCommentList, FeedPostDetail, FeedPostComment, FeedProfileThumbnail, FeedProfileThumbnailList } from "../types";
 import { apiAuthMultipartPath, apiAuthPathAndQuery } from "../../../shared/api";
 
 export const FeedService = {
@@ -28,10 +28,10 @@ export const FeedService = {
     );
   },
 
-  async getFeedProfile(
+  async getProfilePostThumbnails(
     size: number,
     after: string | null
-  ): Promise<FeedProfile> {
+  ): Promise<FeedProfileThumbnailList> {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
 
@@ -40,8 +40,28 @@ export const FeedService = {
       ...(after ? { after } : {}),
     };
 
-    return apiAuthPathAndQuery<FeedProfile>(
-      "/feeds/profile/{userId}",
+    return apiAuthPathAndQuery<FeedProfileThumbnailList>(
+      "/feeds/profile/post/{userId}",
+      { userId },
+      q,
+      { method: "GET" }
+    );
+  },
+
+  async getProfileSavedThumbnails(
+    size: number,
+    after: string | null
+  ): Promise<FeedProfileThumbnailList> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    const q = {
+      size,
+      ...(after ? { after } : {}),
+    };
+
+    return apiAuthPathAndQuery<FeedProfileThumbnailList>(
+      "/feeds/profile/saved/{userId}",
       { userId },
       q,
       { method: "GET" }
