@@ -83,7 +83,7 @@ export default function AccountHomePage() {
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
-            onClick={() => nav(PATHS.point)}>
+            onClick={() => nav(PATHS.pointTransactions)}>
             <div className={styles['bar-menu-point-icon']} />
             <div className={styles['bar-menu-item-name']}>
               <span>포인트</span>
