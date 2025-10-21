@@ -1,6 +1,6 @@
 import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathWithJson } from "../../../shared/api";
-import type { ApplyCouponRequest, ApplyPointsRequest, createOrderFromCartRequest, GetPointBalanceResponse, Order } from "../type";
+import type { ApplyCouponRequest, ApplyPointsRequest, createOrderFromCartRequest, Order } from "../type";
 
 export const OrderService = {
 
