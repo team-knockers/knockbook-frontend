@@ -22,6 +22,7 @@ import Business from '../assets/book_icon_business.png'
 import selfImprovement from '../assets/book_icon_selfimprovement.png'
 import language from '../assets/book_icon_language.png'
 import travel from '../assets/book_icon_travel.png'
+import Footer from '../components/layout/Footer';
 
 const categoryIcons: Record<string, string> = {
   fiction: Fiction,
@@ -67,27 +68,51 @@ export const todayBookDummy = {
 const feedDummy = [
   {
     id: 1,
-    userId: "DDodo02",
-    userProfile: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1840/A201509051656037332.jpg",
-    feedImage: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1840/A201509051656037332.jpg",
+    userId: "이화평",
+    userProfile: "https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg",
+    feedImage: "https://i.ibb.co/XBPkwdT/summer1-jpg.jpg",
   },
   {
     id: 2,
-    userId: "헬리카체",
-    userProfile: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1461/hot1706010655077.jpg",
-    feedImage: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1461/hot1706010655077.jpg",
+    userId: "쮸",
+    userProfile: "https://i.pinimg.com/200x/23/43/9e/23439e5b75335092d8e10af4776f44e7.jpg",
+    feedImage: "https://i.ibb.co/67dg3DCY/Reading-on-a-train-reading-train-jpg.jpg",
   },
   {
     id: 3,
-    userId: "samchu",
-    userProfile: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1059/hot1757647347642.jpg",
-    feedImage: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1059/hot1757647347642.jpg",
+    userId: "지원",
+    userProfile: "https://i.pinimg.com/200x/19/fd/a7/19fda7fd1edc919b5d887b319f0db00d.jpg",
+    feedImage: "https://i.pinimg.com/736x/78/2e/c3/782ec39cce37f127ffed214a2178c361.jpg",
   },
   {
     id: 4,
-    userId: "모나리자208",
-    userProfile: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1044/hot1714366495367.jpg",
-    feedImage: "https://contents.kyobobook.co.kr/sih/fit-in/400x0/gift/pdt/1044/hot1714366495367.jpg",
+    userId: "안윤환",
+    userProfile: "https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg",
+    feedImage: "https://i.pinimg.com/1200x/7a/4a/ef/7a4aefc695e2f67af7aa903bf9628453.jpg",
+  },
+  {
+    id: 5,
+    userId: "이화평",
+    userProfile: "https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg",
+    feedImage: "https://i.pinimg.com/736x/7a/fa/f7/7afaf756a9a9557f05f0c48877020963.jpg",
+  },
+  {
+    id: 6,
+    userId: "쮸",
+    userProfile: "https://i.pinimg.com/200x/23/43/9e/23439e5b75335092d8e10af4776f44e7.jpg",
+    feedImage: "https://i.pinimg.com/736x/56/95/97/56959713378cddd95086b74291802521.jpg",
+  },
+  {
+    id: 7,
+    userId: "지원",
+    userProfile: "https://i.pinimg.com/200x/19/fd/a7/19fda7fd1edc919b5d887b319f0db00d.jpg",
+    feedImage: "https://i.pinimg.com/1200x/f4/11/ed/f411ed5fc3e7d82473b371958762802d.jpg",
+  },
+  {
+    id: 8,
+    userId: "안윤환",
+    userProfile: "https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg",
+    feedImage: "https://i.pinimg.com/1200x/3f/38/c5/3f38c530db43dd5eeb1fcad514579123.jpg",
   },
 ];
 
@@ -131,32 +156,36 @@ export default function HomePage() {
         {categories && categories.length > 0 && (
           <div className={s['category-buttons']}>
             {categories.map((cat) => (
-              <button
-                key={cat.id}
-                className={s['category-button']}
-                onClick={() =>
-                  navigate(
-                    generatePath(PATHS.booksCategory, {
-                      categoryCodeName: cat.categoryCodeName,
-                    })
-                  )
-                }
+              <div 
+                className={s['category-item']}
+                key={cat.id} 
               >
+                <button
+                  className={s['category-button']}
+                  onClick={() =>
+                    navigate(
+                      generatePath(PATHS.booksCategory, {
+                        categoryCodeName: cat.categoryCodeName,
+                      })
+                    )
+                  }
+                >
                 <img
                   className={s['category-icon']}
                   src={categoryIcons[cat.categoryCodeName]}
                   alt={cat.categoryDisplayName}
                 />
+                </button>
                 <span className={s['category-name']}>
                   {cat.categoryDisplayName}
                 </span>
-              </button>
+              </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Today-Book */}
+      {/* Today Book */}
       <div className={s['today-book-layout']}>
         <div className={s['today-book-header']}>
           <h2>오늘의 인생책</h2>
@@ -233,8 +262,18 @@ export default function HomePage() {
         );
       })}
 
+      {/* Ad banner */}
       <div className={s['ad-banner-layout']}>
-        <div className={s['ad-banner-img']}></div>
+        <img
+          className={s['ad-banner-img']}
+          src="https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/09/29/59288/595x180.png"
+          alt="Ad banner 1"
+        />
+        <img
+          className={s['ad-banner-img']}
+          src="https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/10/16/69461/pc_wtight_20251027.png"
+          alt="Ad banner 2"
+        />
       </div>
 
       {/* Product Promo */}
@@ -257,6 +296,7 @@ export default function HomePage() {
         </ProductBannerSlider>
       </section>
 
+      {/* Feed card */}
       <div className={s['feed-card-layout']}>
         <div className={s['feed-card-header']}> 
           <h2>새로 올라온 피드 보셨나요?</h2>
@@ -286,6 +326,7 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

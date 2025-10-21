@@ -1,92 +1,71 @@
-import { Outlet } from 'react-router-dom';
+import { useFetcher, useLoaderData } from 'react-router-dom';
 import s from './CouponPage.module.css';
-
-type CouponType = "book" | "product";
-
-type CouponProps = {
-  type: CouponType; // Book coupon / Product coupon
-  discountRate: number; // Discount rate
-  title: string; // Coupon title
-  expireDate: string; // Expiration date
-};
-
-function CouponCard({
-  type,
-  discountRate,
-  title,
-  expireDate,
-}: CouponProps) {
-  return (
-    <div className={s["coupon-card"]}>
-      <div className={s["coupon-header"]}>
-        <span
-          className={`${s["coupon-type"]} ${
-            type === "book" ? s["book"] : s["product"]
-          }`}
-        >
-          {type === "book" ? "도서 쿠폰" : "상품 쿠폰"}
-        </span>
-      </div>
-      <div className={s["coupon-body"]}>
-        <p className={s["discount"]}>{discountRate}%</p>
-        <p className={s["title"]}>{title}</p>
-        <p className={s["expire-date"]}>{expireDate}</p>
-      </div>
-    </div>
-  );
-}
+import type { CouponPageLoaderData } from './CouponPage.loader';
+import { formatWon } from '../../features/purchase/utils/formatter';
+import { formatYmdTimeDots, remainDate } from '../../utils/dateValidator';
 
 export default function CouponPage() {
-  
-  const coupons: CouponProps[] = [
-    {
-      type: "book",
-      discountRate: 20,
-      title: "이달의 도서 20% 쿠폰",
-      expireDate: "2025.11.01 00:00까지",
-    },
-    {
-      type: "product",
-      discountRate: 10,
-      title: "이달의 상품 10% 쿠폰",
-      expireDate: "2025.11.01 00:00까지",
-    },
-    {
-      type: "book",
-      discountRate: 10,
-      title: "이달의 도서 10% 쿠폰",
-      expireDate: "2025.11.01 00:00까지",
-    },
-    {
-      type: "product",
-      discountRate: 20,
-      title: "이달의 상품 20% 쿠폰",
-      expireDate: "2025.11.01 00:00까지",
-    },
-  ];
 
+  const initial = useLoaderData() as CouponPageLoaderData;
+  const fetcher = useFetcher<CouponPageLoaderData>();
+  const coupons = fetcher.data?.coupons ?? initial.coupons;
+  
   return (
     <main className={s['page-layout']}>
-      <div className={s['coupon-count']}>
-        전체 쿠폰 <strong>{coupons.length}</strong>개
-      </div>
+      <div className={s['max-width-container']}>
+         <div className={s['page-header']}>
+          <div className={s['total-count']}>
+            <span>전체 쿠폰 ({coupons.length})</span>
+          </div>
+        </div>
 
-      <div className={s['coupon-layout']}>
-        {coupons.map((coupon, index) => (
-          <CouponCard key={index} {...coupon} />
-        ))}
-        <Outlet />
-      </div>
-      <div className={s['coupon-information-layout']}>
-        <p className={s['coupon-information-title']}>
-          쿠폰 사용 안내
-        </p>
-        <ul className={s['coupon-information-list']}>
-          <li>쿠폰은 유효기간 내에만 사용 가능합니다.</li>
-          <li>다른 할인 혜택과 중복 사용이 불가합니다.</li>
-          <li>일부 품목은 쿠폰 적용이 제외될 수 있습니다.</li>
-          <li>주문 취소 시 쿠폰은 재발급되지 않습니다.</li>
-        </ul>
+        {coupons.length === 0 ? (
+          <div className={s['empty-list-layout']}>
+            <span>사용할 수 있는 쿠폰이 없습니다.</span>
+          </div>
+        ) : 
+        (<div className={s['coupon-list-layout']}>
+          {coupons.map((coupon, idx) => (
+            <div 
+              className={s["coupon-layout"]}
+              key={`coupon-${idx}`}>
+              <div className={s["coupon-content"]}>
+                <div className={s["coupon-tag"]}>
+                  <span>{coupon.scope}</span>
+                </div>              
+                {coupon.discountRateBp &&
+                <div className={s["coupon-discount-rate"]}>
+                  <span>{coupon.discountRateBp}%</span>
+                </div>}
+                {coupon.discountAmount && 
+                <div className={s["coupon-discount-amount"]}>
+                  <span>{formatWon(coupon.discountAmount)}</span>
+                </div>}
+                <div className={s["coupon-name"]}>
+                  <span>{coupon.name}</span>
+                </div>
+              </div>
+              <div className={s["coupon-expire-date"]}>
+                <span className={s['coupon-remain-date']}>
+                  {remainDate(coupon.expiresAt)}일 남음
+                </span>
+                <span>{formatYmdTimeDots(coupon.expiresAt)}까지</span>
+              </div>
+            </div>
+          ))}
+        </div>)}
+        <div className={s['use-guide-layout']}>
+          <div className={s['use-guide-title']}>
+            <span>쿠폰 사용 안내</span>
+          </div>
+          <ul className={s['use-guide-row']}>
+            <li>쿠폰은 유효기간 내에만 사용 가능합니다.</li>
+            <li>다른 할인 혜택과 중복 사용이 불가합니다.</li>
+            <li>일부 품목은 쿠폰 적용이 제외될 수 있습니다.</li>
+            <li>주문 취소 시 쿠폰은 재발급되지 않습니다.</li>
+          </ul>
+        </div>
+      
       </div>
     </main>
   );
