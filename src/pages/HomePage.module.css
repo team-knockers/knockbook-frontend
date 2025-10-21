@@ -5,14 +5,14 @@
   gap: 40px;
   padding-top: 30px;
 }
-
+/* Top Banners */
 .banner-layout {
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 0 20px;
 }
-
+/* Book-category */
 .book-category-layout {
   padding: 0 20px;
 }
@@ -26,6 +26,7 @@
   width: 100%;
   max-width: 450px;
   margin: 0 auto;
+  text-align: center;
 }
 .category-button {
   display: flex;
@@ -34,8 +35,7 @@
   justify-content: center;
   aspect-ratio: 1 / 1;
   width: 100%;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
+  background-color: #f3f3f3;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 500;
@@ -43,21 +43,21 @@
 }
 .category-button:hover {
   background-color: #e0e0e0;
-  border-color: #ccc;
+  transform: translateY(-4px);
 }
 .category-icon {
-  width: 40%;
+  width: 50%;
   height: auto;
   object-fit: contain;
 }
-.category-button span {
+.category-name {
   margin-top: 6px;
   font-family: Pretendard;
-  color: #888;
-  font-size: 10px;
-  font-weight: 700;
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
 }
-
+/* Today-Book */
 .today-book-layout {
   width: 100%;
   max-width: 1024px;
@@ -127,7 +127,6 @@
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }
-
 .today-book-content h3 {
   font-size: 16px;
   font-weight: 700;
@@ -151,26 +150,7 @@
   color: #333;
   padding-top: 10px;
 }
-
-.ad-banner-layout {
-  width: 100%;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
-  padding: 20px;
-}
-.ad-banner-img {
-  width: 100%;
-  height: 100%;
-  background-image: url("https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/10/01/2/69666660.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  opacity: 0.8;
-}
-
+/* MBTI Picks */
 .book-slider-layout {
   width: 100%;
   max-width: 1024px;
@@ -179,7 +159,6 @@
   align-items: center;
   padding: 0 20px;
 }
-
 .section-title {  
   max-width: 1024px;
   align-self: flex-start;
@@ -189,13 +168,46 @@
   font-weight: 600;
   margin-bottom: 20px;
 }
-
+/* Ad banner */
+.ad-banner-layout {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  flex-wrap: wrap;
+  max-width: 1024px;
+}
+.ad-banner-img {
+  flex: 1;
+  /* min-width: 250px; */
+  height: 300px;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  background-size: contain;
+}
+/* .ad-banner-img:nth-child(2) {
+  display: none;
+} */
+/*  Product Promo */
+.product-slider-title {
+  display: none;
+}
+.product-slider-layout {
+  max-width: 1024px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0 20px;
+}
+/* Feed card */
 .feed-card-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 20px 20px 30px;
   width: 100%;
   max-width: 1024px;
   font-family: Pretendard;
@@ -230,14 +242,15 @@
 }
 .feed-image-wrapper {
   width: 100%;
-  max-width: 300px;
   overflow: hidden;
   border-radius: 12px;
   position: relative;
+  aspect-ratio: 1 / 1;
 }
 .feed-image {
   width: 100%;
-  max-width: 300px;
+  height: 100%;
+  object-fit: cover;
   display: block;
   z-index: 1;
 }
@@ -245,14 +258,14 @@
   position: absolute;
   display: flex;
   align-items: center;
-  left: 20px;
+  left: 10px;
   bottom: 10px;
   gap: 6px;
   z-index: 2;
 }
 .feed-profile {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   object-fit: cover;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
@@ -265,6 +278,7 @@
 }
 
 @media (min-width: 1024px) {
+  /* Book-category */
   .category-buttons {
     display: flex;
     flex-wrap: nowrap;
@@ -284,7 +298,7 @@
   .category-button span {
     font-size: 12px;
   }
-
+  /* Today Book */
   .today-book-card {
     flex-direction: row;
     align-items: center;
@@ -292,26 +306,47 @@
   .today-book-review {
     height: 180px;
   }
-
-  .ad-banner-img {
-    background-image: url("https://contents.kyobobook.co.kr/advrcntr/IMAC/creatives/2025/10/01/66416/1001_04.png");
-  }
-
+  /* Ad banner */
+  
+  /* Product Promo */
   .product-slider-title {
+    display: flex;
     font-family: Pretendard;
     font-size: 16px;
     font-weight: 600;
     text-align: left;
     margin: 0;
   }
-
-  .feed-card-layout {
+  .product-slider-layout {
     padding: 0;
+  }
+  /* Feed card */
+  .feed-card-layout {
+    padding: 0 0 50px;
   }
   .feed-card-wrapper {
     max-width: 1024px;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     padding: 0;
+  }
+  .feed-image {
+    max-width: 300px;
+  }
+  .feed-user-info {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 20px;
+    bottom: 10px;
+    gap: 6px;
+    z-index: 2;
+  }
+  .feed-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
   }
 }
