@@ -148,6 +148,30 @@ export const FeedService = {
     );
   },
 
+  async savePost(postId: string): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPathAndQuery<void>(
+      "/feeds/post/{postId}/saves/{userId}",
+      { postId, userId },
+      undefined,
+      {method: "PUT" }
+    );
+  },
+
+  async unSavePost(postId: string): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPathAndQuery<void>(
+      "/feeds/post/{postId}/saves/{userId}",
+      { postId, userId },
+      undefined,
+      {method: "PUT" }
+    );
+  },
+
   async createComment(postId: string, body: string): Promise<FeedPostComment> {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
