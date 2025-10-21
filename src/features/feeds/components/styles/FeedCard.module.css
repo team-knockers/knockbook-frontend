@@ -135,6 +135,50 @@
   white-space: pre-line;
 }
 
+.fc-headerAction {
+  margin-inline-start: auto;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+}
+
+.fc-saveBtn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 4px;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.fc-saveBtn svg {
+  inline-size: 22px;
+  block-size: 22px;
+  color: #000;
+  transition: color .15s ease, transform .05s ease;
+}
+
+.fc-saveBtn:hover svg {
+  color: #111;
+}
+
+.fc-saveBtn:active svg {
+  transform: scale(0.96);
+}
+
+.is-saved svg {
+  color: #111; 
+}
+
+.fc-saveBtn:focus-visible {
+  outline: 2px solid #cfd4ff;
+  outline-offset: 2px;
+}
+
 /* ===== Desktop (>=1024px) ===== */
 @media (min-width: 1024px) {
   .fc-card {
