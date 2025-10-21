@@ -26,7 +26,7 @@
   z-index: 1000;
   background: #F7f7f7;
   height: 100vh;
-  overflow-y: auto;
+  overflow: visible;
   box-sizing: border-box;
 
   animation: slideIn .28s ease both;scrollbar-gutter: stable;
@@ -133,7 +133,7 @@
   font-size: 14px; 
   font-weight: 400;
   cursor: pointer; 
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 .category-item {
@@ -145,6 +145,7 @@
   font-size: 14px; 
   font-weight: 400; 
   cursor: pointer;
+  padding: 8px 0;
 }
 
 .category-all:hover,
@@ -154,6 +155,10 @@
 
 .category-icon { 
   font-size: 16px;
+}
+
+.subcategory-list {
+  display: none;
 }
 
 @media (max-width: 1023.98px) {
@@ -180,12 +185,6 @@
 
   .category-list-wrapper { 
     width: 100%;
-  }
-
-  .category-items { 
-    display: flex; 
-    flex-direction: column;
-    gap: 20px; 
   }
 
   .close-floating{
@@ -221,18 +220,43 @@
     font-size: 16px;
   }
 
-  .category-items { 
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
   .category-item { 
     font-size: 16px;
+    padding: 10px 0;
   }
 
   .category-icon { 
     font-size: 18px;
+  }
+
+   .books-category-wrapper {
+    position: relative;
+  }
+
+  .subcategory-list {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 300px;
+    width: 200px;
+    height: 100%;
+    background: #fff;
+    z-index: 9999;
+    padding-top: 20px;
+  }
+
+  .subcategory-item {
+    font-size: 16px;
+    padding: 10px 30px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: Pretendard;
+    font-weight: 400;
+  }
+
+  .subcategory-item:hover {
+    color: #0f766e;
   }
 }
 
