@@ -18,3 +18,18 @@ export const formatYmdDots = (iso: string) => {
   .toLocaleDateString('en-CA', { timeZone: tz })
   .replace(/-/g, '.');
 };
+
+export const formatYmdTimeDots = (iso: string) => {
+  const d = new Date(iso);
+  return `${d.getFullYear()}
+  .${String(d.getMonth()+1).padStart(2, "0")}
+  .${String(d.getDate()).padStart(2, "0")}
+   ${String(d.getHours()).padStart(2, "0")}
+   :${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
+export const remainDate = (iso: string) => {
+  const target = new Date(iso);
+  const now = new Date();
+  return Math.ceil((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+}

@@ -1,6 +1,7 @@
 import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
 import type { ChangePasswordRequest, VerifyPasswordRequest, GetMyProfileResponse, Address, InsertAddressRequest, UpdateAddressRequest } from "../types";
+import type { CouponIssuance, GetPointBalanceResponse } from "../../purchase/type";
 
 export const UserService = {
   
@@ -12,6 +13,27 @@ export const UserService = {
       { userId : userId },
       { method: "GET" }
     )
+  },
+
+    async getCoupons(status: string = "AVAILABLE" ) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER") }    
+    return await apiAuthPathAndQuery<CouponIssuance[]>(
+      "/users/{userId}/coupon-issuances",
+      { userId },
+      { status : status },
+      { method: "GET" }
+    );
+  },
+
+  async getPoints() {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER") }    
+    return await apiAuthPath<GetPointBalanceResponse>(
+      "/users/{userId}/points/balance",
+      { userId },
+      { method: "GET" }
+    );
   },
 
   async changeDisplayName(name: string) {
