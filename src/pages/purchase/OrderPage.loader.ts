@@ -22,8 +22,8 @@ export async function OrderPageLoader({ params }: LoaderFunctionArgs) {
     throw new Response("Missing orderId", { status: 400 });
   } 
   
-  const coupons = await OrderService.getCoupons();
-  const points = (await OrderService.getPoints()).balance;
+  const coupons = await UserService.getCoupons();
+  const points = (await UserService.getPoints()).balance;
   const order = await OrderService.getOrder(String(orderId));
   const address = await UserService.getAddress(order.shippingAddressId);
   

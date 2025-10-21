@@ -85,6 +85,7 @@ import { SelectAddressPageLoader } from "../pages/account/SelectAddressPage.load
 import PurchaseHistoryPage from "../pages/account/PurchaseHistoryPage";
 import { PurchaseHistoryPageLoader } from "../pages/account/PurchaseHistoryPage.loader";
 import { RentalHistoryPageLoader } from "../pages/account/RentalHistoryPage.loader";
+import { CouponPageLoader } from "../pages/account/CouponPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -633,6 +634,7 @@ export const router = createBrowserRouter([
           {
             path: PATHS.coupon,
             element: <CouponPage />,
+            loader: CouponPageLoader,
             handle: { 
               header: { 
                 kind: "backTitleClose",
