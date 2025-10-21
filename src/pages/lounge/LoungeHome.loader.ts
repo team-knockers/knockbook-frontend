@@ -8,7 +8,7 @@ export type LoungeHomeLoaderData = {
 
 export async function loungeHomeLoader(_args: LoaderFunctionArgs): Promise<LoungeHomeLoaderData> {
 
-  const postSummaries = await LoungeService.getPaginatedLoungePostSummaries(1, 3, 'newest');
+  const postSummaries = await LoungeService.getPaginatedLoungePostSummaries(1, 6, 'newest');
 
   return { postSummaries };
 }
