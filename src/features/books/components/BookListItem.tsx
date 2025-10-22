@@ -16,6 +16,7 @@ type BookListItemProps = {
   purchaseAmount: number;
   discountedPurchaseAmount: number;
   onImageOrTitleClicked: () => void;
+  onCartButtonClick: () => void;
 };
 
 export default function BookListItem({
@@ -28,7 +29,8 @@ export default function BookListItem({
   rentalAmount,
   purchaseAmount,
   discountedPurchaseAmount,
-  onImageOrTitleClicked
+  onImageOrTitleClicked,
+  onCartButtonClick
 }: BookListItemProps) {
 
   const [isLiked, setIsLiked] = useState(false); // Wishlist status
@@ -99,7 +101,7 @@ export default function BookListItem({
           />
         )}
         <IoCartOutline
-          onClick={() => console.log('장바구니 버튼 클릭')}
+          onClick={onCartButtonClick}
         />
       </div>
       {/* Desktop only */}
@@ -129,7 +131,7 @@ export default function BookListItem({
           widthSizeType="sm"
           heightSizeType="sm"
           colorType="dark"
-          onClick={() => console.log('장바구니 버튼 클릭')}
+          onClick={onCartButtonClick}
         />
       </div>
     </div>
