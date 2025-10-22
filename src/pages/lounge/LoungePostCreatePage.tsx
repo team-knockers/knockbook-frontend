@@ -28,7 +28,9 @@ export default function LoungePostCreatePage() {
 });
 
   const handleSave = () => {
-    if (!editor) return;
+    if (!editor) {
+      return;
+    }
     const html = editor.getHTML();
     const turndownService = new TurndownService();
     const md = turndownService.turndown(html);
@@ -52,7 +54,9 @@ export default function LoungePostCreatePage() {
   
   // Auto-resize function for textarea
   const autoResize = (textarea: HTMLTextAreaElement | null) => {
-    if (!textarea) return;
+    if (!textarea) {
+      return;
+    }
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";
   };

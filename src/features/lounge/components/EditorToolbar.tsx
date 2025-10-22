@@ -15,11 +15,17 @@ export default function EditorToolbar({
   editor
 }: ToolbarProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+    if (!editor) {
+    return null;
+  }
   
   // force re-render when editor state changes so `editor.isActive(...)` is up-to-date
   const [_unused, setTick] = useState(0);
   useEffect(() => {
-    if (!editor) return;
+    if (!editor) {
+      return;
+    }
     const handler = () => setTick((t) => t + 1);
     // subscribe to a few events that indicate state/selection changes
     editor.on("transaction", handler);
@@ -31,8 +37,6 @@ export default function EditorToolbar({
       editor.off("update", handler);
     };
   }, [editor]);
-  if (!editor) return null;
-
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -40,7 +44,9 @@ export default function EditorToolbar({
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     const url = URL.createObjectURL(file);
     const img = new Image();
