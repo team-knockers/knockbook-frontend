@@ -3,6 +3,10 @@
   align-items: center;
   width: 100%;
   font-family: Pretendard;
+  margin: 0 auto;
+}
+
+.user-date-layout {
   padding: 30px 20px;
 }
 
@@ -37,9 +41,10 @@
 }
 
 .user-description {
-  font-size: 12px;
+  font-size: 14px;
   color: #1e1e1e;
   margin: 0;
+  padding: 5px 0 20px;
 }
 
 .user-date-box {
@@ -98,13 +103,14 @@
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .page-layout {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
     width: 100%;
+    padding: 60px 20px;
   }
 
   .max-width-container {
@@ -115,15 +121,19 @@
     display: grid;
     grid-template-columns: 50% 50%;
     width: 100%;
-    max-width: 1024px;
+    max-width: 1200px;
     box-sizing: border-box;
   }
-  
+
+  .user-date {
+    max-width: none;
+  }
+
   .insight-left {
-    padding-right: 10px;
+    padding-right: 20px;
   }
 
   .insight-right {
-    padding-left: 10px;
+    padding-left: 20px;
   }
 }

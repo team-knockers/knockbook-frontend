@@ -17,8 +17,6 @@ type Book = {
 export default function InsightHistoryPage() {
 
   // dummy data
-  const totalCount = 8;
-
   const [books, setBooks] = useState<Book[]>([
     { 
       id: 1, 
@@ -90,6 +88,8 @@ export default function InsightHistoryPage() {
     },
   ]);
 
+  const totalCount = books.length;
+
   const [selectedFilter, setSelectedFilter] = useState("all");
   const filterOptions = [
     { value: "all", label: "전체보기" },
@@ -110,6 +110,12 @@ export default function InsightHistoryPage() {
     const book = books.find(b => b.id === id);
     console.log(`${book?.title} 리뷰 작성`);
   };
+
+  const filteredBooks = books.filter(book => {
+    if (selectedFilter === "review") return !book.isReviewed;
+    if (selectedFilter === "completed") return book.isReviewed;
+    return true;
+  });
 
   return (
   <div className={s['page-layout']}>
@@ -134,7 +140,7 @@ export default function InsightHistoryPage() {
         </div>
       </div>
       <div className={s['user-review-list']}>
-        {books.map(book => (
+        {filteredBooks.map(book => (
           <div key={book.id} className={s['book-review-item']}>
             <img 
               className={s['book-image']} 

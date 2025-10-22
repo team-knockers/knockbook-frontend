@@ -3,7 +3,7 @@
   align-items: center;
   width: 100%;
   font-family: Pretendard;
-  padding: 30px 0;
+  padding: 40px 20px;
 }
 
 .user-review-wrapper {
@@ -126,7 +126,7 @@
   }
 
   .user-review-wrapper {
-    max-height: 972px;
+    max-height: 955px;
     overflow-y: auto;
   }
 
