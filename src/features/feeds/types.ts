@@ -54,23 +54,37 @@ export type FeedPostDetail = {
   feedComments: FeedPostComment[];
 }
 
-export type GetReadCountInPeriodResponse = {
-  statistics: BookReadCountStat[];
-}
-
-export type GetCategoryPreferenceAllResponse = {
-  statistics: BookPreferCategoryStat[];
-}
-
 export type BookPreferCategoryStat = {
   bookCategoryDisplayName: string;
   categoryReadRatio: number;
 }
-
 
 export type BookReadCountStat = {
   yearAt: number;
   monthAt: number;
   readCountByMe: number;
   avgReadCountByMember: number;
+}
+
+export type BookPurchaseHistory = {
+  id: string;
+  bookId: string;
+  bookTitle: string;
+  bookAuthor: string;
+  bookImageUrl: string;
+  purchaseCount: number;
+  firstPurchasedAt: string;
+  lastPurchasedAt: string;
+}
+
+export type BookRentalHistory = {
+  id: string;
+  bookId: string;
+  bookTitle: string;
+  bookAuthor: string;
+  bookImageUrl: string;
+  rentalCount: number;
+  lastRentalStartAt: string;
+  lastRentalEndAt: string;
+  lastRentalDays: number;
 }

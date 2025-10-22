@@ -1,6 +1,6 @@
 import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { ChangePasswordRequest, VerifyPasswordRequest, GetMyProfileResponse, Address, InsertAddressRequest, UpdateAddressRequest } from "../types";
+import type { ChangePasswordRequest, VerifyPasswordRequest, UserProfile, Address, InsertAddressRequest, UpdateAddressRequest } from "../types";
 import type { CouponIssuance, GetPointBalanceResponse, PointTransaction } from "../../purchase/type";
 
 export const UserService = {
@@ -8,7 +8,7 @@ export const UserService = {
   async getMyProfile() {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
-    return await apiAuthPath<GetMyProfileResponse>(
+    return await apiAuthPath<UserProfile>(
       "/users/{userId}",
       { userId : userId },
       { method: "GET" }

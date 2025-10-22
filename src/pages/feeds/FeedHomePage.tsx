@@ -13,7 +13,7 @@ import FeedCommentBottomPopup from "../../features/feeds/components/FeedCommentB
 import FeedEditPopup from "../../features/feeds/components/FeedEditPopup";
 import FeedSlider from "../../features/feeds/components/FeedSlider";
 import { UserService } from "../../features/account/services/UserService";
-import type { GetMyProfileResponse } from "../../features/account/types";
+import type { UserProfile } from "../../features/account/types";
 
 function useIsMobile(breakpoint = 1024) {
   const [isMobile, setIsMobile] = useState<boolean>(() =>
@@ -51,7 +51,7 @@ export default function FeedHomePage() {
   const [popupLoading, setPopupLoading] = useState(false);
   const [selectedComments, setSelectedComments] = useState<FeedPostComment[] | null>(null);
   const [selectedFeed, setSelectedFeed] = useState<FeedPost | null>(null);
-  const [userInfo, setUserInfo] = useState<GetMyProfileResponse | null>(null);
+  const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
 
   const [forceEditPopup, setForceEditPopup] = useState(false);
 

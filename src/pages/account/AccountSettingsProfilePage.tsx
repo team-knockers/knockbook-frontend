@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { AUTH_LOADER_ID } from '../../routes/auth.layout';
 import { UserService } from '../../features/account/services/UserService';
 import { ApiError } from '../../types/http';
-import type { GetMyProfileResponse } from '../../features/account/types';
+import type { UserProfile } from '../../features/account/types';
 import { checkPasswordAlphaLetter, checkPasswordDigit, checkPasswordLength, checkPasswordSpecialLetter, isPasswordValid } from '../../shared/validation/validUserProfile';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
@@ -15,7 +15,7 @@ import Item from '../../components/display/Item';
 export default function AccountSettingsProfilePage() {
 
   const { revalidate } = useRevalidator();
-  const me = useRouteLoaderData(AUTH_LOADER_ID) as GetMyProfileResponse;
+  const me = useRouteLoaderData(AUTH_LOADER_ID) as UserProfile;
 
   const [displayName, setDisplayName] = useState(me.displayName);
   const [isPasswordDisabled] = useState(true);

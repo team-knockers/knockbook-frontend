@@ -2,11 +2,11 @@ import type { LoaderFunctionArgs } from 'react-router-dom';
 import type { LoungePostDetails } from '../../features/lounge/types';
 import { LoungeService } from '../../features/lounge/services/LoungeService';
 import { UserService } from '../../features/account/services/UserService';
-import type { GetMyProfileResponse } from '../../features/account/types';
+import type { UserProfile } from '../../features/account/types';
 
 export type LoungePostLoaderData = {
   postDetails: LoungePostDetails;
-  currentUserInfo: GetMyProfileResponse;
+  currentUserInfo: UserProfile;
 };
 
 export async function loungePostLoader({ params }: LoaderFunctionArgs): Promise<LoungePostLoaderData> {

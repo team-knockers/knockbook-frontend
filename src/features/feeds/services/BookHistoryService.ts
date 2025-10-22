@@ -1,6 +1,8 @@
 import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
-import type { GetCategoryPreferenceAllResponse, GetReadCountInPeriodResponse } from "../types";
+import type { 
+  BookPreferCategoryStat, BookPurchaseHistory,
+  BookReadCountStat, BookRentalHistory } from "../types";
 
 export const BookHistoryService = {
 
@@ -9,21 +11,41 @@ export const BookHistoryService = {
   async getReadCountInPeriod(from: string, to: string) {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
-    return await apiAuthPathAndQuery<GetReadCountInPeriodResponse>(
+    return await apiAuthPathAndQuery<BookReadCountStat[]>(
       "/users/{userId}/history/books/stat/average",
       { userId },
       { from, to },
       { method: "GET" }
-    )
+    );
   },
 
   async getCategoryPreferenceAll() {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
-    return await apiAuthPath<GetCategoryPreferenceAllResponse>(
+    return await apiAuthPath<BookPreferCategoryStat[]>(
       "/users/{userId}/history/books/stat/category-preference",
       { userId },
       { method: "GET" }
-    )
+    );
+  },
+
+  async listBookPurchases() {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPath<BookPurchaseHistory[]>(
+      "/users/{userId}/history/books/purchases",
+      { userId },
+      { method: "GET" }
+    );
+  },
+
+  async listBookRentals() {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPath<BookRentalHistory[]>(
+      "/users/{userId}/history/books/rentals",
+      { userId },
+      { method: "GET" }
+    );
   },
 }

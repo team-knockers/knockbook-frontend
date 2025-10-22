@@ -1,12 +1,8 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-
-type PreferencePercentage = {
-  bookCategory: string,
-  percentage: number
-};
+import type { BookPreferCategoryStat } from "../types";
 
 type PreferenceChartProps = {
-  preferenceData: PreferencePercentage[]
+  categoryRatioStat: BookPreferCategoryStat[]
   outerRadius: number;
   innerRadius: number;
 };
@@ -33,10 +29,14 @@ function renderCustomizedLabel(props: any, fontSize: number) {
   const { cx, cy, midAngle, outerRadius, payload } = props;
   const { x, y } = calcLabelPosByAngle(cx, cy, midAngle, outerRadius);
 
+  const adjustedFontSize = Math.max(10, Math.round(fontSize * 0.8));
+  const fontWeight = 500;
+  const textColor = "#333";
+
   const lineHeight = Math.round(fontSize * 1.1);
   const firstDy = Math.round(-lineHeight / 2);
   const secondDy = lineHeight;
-  const haloWidth = Math.max(2, Math.round(fontSize * 0.6));
+  const haloWidth = Math.max(2, Math.round(fontSize * 0.4));
 
   return (
     <g>
@@ -45,35 +45,27 @@ function renderCustomizedLabel(props: any, fontSize: number) {
         y={y}
         textAnchor="middle"
         dominantBaseline="central"
-        style={{ fontSize, paintOrder: 'stroke' as const }}
-        stroke="#fff"
+        style={{ fontSize: adjustedFontSize, paintOrder: 'stroke' as const }}
+        stroke="#f8f8f8"
         strokeWidth={haloWidth}
-        strokeLinejoin="round"
-        strokeLinecap="round"
-        fill="none"
-      >
-        <tspan x={x} dy={firstDy} fontWeight="700">
-          {payload.bookCategory}
+        fill="none">
+        <tspan x={x} dy={firstDy} fontWeight={fontWeight}>
+          {payload.bookCategoryDisplayName}
         </tspan>
-        <tspan x={x} dy={secondDy}>
-          {`(${payload.percentage}%)`}
-        </tspan>
+        <tspan x={x} dy={secondDy}>{`(${payload.categoryReadRatio.toFixed(1)}%)`}</tspan>
       </text>
 
       <text
         x={x}
         y={y}
-        fill="#111"
+        fill={textColor}
         textAnchor="middle"
         dominantBaseline="central"
-        style={{ fontSize }}
-      >
-        <tspan x={x} dy={firstDy} fontWeight="700">
-          {payload.bookCategory}
+        style={{ fontSize: adjustedFontSize }}>
+        <tspan x={x} dy={firstDy} fontWeight={fontWeight}>
+          {payload.bookCategoryDisplayName}
         </tspan>
-        <tspan x={x} dy={secondDy}>
-          {`(${payload.percentage}%)`}
-        </tspan>
+        <tspan x={x} dy={secondDy}>{`(${payload.categoryReadRatio.toFixed(1)}%)`}</tspan>
       </text>
     </g>
   );
@@ -91,8 +83,8 @@ function CustomTooltip({ active, payload, coordinate }: { active?: boolean; payl
   const data = item && item.payload ? item.payload : null;
   if (!data) return null;
 
-  const bookCategory = data.bookCategory ?? '';
-  const percentage = data.percentage ?? '';
+  const bookCategory = data.bookCategoryDisplayName ?? '';
+  const percentage = data.categoryReadRatio ?? '';
 
   // small offsets so the tooltip doesn't sit directly under the cursor
   const OFFSET_X = 12;
@@ -123,11 +115,11 @@ function CustomTooltip({ active, payload, coordinate }: { active?: boolean; payl
 }
 
 export default function PreferenceChart({
-  preferenceData,
+  categoryRatioStat,
   outerRadius,
   innerRadius
 }: PreferenceChartProps) {
-  const filteredData = preferenceData.filter(item => item.percentage > 0);
+  const filteredData = categoryRatioStat.filter(item => item.categoryReadRatio > 0);
   const computedLabelFontSize = Math.max(8, Math.round(outerRadius * 0.2));
   const LABEL_THRESHOLD = 8; // hide labels for items below 8%
 
@@ -138,7 +130,8 @@ export default function PreferenceChart({
           data={filteredData}
           cx="50%"
           cy="50%"
-          dataKey="percentage"
+          dataKey="categoryReadRatio"
+          nameKey="bookCategoryDisplayName"
           outerRadius={outerRadius}
           innerRadius={innerRadius}
           // disable label lines globally. If you want to keep lines, provide a custom function.
@@ -146,12 +139,12 @@ export default function PreferenceChart({
           // conditionally render labels: return null when percentage < LABEL_THRESHOLD
           label={(props) => {
             if (!props || !props.payload) return null;
-            if (props.payload.percentage < LABEL_THRESHOLD) return null;
+            if (props.payload.categoryReadRatio < LABEL_THRESHOLD) return null;
             return renderCustomizedLabel(props, computedLabelFontSize);
           }}
         >
           {filteredData.map((entry, index) => (
-            <Cell key={`cell-${entry.bookCategory}`} fill={COLORS[index % COLORS.length]} />
+            <Cell key={`cell-${entry.bookCategoryDisplayName}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
 

@@ -20,6 +20,13 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
+.empty-message {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  padding: 2rem 0;
+}
+
 .insight-stat-book {
   display: flex;
   flex-direction: column;
