@@ -36,7 +36,7 @@ export default function ReadingBarChart({
         <Legend
           layout="horizontal"
           align="center"
-          verticalAlign="bottom"
+          verticalAlign="top"
           iconType="square"
            wrapperStyle={{
             fontSize: '14px',

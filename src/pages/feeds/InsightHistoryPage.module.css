@@ -3,14 +3,15 @@
   align-items: center;
   width: 100%;
   font-family: Pretendard;
-  padding: 30px 20px;
+  padding: 30px 0;
 }
 
 .user-review-wrapper {
   flex-shrink: 0;
   border-radius: 10px;
-  border: 1px solid #c1c1c1;
   padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .user-review-wrapper p {
@@ -120,8 +121,12 @@
 }
 
 @media (min-width: 1024px) {
+  .page-layout {
+    padding: 30px 0;
+  }
+
   .user-review-wrapper {
-    max-height: 865px;
+    max-height: 972px;
     overflow-y: auto;
   }
 
