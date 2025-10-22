@@ -372,24 +372,50 @@
 }
 
 .challenge-card {
-  background-color: #f6f6f6;
+  width: 100%;
+  aspect-ratio: 8 / 3;
   border-radius: 10px;
-  padding: 14px;
-  text-align: center;
-  font-size: 13px;
+  position: relative;
+  overflow: hidden;
 }
 
-.challenge-card p {
-  margin-bottom: 6px;
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 비율 유지하며 가로에 꽉 채움 */
+  object-position: center;
+  display: block;
 }
 
-.challenge-card button {
-  border: none;
-  background: none;
-  color: #222;
+.card-overlay {
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: start;
+  padding: 16px;
+  color: #fff;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 20%, rgba(0,0,0,0.4) 100%);
+}
+
+.card-title {
+  white-space: pre-line;
+  font-size: clamp(18px, calc(12.22px + 1.54vw), 28px);
+  margin-bottom: 0px;
+  text-align: start;
+}
+
+.card-subtitle {
+  font-size: clamp(12px, calc(9.69px + 0.62vw), 16px);
+  font-weight: 200;
+  margin: 0;
+}
+
+.card-cta {
+  font-size: clamp(13px, calc(11.85px + 0.31vw), 15px);
   font-weight: 600;
-  cursor: pointer;
-  font-size: 13px;
+  margin: 6px 0 0;
 }
 
 @media (min-width: 1024px) {
@@ -448,5 +474,21 @@
   }
   .spotlight-book-cover img {
     height: 350px;
+  }
+
+  .card-overlay {
+    padding: 40px;
+  }
+
+  .card-title {
+    font-size: 34px;
+  }
+
+  .card-subtitle {
+    font-size: 24px;
+  }
+
+  .card-cta {
+    font-size: 20px;
   }
 }

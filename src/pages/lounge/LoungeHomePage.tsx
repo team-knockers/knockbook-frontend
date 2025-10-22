@@ -4,6 +4,9 @@ import { LuVolume2 } from "react-icons/lu";
 
 import { useEffect, useRef, useState } from 'react';
 import DefaultImg from '../../assets/lounge_post_default_thumbnail.png';
+import ChallengeImg1 from '../../assets/lounge_challenge_img1.png';
+import ChallengeImg2 from '../../assets/lounge_challenge_img2.png';
+import ChallengeImg3 from '../../assets/lounge_challenge_img3.png';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 // @ts-ignore
@@ -71,6 +74,13 @@ const spotlight = {
   bookTitle: "청춘의 재테크 상담소",
   coverImageUrl: "https://contents.kyobobook.co.kr/sih/fit-in/250x0/pdt/9788947545273.jpg"
 }
+
+const challengeData = [
+  { id: 1, title: "문앞의 책방 \n 저녁 독서 챌린지", subtitle: "", backgroundImage: ChallengeImg1 },
+  { id: 2, title: "양명숙 작가와 함께하는 요리기행", subtitle: "#8월 #삼계탕의 계절 #문책 PICK!", backgroundImage: ChallengeImg2 },
+  { id: 3, title: "제주항공권 추천 이벤트", subtitle: "챌린지 신청하고 제주도 가자!", backgroundImage: ChallengeImg3 },
+  
+];
 
 export default function LoungeHomePage() {
   const navigate = useNavigate();
@@ -312,24 +322,22 @@ export default function LoungeHomePage() {
         <div className={s['challenge-section']}>
           <h3>문앞의 챌린지</h3>
           <div className={s['challenge-banner']}>
-            <div className={s['challenge-card']}>
-              <p>
-                문앞의 책방
-                <br />X<br />
-                저녁 독서 챌린지
-              </p>
-              <button>신청하러 가기 &gt;&gt;</button>
-            </div>
-            <div className={s['challenge-card']}>
-              <p>양명숙 작가와 함께하는 요리기행</p>
-              <p>#8월 #삼계탕의 계절 #문책 PICK!</p>
-              <button>신청하러 가기 &gt;&gt;</button>
-            </div>
-            <div className={s['challenge-card']}>
-              <p>제주항공권 추천 이벤트</p>
-              <p>챌린지 신청하고 제주도 가자!</p>
-              <button>신청하러 가기 &gt;&gt;</button>
-            </div>
+            {challengeData.map((challenge) => (
+              <button key={challenge.id} className={s['challenge-card']}>
+                <img
+                  className={s['card-image']}
+                  src={challenge.backgroundImage}
+                  alt={challenge.title}
+                />
+                <div className={s['card-overlay']}>
+                  <p className={s['card-title']}>{challenge.title}</p>
+                  {challenge.subtitle && 
+                    <p className={s['card-subtitle']}>{challenge.subtitle}</p>
+                  }
+                  <p className={s['card-cta']}>신청하러 가기 &gt;&gt;</p>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
       </div>
