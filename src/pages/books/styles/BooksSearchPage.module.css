@@ -17,6 +17,15 @@
   font-weight: 400;
   line-height: 100%; /* 11px */
 }
+.go-to-cart-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
 
 /*
   Mobile rules (< 1024px)
