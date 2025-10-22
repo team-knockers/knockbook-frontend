@@ -46,7 +46,9 @@ export default function InsightPage() {
   return (
     <main className={s['page-layout']}>
       <div className={s['max-width-container']}>
-        {UserProfile}
+        <div className={s['user-date-layout']}>
+          {UserProfile}
+        </div>
         <TwoLevelTabMenu
           leftTabTitle="통계"
           leftTabPath={PATHS.insightStat}
