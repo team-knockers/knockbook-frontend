@@ -89,6 +89,7 @@ import { PointTransactionsPageLoader } from "../pages/account/PointTransactionsP
 import { PointTransactionsAllPageLoader } from "../pages/account/PointTransactionsAllPage.loader";
 import { PointTransactionsUsedPageLoader } from "../pages/account/PointTransactionsUsedPage.loader";
 import { PointTransactionsEarnedPageLoader } from "../pages/account/PointTransactionsEarnedPage.loader";
+import { InsightPageLoader } from "../pages/feeds/InsightPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -298,6 +299,8 @@ export const router = createBrowserRouter([
           },
           {
             path: PATHS.insight,
+            id: "insight",
+            loader: InsightPageLoader,
             element: <InsightPage />,
             children: [
               {
@@ -305,7 +308,7 @@ export const router = createBrowserRouter([
                 element: <Navigate to={PATHS.insightStat} replace />,
               },
               {
-                path: PATHS.insightStat,
+                path: "stat",
                 element: <InsightStatPage />,
                 handle: { 
                   header: { 
@@ -317,7 +320,7 @@ export const router = createBrowserRouter([
                 } 
               },
               {
-                path: PATHS.insightHistory,
+                path: "history",
                 element: <InsightHistoryPage />,
                 handle: { 
                   header: { 

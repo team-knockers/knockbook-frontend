@@ -3,7 +3,7 @@ import { AUTH_LOADER_ID } from '../../routes/auth.layout';
 import { AuthService } from '../../service/AuthService';
 import { useNavigate } from 'react-router-dom';
 import { ApiError } from '../../types/http';
-import type { GetMyProfileResponse } from '../../features/account/types';
+import type { UserProfile } from '../../features/account/types';
 
 import OneWayButton from '../../components/forms/OneWayButton';
 import styles from './AccountHomePage.module.css'
@@ -11,7 +11,7 @@ import { PATHS } from '../../routes/paths';
 
 export default function AccountHomePage() {
 
-  const me = useRouteLoaderData(AUTH_LOADER_ID) as GetMyProfileResponse;
+  const me = useRouteLoaderData(AUTH_LOADER_ID) as UserProfile;
   console.log({ 
     "email" : me.email,
     "displayName": me.displayName

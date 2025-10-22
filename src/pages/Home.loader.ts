@@ -13,15 +13,6 @@ export type HomeLoaderData = {
 
 export async function homeLoader(_args: LoaderFunctionArgs): Promise<HomeLoaderData> {
 
-  // for test only - to delete
-  const catStat = await BookHistoryService.getCategoryPreferenceAll();
-  console.log(catStat);
-
-  const from = "2025-05-01";
-  const to = "2025-10-30";
-  const countStat = await BookHistoryService.getReadCountInPeriod(from, to);
-  console.log(countStat);
-
   const myProfile = await UserService.getMyProfile();
   const myMbti: string | null = myProfile.mbti;
   const myFavoriteBookCategories: string[] | null = myProfile.favoriteBookCategories;
