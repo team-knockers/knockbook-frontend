@@ -53,3 +53,24 @@ export type FeedPostDetail = {
   feedPost: FeedPost;
   feedComments: FeedPostComment[];
 }
+
+export type GetReadCountInPeriodResponse = {
+  statistics: BookReadCountStat[];
+}
+
+export type GetCategoryPreferenceAllResponse = {
+  statistics: BookPreferCategoryStat[];
+}
+
+export type BookPreferCategoryStat = {
+  bookCategoryDisplayName: string;
+  categoryReadRatio: number;
+}
+
+
+export type BookReadCountStat = {
+  yearAt: number;
+  monthAt: number;
+  readCountByMe: number;
+  avgReadCountByMember: number;
+}
