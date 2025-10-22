@@ -32,6 +32,7 @@ export const PATHS = {
   /* lounge */
   loungeHome: "/lounge",
   loungePost: "/lounge/:postId",
+  loungePostCreate:"/lounge/post/create",
 
   /* feed */
   feed: "/feed",
