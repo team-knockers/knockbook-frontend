@@ -70,7 +70,6 @@ export default function LoungePostCreatePage() {
     autoResize(subtitleRef.current);
   }, [subtitle]);
 
-
   return (
     <main className={s['lounge-post-create']}>
 
