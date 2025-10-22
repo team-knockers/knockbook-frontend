@@ -7,6 +7,8 @@ import Pagination from '../../components/navigation/Pagination';
 import { PATHS } from '../../routes/paths';
 import { useEffect, useState } from 'react';
 import { BookService } from '../../features/books/services/BookService';
+import { PurchaseService } from '../../features/purchase/services/PurchaseService';
+import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 
 // Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
 function makeInitialState(params: URLSearchParams, defaultCategory?: string): CommonSearchState {
@@ -127,32 +129,51 @@ export default function BooksCategoryAllPage() {
   }, [searchState]);
 
   useEffect(() => {
-  if (searchState.category === 'all') {
-    setSubcategories([{ value: 'all', label: '전체' }]);
-    return;
-  }
-
-  const loadSubcategories = async () => {
-    try {
-      const res = await BookService.getBookSubcategories(searchState.category);
-      const mapped = [
-        { value: 'all', label: '전체' },
-        ...res.map((s: any) => ({
-          value: s.subcategoryCodeName,
-          label: s.subcategoryDisplayName,
-        })),
-      ];
-      setSubcategories(mapped);
-    } catch (error) {
-      console.error('하위 카테고리 불러오기 실패', error);
+    if (searchState.category === 'all') {
+      setSubcategories([{ value: 'all', label: '전체' }]);
+      return;
     }
-  };
 
-  loadSubcategories();
-}, [searchState.category]);
+    const loadSubcategories = async () => {
+      try {
+        const res = await BookService.getBookSubcategories(searchState.category);
+        const mapped = [
+          { value: 'all', label: '전체' },
+          ...res.map((s: any) => ({
+            value: s.subcategoryCodeName,
+            label: s.subcategoryDisplayName,
+          })),
+        ];
+        setSubcategories(mapped);
+      } catch (error) {
+        console.error('하위 카테고리 불러오기 실패', error);
+      }
+    };
+
+    loadSubcategories();
+  }, [searchState.category]);
+
+  const nav = useNavigate();
+  const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
+  async function handleAddItemsOnCart(bookId: string) {
+    console.log("called handleAddItemsOnCart");
+    await PurchaseService.addCartPurchaseItem("BOOK_PURCHASE", bookId, 1);
+    setIsCartPopupVisible(true);
+  }
 
   return (
     <section className={styles['book-category-all-layout']}>
+      { isCartPopupVisible &&
+        <div className={styles['go-to-cart-popup']}>
+          <TwoButtonPopup
+            title='선택한 상품을 장바구니에 담았어요.'
+            description='장바구니로 이동하시겠어요?'
+            cancelText='취소'
+            confirmText='장바구니 보기'
+            onCancel={() => setIsCartPopupVisible(false)}
+            onConfirm={() => nav(PATHS.cart)}/>
+        </div>}
+
       <div className={styles['book-category-all-results']}>
         <BookListHeader
           totalCount={totalItems}
@@ -180,6 +201,7 @@ export default function BooksCategoryAllPage() {
                 handleBookItemClick(book.id);
                 console.log(`${book.title} 도서 클릭`);
               }}
+              onCartButtonClick={() => handleAddItemsOnCart(book.id)}
             />
           );
         })}

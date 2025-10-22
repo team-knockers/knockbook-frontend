@@ -64,8 +64,7 @@ export default function BookDetailsPage() {
             confirmText='장바구니 보기'
             onCancel={() => setIsCartPopupVisible(false)}
             onConfirm={() => nav(PATHS.cart)}/>
-        </div>
-      }
+        </div>}
       </main>
       <footer className={styles['bottom-bar-wrap']}>
         <BookOrderBottomBar
