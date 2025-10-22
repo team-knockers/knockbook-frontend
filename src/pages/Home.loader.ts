@@ -2,7 +2,6 @@ import type { LoaderFunctionArgs } from "react-router-dom";
 import type { BookSummary } from "../features/books/types";
 import { BookService } from "../features/books/services/BookService";
 import { UserService } from "../features/account/services/UserService";
-import { BookHistoryService } from "../features/feeds/services/BookHistoryService";
 
 export type HomeLoaderData = {
   mbtiRecommendations: BookSummary[],
