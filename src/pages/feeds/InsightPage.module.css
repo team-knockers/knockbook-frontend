@@ -103,7 +103,7 @@
   display: none;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   .page-layout {
     display: flex;
     flex-direction: row;
