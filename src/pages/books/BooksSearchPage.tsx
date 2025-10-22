@@ -12,6 +12,8 @@ import { BookService } from "../../features/books/services/BookService.ts";
 import Pagination from "../../components/navigation/Pagination.tsx";
 import { PATHS } from "../../routes/paths.ts";
 import type { BooksSearchLoaderData } from './BooksSearch.loader.ts';
+import { PurchaseService } from '../../features/purchase/services/PurchaseService.ts';
+import TwoButtonPopup from '../../components/overlay/TwoButtonPopup.tsx';
 
 // Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
 function makeInitialState(params: URLSearchParams): BookSearchState {
@@ -179,9 +181,29 @@ export default function BooksSearchPage() {
     return () => { cancelled = true; };
   }, [searchState]);
 
+  const nav = useNavigate();
+  const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
+  async function handleAddItemsOnCart(bookId: string) {
+    console.log("called handleAddItemsOnCart");
+    await PurchaseService.addCartPurchaseItem("BOOK_PURCHASE", bookId, 1);
+    setIsCartPopupVisible(true);
+  }
+
   return (
     <>
       <main className={styles['book-search-main']}>
+        
+        { isCartPopupVisible &&
+        <div className={styles['go-to-cart-popup']}>
+          <TwoButtonPopup
+            title='선택한 상품을 장바구니에 담았어요.'
+            description='장바구니로 이동하시겠어요?'
+            cancelText='취소'
+            confirmText='장바구니 보기'
+            onCancel={() => setIsCartPopupVisible(false)}
+            onConfirm={() => nav(PATHS.cart)}/>
+        </div>}
+
         <CategoryFilterSearchBar
           onSearched={handleSearch}
           onCategoryToggled={toggleCategory}
@@ -235,6 +257,7 @@ export default function BooksSearchPage() {
                         handleBookItemClick(book.id);
                         console.log(`${book.title} 도서 클릭`);
                       }}
+                      onCartButtonClick={() => handleAddItemsOnCart(book.id)}
                     />
                   );
                 })}
