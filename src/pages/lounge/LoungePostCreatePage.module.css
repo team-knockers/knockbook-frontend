@@ -63,18 +63,13 @@
 }
 
 .post-body {
-  font-size: 15px;
-  line-height: 2;
+  min-height: 200px;
+  font-family: 'Noto Sans KR';
+  font-size: 16px;
+  line-height: 1.7;
   color: #333333;
   padding: 10px 40px;
   border: 1px solid #ccc;
-}
-
-.post-body {
-  font-size: 16px;
-  line-height: 1.7;
-  color: #222;
-  font-family: 'Noto Sans KR';
 }
 
 .post-body h1,

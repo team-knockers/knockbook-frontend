@@ -25,7 +25,7 @@ export default function LoungePostCreatePage() {
       StarterKit,
       Image,
     ],
-    content: "<p>본문을 작성해주세요</p>",
+    content: "",
 });
 
   useEffect(() => {
@@ -53,6 +53,25 @@ export default function LoungePostCreatePage() {
     if (!editor) {
       return;
     }
+
+    // Check Validation - title
+    if (!title.trim()) {
+      alert("제목을 입력해주세요.");
+      titleRef.current?.focus();
+      return;
+    }
+
+    // Check Validation - text
+    const plainText = editor.getText().trim();
+    if (!plainText) {
+      alert("본문을 입력해주세요.");
+      editor.chain().focus().run();
+      return;
+    }
+
+    const confirmSave = window.confirm("포스트를 게시하시겠습니까?");
+    if (!confirmSave) { return; }
+
     const html = editor.getHTML();
     const turndownService = new TurndownService({ headingStyle: 'atx' });
     const markdown = turndownService.turndown(html);
@@ -75,11 +94,14 @@ export default function LoungePostCreatePage() {
   };
 
   const handleCancel = () => {
+    const confirmCancel = window.confirm("작성을 취소하시겠습니까?");
+    if (!confirmCancel) { return; }
+
     setTitle("");
     setSubtitle("");
     setAttachedFiles([]);
     if (editor) {
-      editor.commands.setContent('<p>본문을 작성해주세요</p>');
+      editor.commands.setContent("");
       editor.chain().focus().run();
     }
     navigate(PATHS.loungeHome);
@@ -139,7 +161,9 @@ export default function LoungePostCreatePage() {
           onFileAdd={(file: File) => setAttachedFiles(prev => [...prev, file])}
         />
 
-        <div className={s['post-body']}>
+        <div className={s['post-body']}
+          onClick={() => editor?.chain().focus().run()}
+        >
           <EditorContent editor={editor} />
         </div>
       </section>
