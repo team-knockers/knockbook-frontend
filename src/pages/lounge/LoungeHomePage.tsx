@@ -1,6 +1,5 @@
 import Footer from '../../components/layout/Footer';
 import s from './LoungeHomePage.module.css'
-import { LuVolume2 } from "react-icons/lu";
 
 import { useEffect, useRef, useState } from 'react';
 import DefaultImg from '../../assets/lounge_post_default_thumbnail.png';
@@ -22,6 +21,7 @@ import { useLoaderData, useNavigate, useSearchParams } from 'react-router-dom';
 import type { LoungeHomeLoaderData } from './LoungeHome.loader';
 import type { LoungePostPageState } from '../../features/lounge/types';
 import { LoungeService } from '../../features/lounge/services/LoungeService';
+import OneWayButton from '../../components/forms/OneWayButton';
 
 // Parse initial state from URL: page, size, sortBy
 function makeInitialState(params: URLSearchParams): LoungePostPageState {
@@ -56,8 +56,8 @@ const sortOptions = [
 const DESKTOP_BREAKPOINT = 1024;
 
 const sliderImgs = [
-  { id: 1, title: "나의 호의가 둘리가 되었다.", author: "김대리", imageUrl: "https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/dE4R/image/oWPJD5uJGYBzF11N_AdfwLr7uYw.jpg" },
-  { id: 2, title: "내가 여행한 도시들", author: "행복한여행자", imageUrl: "https://i.imgur.com/jifY9jJ.jpeg" },
+  { id: 1, title: "내가 여행한 도시들", author: "행복한여행자", imageUrl: "https://i.imgur.com/jifY9jJ.jpeg" },
+  { id: 2, title: "나의 호의가 둘리가 되었다.", author: "김대리", imageUrl: "https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/dE4R/image/oWPJD5uJGYBzF11N_AdfwLr7uYw.jpg" },
   { id: 3, title: "일본 오사카에서 보낸 하루들", author: "가방하나여행둘", imageUrl: "https://i.imgur.com/h2Cx7DO.jpeg" },
   { id: 4, title: "나의 사랑스러운 고양이와 함께", author: "고양이애호가", imageUrl: "https://i.imgur.com/aLRhnr8.jpeg" },
   { id: 5, title: "반려동물과 나, 매일의 고찰", author: "방석", imageUrl: "https://i.imgur.com/FzrMFP6.jpeg" },
@@ -79,7 +79,9 @@ const challengeData = [
   { id: 1, title: "문앞의 책방 \n 저녁 독서 챌린지", subtitle: "", backgroundImage: ChallengeImg1 },
   { id: 2, title: "양명숙 작가와 함께하는 요리기행", subtitle: "#8월 #삼계탕의 계절 #문책 PICK!", backgroundImage: ChallengeImg2 },
   { id: 3, title: "제주항공권 추천 이벤트", subtitle: "챌린지 신청하고 제주도 가자!", backgroundImage: ChallengeImg3 },
-  
+  { id: 1, title: "문앞의 책방 \n 저녁 독서 챌린지", subtitle: "", backgroundImage: ChallengeImg1 },
+  { id: 2, title: "양명숙 작가와 함께하는 요리기행", subtitle: "#8월 #삼계탕의 계절 #문책 PICK!", backgroundImage: ChallengeImg2 },
+  { id: 3, title: "제주항공권 추천 이벤트", subtitle: "챌린지 신청하고 제주도 가자!", backgroundImage: ChallengeImg3 },
 ];
 
 export default function LoungeHomePage() {
@@ -219,16 +221,6 @@ export default function LoungeHomePage() {
   return (
     <main>
       <div className={s['page-layout']}>
-        <div className={s['lounge-header']}>
-          <h1 className={s['title']}>
-            <span>R</span>문앞의 라운지
-          </h1>
-          <button className={s['notice-btn']}>
-            <LuVolume2 />(공지) 프로그램 업데이트 안내 2025.01.25
-          </button>
-        </div>
-        
-
         <div className={s['lounge-banner']}>
           <div className={s['banner-text']}>
             <p className={s['banner-subtitle']}>The 21st 문앞의 책방</p>
@@ -242,20 +234,66 @@ export default function LoungeHomePage() {
           </div>
         </div>
 
+        <div className={s['lounge-header']}>
+          <h1 className={s['lounge-title']}>
+            <span>R</span>문앞의 라운지
+          </h1>
+          <p className={s['lounge-subtitle']}>생각과 감정을 담는 공간, 문앞의 라운지</p>
+          <p className={s['lounge-description']}>하루를 담고, 이야기를 나누는 시간</p>
+          <p className={s['lounge-description-secondary']}>오늘의 감정을 나누고, 마음을 쉬어가세요</p>
+        </div>
+
+        <div className={s['slider-section']}>
+          <Swiper
+            className={s['slider-layout']}
+            slidesPerView={'auto'}
+            spaceBetween={0}
+            grabCursor={true}
+            modules={[Navigation]}
+            navigation={sliderImgs.length > 1}
+            centeredSlides={false}
+          >
+            {sliderImgs.map((slider) => (
+              <SwiperSlide className={s['slide']} key={slider.id}>
+                <div className={s['slide-item']}>
+                  <div
+                    className={s['slide-bg']}
+                    style={{ backgroundImage: `url(${slider.imageUrl})`}}
+                  />
+                  <div className={s['slide-overlay']}>
+                    <h3 className={s['slide-item-title']}>{slider.title}</h3>
+                    <p className={s['slide-item-meta']}>
+                      <span className={s['slide-item-author-label']}>by</span>&nbsp;
+                      {slider.author}
+                    </p>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
         <div className={s['official-section']}>
           <div className={s['official-header']}>
             <h3>라운지 오피셜</h3>
+          </div>
+          <div className={s['official-action']}>
+            <div className={s['write-btn']}>
+              <OneWayButton
+                content='+ 게시물 작성하기'
+                onClick={handleWriteClick}
+                responsiveType='fixed'
+                widthSizeType='md'
+                heightSizeType='sm'
+                colorType='light-dark'
+              />
+            </div>
             <select className={s['sort-select']}
               value={searchState.sortBy}
               onChange={(e) => handleSortChange(e.target.value)}>
               <option value='newest'>최신순</option>
               <option value='popular'>인기순</option>
             </select>
-          </div>
-          <div className={s['official-action']}>
-            <button className={s['write-btn']} onClick={handleWriteClick}>
-              + 게시물 작성하기
-            </button>
           </div>
           <div className={s['official-list']}>
             {posts.map((post) => (
@@ -287,7 +325,7 @@ export default function LoungeHomePage() {
             <p className={s['spotlight-title']}>문앞지기가 사랑한 책 속의 한 문장</p>
             <p className={s['spotlight-quote']}>{spotlight.quote}</p>
             <p className={s['spotlight-meta']}>
-              <span className={s['spotlight-author-label']}>by</span>&nbsp;
+              <span className={s['spotlight-author-label']}>by </span>&nbsp;
               {spotlight.author} / {spotlight.bookTitle}
             </p>
           </div>
@@ -296,36 +334,6 @@ export default function LoungeHomePage() {
               <img src={spotlight.coverImageUrl} alt={`${spotlight.bookTitle}의 커버이미지`}/>
             </div>
           </div>
-        </div>
-
-        <div className={s['slider-section']}>
-          <Swiper
-            className={s['slider-layout']}
-            slidesPerView={'auto'}
-            spaceBetween={0}
-            grabCursor={true}
-            modules={[Navigation]}
-            navigation={sliderImgs.length > 1}
-            centeredSlides={false}
-          >
-            {sliderImgs.map((slider) => (
-              <SwiperSlide className={s['slide']} key={slider.id}>
-                <div className={s['slide-item']}>
-                  <div
-                    className={s['slide-bg']}
-                    style={{ backgroundImage: `url(${slider.imageUrl})`}}
-                  />
-                  <div className={s['slide-overlay']}>
-                    <h3 className={s['slide-item-title']}>{slider.title}</h3>
-                    <p className={s['slide-item-meta']}>
-                      <span className={s['slide-item-author-label']}>by</span>&nbsp;
-                      {slider.author}
-                    </p>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
         </div>
 
         <div className={s['challenge-section']}>
