@@ -9,10 +9,12 @@ import { useRef, useEffect, useState } from "react";
 
 type ToolbarProps = {
   editor: Editor | null;
+  onFileAdd: (file: File) => void;
 };
 
 export default function EditorToolbar({
-  editor
+  editor,
+  onFileAdd
 }: ToolbarProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -49,19 +51,12 @@ export default function EditorToolbar({
     }
 
     const url = URL.createObjectURL(file);
-    const img = new Image();
 
-    img.onload = () => {
-      editor.chain().focus().setImage({ src: url }).run();
-      URL.revokeObjectURL(url);
-    };
+    // Insert the image into the TipTap editor using a blob URL
+    editor.chain().focus().setImage({ src: url }).run();
 
-    img.onerror = () => {
-      console.error("❌ Failed to load image:", file.name);
-      URL.revokeObjectURL(url);
-    };
-
-    img.src = url;
+    // Pass the File object up to the parent component
+    onFileAdd(file);
   };
 
   return (

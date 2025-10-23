@@ -8,11 +8,13 @@ import EditorToolbar from '../../features/lounge/components/EditorToolbar';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
 import { UserService } from '../../features/account/services/UserService';
+import { LoungeService } from '../../features/lounge/services/LoungeService';
 
 export default function LoungePostCreatePage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
   const [displayName, setDisplayName] = useState<string>("로딩중");
 
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
@@ -47,7 +49,7 @@ export default function LoungePostCreatePage() {
     return () => { mounted = false; };
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!editor) {
       return;
     }
@@ -55,18 +57,27 @@ export default function LoungePostCreatePage() {
     const turndownService = new TurndownService({ headingStyle: 'atx' });
     const markdown = turndownService.turndown(html);
 
-    const postData = {
-      title,
-      subtitle,
-      content: markdown,
-    };
+    try {
+      const response = await LoungeService.registerLoungePost(
+        title,
+        subtitle || null,
+        markdown,
+        attachedFiles
+      );
 
-    console.log(postData);
+      // Navigate to the post detail page after creation
+      navigate(PATHS.loungePost.replace(':postId', response.id));
+
+    } catch (err) {
+      console.error("Failed to create lounge post:", err);
+      alert("포스트 작성 중 오류가 발생했습니다.");
+    }
   };
 
   const handleCancel = () => {
     setTitle("");
     setSubtitle("");
+    setAttachedFiles([]);
     if (editor) {
       editor.commands.setContent('<p>본문을 작성해주세요</p>');
       editor.chain().focus().run();
@@ -123,7 +134,10 @@ export default function LoungePostCreatePage() {
 
       {/* Post editor */}
       <section>
-        <EditorToolbar editor={editor} />
+        <EditorToolbar
+          editor={editor}
+          onFileAdd={(file: File) => setAttachedFiles(prev => [...prev, file])}
+        />
 
         <div className={s['post-body']}>
           <EditorContent editor={editor} />
