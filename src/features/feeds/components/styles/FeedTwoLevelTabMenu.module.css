@@ -1,0 +1,68 @@
+:root {
+  --pill-fg: #111827;     
+  --pill-muted: #374151;  
+  --pill-bg: #f3f4f6;    
+  --pill-bg-hover: #e5e7eb;
+  --pill-bg-active: #e5e7eb;
+  --pill-border: #e5e7eb;  
+}
+
+.tab-menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 4px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.tab-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  width: 100%;
+  border-radius: 12px;            
+  background: var(--pill-bg);
+  color: var(--pill-muted);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  transition: background .15s ease, color .15s ease, transform .06s ease;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .tab-link:hover {
+    background: var(--pill-bg-hover);
+    color: var(--pill-fg);
+  }
+}
+
+.active {
+  background: var(--pill-bg-active);
+  color: var(--pill-fg);
+}
+
+.tab-link:active { transform: translateY(1px); }
+
+.tab-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(17,24,39,.08);
+}
+
+.tab-link::after { content: none; }
+
+.tab-title {
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1023.98px) {
+  .tab-menu { gap: 5px; padding: 0 12px; }
+  .tab-link { height: 40px; border-radius: 12px; }
+  .tab-title { font-size: 13.5px; }
+}

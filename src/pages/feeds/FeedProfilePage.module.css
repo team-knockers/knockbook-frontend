@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
 }
 
 .feed-header {
@@ -26,7 +26,7 @@
 
 .feed-header-left img {
   width: 100%;
-  max-width: 150px;
+  max-width: 80px;
   border-radius: 50%;
   object-fit: cover;
   overflow: hidden;
@@ -36,7 +36,7 @@
   display: flex;
   flex: 7;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;;
   box-sizing: border-box;
 }
 
@@ -142,7 +142,7 @@
 .post-imges {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: 3px;
   width: 100%;
 }
 
@@ -213,8 +213,12 @@
 }
 
 @media (min-width: 1024px) {
+  .page-layout {
+    width: 1200px;
+  }
+
   .feed-header-left img {
-    max-width: 200px;
+    max-width: 150px;
   }
 
   .user-name span {
