@@ -1,5 +1,5 @@
 import { FiGift, FiHeart } from 'react-icons/fi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import Counter from '../../../components/forms/Counter';
 import s from './styles/BookOrderBottomBar.module.css'
@@ -7,6 +7,7 @@ import s from './styles/BookOrderBottomBar.module.css'
 type BookOrderBottomBarProps = {
   rentalPriceAmount: number;
   purchasePriceAmount: number;
+  isWished: boolean;
   onQuantityChange: (quantity: number) => void;
   onFavoriteButtonClick: (state: boolean) => void;
   onSendAsGiftButtonClick: () => void;
@@ -18,6 +19,7 @@ type BookOrderBottomBarProps = {
 export default function BookOrderBottomBar({
   rentalPriceAmount,
   purchasePriceAmount,
+  isWished,
   onQuantityChange,
   onFavoriteButtonClick,
   onSendAsGiftButtonClick,
@@ -26,7 +28,12 @@ export default function BookOrderBottomBar({
   onBuyNowButtonClick
 } : BookOrderBottomBarProps) {
 
-  const [isFavoriteOn, setIsFavoriteOn] = useState(false);
+  const [isFavoriteOn, setIsFavoriteOn] = useState(isWished);
+
+  useEffect(() => {
+    setIsFavoriteOn(isWished);
+  }, [isWished]);
+
   const handleFavoriteClick = () => {
     const newState = !isFavoriteOn;
     setIsFavoriteOn(newState);
