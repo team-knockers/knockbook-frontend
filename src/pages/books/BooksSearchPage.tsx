@@ -182,7 +182,6 @@ export default function BooksSearchPage() {
     return () => { cancelled = true; };
   }, [searchState]);
 
-  const nav = useNavigate();
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   async function handleAddItemsOnCart(bookId: string) {
     await PurchaseService.addCartPurchaseItem("BOOK_PURCHASE", bookId, 1);
@@ -254,7 +253,7 @@ export default function BooksSearchPage() {
             cancelText='취소'
             confirmText='장바구니 보기'
             onCancel={() => setIsCartPopupVisible(false)}
-            onConfirm={() => nav(PATHS.cart)}/>
+            onConfirm={() => navigate(PATHS.cart)}/>
         </div>}
 
         <CategoryFilterSearchBar
