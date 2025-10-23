@@ -13,7 +13,6 @@ export default function LoungePostCreatePage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
-  const [markdown, setMarkdown] = useState("");
   const [displayName, setDisplayName] = useState<string>("로딩중");
 
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
@@ -53,19 +52,21 @@ export default function LoungePostCreatePage() {
       return;
     }
     const html = editor.getHTML();
-    const turndownService = new TurndownService();
-    const md = turndownService.turndown(html);
-    setMarkdown(md);
+    const turndownService = new TurndownService({ headingStyle: 'atx' });
+    const markdown = turndownService.turndown(html);
 
-    console.log("Title:", title);
-    console.log("Subtitle:", subtitle);
-    console.log("Markdown content:", markdown);
+    const postData = {
+      title,
+      subtitle,
+      content: markdown,
+    };
+
+    console.log(postData);
   };
 
   const handleCancel = () => {
     setTitle("");
     setSubtitle("");
-    setMarkdown("");
     if (editor) {
       editor.commands.setContent('<p>본문을 작성해주세요</p>');
       editor.chain().focus().run();
