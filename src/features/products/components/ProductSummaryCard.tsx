@@ -9,12 +9,15 @@ type Props = {
   rating: number;
   reviewCount: number;
   onClick: () => void;
+  onWishButtonClick: () => void;
+  onCartButtonClick: () => void;
 }
 
 const formatWon = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
 export default function ProductSummaryCard({
-  imageSrc, name, price, salePrice, rating, reviewCount, onClick    
+  imageSrc, name, price, salePrice, rating, reviewCount, onClick,
+  onWishButtonClick, onCartButtonClick
 }: Props) {
   const hasSale = typeof salePrice === 'number' && salePrice < price;
   const discountRate = hasSale ? Math.round((1 - (salePrice as number) / price) * 100) : undefined;
@@ -66,10 +69,14 @@ export default function ProductSummaryCard({
         </div>
       </button>
       <div className={styles['product-actions']}>
-        <button className={styles['wishlist-icon']}>
+        <button 
+          className={styles['wishlist-icon']}
+          onClick={onWishButtonClick}>
           <FiHeart size={16} />
         </button>
-        <button className={styles['cart-icon']}>
+        <button 
+          className={styles['cart-icon']}
+          onClick={onCartButtonClick}>
           <FiShoppingCart size={16} />
         </button>
       </div>

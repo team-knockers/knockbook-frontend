@@ -184,7 +184,6 @@ export default function BooksSearchPage() {
   const nav = useNavigate();
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   async function handleAddItemsOnCart(bookId: string) {
-    console.log("called handleAddItemsOnCart");
     await PurchaseService.addCartPurchaseItem("BOOK_PURCHASE", bookId, 1);
     setIsCartPopupVisible(true);
   }
