@@ -79,6 +79,8 @@ export default function LikeProductPage() {
               rating={p.averageRating}
               reviewCount={p.reviewCount}
               onClick={() => handleCardClick(p.productId)}
+              onWishButtonClick={() => {/* TODO */}}
+              onCartButtonClick={() => {/* TODO */}}
             />
           </div>
         ))}
