@@ -71,6 +71,9 @@
   height: 100%; 
   object-fit: cover; 
   display: block; 
+  transition: transform .35s ease;
+  will-change: transform;
+  transform-origin: center;
 }
 
 .overlay {
@@ -117,3 +120,8 @@
     display: none;
   }
 }
+
+@media (hover: hover) {
+  .card:hover .thumb { transform: scale(1.05); }
+}
+.card:focus-visible .thumb { transform: scale(1.05); }
