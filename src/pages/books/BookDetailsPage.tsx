@@ -11,7 +11,8 @@ import { PATHS } from '../../routes/paths';
 import type { OrderType } from '../../features/purchase/type';
 import type { BookDetailsLoaderData } from './BookDetails.loader';
 import { BookService } from '../../features/books/services/BookService';
-;
+import { OrderService } from '../../features/purchase/services/OrderService';
+
 
 export default function BookDetailsPage() {
   const { bookDetails, statistics, myMbti } = useLoaderData() as BookDetailsLoaderData;
@@ -22,12 +23,22 @@ export default function BookDetailsPage() {
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   const [isWished, setIsWished] = useState<boolean>(false);
 
+  const purchaseRefType = "BOOK_PURCHASE";
+  const rentalRefType = "BOOK_RENTAL";
+
   async function handleAddItemsOnCart(type : OrderType) {
     const refId = bookDetails.id;
-    type === "BOOK_PURCHASE" 
+    type === purchaseRefType 
     ? await CartService.addCartPurchaseItem(type, refId, quantity)
     : await CartService.addCartRentalItem(type, refId, quantity, 14);
     setIsCartPopupVisible(true);
+  }
+
+    async function handleCreateDraftDirect() {
+    const refId =  String(bookDetails.id);
+    const draft = await OrderService.createOrderDirect(
+      purchaseRefType, refId, quantity);
+    nav(PATHS.orderById(draft.id));
   }
 
   useEffect(() => {
@@ -47,7 +58,6 @@ export default function BookDetailsPage() {
 
   /* This is a sample code for BookOrderBottomBar */
   const gift = () => toast('선물하기 클릭');
-  const buyNow = () => toast('바로구매 클릭');
 
   const handleToggleWishlist = async (bookId: string) => {
     try {
@@ -119,9 +129,9 @@ export default function BookDetailsPage() {
           onQuantityChange={qty => setQuantity(qty)}
           onFavoriteButtonClick={() => handleToggleWishlist(bookDetails.id)}
           onSendAsGiftButtonClick={gift}
-          onRentButtonClick={() => handleAddItemsOnCart("BOOK_RENTAL")}
-          onAddToCartButtonClick={() => handleAddItemsOnCart("BOOK_PURCHASE")}
-          onBuyNowButtonClick={buyNow} 
+          onRentButtonClick={() => handleAddItemsOnCart(rentalRefType)}
+          onAddToCartButtonClick={() => handleAddItemsOnCart(purchaseRefType)}
+          onBuyNowButtonClick={handleCreateDraftDirect}
         />
       </footer>
     </>
