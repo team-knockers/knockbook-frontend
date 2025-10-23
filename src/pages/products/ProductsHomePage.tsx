@@ -12,6 +12,9 @@ import { PRODUCT_BANNERS } from "../../features/products/resources/ProductBanner
 import Pagination from "../../components/navigation/Pagination";
 import { useLoaderData, useSearchParams, useNavigate, generatePath } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
+import { useState } from "react";
+import { PurchaseService } from "../../features/purchase/services/PurchaseService";
+import TwoButtonPopup from "../../components/overlay/TwoButtonPopup";
 
 export default function ProductsHomePage() {
   const nav = useNavigate();
@@ -57,8 +60,26 @@ export default function ProductsHomePage() {
     nav(generatePath(PATHS.productDetail, { productId: id }));
   };
 
+  /* Add cart event helpers */
+  const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
+  async function handleAddItemsOnCart(pid: string) {
+    await PurchaseService.addCartPurchaseItem("PRODUCT", pid, 1);
+    setIsCartPopupVisible(true);
+  }
+
   return (
     <div className={styles['home-layout']}>
+      { isCartPopupVisible &&
+        <div className={styles['go-to-cart-popup']}>
+          <TwoButtonPopup
+            title='선택한 상품을 장바구니에 담았어요.'
+            description='장바구니로 이동하시겠어요?'
+            cancelText='취소'
+            confirmText='장바구니 보기'
+            onCancel={() => setIsCartPopupVisible(false)}
+            onConfirm={() => nav(PATHS.cart)}/>
+        </div>}
+
       <main className={styles['main-layout']}>
         {/* SearchBar */}
         <SearchBar
@@ -94,6 +115,8 @@ export default function ProductsHomePage() {
                 rating={p.averageRating}
                 reviewCount={p.reviewCount}
                 onClick={() => handleCardClick(p.productId)}
+                onWishButtonClick={() => {/* TODO */}}
+                onCartButtonClick={() => handleAddItemsOnCart(p.productId)}
               />
             ))}
           </ProductSummaryListBody>  
