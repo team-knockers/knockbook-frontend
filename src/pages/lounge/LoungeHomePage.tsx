@@ -6,6 +6,10 @@ import DefaultImg from '../../assets/lounge_post_default_thumbnail.png';
 import ChallengeImg1 from '../../assets/lounge_challenge_img1.png';
 import ChallengeImg2 from '../../assets/lounge_challenge_img2.png';
 import ChallengeImg3 from '../../assets/lounge_challenge_img3.png';
+import ChallengeImg4 from '../../assets/lounge_challenge_img4.png';
+import ChallengeImg5 from '../../assets/lounge_challenge_img5.png';
+import ChallengeImg6 from '../../assets/lounge_challenge_img6.png';
+
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 // @ts-ignore
@@ -79,9 +83,9 @@ const challengeData = [
   { id: 1, title: "문앞의 책방 \n 저녁 독서 챌린지", subtitle: "", backgroundImage: ChallengeImg1 },
   { id: 2, title: "양명숙 작가와 함께하는 요리기행", subtitle: "#8월 #삼계탕의 계절 #문책 PICK!", backgroundImage: ChallengeImg2 },
   { id: 3, title: "제주항공권 추천 이벤트", subtitle: "챌린지 신청하고 제주도 가자!", backgroundImage: ChallengeImg3 },
-  { id: 1, title: "문앞의 책방 \n 저녁 독서 챌린지", subtitle: "", backgroundImage: ChallengeImg1 },
-  { id: 2, title: "양명숙 작가와 함께하는 요리기행", subtitle: "#8월 #삼계탕의 계절 #문책 PICK!", backgroundImage: ChallengeImg2 },
-  { id: 3, title: "제주항공권 추천 이벤트", subtitle: "챌린지 신청하고 제주도 가자!", backgroundImage: ChallengeImg3 },
+  { id: 4, title: "책 속 레시피 챌린지", subtitle: "책 속에 등장한 음식을 재현하고 인증하자!", backgroundImage: ChallengeImg4 },
+  { id: 5, title: "클래식과 밤", subtitle: "음악을 곁들인 낭독회", backgroundImage: ChallengeImg5 },
+  { id: 6, title: "어린이 그림책 창작 워크숍", subtitle: "", backgroundImage: ChallengeImg6 },
 ];
 
 export default function LoungeHomePage() {
