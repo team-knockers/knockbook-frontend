@@ -59,19 +59,6 @@ const sortOptions = [
 
 const DESKTOP_BREAKPOINT = 1024;
 
-const sliderImgs = [
-  { id: 1, title: "내가 여행한 도시들", author: "행복한여행자", imageUrl: "https://i.imgur.com/jifY9jJ.jpeg" },
-  { id: 2, title: "나의 호의가 둘리가 되었다.", author: "김대리", imageUrl: "https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/dE4R/image/oWPJD5uJGYBzF11N_AdfwLr7uYw.jpg" },
-  { id: 3, title: "일본 오사카에서 보낸 하루들", author: "가방하나여행둘", imageUrl: "https://i.imgur.com/h2Cx7DO.jpeg" },
-  { id: 4, title: "나의 사랑스러운 고양이와 함께", author: "고양이애호가", imageUrl: "https://i.imgur.com/aLRhnr8.jpeg" },
-  { id: 5, title: "반려동물과 나, 매일의 고찰", author: "방석", imageUrl: "https://i.imgur.com/FzrMFP6.jpeg" },
-  { id: 6, title: "정원을 가꾼다는 것에 대하여", author: "정원가드너", imageUrl: "https://i.imgur.com/sEIqf1D.jpeg" },
-  { id: 7, title: "탐조기록 3", author: "조류관찰자", imageUrl: "https://i.imgur.com/VQPrcjv.jpeg" },
-  { id: 8, title: "나의 요리일기장", author: "오늘은내가요리사", imageUrl: "https://i.imgur.com/7rn3RLX.jpeg" },
-  { id: 9, title: "나의 하늘이 무너진날", author: "여울", imageUrl: "https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/icgm/image/-XRLVSLB4vOKlbc80LI8xd5yKmA.jpg" },
-  { id: 3, title: "오늘도 살아 남았다", author: "생존장인", imageUrl: "https://img1.daumcdn.net/thumb/R1280x0.fwebp/?fname=http://t1.daumcdn.net/brunch/service/user/ftEI/image/Y-kquSPHCrXuN2KxK8dFb3l8l04" }
-];
-
 const spotlight = {
   quote: "서울에도 아직 청춘이 내 집 마련할 수 있는 기회가 열려 있습니다.",
   author: "스케치",
@@ -90,7 +77,7 @@ const challengeData = [
 
 export default function LoungeHomePage() {
   const navigate = useNavigate();
-  const { postSummaries } = useLoaderData() as LoungeHomeLoaderData;
+  const { postSummaries, sliderPosts } = useLoaderData() as LoungeHomeLoaderData;
 
   const [searchParams] = useSearchParams();
   const [posts, setPosts] = useState(postSummaries.posts);
@@ -254,24 +241,27 @@ export default function LoungeHomePage() {
             spaceBetween={0}
             grabCursor={true}
             modules={[Navigation]}
-            navigation={sliderImgs.length > 1}
+            navigation={sliderPosts.length > 1}
             centeredSlides={false}
           >
-            {sliderImgs.map((slider) => (
+            {sliderPosts.map((slider) => (
               <SwiperSlide className={s['slide']} key={slider.id}>
-                <div className={s['slide-item']}>
+                <button
+                  className={s['slide-item']}
+                  onClick={() => handlePostClick(String(slider.id))}
+                >
                   <div
                     className={s['slide-bg']}
-                    style={{ backgroundImage: `url(${slider.imageUrl})`}}
+                    style={{ backgroundImage: `url(${slider.previewImageUrl})`}}
                   />
                   <div className={s['slide-overlay']}>
                     <h3 className={s['slide-item-title']}>{slider.title}</h3>
                     <p className={s['slide-item-meta']}>
                       <span className={s['slide-item-author-label']}>by</span>&nbsp;
-                      {slider.author}
+                      {slider.displayName}
                     </p>
                   </div>
-                </div>
+                </button>
               </SwiperSlide>
             ))}
           </Swiper>
