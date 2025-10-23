@@ -7,14 +7,14 @@ import TurndownService from "turndown";
 import EditorToolbar from '../../features/lounge/components/EditorToolbar';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
-
-const displayName = "호랭이";
+import { UserService } from '../../features/account/services/UserService';
 
 export default function LoungePostCreatePage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [markdown, setMarkdown] = useState("");
+  const [displayName, setDisplayName] = useState<string>("로딩중");
 
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
   const subtitleRef = useRef<HTMLTextAreaElement | null>(null);
@@ -26,6 +26,27 @@ export default function LoungePostCreatePage() {
     ],
     content: "<p>본문을 작성해주세요</p>",
 });
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadProfile() {
+      try {
+        const profile = await UserService.getMyProfile();
+        if (!mounted) { 
+          return;
+        }
+        setDisplayName(profile.displayName);
+
+      } catch (err) {
+        if (!mounted) {
+          return;
+        }
+        navigate(PATHS.login);
+      }
+    }
+    loadProfile();
+    return () => { mounted = false; };
+  }, []);
 
   const handleSave = () => {
     if (!editor) {
