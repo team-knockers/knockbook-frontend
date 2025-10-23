@@ -13,7 +13,7 @@ import Pagination from "../../components/navigation/Pagination";
 import { useLoaderData, useSearchParams, useNavigate, generatePath } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { useState } from "react";
-import { PurchaseService } from "../../features/purchase/services/PurchaseService";
+import { CartService } from "../../features/purchase/services/CartService";
 import TwoButtonPopup from "../../components/overlay/TwoButtonPopup";
 
 export default function ProductsHomePage() {
@@ -63,7 +63,7 @@ export default function ProductsHomePage() {
   /* Add cart event helpers */
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   async function handleAddItemsOnCart(pid: string) {
-    await PurchaseService.addCartPurchaseItem("PRODUCT", pid, 1);
+    await CartService.addCartPurchaseItem("PRODUCT", pid, 1);
     setIsCartPopupVisible(true);
   }
 

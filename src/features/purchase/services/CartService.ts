@@ -2,7 +2,7 @@ import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
 import type { addCartPurchaseItemRequest, addCartRentalItemRequest, GetCartResponse, OrderType } from "../type";
 
-export const PurchaseService = {
+export const CartService = {
 
   async getCart() {
     const { userId } = useSession.getState();

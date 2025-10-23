@@ -12,7 +12,7 @@ import { BookService } from "../../features/books/services/BookService.ts";
 import Pagination from "../../components/navigation/Pagination.tsx";
 import { PATHS } from "../../routes/paths.ts";
 import type { BooksSearchLoaderData } from './BooksSearch.loader.ts';
-import { PurchaseService } from '../../features/purchase/services/PurchaseService.ts';
+import { CartService } from '../../features/purchase/services/CartService.ts';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup.tsx';
 
 // Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
@@ -184,7 +184,7 @@ export default function BooksSearchPage() {
 
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   async function handleAddItemsOnCart(bookId: string) {
-    await PurchaseService.addCartPurchaseItem("BOOK_PURCHASE", bookId, 1);
+    await CartService.addCartPurchaseItem("BOOK_PURCHASE", bookId, 1);
     setIsCartPopupVisible(true);
   }
 

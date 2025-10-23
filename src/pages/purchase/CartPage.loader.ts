@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs } from "react-router-dom";
-import { PurchaseService } from "../../features/purchase/services/PurchaseService";
+import { CartService } from "../../features/purchase/services/CartService";
 import type {
   CartSummary,
   BookItemToPurchase,
@@ -10,7 +10,7 @@ import type {
 
 /** Loader: fetch cart and normalize data for the page */
 export async function CartPageLoader() {
-  const cart: GetCartResponse = await PurchaseService.getCart();
+  const cart: GetCartResponse = await CartService.getCart();
 
   const summary: CartSummary = createSummary(cart);
   const booksToPurchase: BookItemToPurchase[] = mapBooksToPurchase(cart);
@@ -32,7 +32,7 @@ export async function cartAction({ request }: ActionFunctionArgs) {
     if (!cartItemId) {
       return new Response("Missing cartItemId", { status: 400 });
     }
-    await PurchaseService.removeCartItem(String(cartItemId));
+    await CartService.removeCartItem(String(cartItemId));
     return new Response(null, { status: 204 });
   }
 
@@ -41,7 +41,7 @@ export async function cartAction({ request }: ActionFunctionArgs) {
     if (ids.length === 0) {
       return new Response("Missing cartItemId[]", { status: 400 });
     }
-    await Promise.allSettled(ids.map(id => PurchaseService.removeCartItem(id)));
+    await Promise.allSettled(ids.map(id => CartService.removeCartItem(id)));
     return new Response(null, { status: 204 });
   }
 
@@ -60,12 +60,12 @@ export async function cartAction({ request }: ActionFunctionArgs) {
       await Promise.allSettled(
         Array.from(
           { length: by },
-          () => PurchaseService.incrementCartItem(String(cartItemId))));
+          () => CartService.incrementCartItem(String(cartItemId))));
     } else {
       await Promise.allSettled(
         Array.from(
           { length: by },
-          () => PurchaseService.decrementCartItem(String(cartItemId))));
+          () => CartService.decrementCartItem(String(cartItemId))));
     }
 
     return new Response(null, { status: 204 });

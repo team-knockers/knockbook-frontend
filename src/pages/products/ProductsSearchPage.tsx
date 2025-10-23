@@ -11,7 +11,7 @@ import Footer from '../../components/layout/Footer';
 import { useNavigate, generatePath } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
 import { useState } from 'react';
-import { PurchaseService } from '../../features/purchase/services/PurchaseService';
+import { CartService } from '../../features/purchase/services/CartService';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 
 export default function ProductsSearchPage() {
@@ -91,7 +91,7 @@ export default function ProductsSearchPage() {
   /* Add cart event helpers */
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   async function handleAddItemsOnCart(pid: string) {
-    await PurchaseService.addCartPurchaseItem("PRODUCT", pid, 1);
+    await CartService.addCartPurchaseItem("PRODUCT", pid, 1);
     setIsCartPopupVisible(true);
   }
 

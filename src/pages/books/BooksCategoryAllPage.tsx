@@ -7,7 +7,7 @@ import Pagination from '../../components/navigation/Pagination';
 import { PATHS } from '../../routes/paths';
 import { useEffect, useState } from 'react';
 import { BookService } from '../../features/books/services/BookService';
-import { PurchaseService } from '../../features/purchase/services/PurchaseService';
+import { CartService } from '../../features/purchase/services/CartService';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 
 // Parse initial search state from URL: page, category, subcategory, minPrice, maxPrice, searchBy, keyword, sortBy, order
@@ -212,7 +212,7 @@ export default function BooksCategoryAllPage() {
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   async function handleAddItemsOnCart(bookId: string) {
     console.log("called handleAddItemsOnCart");
-    await PurchaseService.addCartPurchaseItem("BOOK_PURCHASE", bookId, 1);
+    await CartService.addCartPurchaseItem("BOOK_PURCHASE", bookId, 1);
     setIsCartPopupVisible(true);
   }
 
