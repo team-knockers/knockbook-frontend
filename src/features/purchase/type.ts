@@ -79,8 +79,14 @@ export type ProductItem = {
   pointsRate: number;
 }
 
-export type createOrderFromCartRequest = {
+export type CreateOrderFromCartRequest = {
   cartItemIds: string[];
+}
+
+export type CreateOrderDirectRequest = {
+  refType: string;
+  refId: string;
+  quantity: number;
 }
 
 export type Order = {

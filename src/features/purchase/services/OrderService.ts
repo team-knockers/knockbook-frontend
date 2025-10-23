@@ -1,15 +1,26 @@
 import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathWithJson } from "../../../shared/api";
-import type { ApplyCouponRequest, ApplyPointsRequest, createOrderFromCartRequest, Order } from "../type";
+import type { ApplyCouponRequest, ApplyPointsRequest, CreateOrderDirectRequest, CreateOrderFromCartRequest, Order } from "../type";
 
 export const OrderService = {
 
   async createDraftFromCart(cartItemIds: string[]) {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }
-    const req = { cartItemIds } as createOrderFromCartRequest;
-    return await apiAuthPathWithJson<Order, createOrderFromCartRequest>(
+    const req = { cartItemIds } as CreateOrderFromCartRequest;
+    return await apiAuthPathWithJson<Order, CreateOrderFromCartRequest>(
       "/users/{userId}/orders/draft-from-cart",
+      { userId },
+      { method: "POST", json: req }
+    );
+  },
+
+  async createOrderDirect(refType: string, refId: string, quantity: number) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER") }
+    const req = { refType, refId, quantity } as CreateOrderDirectRequest;
+    return apiAuthPathWithJson<Order, CreateOrderDirectRequest>(
+      "/users/{userId}/orders/draft",
       { userId },
       { method: "POST", json: req }
     );

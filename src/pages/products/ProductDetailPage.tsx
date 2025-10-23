@@ -8,7 +8,8 @@ import ProductBottomBar from '../../features/products/components/ProductOrderBot
 import { toast } from 'react-toastify';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 import { PATHS } from '../../routes/paths';
-import { PurchaseService } from '../../features/purchase/services/PurchaseService';
+import { CartService } from '../../features/purchase/services/CartService';
+import { OrderService } from '../../features/purchase/services/OrderService';
 
 export default function ProductDetailPage() {
 
@@ -56,7 +57,7 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   async function handleAddItemsOnCart() {
-    await PurchaseService.addCartPurchaseItem(
+    await CartService.addCartPurchaseItem(
       "PRODUCT",
       String(productId),
       quantity
@@ -64,10 +65,16 @@ export default function ProductDetailPage() {
     setIsCartPopupVisible(true);
   }
 
+  async function handleCreateDraftDirect() {
+    const refType = "PRODUCT";
+    const refId =  String(productId);
+    const draft = await OrderService.createOrderDirect(refType, refId, quantity);
+    nav(PATHS.orderById(draft.id));
+  }
+
   /* This is a sample code */
   const fav = (isFav?: boolean) => toast(isFav === undefined ? '찜 토글' : (isFav ? '찜 추가' : '찜 해제'));
   const gift = () => toast('선물하기 클릭');
-  const buyNow = () => toast('바로구매 클릭');
 
   return (
     // key(productId): reset internal state when navigating to another product
@@ -171,7 +178,7 @@ export default function ProductDetailPage() {
           onFavoriteButtonClick={fav}
           onSendAsGiftButtonClick={gift}
           onAddToCartButtonClick={handleAddItemsOnCart}
-          onBuyNowButtonClick={(buyNow)}
+          onBuyNowButtonClick={handleCreateDraftDirect}
         />
       </section>
 

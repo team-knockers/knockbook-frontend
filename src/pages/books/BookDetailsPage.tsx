@@ -5,7 +5,7 @@ import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsS
 import BookDetailsResearch from "../../features/books/components/BookDetailsResearch";
 import BookOrderBottomBar from '../../features/books/components/BookOrderBottomBar';
 import { toast, ToastContainer } from 'react-toastify';import { useEffect, useState } from 'react';
-import { PurchaseService } from '../../features/purchase/services/PurchaseService';
+import { CartService } from '../../features/purchase/services/CartService';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 import { PATHS } from '../../routes/paths';
 import type { OrderType } from '../../features/purchase/type';
@@ -25,8 +25,8 @@ export default function BookDetailsPage() {
   async function handleAddItemsOnCart(type : OrderType) {
     const refId = bookDetails.id;
     type === "BOOK_PURCHASE" 
-    ? await PurchaseService.addCartPurchaseItem(type, refId, quantity)
-    : await PurchaseService.addCartRentalItem(type, refId, quantity, 14);
+    ? await CartService.addCartPurchaseItem(type, refId, quantity)
+    : await CartService.addCartRentalItem(type, refId, quantity, 14);
     setIsCartPopupVisible(true);
   }
 
