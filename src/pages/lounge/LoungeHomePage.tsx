@@ -204,6 +204,10 @@ export default function LoungeHomePage() {
   }, [searchState]);
   
 
+  const handleWriteClick = () => {
+    navigate(PATHS.loungePostCreate);
+  };
+
   const handleMoreClick = () => {
     updateSearchStateViaUrl({ page: page + 1 });
   };
@@ -247,6 +251,11 @@ export default function LoungeHomePage() {
               <option value='newest'>최신순</option>
               <option value='popular'>인기순</option>
             </select>
+          </div>
+          <div className={s['official-action']}>
+            <button className={s['write-btn']} onClick={handleWriteClick}>
+              + 게시물 작성하기
+            </button>
           </div>
           <div className={s['official-list']}>
             {posts.map((post) => (

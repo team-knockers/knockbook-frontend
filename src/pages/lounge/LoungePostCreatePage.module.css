@@ -1,0 +1,167 @@
+.lounge-post-create {
+  min-width: 375px;
+  padding-bottom: 80px;
+  background-color: #fff;
+  font-family: 'Pretendard';
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.post-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  min-height: 300px;
+  padding: 30px 40px;
+  border-bottom: #EBEBEB solid 1px;
+}
+
+.post-header__content {
+  margin-bottom: 30px;
+}
+
+.post-header__title {
+  width: 100%;
+  font-family: 'Nanum Myeongjo';
+  font-size: 45.3333px;
+  border: none;
+  padding: 0;
+  overflow: hidden;
+  resize: none;
+  background: transparent;
+}
+
+.post-header__subtitle {
+  width: 100%;
+  font-family: 'Noto Sans KR';
+  font-size: 16px;
+  color: #666666;
+  border: none;
+  opacity: 0.8;
+  padding: 0;
+  margin-bottom: 16px;
+  overflow: hidden;
+  resize: none;
+  background: transparent;
+}
+
+.post-header__meta {
+  font-size: 12px;
+}
+
+.post-header__meta-label {
+  font-family: Georgia, sans-serif;
+  font-style: italic;
+  color: #BBBBBB;
+  margin-right: 4px;
+}
+
+.post-header__author-name {
+  font-family: 'Noto Sans KR';
+  color: #666666;
+  margin-right: 2px;
+}
+
+.post-body {
+  font-size: 15px;
+  line-height: 2;
+  color: #333333;
+  padding: 10px 40px;
+  border: 1px solid #ccc;
+}
+
+.post-body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #222;
+  font-family: 'Noto Sans KR';
+}
+
+.post-body h1,
+.post-body h2,
+.post-body h3 {
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+  font-weight: 600;
+}
+
+.post-body h1 {
+  font-size: 24px;
+}
+
+.post-body h2 {
+  font-size: 20px;
+}
+
+.post-body h3 {
+  font-size: 18px;
+}
+
+.post-body blockquote {
+  margin: 1em 0;
+  padding: 0.75rem 1rem;
+  padding-left: 1rem;
+  border-left: 4px solid #d1d5db;
+  background: rgba(209,213,219,0.12);
+  color: #374151;
+  border-radius: 4px;
+}
+
+.post-body p {
+  font-size: 15px;
+  margin: 0.8em 0;
+}
+
+.post-body ul,
+.post-body ol {
+  margin-left: 1.5em;
+  padding-left: 1em;
+}
+
+.post-body img {
+  display: block;
+  margin: 1rem auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.post-body :global(.ProseMirror) > :is(h1, h2, h3):first-child {
+  margin-top: 12px;
+}
+
+.post-create__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.post-create__cancel-btn {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: #374151;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.post-create__cancel-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.post-create__save-btn {
+  padding: 0.5rem 1rem;
+  background-color: #1d4ed8;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.post-create__save-btn:hover {
+  background-color: #2563eb;
+}
