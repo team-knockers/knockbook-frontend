@@ -22,22 +22,31 @@
   width: 100%;
 }
 
-.user-name {
+.user-display-name {
   color: #2C3E50;
-  font-family: "GmarketSans";
-  font-size: 14px;
-  font-weight: 500;
+  font-family: GmarketSans;
+  font-size: 20px;
+  font-weight: 300;
   margin: 0;
 }
 
-.user-mbti {
+.user-display-name strong {
+  font-family: GmarketSans;
+}
+
+.user-mbti-introduction {
   width: 100%;
   color: #2C3E50;
-  font-family: "GmarketSans";
+  font-family: GmarketSans;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   margin: 0;
   padding: 2px 0 15px;
+}
+
+.user-mbti-introduction strong{
+  color: purple;
+  font-family: GmarketSans;
 }
 
 .mbti-thumbnail {
@@ -46,7 +55,7 @@
 
 .mbti-display {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   justify-content: center;
 }
 
@@ -54,7 +63,7 @@
   width: 50px;
   height: 50px;
   padding: 20px 0;
-  font-size: 30px;
+  font-size: 25px;
   border-radius: 12px;
   border: 1px solid #ccc;
   background-color: #f7f7f7;
@@ -74,7 +83,7 @@
   font-family: Pretendard;
   font-size: 14px;
   font-weight: 300;
-  margin: 0;
+  margin-bottom: 30px;
 }
 
 .book-list {
@@ -91,6 +100,7 @@
   height: auto;
   object-fit: cover;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 5px;
 }
 
 .button-section {

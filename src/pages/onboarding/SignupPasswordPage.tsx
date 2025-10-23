@@ -7,7 +7,7 @@ import { checkPasswordAlphaLetter, checkPasswordDigit, checkPasswordLength, chec
 import { useSignupFlow } from '../../features/onboarding/hooks/useSignupFlow';
 
 import OneWayButton from '../../components/forms/OneWayButton';
-import backgroundUrl from '../../assets/login_page_bg.png';
+import backgroundUrl from '../../assets/intro-background.jpg';
 
 import Item from '../../components/display/Item';
 import styles from './styles/SignupPasswordPage.module.css';

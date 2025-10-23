@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
 
-import backgroundUrl from '../../assets/login_page_bg.png';
+import backgroundUrl from '../../assets/intro-background.jpg';
 import step1 from '../../assets/intro_page_step1.png';
 import step2 from '../../assets/intro_page_step2.png';
 import step3 from '../../assets/intro_page_step3.png';

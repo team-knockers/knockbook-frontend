@@ -25,11 +25,16 @@
 .title {
   width: 100%;
   color: #2C3E50;
-  font-family: "GmarketSans";
+  font-family: GmarketSans;
   font-size: 20px;
   font-weight: 500;
   margin: 0;
   padding: 2px 0 15px;
+}
+
+.title strong {
+  font-family: GmarketSans;
+  font-weight: 500;
 }
 
 .description {
@@ -40,78 +45,14 @@
   margin: 0;
 }
 
-.mbti-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.mbti-row {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  gap: 15px;
-}
-
-.mbti-button {
-  width: 80px;
-  height: 80px;
-  padding: 20px 0;
-  font-size: 24px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  cursor: pointer;
-  transition: all 0.2s;
-  color: #333;
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 40px;
-  font-weight: 700;
-}
-
-.mbti-button.selected {
-  background-color: #333;
-  color: #fff;
-  border-color: #333;
-}
-
-.label-left, .label-right {
-  position: absolute;
-  top: 40%;
-  color: #333;
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-}
-
-.label-left {
-  left: -50px;
-}
-
-.label-right {
-  right: -50px;
-}
-
 .button-section {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 40px;
+  gap: 30px;
 }
 
 .skip-button {
-  background: transparent;
-  border: none;
-  color: #aaa;
-  font-size: 14px;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  font-family: Pretendard;
+  color: rgb(105, 104, 104);
 }
 
 /*

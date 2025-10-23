@@ -1,73 +1,112 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useRouteLoaderData } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
-
 import OneWayButton from '../../components/forms/OneWayButton';
-import backgroundUrl from '../../assets/login_page_bg.png';
-
+import backgroundUrl from '../../assets/intro-background.jpg';
 import s from './styles/SignupSetFavoriteCategoryPage.module.css';
+import type { SignupSetFavoriteCategoryPageLoaderData } from './SignupSetFavoriteCategoryPage.loader';
+import { UserService } from '../../features/account/services/UserService';
 
 export default function SignupSetFavoriteCategoryPage() {
   const nav = useNavigate();
 
-  const genres = [
-    { name: '소설', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788936439743.jpg' },
-    { name: '시/\n에세이', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9791191114768.jpg' },
-    { name: '인문', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9791198754080.jpg' },
-    { name: '가정/\n육아', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788934986652.jpg' },
-    { name: '요리', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9791192512761.jpg' },
-    { name: '건강', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9791198553317.jpg' },
-    { name: '경제/\n경영', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9791191056372.jpg' },
-    { name: '자기계발', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788965404149.jpg' },
-    { name: '외국어', imgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/400x0/pdt/9788954793704.jpg' },
-  ];
+  const data = useRouteLoaderData('favoriteCategory') as SignupSetFavoriteCategoryPageLoaderData | undefined;
+  const categories = data?.categories ?? [];
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const isAnyCategorySelected = selectedCategories.length > 0;
 
-  const toggleGenre = (genreName: string) => {
-    setSelectedGenre(prev => (prev === genreName ? null : genreName));
+  const handleCategoryToggle = (code: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(code) ? prev.filter(c => c !== code) : [...prev, code]
+    );
+  };
+  
+  const handleSkip = () => nav(PATHS.signupComplete);
+  async function handleNext() {
+    await UserService.changeFavoriteBookCategories(selectedCategories);
+    nav(PATHS.signupSelectMbti);
   };
 
-  const isGenreSelected = selectedGenre !== null;
+  if (categories.length === 0) {
+    return (
+      <main className={s['page-layout']}>
+        <div className={s['page-left-section']}>
+          <img 
+            className={s['page-left-section-img']}
+            src={backgroundUrl}
+            alt="signup page background" />
+        </div>
+        <div className={s['page-right-section']}>
+          <div className={s['text-section']}>
+            <p className={s['subtitle']}>거의 다 왔어요!</p>
+            <h2 className={s['title']}>선호 장르</h2>
+            <p className={s['description']}>
+              카테고리를 불러오지 못했어요. 건너뛰거나 다시 시도해 주세요.
+            </p>
+          </div>
+          <div className={s['button-section']}>
+            <button 
+              className={s['skip-button']}
+              onClick={handleSkip}>
+                건너뛰기
+            </button>
+            <OneWayButton
+              content="다시 시도"
+              responsiveType="fluid"
+              widthSizeType="lg"
+              heightSizeType="lg"
+              colorType="light"
+              onClick={() => window.location.reload()}/>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className={s['page-layout']}>
       <div className={s['page-left-section']}>
-          <img
-          className={s['page-left-section-img']}
+        <img 
+          className={s['page-left-section-img']} 
           src={backgroundUrl}
-          alt="signup page background image" />
+          alt="signup page background" />
       </div>
 
       <div className={s['page-right-section']}>
         <div className={s['text-section']}>
-            <p className={s['subtitle']}>거의 다왔어요!</p>
-          <h2 className={s['title']}>선호하는 장르를 선택해주세요</h2>
+          <p className={s['subtitle']}>거의 다 왔어요!</p>
+          <h2 className={s['title']}>선호하는 장르를 선택해 주세요</h2>
           <p className={s['description']}>맞춤형 책 추천에 사용돼요</p>
         </div>
 
-        <div className={s['genre-grid']}>
-          {genres.map((genre, i) => {
-            const isSelected = selectedGenre === genre.name;
+        <div 
+          className={s['category-grid']}
+          role="list"
+          aria-label="선호 장르 목록">
+          {categories.map(c => {
+            const isSelected = selectedCategories.includes(c.categoryCodeName);
             return (
-              <div
-                className={`${s['genre-card']} ${isSelected ? s['selected'] : ''}`}
-                key={i}
-                style={{ backgroundImage: `url(${genre.imgUrl})` }}
-                onClick={() => toggleGenre(genre.name)}
-              >
-                <span className={s['genre-name']}>{genre.name}</span>
-              </div>
+              <button
+                key={c.categoryCodeName}
+                type="button"
+                role="listitem"
+                className={`${s['category-card']} ${isSelected ? s['selected'] : ''}`}
+                style={{ backgroundImage: `url(${c.imgUrl})` }}
+                onClick={() => handleCategoryToggle(c.categoryCodeName)}
+                aria-pressed={isSelected}
+                aria-label={`${c.categoryDisplayName}${isSelected ? ' 선택됨' : ''}`}>
+                <span className={s['category-name']}>{c.categoryDisplayName}</span>
+              </button>
             );
           })}
         </div>
 
-        <div className={s['button-section']}>
+        <div className={s['action-wrapper']}>
           <button 
             className={s['skip-button']}
-            onClick={() => nav(PATHS.signupSelectMbti)}
-          >
-            건너뛰기
+            onClick={handleSkip}>
+              건너뛰기
           </button>
           <OneWayButton
             content="다음"
@@ -75,9 +114,8 @@ export default function SignupSetFavoriteCategoryPage() {
             widthSizeType="lg"
             heightSizeType="lg"
             colorType="light"
-            onClick={() => {nav(PATHS.signupSelectMbti)}}
-            disabled={!isGenreSelected}
-          />
+            onClick={handleNext}
+            disabled={!isAnyCategorySelected}/>
         </div>
       </div>
     </main>

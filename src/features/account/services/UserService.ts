@@ -79,13 +79,13 @@ export const UserService = {
     );
   },
 
-  async changeFavoriteBookCategories(categories: string[]) {
+  async changeFavoriteBookCategories(favoriteBookCategories: string[]) {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
     return await apiAuthPathAndQuery<void>(
       "/users/{userId}",
       { userId },
-      { categories },
+      { favoriteBookCategories },
       { method: "PUT"}
     );
   },

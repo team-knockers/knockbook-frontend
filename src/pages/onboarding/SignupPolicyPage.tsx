@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 
-import backgroundUrl from '../../assets/login_page_bg.png';
+import backgroundUrl from '../../assets/intro-background.jpg';
 import OneWayButton from '../../components/forms/OneWayButton';
 
 import s from './styles/SignupPolicyPage.module.css';
