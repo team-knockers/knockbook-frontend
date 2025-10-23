@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../routes/paths";
+import { useEffect } from "react";
 import Footer from "../components/layout/Footer";
 import styles from './IntroPage.module.css';
 
@@ -7,20 +8,34 @@ import logoUrl from '../assets/header_logo.png';
 import IntroIconBook from "../assets/intro_icon_book.png";
 import IntroIconHome from "../assets/intro_icon_home.png";
 import IntroIconbox from "../assets/intro_icon_box.png";
-import IntroBook from "../assets/intro_page_book.png";
 import IntroCard1 from "../assets/intro_card_book.png";
 import IntroCard2 from "../assets/intro_card_cap.png";
 import IntroCard3 from "../assets/intro_card_tree.png";
 import IntroCard4 from "../assets/intro_card_moon.png";
 import Introshadow from "../assets/intro_page_shadow.png";
-import IntroStep1 from "../assets/intro_page_step1.png";
-import IntroStep2 from "../assets/intro_page_step2.png";
 import IntroStep3 from "../assets/intro_page_step3.png";
-import IntroFinal from "../assets/intro_final_book.png";
 
 export default function IntroPage() {
   
   const nav = useNavigate();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.show);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    const elements = document.querySelectorAll(`.${styles["fade-up"]}`);
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className={styles["intro-page"]}>
@@ -36,21 +51,24 @@ export default function IntroPage() {
             시작하기
         </button>
       </header>
+
       <main className={styles["intro-main"]}>
-        <section className={styles["intro-section"]}>
+        <section className={`${styles["intro-section"]} ${styles["fade-up"]}`}>
           <h1 className={styles["intro-title"]}>
             어느날, <br />
             현관 앞에 <br />
             서재가 생겼다
           </h1>
         </section>
-        <section className={styles["story-section"]}>
+
+        <section className={`${styles["story-section"]} ${styles["fade-up"]}`}>
           <h2 className={styles["story-title"]}>
             오늘, 어떤 이야기가 <br />
             문 앞에 도착하길 바라세요?
           </h2>
         </section>
-        <section className={styles["service-section"]}>
+
+        <section className={`${styles["service-section"]} ${styles["fade-up"]}`}>
           <div className={styles["service-card"]}>
             <img
               className={styles["service-icon"]}
@@ -62,7 +80,6 @@ export default function IntroPage() {
               한번 읽어보고 싶은 책, 가볍게 대여하세요.
             </p>
           </div>
-
           <div className={styles["service-card"]}>
             <img
               className={styles["service-icon"]}
@@ -74,7 +91,6 @@ export default function IntroPage() {
               출근길, 퇴근길, 집 앞에서 바로 받아보세요.
             </p>
           </div>
-
           <div className={styles["service-card"]}>
             <img 
               className={styles["service-icon"]}
@@ -87,7 +103,8 @@ export default function IntroPage() {
             </p>
           </div>
         </section>
-        <section className={styles["about-section"]}>
+
+        <section className={`${styles["about-section"]} ${styles["fade-up"]}`}>
           <div className={styles["about-wrapper"]}>
             <div className={styles["about-content"]}>
             <h4 className={styles["about-title"]}>
@@ -103,21 +120,23 @@ export default function IntroPage() {
             </div>
             <img 
               className={styles["about-image"]}
-              src={IntroBook} 
+              src="https://i.pinimg.com/736x/49/09/e8/4909e844788fd487b273ff4cbbf43b5e.jpg" 
               alt="책방 소개 이미지" />
           </div>
         </section>
-        <section className={styles["cards-section"]}>
+
+        <section className={`${styles["cards-section"]} ${styles["fade-up"]}`}>
           <div className={styles["cards-item"]}>
             <div className={styles["card-label"]}>
               <div className={styles["card-image-layer"]}>
                 <img
                   className={styles["card-image"]}
                   src={IntroCard1}
-                  alt="작은 여행 이미지" />
+                  alt="도서 서비스 이미지" />
               </div>
-              <div className={styles["card-title-layer"]}>
-                <span className={styles["card-title"]}>작은 여행</span>
+              <div className={styles["card-text-layer"]}>
+                <p className={styles["card-title"]}>도서</p>
+                <p className={styles["card-description"]}>읽고 싶은 책을 쉽게 <br />빌리고 즐기는 서비스</p>
               </div>
             </div>
             <div className={styles["card-label"]}>
@@ -125,10 +144,11 @@ export default function IntroPage() {
                 <img
                   className={styles["card-image"]}
                   src={IntroCard2}
-                  alt="작은 여행 이미지" />
+                  alt="상품 서비스 이미지" />
               </div>
-              <div className={styles["card-title-layer"]}>
-                <span className={styles["card-title"]}>휴식의 온기</span>
+              <div className={styles["card-text-layer"]}>
+                <p className={styles["card-title"]}>상품</p>
+                <p className={styles["card-description"]}>취향을 담은 굿즈와 <br />라이프스타일 아이템 쇼핑</p>
               </div>
             </div>
             <div className={styles["card-label"]}>
@@ -136,10 +156,11 @@ export default function IntroPage() {
                 <img
                   className={styles["card-image"]}
                   src={IntroCard3}
-                  alt="작은 여행 이미지" />
+                  alt="라운지 서비스 이미지" />
               </div>
-              <div className={styles["card-title-layer"]}>
-                <span className={styles["card-title"]}>계절의 향기</span>
+              <div className={styles["card-text-layer"]}>
+                <p className={styles["card-title"]}>라운지</p>
+                <p className={styles["card-description"]}>책과 사람, 여유가 <br />함께하는 오프라인 공간</p>
               </div>
             </div>
             <div className={styles["card-label"]}>
@@ -147,15 +168,17 @@ export default function IntroPage() {
                 <img
                   className={styles["card-image"]}
                   src={IntroCard4}
-                  alt="작은 여행 이미지" />
+                  alt="피드 서비스 이미지" />
               </div>
-              <div className={styles["card-title-layer"]}>
-                <span className={styles["card-title"]}>순간의 기억</span>
+              <div className={styles["card-text-layer"]}>
+                <p className={styles["card-title"]}>피드</p>
+                <p className={styles["card-description"]}>읽고 느낀 순간을 공유하고 <br />소통하는 커뮤니티</p>
               </div>
             </div>
           </div>
         </section>
-        <section className={styles["mbti-section"]}>
+
+        <section className={`${styles["mbti-section"]} ${styles["fade-up"]}`}>
           <img
             className={styles["shadow-image"]} 
             src={Introshadow} 
@@ -176,11 +199,12 @@ export default function IntroPage() {
             </p>
           </div>
         </section>
-        <section className={styles["step-section"]}>
-          <div className={styles["step-item"]}>
+
+        <section className={`${styles["step-section"]} ${styles["fade-up"]}`}>
+          <div className={`${styles["step-item"]} ${styles["fade-up"]}`}>
             <img
               className={styles["step-image"]}
-              src={IntroStep1} 
+              src="https://i.pinimg.com/1200x/4b/8b/36/4b8b36d4d75d6313096db5bde06fccb6.jpg" 
               alt="책 대여하기 단계 이미지" />
             <div className={styles["step-content"]}>
               <span className={styles["step-label"]}>STEP 1</span>
@@ -191,10 +215,10 @@ export default function IntroPage() {
               </p>
             </div>
           </div>
-          <div className={styles["step-item"]}>
+          <div className={`${styles["step-item"]} ${styles["fade-up"]}`}>
             <img
               className={styles["step-image"]}
-              src={IntroStep2} 
+              src="https://i.pinimg.com/1200x/9c/1f/c2/9c1fc2b8ea239b21beb5d4d19d4d3b5c.jpg"
               alt="문 앞으로 배송 단계" />
             <div className={styles["step-content"]}>
               <span className={styles["step-label"]}>STEP 2</span>
@@ -205,7 +229,7 @@ export default function IntroPage() {
               </p>
             </div>
           </div>
-          <div className={styles["step-item"]}>
+          <div className={`${styles["step-item"]} ${styles["fade-up"]}`}>
             <img 
               className={styles["step-image"]}
               src={IntroStep3}
@@ -221,7 +245,8 @@ export default function IntroPage() {
             </div>
           </div>
         </section>
-        <section className={styles["message-section"]}>
+
+        <section className={`${styles["message-section"]} ${styles["fade-up"]}`}>
           <div className={styles["message-content"]}>
             <h4 className={styles["message-title"]}>
               "당신의 하루에 조용히 스며드는, 문앞의 한 권."
@@ -245,10 +270,6 @@ export default function IntroPage() {
               당신만을 위한 책 한 권을 문앞에 조용히 놓아두겠습니다.
             </p>
           </div>
-          <img 
-            className={styles["message-image"]}
-            src={IntroFinal}
-            alt="마지막 책 이미지" />
         </section>
       </main>
       <Footer />
