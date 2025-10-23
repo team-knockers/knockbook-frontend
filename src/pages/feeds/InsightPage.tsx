@@ -13,11 +13,11 @@ export default function InsightPage() {
   const mainCategory = profile.favoriteBookCategories?.[0] ?? "미등록";
 
   const UserProfile = (
-    <div className={s['user-date']}>
-      <div className={s['user-date-left']}>
+    <div className={s['user-data']}>
+      <div className={s['user-data-left']}>
         <p className={s['user-name']}>{profile.displayName}</p>
         <p className={s['user-description']}>{profile.bio}</p>
-        <div className={s['user-date-box']}>
+        <div className={s['user-data-box']}>
           <p className={s['user-mbti']}>
             <span>MBTI</span>
             {profile.mbti ?? "미등록"}
@@ -28,7 +28,7 @@ export default function InsightPage() {
           </p>
         </div>
       </div>
-      <div className={s['user-date-right']}>
+      <div className={s['user-data-right']}>
         <img
           src={profile.avartarUrl}
           alt={`${profile.displayName}님의 프로필`}

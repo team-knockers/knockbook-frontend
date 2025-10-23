@@ -1,190 +1,207 @@
 import s from './InsightHistoryPage.module.css'
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import OneWayButton from '../../components/forms/OneWayButton';
 
-import bookImg from '../../assets/feed_slider_img1.png'
-
-type Book = {
-  id: number;
-  imageUrl: string;
-  title: string;
-  author: string;
-  rentalDate: string;
-  returnDate: string;
-  isReviewed: boolean;
-};
+import type { InsightLoaderData } from './InsightPage.loader';
+import { useRouteLoaderData } from 'react-router-dom';
+import { formatYmdDots } from '../../utils/dateValidator';
 
 export default function InsightHistoryPage() {
 
-  // dummy data
-  const [books, setBooks] = useState<Book[]>([
-    { 
-      id: 1, 
-      imageUrl: bookImg,
-      title: "가면산장 살인사건", 
-      author: "하가시노 게이고",
-      rentalDate: "2025-07-15",
-      returnDate: "2025-07-30", 
-      isReviewed: false 
-    },
-    { 
-      id: 2, 
-      imageUrl: bookImg,
-      title: "살인자의 기억법", 
-      author: "김영하", 
-      rentalDate: "2025-07-15", 
-      returnDate: "2025-07-30", 
-      isReviewed: true 
-    },
-    { id: 3, 
-      imageUrl: bookImg, 
-      title: "동물농장", 
-      author: "조지 오웰", 
-      rentalDate: "2025-06-24", 
-      returnDate: "2025-07-05", 
-      isReviewed: false 
-    },
-    { id: 4, 
-      imageUrl: bookImg, 
-      title: "동물농장", 
-      author: "조지 오웰", 
-      rentalDate: "2025-06-30", 
-      returnDate: "2025-06-11", 
-      isReviewed: true 
-    },
-    { id: 5, 
-      imageUrl: bookImg, 
-      title: "동물농장", 
-      author: "조지 오웰", 
-      rentalDate: "2025-06-30", 
-      returnDate: "2025-06-11", 
-      isReviewed: false 
-    },
-    { 
-      id: 6, 
-      imageUrl: bookImg,
-      title: "가면산장 살인사건", 
-      author: "하가시노 게이고",
-      rentalDate: "2025-07-15",
-      returnDate: "2025-07-30", 
-      isReviewed: false 
-    },
-    { 
-      id: 7, 
-      imageUrl: bookImg,
-      title: "살인자의 기억법", 
-      author: "김영하", 
-      rentalDate: "2025-07-15", 
-      returnDate: "2025-07-30", 
-      isReviewed: true 
-    },
-    { id: 8, 
-      imageUrl: bookImg, 
-      title: "동물농장", 
-      author: "조지 오웰", 
-      rentalDate: "2025-06-24", 
-      returnDate: "2025-07-05", 
-      isReviewed: false 
-    },
-  ]);
+  const data = useRouteLoaderData("insight") as InsightLoaderData;
+  const purchaseHistory = data?.history?.purchases ?? [];
+  const rentalHistory = data?.history?.rentals ?? [];
+  const reviews = data?.history?.reviews ?? [];
 
-  const totalCount = books.length;
+  const reviewByBookId = useMemo(() => {
+    const m = new Map<string, typeof reviews[number]>();
+    for (const r of reviews) m.set(r.bookId, r);
+    return m;
+  }, [reviews]);
 
-  const [selectedFilter, setSelectedFilter] = useState("all");
+  const totalCount = purchaseHistory.length + rentalHistory.length;
+
+  const [filter, setFilter] = useState("all");
   const filterOptions = [
     { value: "all", label: "전체보기" },
-    { value: "review", label: "리뷰작성" },
-    { value: "completed", label: "리뷰작성 완료" }
+    { value: "purchase", label: "구매한 책" },
+    { value: "rental", label: "대여한 책" }
   ];
   
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedFilter(e.target.value);
+    setFilter(e.target.value);
   };
 
-  const handleReviewClick = (id: number) => {
-    setBooks(prev =>
-      prev.map(book =>
-        book.id === id ? { ...book, isReviewed: true } : book
-      )
+  /* UI for fail to load data */
+  if (!data) {
+    function revalidate(): void {
+      throw new Error('Function not implemented.');
+    }
+
+    return (
+      <div className={s['page-layout']}>
+        <div className={s['empty-state']}>
+          <p>데이터를 불러오지 못했어요.</p>
+          <OneWayButton
+            content="다시 시도"
+            responsiveType="fixed"
+            widthSizeType="sm"
+            heightSizeType="sm"
+            colorType="dark"
+            onClick={() => revalidate()}
+          />
+        </div>
+      </div>
     );
-    const book = books.find(b => b.id === id);
-    console.log(`${book?.title} 리뷰 작성`);
-  };
+  }
 
-  const filteredBooks = books.filter(book => {
-    if (selectedFilter === "review") return !book.isReviewed;
-    if (selectedFilter === "completed") return book.isReviewed;
-    return true;
-  });
+  /* UI for no history data */
+  if (totalCount === 0) {
+    return (
+      <div className={s['page-layout']}>
+        <div className={s['empty-state']}>
+          <p>아직 기록이 없어요. 첫 책을 만나 보세요!</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-  <div className={s['page-layout']}>
-    <div className={s['user-review-wrapper']}>
-      <p>문 앞의 책방과 함께해주신 책이에요</p>
-      <div className={s['review-header']}>
-        <div className={s['review-header-left']}>
-          <span className={s['total-count']}>총 {totalCount}권</span>
-        </div>
-        <div className={s['review-header-right']}>
-          <div className={s['filter-wrapper']}>
-            <select
-              className={s['filter-select']}
-              value={selectedFilter}
-              onChange={handleFilterChange}
-            >
-              {filterOptions.map(({ value, label }) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
+    <div className={s['page-layout']}>
+      <div className={s['user-history-wrapper']}>
+        <p>문 앞의 책방과 함께해주신 책이에요</p>
+
+        <div className={s['history-header']}>
+          <div className={s['history-header-left']}>
+            <span className={s['total-count']}>총 {totalCount}권</span>
           </div>
-        </div>
-      </div>
-      <div className={s['user-review-list']}>
-        {filteredBooks.map(book => (
-          <div key={book.id} className={s['book-review-item']}>
-            <img 
-              className={s['book-image']} 
-              src={book.imageUrl} 
-              alt={`${book.title} 표지`} 
-            />
-            <div className={s['book-info-wrapper']}>
-              <div className={s['book-info']}>
-                <div className={s['book-title']}>
-                  {book.title}
-                </div>
-                <div className={s['book-author']}>
-                  {book.author}
-                </div>
-                <div className={s['book-dates']}>
-                  대여일 {book.rentalDate} | 반납일 {book.returnDate}
-                </div>
-              </div>
-              <div className={s['book-action']}>
-                {!book.isReviewed ? (
-                  <OneWayButton
-                    content="리뷰작성"
-                    responsiveType="fluid"
-                    widthSizeType="sm"
-                    heightSizeType="sm"
-                    colorType="dark"
-                    onClick={() => handleReviewClick(book.id)}
-                  />
-                ) : (
-                  <OneWayButton
-                    content="리뷰작성 완료"
-                    responsiveType="fluid"
-                    widthSizeType="sm"
-                    heightSizeType="sm"
-                    colorType="outline"
-                    onClick={() => console.log(`${book.title} 리뷰 작성 완료`)}
-                  />
-                )}
-              </div>
+          <div className={s['history-header-right']}>
+            <div className={s['filter-wrapper']}>
+              <select
+                className={s['filter-select']}
+                value={filter}
+                onChange={handleFilterChange}
+              >
+                {filterOptions.map(({ value, label }) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
             </div>
           </div>
-        ))}
+        </div>
+
+        <div className={s['user-history-list']}>
+          {(filter === "all" || filter === "purchase") && purchaseHistory.map(h => {
+            const review = reviewByBookId.get(h.bookId);
+            return (
+              <div 
+                key={h.bookId}
+                className={s['book-history-item']}>
+                <div className={s['book-history-item-content']}>
+                  <img 
+                    className={s['book-image']}
+                    src={h.bookImageUrl}
+                    alt={`${h.bookTitle} cover`} />
+                  <div className={s['book-info-wrapper']}>
+                    <div className={s['book-title']}>{h.bookTitle}</div>
+                    <div className={s['book-author']}>{h.bookAuthor}</div>
+                    <div className={s['book-dates']}>
+                      <span><strong>첫 구매일</strong></span>
+                      <span>{h.firstPurchasedAt}</span>
+                      <span><strong>마지막 구매일</strong></span>
+                      <span>{h.lastPurchasedAt}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={s['book-history-item-review']}>
+                  {!review ? (
+                    <div className={s['book-review-button']}>
+                      <OneWayButton
+                        content="리뷰작성"
+                        responsiveType="fixed"
+                        widthSizeType="sm"
+                        heightSizeType="sm"
+                        colorType="dark"
+                        onClick={() => {/* TODO: open review modal */}}
+                      />
+                    </div>
+                  ) : (
+                    <div className={s['book-review-wrapper']}>
+                      <div className={s['book-review-header']}>
+                        <div className={s['book-review-rating']}>
+                          <strong>평점</strong> {review.rating} / 5</div>
+                        <div className={s['book-review-tag']}>
+                          <span>리뷰 작성 완료 | {formatYmdDots(review.createdAt ?? "")}</span>
+                        </div>
+                      </div>
+                      <div className={s['book-review-content']}>{review.content}</div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+
+          {(filter === "all" || filter === "rental") && rentalHistory.map(h => {
+            const review = reviewByBookId.get(h.bookId);
+            return (
+              <div 
+                key={h.bookId}
+                className={s['book-history-item']}>
+                <div className={s['book-history-item-content']}>
+                  <img 
+                    className={s['book-image']}
+                    src={h.bookImageUrl}
+                    alt={`${h.bookTitle} cover`} />
+                  <div className={s['book-info-wrapper']}>
+                    <div className={s['book-title']}>
+                      {h.bookTitle}
+                    </div>
+                    <div className={s['book-author']}>
+                      {h.bookAuthor}
+                    </div>
+                    <div className={s['book-dates']}>
+                      <span><strong>대여 시작일</strong></span>
+                      <span>{h.lastRentalStartAt}</span>
+                      <span><strong>대여 완료일</strong></span>
+                      <span>{h.lastRentalEndAt}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={s['book-history-item-review']}>
+                  {!review ? (
+                    <div className={s['book-review-button']}>
+                      <OneWayButton
+                        content="리뷰작성"
+                        responsiveType="fixed"
+                        widthSizeType="sm"
+                        heightSizeType="sm"
+                        colorType="dark"
+                        onClick={() => {/* TODO: open review modal */}}
+                      />
+                    </div>
+                  ) : (
+                    <div className={s['book-review-wrapper']}>
+                      <div className={s['book-review-header']}>
+                        <div className={s['book-review-rating']}>
+                          <strong>평점</strong> {review.rating} / 5</div>
+                        <div className={s['book-review-tag']}>
+                          <span>리뷰 작성 완료 | {formatYmdDots(review.createdAt ?? "")}</span>
+                        </div>
+                      </div>
+                      <div className={s['book-review-content']}>
+                        <span>{review.content}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
-  </div>
   );
 }

@@ -2,7 +2,8 @@ import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
 import type { 
   BookPreferCategoryStat, BookPurchaseHistory,
-  BookReadCountStat, BookRentalHistory } from "../types";
+  BookReadCountStat, BookRentalHistory, 
+  BookReviewHistory} from "../types";
 
 export const BookHistoryService = {
 
@@ -48,4 +49,14 @@ export const BookHistoryService = {
       { method: "GET" }
     );
   },
+
+  async listBookReviews() {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPath<BookReviewHistory[]>(
+      "/users/{userId}/history/books/reviews",
+      { userId },
+      { method: "GET" }
+    );
+  }
 }
