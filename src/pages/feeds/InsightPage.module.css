@@ -6,11 +6,11 @@
   margin: 0 auto;
 }
 
-.user-date-layout {
+.user-data-layout {
   padding: 30px 20px;
 }
 
-.user-date {
+.user-data {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,7 +25,7 @@
   background-color: #f7f7f7;
 }
 
-.user-date-left {
+.user-data-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,10 +44,10 @@
   font-size: 14px;
   color: #1e1e1e;
   margin: 0;
-  padding: 5px 0 20px;
+  padding: 5px 0 30px;
 }
 
-.user-date-box {
+.user-data-box {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -57,32 +57,41 @@
 .user-preferred-genre {
   display: flex;
   flex-direction: column;
-  text-align: center;
   justify-content: center;
   align-items: center;
-  width: 85px;
-  height: 58px;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 4px;
-  background-color: #2C3E50;
-  color: #ffffff;
-  margin: 0;
-  gap: 5px;
+  width: 120px;
+  height: 65px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #eef4ff, #d9e7ff);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  color: #1f3c88;
+  transition: all 0.2s ease;
+  gap: 10px;
+  cursor: default;
+}
+
+.user-mbti:hover,
+.user-preferred-genre:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(135deg, #e5f1ff, #c8dcff);
 }
 
 .user-mbti span,
 .user-preferred-genre span {
-  font-size: 10px;
-  font-weight: 400;
+  font-size: 11px;
+  font-weight: 800;
+  color: #3b4b67;
+  letter-spacing: 0.2px;
 }
 
 .user-mbti svg,
 .user-preferred-genre svg {
-  font-size: 20px;
+  font-size: 22px;
+  color: #3b4b67;
 }
 
-.user-date-right {
+.user-data-right {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -91,9 +100,9 @@
   box-sizing: border-box;
 }
 
-.user-date-right img {
+.user-data-right img {
   width: 100%;
-  max-width: 150px;
+  max-width: 120px;
   border-radius: 50%;
   object-fit: cover;
   overflow: hidden;
@@ -125,7 +134,7 @@
     box-sizing: border-box;
   }
 
-  .user-date {
+  .user-data {
     max-width: none;
   }
 

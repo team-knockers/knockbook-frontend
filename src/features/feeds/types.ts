@@ -88,3 +88,12 @@ export type BookRentalHistory = {
   lastRentalEndAt: string;
   lastRentalDays: number;
 }
+
+export type BookReviewHistory = {
+  id: string;
+  bookId: string;
+  createdAt: string;
+  content: string;
+  rating: number;
+  imageUrls: string[];
+}
