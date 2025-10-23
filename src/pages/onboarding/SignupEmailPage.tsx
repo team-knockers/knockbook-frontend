@@ -6,7 +6,7 @@ import { ApiError } from '../../types/http';
 import { PATHS } from '../../routes/paths';
 
 import { Input, Label } from 'reactstrap';
-import backgroundUrl from '../../assets/login_page_bg.png';
+import backgroundUrl from '../../assets/intro-background.jpg';
 import OneWayButton from '../../components/forms/OneWayButton';
 
 import styles from './styles/SignupEmailPage.module.css';
@@ -79,6 +79,7 @@ export default function SignupEmailPage() {
                     widthSizeType='sm'
                     heightSizeType='sm'
                     colorType='dark'
+                    fontSize='14px'
                     onClick={handleGetCode}
                     disabled={isVerificationButtonDisabled}/>
                 </div>
@@ -104,6 +105,7 @@ export default function SignupEmailPage() {
                     widthSizeType='sm'
                     heightSizeType='sm'
                     colorType='dark'
+                    fontSize='14px'
                     onClick={handleVerifyCode}
                     disabled={isConfirmButtonDisabled}/>
                 </div>

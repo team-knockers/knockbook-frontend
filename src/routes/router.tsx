@@ -91,6 +91,9 @@ import { PointTransactionsAllPageLoader } from "../pages/account/PointTransactio
 import { PointTransactionsUsedPageLoader } from "../pages/account/PointTransactionsUsedPage.loader";
 import { PointTransactionsEarnedPageLoader } from "../pages/account/PointTransactionsEarnedPage.loader";
 import { InsightPageLoader } from "../pages/feeds/InsightPage.loader";
+import { SignupSetFavoriteCategoryPageLoader } from "../pages/onboarding/SignupSetFavoriteCategoryPage.loader";
+import { SignupMbtiResultPageLoader } from "../pages/onboarding/SignupMbtiResultPage.loader";
+import { SignupSelectMbtiPageLoader } from "../pages/onboarding/SignupSelectMbtiPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -100,16 +103,26 @@ export const router = createBrowserRouter([
   { path: PATHS.signupSetPassword, element: <SignupPasswordPage /> },
   { path: PATHS.signupSetName, element: <SignupDisplayNamePage /> },
   { path: PATHS.authCallback, element: <AuthCallbackPage /> },
-  { path: PATHS.signupSetFavoriteCategory, element: <SignupSetFavoriteCategory /> },
-  { path: PATHS.signupSelectMbti, element: <SignupSelectMbti /> },
-  { path: PATHS.signupMbtiResult, element: <SignupMbtiResult /> },
-  { path: PATHS.signupComplete, element: <SignupComplete /> },
   {
     id: AUTH_LOADER_ID,
     element: <AuthLayout />,
     loader: authLoader,
     children: [
-      {
+      { path: PATHS.signupSetFavoriteCategory,
+        id: "favoriteCategory",
+        loader: SignupSetFavoriteCategoryPageLoader,
+        element: <SignupSetFavoriteCategory/>},
+      { path: PATHS.signupSelectMbti,
+        id: "selectMbti",
+        loader: SignupSelectMbtiPageLoader,
+        element: <SignupSelectMbti />},
+      { path: PATHS.signupMbtiResult,
+        id: "mbtiResult",
+        loader: SignupMbtiResultPageLoader,
+        element: <SignupMbtiResult />},
+      { path: PATHS.signupComplete,
+        element: <SignupComplete />},
+      {        
         element: <ResponsiveMainShell />,
         children: [
           { path: PATHS.home,
