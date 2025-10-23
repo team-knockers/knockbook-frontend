@@ -7,14 +7,15 @@ import TurndownService from "turndown";
 import EditorToolbar from '../../features/lounge/components/EditorToolbar';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
-
-const displayName = "호랭이";
+import { UserService } from '../../features/account/services/UserService';
+import { LoungeService } from '../../features/lounge/services/LoungeService';
 
 export default function LoungePostCreatePage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
-  const [markdown, setMarkdown] = useState("");
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([]);
+  const [displayName, setDisplayName] = useState<string>("로딩중");
 
   const titleRef = useRef<HTMLTextAreaElement | null>(null);
   const subtitleRef = useRef<HTMLTextAreaElement | null>(null);
@@ -24,29 +25,83 @@ export default function LoungePostCreatePage() {
       StarterKit,
       Image,
     ],
-    content: "<p>본문을 작성해주세요</p>",
+    content: "",
 });
 
-  const handleSave = () => {
+  useEffect(() => {
+    let mounted = true;
+    async function loadProfile() {
+      try {
+        const profile = await UserService.getMyProfile();
+        if (!mounted) { 
+          return;
+        }
+        setDisplayName(profile.displayName);
+
+      } catch (err) {
+        if (!mounted) {
+          return;
+        }
+        navigate(PATHS.login);
+      }
+    }
+    loadProfile();
+    return () => { mounted = false; };
+  }, []);
+
+  const handleSave = async () => {
     if (!editor) {
       return;
     }
-    const html = editor.getHTML();
-    const turndownService = new TurndownService();
-    const md = turndownService.turndown(html);
-    setMarkdown(md);
 
-    console.log("Title:", title);
-    console.log("Subtitle:", subtitle);
-    console.log("Markdown content:", markdown);
+    // Check Validation - title
+    if (!title.trim()) {
+      alert("제목을 입력해주세요.");
+      titleRef.current?.focus();
+      return;
+    }
+
+    // Check Validation - text
+    const plainText = editor.getText().trim();
+    if (!plainText) {
+      alert("본문을 입력해주세요.");
+      editor.chain().focus().run();
+      return;
+    }
+
+    const confirmSave = window.confirm("포스트를 게시하시겠습니까?");
+    if (!confirmSave) { return; }
+
+    const html = editor.getHTML();
+    const turndownService = new TurndownService({ headingStyle: 'atx' });
+    const markdown = turndownService.turndown(html);
+
+    try {
+      const response = await LoungeService.registerLoungePost(
+        title,
+        subtitle || null,
+        markdown,
+        attachedFiles
+      );
+
+      // Navigate to the post detail page after creation
+      navigate(PATHS.loungePost.replace(':postId', response.id));
+
+    } catch (err) {
+      console.error("Failed to create lounge post:", err);
+      alert("포스트 작성 중 오류가 발생했습니다.");
+    }
   };
 
   const handleCancel = () => {
+    const confirmCancel = window.confirm("작성을 취소하시겠습니까?");
+    if (!confirmCancel) { return; }
+
     setTitle("");
     setSubtitle("");
-    setMarkdown("");
+    setAttachedFiles([]);
     if (editor) {
-      editor.commands.setContent('<p>본문을 작성해주세요</p>');
+      editor.commands.setContent("");
       editor.chain().focus().run();
     }
     navigate(PATHS.loungeHome);
@@ -101,9 +156,14 @@ export default function LoungePostCreatePage() {
 
       {/* Post editor */}
       <section>
-        <EditorToolbar editor={editor} />
+        <EditorToolbar
+          editor={editor}
+          onFileAdd={(file: File) => setAttachedFiles(prev => [...prev, file])}
+        />
 
-        <div className={s['post-body']}>
+        <div className={s['post-body']}
+          onClick={() => editor?.chain().focus().run()}
+        >
           <EditorContent editor={editor} />
         </div>
       </section>

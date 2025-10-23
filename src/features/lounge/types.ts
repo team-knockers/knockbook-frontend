@@ -82,3 +82,9 @@ export type UpdateLoungePostCommentResponse = LoungePostComment;
 export type LoungePostLikeStatusResponse = {
   liked: boolean;
 }
+
+// API-LOUNGE-11: Create a lounge post → Returns the created post's ID and creation timestamp
+export type LoungePostCreateResponse = {
+  id: string;
+  createdAt: string;
+}

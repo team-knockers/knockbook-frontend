@@ -1,8 +1,9 @@
-import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
+import { apiAuthMultipartPath, apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
 import type { CreateCommentRequest, LoungePostDetails, LoungePostsSummaryApiResponse, 
   CreateLoungePostCommentResponse, GetLoungePostCommentsResponse , GetLoungePostCommentResponse, 
-  UpdateLoungePostCommentResponse, UpdateCommentRequest, LoungePostLikeStatusResponse } from "../types";
+  UpdateLoungePostCommentResponse, UpdateCommentRequest, LoungePostLikeStatusResponse, 
+  LoungePostCreateResponse} from "../types";
 
 export const LoungeService = {
 
@@ -156,6 +157,29 @@ export const LoungeService = {
       "/lounge/{userId}/{postId}/likes",
       { userId, postId },
       { method: "GET" }
+    );
+  },
+
+  // API-LOUNGE-11: Register a new lounge post with optional images
+  async registerLoungePost(
+    title: string,
+    subtitle: string | null,
+    content: string,
+    images?: File[]
+  ) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    const form = new FormData();
+    form.append("post", new Blob([JSON.stringify({ title, subtitle, content })], { type: "application/json" }));
+
+    images?.forEach((f: File) => form.append("images", f));
+
+    return apiAuthMultipartPath<LoungePostCreateResponse>(
+      "/lounge/{userId}/posts",
+      { userId },
+      form,
+      { method: "POST" }
     );
   }
 };
