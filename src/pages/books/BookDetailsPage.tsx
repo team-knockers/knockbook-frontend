@@ -4,12 +4,13 @@ import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
 import BookDetailsSummaryInfo from "../../features/books/components/BookDetailsSummaryInfo";
 import BookDetailsResearch from "../../features/books/components/BookDetailsResearch";
 import BookOrderBottomBar from '../../features/books/components/BookOrderBottomBar';
-import { toast, ToastContainer } from 'react-toastify';import { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';import { useEffect, useState } from 'react';
 import { PurchaseService } from '../../features/purchase/services/PurchaseService';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 import { PATHS } from '../../routes/paths';
 import type { OrderType } from '../../features/purchase/type';
 import type { BookDetailsLoaderData } from './BookDetails.loader';
+import { BookService } from '../../features/books/services/BookService';
 ;
 
 export default function BookDetailsPage() {
@@ -19,6 +20,8 @@ export default function BookDetailsPage() {
 
   const [quantity, setQuantity] = useState(1);
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
+  const [isWished, setIsWished] = useState<boolean>(false);
+
   async function handleAddItemsOnCart(type : OrderType) {
     const refId = bookDetails.id;
     type === "BOOK_PURCHASE" 
@@ -27,10 +30,52 @@ export default function BookDetailsPage() {
     setIsCartPopupVisible(true);
   }
 
+  useEffect(() => {
+    let cancelled = false;
+    const loadWishlistStatus = async () => {
+      try {
+        const res = await BookService.hasBookInWishlist(bookDetails.id);
+        if (!cancelled) setIsWished(res.wished);
+      } catch (err) {
+        console.error("❌ Failed to load wishlist status:", err);
+        if (!cancelled) setIsWished(false);
+      }
+    };
+    loadWishlistStatus();
+    return () => { cancelled = true; };
+  }, [bookDetails.id]);
+
   /* This is a sample code for BookOrderBottomBar */
-  const fav = (isFav?: boolean) => toast(isFav === undefined ? '찜 토글' : (isFav ? '찜 추가' : '찜 해제'));
   const gift = () => toast('선물하기 클릭');
   const buyNow = () => toast('바로구매 클릭');
+
+  const handleToggleWishlist = async (bookId: string) => {
+    try {
+      const response = isWished
+        ? await BookService.removeFromWishlist(bookDetails.id)
+        : await BookService.addToWishlist(bookDetails.id);
+
+      setIsWished(response.wishlisted);
+
+      switch(response.action) {
+        case "ADDED":
+        case "REMOVED":
+          break;
+        case "ALREADY_EXISTS":
+          alert("이미 등록된 상품입니다.");
+          break;
+        case "NOT_FOUND":
+          alert("찜 정보를 찾을 수 없습니다.");
+          break;
+        default:
+          alert("예기치 못한 오류가 발생했습니다.");
+      }
+
+    } catch (err) {
+      console.error(`Failed to toggle wishlist for book ${bookId}`, err);
+      alert('위시리스트 처리 중 오류가 발생했습니다.');
+    }
+  };
 
   return (
     <>
@@ -70,8 +115,9 @@ export default function BookDetailsPage() {
         <BookOrderBottomBar
           rentalPriceAmount={bookDetails.rentalAmount}
           purchasePriceAmount={bookDetails.discountedPurchaseAmount}
+          isWished={isWished}
           onQuantityChange={qty => setQuantity(qty)}
-          onFavoriteButtonClick={fav}
+          onFavoriteButtonClick={() => handleToggleWishlist(bookDetails.id)}
           onSendAsGiftButtonClick={gift}
           onRentButtonClick={() => handleAddItemsOnCart("BOOK_RENTAL")}
           onAddToCartButtonClick={() => handleAddItemsOnCart("BOOK_PURCHASE")}

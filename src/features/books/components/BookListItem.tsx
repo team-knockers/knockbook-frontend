@@ -2,7 +2,6 @@ import OneWayButton from '../../../components/forms/OneWayButton';
 import styles from './styles/BookListItem.module.css';
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
 import { IoCartOutline } from "react-icons/io5";
-import { useState } from 'react';
 import { calculateBookDiscountRate, formatDateToDot, renderStars } from '../util';
 
 type BookListItemProps = {
@@ -15,6 +14,8 @@ type BookListItemProps = {
   rentalAmount: number;
   purchaseAmount: number;
   discountedPurchaseAmount: number;
+  isWished: boolean;
+  onToggleWishlist: () => void;
   onImageOrTitleClicked: () => void;
   onCartButtonClick: () => void;
 };
@@ -29,17 +30,13 @@ export default function BookListItem({
   rentalAmount,
   purchaseAmount,
   discountedPurchaseAmount,
+  isWished,
+  onToggleWishlist,
   onImageOrTitleClicked,
   onCartButtonClick
 }: BookListItemProps) {
 
-  const [isLiked, setIsLiked] = useState(false); // Wishlist status
   const discountRate = calculateBookDiscountRate(discountedPurchaseAmount, purchaseAmount);
-
-    const onWishlistToggled = () => {
-      setIsLiked(prev => !prev);
-      console.log(isLiked ? '찜 해제' : '찜하기');
-    };
 
   return (
     <div className={styles['book-list-item']}>
@@ -90,14 +87,14 @@ export default function BookListItem({
       </div>
       {/* Mobile/Tablet only */}
       <div className={styles['icon-wrapper']}>
-        {isLiked ? (
+        {isWished ? (
           <IoMdHeart
             color="#f73936ff"
-            onClick={onWishlistToggled}
+            onClick={onToggleWishlist}
           />
         ) : (
           <IoMdHeartEmpty
-            onClick={onWishlistToggled}
+            onClick={onToggleWishlist}
           />
         )}
         <IoCartOutline
@@ -106,14 +103,14 @@ export default function BookListItem({
       </div>
       {/* Desktop only */}
       <div className={styles['button-wrapper']}>
-        {isLiked ? (
+        {isWished ? (
           <OneWayButton
             content="찜 취소"
             responsiveType="fixed"
             widthSizeType="sm"
             heightSizeType="sm"
             colorType="natural"
-            onClick={onWishlistToggled}
+            onClick={onToggleWishlist}
           />
         ) : (
           <OneWayButton
@@ -122,7 +119,7 @@ export default function BookListItem({
             widthSizeType="sm"
             heightSizeType="sm"
             colorType="outline"
-            onClick={onWishlistToggled}
+            onClick={onToggleWishlist}
           />
         )}
         <OneWayButton

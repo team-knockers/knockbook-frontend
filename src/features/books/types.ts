@@ -194,3 +194,15 @@ export type BookReviewsStatistics = {
   scoreCounts: BookStarCount[],
   mbtiPercentage: BookMbtiPercentage[]
 };
+
+
+export type BookWishlistActionResponse = {
+    bookId: string;
+    wishlisted: boolean;
+    action :string;
+}
+
+export type BookWishStatusResponse = {
+    wished: boolean;
+}
+

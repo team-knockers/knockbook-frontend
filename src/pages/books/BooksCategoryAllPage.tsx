@@ -43,10 +43,34 @@ export default function BooksCategoryAllPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [averageRatings, setAverageRatings] = useState<(number | null)[]>([]);
   const [subcategories, setSubcategories] = useState<{ value: string, label: string }[]>([{ value: 'all', label: '전체' }]);
+  const [wishlistStatusMap, setWishlistStatusMap] = useState<Record<string, boolean>>({});
 
   const [searchState, setSearchState] = useState<CommonSearchState>(() =>
     makeInitialState(searchParams, categoryCodeName)
   );
+
+  // 초기 wish 상태 로드
+  useEffect(() => {
+    const loadWishlistStatus = async () => {
+      const statusMap: Record<string, boolean> = {};
+      await Promise.all(
+        books.map(async (book) => {
+          try {
+            const res = await BookService.hasBookInWishlist(book.id);
+            statusMap[book.id] = res.wished;
+          } catch (err) {
+            console.error(`Failed to get wishlist status for book ${book.id}`, err);
+            statusMap[book.id] = false;
+          }
+        })
+      );
+      setWishlistStatusMap(statusMap);
+    };
+
+    if (books.length > 0) {
+      loadWishlistStatus();
+    }
+  }, [books]);
 
   // Update URL (query) as single source of truth
   const setQuery = (updater: (q: URLSearchParams) => void) => {
@@ -85,6 +109,37 @@ export default function BooksCategoryAllPage() {
 
   const handleBookItemClick = (id: string) => {
     navigate(generatePath(PATHS.bookDetails, { bookId: id }));
+  };
+
+  const handleToggleWishlist = async (bookId: string) => {
+    try {
+      const response = await (wishlistStatusMap[bookId]
+        ? BookService.removeFromWishlist(bookId)
+        : BookService.addToWishlist(bookId));
+
+      setWishlistStatusMap(prev => ({
+        ...prev,
+        [bookId]: response.wishlisted
+      }));
+
+      switch(response.action) {
+        case "ADDED":
+        case "REMOVED":
+          break;
+        case "ALREADY_EXISTS":
+          alert("이미 등록된 상품입니다.");
+          break;
+        case "NOT_FOUND":
+          alert("찜 정보를 찾을 수 없습니다.");
+          break;
+        default:
+          alert("예기치 못한 오류가 발생했습니다.");
+      }
+
+    } catch (err) {
+      console.error(`Failed to toggle wishlist for book ${bookId}`, err);
+      alert('위시리스트 처리 중 오류가 발생했습니다.');
+    }
   };
 
   // Sync searchState with URL changes
@@ -197,6 +252,8 @@ export default function BooksCategoryAllPage() {
               rentalAmount={book.rentalAmount}
               purchaseAmount={book.purchaseAmount}
               discountedPurchaseAmount={book.discountedPurchaseAmount}
+              isWished={wishlistStatusMap[book.id]}
+              onToggleWishlist={() => handleToggleWishlist(book.id)}
               onImageOrTitleClicked={() => {
                 handleBookItemClick(book.id);
                 console.log(`${book.title} 도서 클릭`);

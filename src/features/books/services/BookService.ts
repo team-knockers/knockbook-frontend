@@ -1,6 +1,6 @@
 import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, BookReviewsApiResponse, BookReviewsStatistics } from "../types";
+import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, BookReviewsApiResponse, BookReviewsStatistics, BookWishlistActionResponse, BookWishStatusResponse } from "../types";
 
 export const BookService = {
 
@@ -117,6 +117,63 @@ export const BookService = {
       "/books/{userId}/{bookId}/reviews/{reviewId}/likes",
       { userId, bookId, reviewId },
       { method: "DELETE" }
+    );
+  },
+
+  // API-BOOKS-07 : Add a specific book to the user's wishlist
+  async addToWishlist(
+    bookId: string
+  ): Promise<BookWishlistActionResponse> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!bookId) { throw new Error("NO_BOOK_ID"); }
+
+    return apiAuthPath<BookWishlistActionResponse>(
+      "/books/{userId}/{bookId}/wish",
+      { userId, bookId },
+      { method: "PUT" }
+    );
+  },
+
+  // API-BOOKS-08 : Remove a specific book from the user's wishlist
+  async removeFromWishlist(
+    bookId: string
+  ): Promise<BookWishlistActionResponse> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!bookId) { throw new Error("NO_BOOK_ID"); }
+
+    return apiAuthPath<BookWishlistActionResponse>(
+      "/books/{userId}/{bookId}/wish",
+      { userId, bookId },
+      { method: "DELETE" }
+    );
+  },
+
+  // API-BOOKS-09 : Check if a specific book is in the user's wishlist
+  async hasBookInWishlist(
+    bookId: string
+  ): Promise<BookWishStatusResponse> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!bookId) { throw new Error("NO_BOOK_ID"); }
+
+    return apiAuthPath<BookWishStatusResponse>(
+      "/books/{userId}/{bookId}/wish",
+      { userId, bookId },
+      { method: "GET" }
+    );
+  },
+
+  // API-BOOKS-10 : Retrieve all books in the user's wishlist
+  async getUserWishlist(): Promise<BookSummary[]> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPath<BookSummary[]>(
+      "/books/{userId}/wishlist",
+      { userId },
+      { method: "GET" }
     );
   },
 
