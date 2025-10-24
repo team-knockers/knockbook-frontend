@@ -73,7 +73,7 @@ import AuthCallbackPage from "../pages/auth/AuthCallbackPage";
 import { OrderCompletePageLoader } from "../pages/purchase/OrderCompletePage.loader";
 import SelectAddressPage from "../pages/account/address/SelectAddressPage";
 import { SelectAddressPageLoader } from "../pages/account/address/SelectAddressPage.loader";
-import { InsightPageLoader } from "../pages/feeds/InsightPage.loader";
+import { InsightPageAction, InsightPageLoader } from "../pages/feeds/InsightPage.loader";
 import { SignupSetFavoriteCategoryPageLoader } from "../pages/onboarding/SignupSetFavoriteCategoryPage.loader";
 import { SignupMbtiResultPageLoader } from "../pages/onboarding/SignupMbtiResultPage.loader";
 import { SignupSelectMbtiPageLoader } from "../pages/onboarding/SignupSelectMbtiPage.loader";
@@ -324,6 +324,7 @@ export const router = createBrowserRouter([
             path: PATHS.insight,
             id: "insight",
             loader: InsightPageLoader,
+            action: InsightPageAction,
             element: <InsightPage />,
             children: [
               {

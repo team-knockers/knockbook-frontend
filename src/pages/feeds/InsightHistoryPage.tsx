@@ -1,13 +1,28 @@
 import s from './InsightHistoryPage.module.css'
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import OneWayButton from '../../components/forms/OneWayButton';
 
 import type { InsightLoaderData } from './InsightPage.loader';
-import { useRouteLoaderData } from 'react-router-dom';
+import { useFetcher, useRevalidator, useRouteLoaderData } from 'react-router-dom';
 import { formatYmdDots } from '../../utils/dateValidator';
+import SimplePopup from '../../components/overlay/SimplePopup';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import ReviewForm from '../../components/forms/ReviewForm';
+
+type ReviewTarget = null | {
+  objectType: string;
+  objectId: string;
+  objectName: string;
+  objectImgUrl: string;
+};
+
 
 export default function InsightHistoryPage() {
 
+  const reviewFetcher = useFetcher<{ ok: boolean }>();
+  const revalidator = useRevalidator();
+  const isMobile = useMediaQuery('(max-width: 1023.98px)');
+  
   const data = useRouteLoaderData("insight") as InsightLoaderData;
   const purchaseHistory = data?.history?.purchases ?? [];
   const rentalHistory = data?.history?.rentals ?? [];
@@ -31,6 +46,40 @@ export default function InsightHistoryPage() {
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(e.target.value);
   };
+
+  const [reviewTarget, setReviewTarget] = useState<ReviewTarget>(null);
+
+  const openReview = (
+    objectType: string,
+    objectId: string,
+    objectName: string,
+    objectImgUrl: string
+  ) => setReviewTarget({ objectType, objectId, objectName, objectImgUrl });
+
+  const closeReview = () => setReviewTarget(null);
+
+  async function handleSubmitReview(content: string, rating: number) {
+    if (!reviewTarget) {
+      return;
+    }
+    reviewFetcher.submit(
+    {
+        _intent: 'createBookReview',
+        bookId: reviewTarget.objectId,
+        transactionType: reviewTarget.objectType === 'BOOK_RENTAL' ? 'RENTAL' : 'PURCHASE',
+        rating: String(rating),
+        content,
+    },
+    { method: 'post' }
+    );
+    closeReview();
+  }
+
+  useEffect(() => {
+    if (reviewFetcher.state === 'idle' && reviewFetcher.data?.ok) {
+      revalidator.revalidate();
+    }
+  }, [reviewFetcher.state, reviewFetcher.data, revalidator]);
 
   /* UI for fail to load data */
   if (!data) {
@@ -68,6 +117,22 @@ export default function InsightHistoryPage() {
 
   return (
     <div className={s['page-layout']}>
+
+       {/* review popup  */}
+        <SimplePopup
+          open={!!reviewTarget}
+          onClose={closeReview}
+          title="리뷰 작성"
+          fullScreen={isMobile}
+          noBodyPadding
+          showCloseButton>
+          {reviewTarget && (
+            <ReviewForm
+              objectName={reviewTarget.objectName}
+              objectImgUrl={reviewTarget.objectImgUrl}
+              onSubmit={handleSubmitReview}/>)}
+        </SimplePopup>
+        
       <div className={s['user-history-wrapper']}>
         <p>문 앞의 책방과 함께해주신 책이에요</p>
 
@@ -80,8 +145,7 @@ export default function InsightHistoryPage() {
               <select
                 className={s['filter-select']}
                 value={filter}
-                onChange={handleFilterChange}
-              >
+                onChange={handleFilterChange}>
                 {filterOptions.map(({ value, label }) => (
                   <option key={value} value={value}>{label}</option>
                 ))}
@@ -123,7 +187,11 @@ export default function InsightHistoryPage() {
                         widthSizeType="sm"
                         heightSizeType="sm"
                         colorType="dark"
-                        onClick={() => {/* TODO: open review modal */}}
+                        onClick={() => openReview(
+                          "BOOK_PURCHASE",
+                          h.bookId,
+                          h.bookTitle,
+                          h.bookImageUrl)}
                       />
                     </div>
                   ) : (
@@ -179,7 +247,11 @@ export default function InsightHistoryPage() {
                         widthSizeType="sm"
                         heightSizeType="sm"
                         colorType="dark"
-                        onClick={() => {/* TODO: open review modal */}}
+                        onClick={() => openReview(
+                          "BOOK_RENTAL",
+                          h.bookId,
+                          h.bookTitle,
+                          h.bookImageUrl)}
                       />
                     </div>
                   ) : (

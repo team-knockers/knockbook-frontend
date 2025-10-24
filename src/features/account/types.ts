@@ -79,3 +79,18 @@ export type ReviewedItem = {
   id: string;
 }
 
+export type ProductReviewCreateRequest = {
+  body: string;
+  rating: number;
+}
+
+export type ProductReview = {
+  reviewId: string;
+  displayName: string;
+  body: string;
+  rating: string;
+  createdAt: string;
+  likesCount: number;
+  likedByMe: boolean;
+}
+

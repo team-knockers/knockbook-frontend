@@ -1,6 +1,6 @@
 import { useSession } from "../../../hooks/useSession";
-import { apiAuthPath } from "../../../shared/api";
-import type { BookReview, ReviewedItem } from "../types";
+import { apiAuthPath, apiAuthPathWithJson } from "../../../shared/api";
+import type { BookReview, ProductReview, ProductReviewCreateRequest, ReviewedItem } from "../types";
 
 export const ReviewService = {
 
@@ -20,6 +20,20 @@ export const ReviewService = {
       "/books/{userId}/{bookId}/reviews",
       { userId, bookId },
       { method: "POST", body: form }
+    );
+  },
+
+  async createProductReview(
+    productId: string,
+    rating: number,
+    content: string) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    const req = { body: content, rating } as ProductReviewCreateRequest;
+    return await apiAuthPathWithJson<ProductReview, ProductReviewCreateRequest>(
+      "/products/{productId}/reviews/{userId}",
+      { userId, productId },
+      { method: "POST", json: req }
     );
   },
 

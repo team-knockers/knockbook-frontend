@@ -79,5 +79,20 @@ export async function PurchaseHistoryPageAction({ request }: ActionFunctionArgs)
     }
   }
 
+  if (intent === "createProductReview") {
+    const productId = String(form.get("productId") || "");
+    const rating = Number(form.get("rating") || 0);
+    const content = String(form.get("content") || "");
+    if (!productId || !content || rating <= 0) return r({ ok: false, error: "INVALID_INPUT" }, 400);
+
+    try {
+      await ReviewService.createProductReview(productId, rating, content);
+      return r({ ok: true });
+    } catch (e) {
+      console.error(e);
+      return r({ ok: false, error: "SERVER_ERROR" }, 500);
+    }
+  }
+
   return r({ ok: false, error: "UNKNOWN_INTENT" }, 400);
 }
