@@ -151,8 +151,8 @@ export type BookMbtiPercentage = {
 };
 
 export type BookStarCount = {
-  score: string,
-  count: number,
+  score: string;
+  count: number;
 };
 
 export const transactionOptions = [
@@ -176,23 +176,23 @@ export type BookReviewsApiResponse = {
 };
 
 export type BookReview = {
-  id: string,
-  displayName: string,
-  mbti: string,
-  transactionType: string,
-  createdAt: string,
-  content: string,
-  rating: number,
-  imageUrls: string[],
-  likesCount: number,
-  likedByMe: boolean
+  id: string;
+  displayName: string;
+  mbti: string;
+  transactionType: string;
+  createdAt: string;
+  content: string;
+  rating: number;
+  imageUrls: string[];
+  likesCount: number;
+  likedByMe: boolean;
 };
 
 export type BookReviewsStatistics = {
-  averageRating: number,
-  reviewCount: number,
-  scoreCounts: BookStarCount[],
-  mbtiPercentage: BookMbtiPercentage[]
+  averageRating: number;
+  reviewCount: number;
+  scoreCounts: BookStarCount[];
+  mbtiPercentage: BookMbtiPercentage[];
 };
 
 

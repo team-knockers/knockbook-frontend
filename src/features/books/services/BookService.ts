@@ -79,7 +79,7 @@ export const BookService = {
     if (!userId) { throw new Error("NO_USER"); }
     if (!bookId) { throw new Error("NO_BOOK_ID"); }
 
-    return apiAuthPathAndQuery<BookReviewsStatistics>(
+    return apiAuthPath<BookReviewsStatistics>(
       "/books/{userId}/{bookId}/reviews/statistics",
       { userId, bookId },
       { method: "GET" }
