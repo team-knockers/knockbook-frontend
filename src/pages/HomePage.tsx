@@ -24,6 +24,10 @@ import language from '../assets/book_icon_language.png'
 import travel from '../assets/book_icon_travel.png'
 import Footer from '../components/layout/Footer';
 
+import { useState, useEffect, useRef } from 'react';
+import { FeedService } from '../features/feeds/services/FeedService';
+import type { FeedPost } from '../features/feeds/types';
+
 const categoryIcons: Record<string, string> = {
   fiction: Fiction,
   essay: Essay,
@@ -65,57 +69,6 @@ export const todayBookDummy = {
   },
 };
 
-const feedDummy = [
-  {
-    id: 1,
-    userId: "이화평",
-    userProfile: "https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg",
-    feedImage: "https://i.ibb.co/XBPkwdT/summer1-jpg.jpg",
-  },
-  {
-    id: 2,
-    userId: "쮸",
-    userProfile: "https://i.pinimg.com/200x/23/43/9e/23439e5b75335092d8e10af4776f44e7.jpg",
-    feedImage: "https://i.ibb.co/67dg3DCY/Reading-on-a-train-reading-train-jpg.jpg",
-  },
-  {
-    id: 3,
-    userId: "지원",
-    userProfile: "https://i.pinimg.com/200x/19/fd/a7/19fda7fd1edc919b5d887b319f0db00d.jpg",
-    feedImage: "https://i.pinimg.com/736x/78/2e/c3/782ec39cce37f127ffed214a2178c361.jpg",
-  },
-  {
-    id: 4,
-    userId: "안윤환",
-    userProfile: "https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg",
-    feedImage: "https://i.pinimg.com/1200x/7a/4a/ef/7a4aefc695e2f67af7aa903bf9628453.jpg",
-  },
-  {
-    id: 5,
-    userId: "이화평",
-    userProfile: "https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg",
-    feedImage: "https://i.pinimg.com/736x/7a/fa/f7/7afaf756a9a9557f05f0c48877020963.jpg",
-  },
-  {
-    id: 6,
-    userId: "쮸",
-    userProfile: "https://i.pinimg.com/200x/23/43/9e/23439e5b75335092d8e10af4776f44e7.jpg",
-    feedImage: "https://i.pinimg.com/736x/56/95/97/56959713378cddd95086b74291802521.jpg",
-  },
-  {
-    id: 7,
-    userId: "지원",
-    userProfile: "https://i.pinimg.com/200x/19/fd/a7/19fda7fd1edc919b5d887b319f0db00d.jpg",
-    feedImage: "https://i.pinimg.com/1200x/f4/11/ed/f411ed5fc3e7d82473b371958762802d.jpg",
-  },
-  {
-    id: 8,
-    userId: "안윤환",
-    userProfile: "https://i.pinimg.com/200x/ca/2a/ef/ca2aef5cd009f9811790d559f5d4e3d2.jpg",
-    feedImage: "https://i.pinimg.com/1200x/3f/38/c5/3f38c530db43dd5eeb1fcad514579123.jpg",
-  },
-];
-
 export default function HomePage() {
   const navigate = useNavigate();
 
@@ -136,6 +89,44 @@ export default function HomePage() {
 
   const hasFavorites = !!(favoriteCategories && favoriteCategories.length > 0);
   const mbtiSectionTitle = myMbti ? `${myMbti}의 선택` : '이러한 책들은 어떠세요?';
+
+  const [feedItems, setFeedItems] = useState<FeedPost[]>([]);
+  const [after, setAfter] = useState<string|null>(null);
+  const [loading, setLoading] = useState(false);
+  const [ended, setEnded] = useState(false);
+  const ioRef = useRef<HTMLDivElement|null>(null);
+
+  async function loadMore() {
+    if (loading || ended) return;
+    setLoading(true);
+    try {
+      const res = await FeedService.getFeedPostList(4, after, undefined, undefined);
+      setFeedItems(prev => [...prev, ...res.feedPosts]);
+      setAfter(res.nextAfter);
+      if (!res.nextAfter) setEnded(true);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    setFeedItems([]); setAfter(null); setEnded(false);
+    loadMore();
+  }, []);
+
+  useEffect(() => {
+    const el = ioRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) loadMore();
+    }, { rootMargin: '200px 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ioRef.current, after, loading, ended]);
+
+  const handleFeedItemClick = () => {
+    navigate(PATHS.feed);
+  }
 
   const handleBookItemClick = (id: string) =>
     navigate(generatePath(PATHS.bookDetails, { bookId: id }));
@@ -307,28 +298,36 @@ export default function HomePage() {
           <p>회원들의 피드 구경해보세요</p>
         </div>
         <div className={s['feed-card-wrapper']}>
-          {feedDummy.map(feed => (
-            <div key={feed.id} className={s['feed-card']}>
-              <div className={s['feed-image-wrapper']}>
-                <img 
-                  className={s['feed-image']}
-                  src={feed.feedImage} 
-                  alt={`feed-${feed.id}`} 
-                />
-                <div className={s['feed-user-info']}>
+          {feedItems.map(feed => (
+            <button
+              onClick={handleFeedItemClick}
+              key={feed.postId}
+            >
+              <div key={feed.postId} className={s['feed-card']}>
+                <div className={s['feed-image-wrapper']}>
                   <img 
-                    className={s['feed-profile']}
-                    src={feed.userProfile} 
-                    alt={`${feed.userId}-profile`} 
+                    className={s['feed-image']}
+                    src={feed.images[0] ?? ''} 
+                    alt={`feed-${feed.postId}`} 
                   />
-                  <span className={s['feed-user-id']}>
-                    {feed.userId}
-                  </span>
+                  <div className={s['feed-user-info']}>
+                    <img 
+                      className={s['feed-profile']}
+                      src={feed.avatarUrl ?? ''} 
+                      alt={`${feed.displayName}-profile`} 
+                    />
+                    <span className={s['feed-user-id']}>
+                      {feed.displayName}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
+
+        {/* sentinel */}
+        <div ref={ioRef} className={s['io-sentinel']} />
       </div>
       <Footer />
     </main>
