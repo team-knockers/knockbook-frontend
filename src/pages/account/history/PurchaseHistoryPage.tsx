@@ -46,17 +46,36 @@ export default function PurchaseHistoryPage() {
   };
 
   async function handleSubmitReview(content: string, rating: number) {
-    if (!reviewTarget) return;
-    reviewFetcher.submit(
-      {
-        _intent: 'createBookReview',
-        bookId: reviewTarget.objectId,
-        transactionType: reviewTarget.objectType === 'BOOK_RENTAL' ? 'RENTAL' : 'PURCHASE',
-        rating: String(rating),
-        content,
-      },
-      { method: 'post' }
-    );
+    if (!reviewTarget) {
+      return;
+    }
+
+    const type = reviewTarget.objectType
+    if (type.includes('BOOK')) {
+      reviewFetcher.submit(
+        {
+          _intent: 'createBookReview',
+          bookId: reviewTarget.objectId,
+          transactionType: reviewTarget.objectType === 'BOOK_RENTAL' ? 'RENTAL' : 'PURCHASE',
+          rating: String(rating),
+          content,
+        },
+        { method: 'post' }
+      );
+    }
+
+    if (type.includes('PRODUCT')) {
+      reviewFetcher.submit(
+        {
+          _intent: 'createProductReview',
+          productId: reviewTarget.objectId,
+          rating: String(rating),
+          content,
+        },
+        { method: 'post' }
+      );
+    }
+
     closeReview();
   }
 
@@ -70,6 +89,7 @@ export default function PurchaseHistoryPage() {
     <main className={s['page-layout']}>
       <div className={s['max-width-container']}>
 
+        {/* review popup  */}
         <SimplePopup
           open={!!reviewTarget}
           onClose={closeReview}
