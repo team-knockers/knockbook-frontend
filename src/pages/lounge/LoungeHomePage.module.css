@@ -11,7 +11,7 @@
   width: 100%;
   max-height: 500px;
   text-align: left;
-  background-image: url('/src/assets/lounge_banner.jpg');
+  background-image: url('https://d1miajbjsyro89.cloudfront.net/v4/_next/static/media/img-keyvisual-1.40e74fa3.jpg');
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -27,27 +27,35 @@
 }
 .banner-text {
   position: absolute;
-  top: 12%;
-  right: 8%;
-  color: #D5AE42;
+  bottom: 15%;
+  right: 4%;
   text-align: center;
-  font-weight: 400;
+  color: #fff;
+  /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); */
+  /* opacity: 0.7; */
 }
-.banner-subtitle {
+/* .banner-subtitle {
   font-size: 12px;
-}
+  font-weight: 300;
+} */
 .banner-title {
-  font-size: 36px;
-  font-family: 'Euljiro';
-  letter-spacing: 1.5px;
+  font-size: 24px;
+  /* font-family: 'TtTogether'; */
+  font-family: 'Rix';
+  letter-spacing: 3px;
+  font-weight: 400;
+  margin: 0;
+  padding-bottom: 3px;
 }
 .banner-day {
-  font-size: 24px;
-  font-family: 'Euljiro';
+  font-size: 16px;
+  font-weight: 600;
+  /* font-family: 'Euljiro'; */
   margin: 0;
 }
 .banner-desc {
-  font-size: 12px;
+  font-size: 10px;
+  font-weight: 300;
   margin: 0;
 }
 /* lounge-title */
@@ -397,25 +405,27 @@
   /* lounge-banner */
   .lounge-banner {
     max-height: 530px;
-    background-position: 100% 60%;
+    background-position: 100% 30%;
   }
-  .banner-subtitle {
-    font-size: 20px;
+  .banner-text {
+    right: 55%;
+    bottom: 24%;
   }
+  /* .banner-subtitle {
+    font-size: 22px;
+  } */
   .banner-title {
     font-size: 48px;
-    font-family: 'Euljiro';
-    letter-spacing: 2px;
+    letter-spacing: 6px;
+    padding-bottom: 10px;
   }
   .banner-day {
-    font-size: 32px;
-    font-family: 'Euljiro';
-    margin: 0;
+    font-size: 26px;
   }
   .banner-desc {
-    font-size: 16px;
-    margin: 0;
+    font-size: 18px;
   }
+  
   /* lounge-header */
   .lounge-header {
     padding: 80px 30px;

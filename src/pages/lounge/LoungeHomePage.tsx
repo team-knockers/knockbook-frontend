@@ -214,14 +214,13 @@ export default function LoungeHomePage() {
       <div className={s['page-layout']}>
         <div className={s['lounge-banner']}>
           <div className={s['banner-text']}>
-            <p className={s['banner-subtitle']}>The 21st 문앞의 책방</p>
+            {/* <p className={s['banner-subtitle']}>The 21st 문앞의 책방</p> */}
             <h2 className={s['banner-title']}>
               PRIVATE<br />
-              BOOK<br />
-              CLUB<br />
+              BOOK CLUB<br />
             </h2>
             <p className={s['banner-day']}>25/10/31</p>
-            <p className={s['banner-desc']}>"책으로 만나는, 가장 특별한 인연"</p>
+            <p className={s['banner-desc']}>"당신의 이야기가 만나는 곳"</p>
           </div>
         </div>
 
