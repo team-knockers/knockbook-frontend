@@ -21,7 +21,7 @@ export default function UserAddressPage() {
     }
   }, [fetcher.state, fetcher.data]);
 
-  const addresses = fetcher.data ?? [];
+  const addresses = Array.isArray(fetcher.data) ? fetcher.data : [];
 
   const initialDefaultAddressId = addresses.find(a => a.isDefault)?.id;
   const [defaultAddressId, setDefaultAddressId] = useState(initialDefaultAddressId);
