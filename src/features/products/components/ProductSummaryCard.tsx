@@ -1,5 +1,6 @@
 import styles from './styles/ProductSummaryCard.module.css';
-import { FiStar, FiHeart, FiShoppingCart } from "react-icons/fi";
+import { FiStar, FiShoppingCart } from "react-icons/fi";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 
 type Props = {
   imageSrc: string;
@@ -8,6 +9,7 @@ type Props = {
   salePrice?: number;
   rating: number;
   reviewCount: number;
+  wishedByMe: boolean;
   onClick: () => void;
   onWishButtonClick: () => void;
   onCartButtonClick: () => void;
@@ -16,7 +18,7 @@ type Props = {
 const formatWon = (n: number) => `${n.toLocaleString('ko-KR')}원`;
 
 export default function ProductSummaryCard({
-  imageSrc, name, price, salePrice, rating, reviewCount, onClick,
+  imageSrc, name, price, salePrice, rating, reviewCount, wishedByMe, onClick,
   onWishButtonClick, onCartButtonClick
 }: Props) {
   const hasSale = typeof salePrice === 'number' && salePrice < price;
@@ -69,10 +71,10 @@ export default function ProductSummaryCard({
         </div>
       </button>
       <div className={styles['product-actions']}>
-        <button 
-          className={styles['wishlist-icon']}
-          onClick={onWishButtonClick}>
-          <FiHeart size={16} />
+        <button
+          className={`${styles['wishlist-icon']} ${wishedByMe ? styles['active'] : ''}`}
+          onClick={(e) => { e.stopPropagation(); onWishButtonClick(); }}>
+          {wishedByMe ? <IoMdHeart size={16}/> : <IoMdHeartEmpty size={16}/>}
         </button>
         <button 
           className={styles['cart-icon']}
