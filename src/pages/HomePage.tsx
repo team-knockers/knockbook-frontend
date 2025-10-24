@@ -231,9 +231,9 @@ export default function HomePage() {
 
       {/* Preference-based (각 묶음을 개별 섹션으로 렌더) */}
       {preferenceEntries.map(({ books, idx }) => {
-        const cat = favoriteCategories?.[idx]; // undefined여도 안전
-        const title = hasFavorites && cat
-          ? `${cat} 장르를 좋아하는 당신에게`
+        const catDisplayName = data.favoriteCategoryDisplayNames?.[idx];
+        const title = hasFavorites && catDisplayName
+          ? `${catDisplayName} 장르를 좋아하는 당신에게`
           : '이런 책도 있어요';
 
         return (
