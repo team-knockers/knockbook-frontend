@@ -8,7 +8,7 @@ export type HomeLoaderData = {
   preferenceRecommendations: BookSummary[][],
   myMbti: string | null,
   myFavoriteBookCategories: string[] | null,
-  favoriteCategoryDisplayNames: string[], // 표시명 배열 추가
+  favoriteCategoryDisplayNames: string[],
   randomFiveStarReview: GetRandomBookReviewResponse
 };
 
