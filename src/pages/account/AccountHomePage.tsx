@@ -72,7 +72,7 @@ export default function AccountHomePage() {
           </button>
           <button 
             className={styles['bar-menu-item-wrapper']}
-            onClick={() => nav(PATHS.like)}>
+            onClick={() => nav(PATHS.wishlist)}>
             <div className={styles['bar-menu-likes-icon']} />
             <div className={styles['bar-menu-item-name']}>
               <span>찜 목록</span>

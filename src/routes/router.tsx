@@ -81,9 +81,9 @@ import { PurchaseHistoryPageAction, PurchaseHistoryPageLoader } from "../pages/a
 import PurchaseHistoryPage from "../pages/account/history/PurchaseHistoryPage";
 import { RentalHistoryPageAction, RentalHistoryPageLoader } from "../pages/account/history/RentalHistoryPage.loader";
 import RentalHistoryPage from "../pages/account/history/RentalHistoryPage";
-import LikePage from "../pages/account/wishlist/LikePage";
-import LikeBookPage from "../pages/account/wishlist/LikeBookPage";
-import LikeProductPage from "../pages/account/wishlist/LikeProductPage";
+import WishlistPage from "../pages/account/wishlist/WishlistPage";
+import BookWishlistPage from "../pages/account/wishlist/BookWishlistPage";
+import ProductWishlistPage from "../pages/account/wishlist/ProductWishlistPage";
 import PointTransactionsPage from "../pages/account/points/PointTransactionsPage";
 import { PointTransactionsPageLoader } from "../pages/account/points/PointTransactionsPage.loader";
 import { PointTransactionsAllPageLoader } from "../pages/account/points/PointTransactionsAllPage.loader";
@@ -94,6 +94,7 @@ import { PointTransactionsUsedPageLoader } from "../pages/account/points/PointTr
 import PointTransactionsUsedPage from "../pages/account/points/PointTransactionsUsedPage";
 import CouponPage from "../pages/account/coupons/CouponPage";
 import { CouponPageLoader } from "../pages/account/coupons/CouponPage.loader";
+import { WishlistPageLoader } from "../pages/account/wishlist/wishlistPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -558,8 +559,10 @@ export const router = createBrowserRouter([
             }
           },
           {
-            path: PATHS.like,
-            element: <LikePage />,
+            path: PATHS.wishlist,
+            id: "wishlist",
+            loader: WishlistPageLoader,
+            element: <WishlistPage />,
             handle: { 
               header: { 
                 kind: "backTitleClose",
@@ -570,11 +573,11 @@ export const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Navigate to={PATHS.likeBook} replace />,
+                element: <Navigate to={PATHS.bookWishlist} replace />,
               },
               {
-                path: PATHS.likeBook,
-                element: <LikeBookPage />,
+                path: PATHS.bookWishlist,
+                element: <BookWishlistPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -585,8 +588,8 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.likeProduct,
-                element: <LikeProductPage />,
+                path: PATHS.productWishlist,
+                element: <ProductWishlistPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
