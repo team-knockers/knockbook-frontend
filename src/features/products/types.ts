@@ -7,6 +7,7 @@ export type ProductSummary = {
   reviewCount: number;
   thumbnailUrl: string;
   availability: string;
+  wishedByMe: boolean;
 };
 
 export type ProductSummaryList = {

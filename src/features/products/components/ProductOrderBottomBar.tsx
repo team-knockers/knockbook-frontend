@@ -11,6 +11,7 @@ type ProductBottomBarProps = {
   onSendAsGiftButtonClick: () => void;
   onAddToCartButtonClick: () => void;
   onBuyNowButtonClick: () => void;
+  initialFavoriteOn?: boolean;  
 };
 
 export default function ProductBottomBar({
@@ -19,10 +20,11 @@ export default function ProductBottomBar({
   onFavoriteButtonClick,
   onSendAsGiftButtonClick,
   onAddToCartButtonClick,
-  onBuyNowButtonClick
+  onBuyNowButtonClick,
+  initialFavoriteOn = false,  
 } : ProductBottomBarProps) {
 
-  const [isFavoriteOn, setIsFavoriteOn] = useState(false);
+  const [isFavoriteOn, setIsFavoriteOn] = useState(initialFavoriteOn);
   const handleFavoriteClick = () => {
     const newState = !isFavoriteOn;
     setIsFavoriteOn(newState);

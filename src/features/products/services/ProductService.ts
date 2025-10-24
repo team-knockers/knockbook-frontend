@@ -130,4 +130,32 @@ export const ProductService = {
       }
     );
   },
+
+  async addToWishlist (
+    productId: string
+  ): Promise<void>{
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery<void>(
+      "/products/wishes/{productId}/{userId}",
+      { productId, userId },
+      undefined,
+      { method: "PUT" }
+    );
+  },
+
+  async removeFromWishlist (
+    productId: string
+  ): Promise<void>{
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return apiAuthPathAndQuery<void>(
+      "/products/wishes/{productId}/{userId}",
+      { productId, userId },
+      undefined,
+      { method: "DELETE" }
+    );
+  }
 };
