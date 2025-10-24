@@ -206,3 +206,17 @@ export type BookWishStatusResponse = {
     wished: boolean;
 }
 
+export type BookReviewCreateRequest = {
+    transactionType: string;
+    rating: number;
+    content: string;
+}
+
+export type GetRandomBookReviewResponse = {
+    id: string;
+    userId: string;
+    displayName: string;
+    bookId: string;
+    coverThumbnailUrl: string;
+    content: string;
+}

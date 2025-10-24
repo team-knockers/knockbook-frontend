@@ -1,6 +1,6 @@
-import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
+import { apiAuthMultipartPath, apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, BookReviewsApiResponse, BookReviewsStatistics, BookWishlistActionResponse, BookWishStatusResponse } from "../types";
+import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, BookReviewsApiResponse, BookReviewsStatistics, BookWishlistActionResponse, BookWishStatusResponse, BookReviewCreateRequest, BookReview, GetRandomBookReviewResponse } from "../types";
 
 export const BookService = {
 
@@ -201,6 +201,60 @@ export const BookService = {
     return apiAuthPath<BookSubcategory[]>(
       "/books/{userId}/categories/{categoryCodeName}/subcategories",
       { userId, categoryCodeName },
+      { method: "GET" }
+    );
+  },
+
+  // API-BOOKS-13 : Create a review for a specific book with optional images
+  async createBookReview(
+    bookId: string,
+    review: BookReviewCreateRequest,
+    images?: File[]
+  ): Promise<BookReview> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!bookId) { throw new Error("NO_BOOK_ID"); }
+    if (!review) { throw new Error("NO_REVIEW_DATA"); }
+
+    const form = new FormData();
+    form.append("post", new Blob([JSON.stringify({ review })], { type: "application/json" }));
+
+    images?.forEach((f: File) => form.append("images", f));
+
+    return apiAuthMultipartPath<BookReview>(
+      "/books/{userId}/{bookId}/reviews",
+      { userId, bookId },
+      form,
+      { method: "POST" }
+    );
+  },
+
+  // API-BOOKS-14 : Soft delete a specific review for the current user
+  async deleteBookReview(
+    reviewId: string
+  ): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    if (!reviewId) { throw new Error("NO_REVIEW_ID"); }
+
+    return apiAuthPath<void>(
+      "/books/{userId}/reviews/{reviewId}",
+      { userId, reviewId },
+      { method: "DELETE" }
+    );
+  },
+
+  // API-BOOKS-15 : Retrieve a random life book review (temporarily implemented using a random review)
+  async getRandomBookReview(
+    rating?: number
+  ): Promise<GetRandomBookReviewResponse> {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+
+    return apiAuthPathAndQuery<GetRandomBookReviewResponse>(
+      "/books/{userId}/reviews/random",
+      { userId },
+      { rating },
       { method: "GET" }
     );
   },
