@@ -171,7 +171,7 @@ export default function InsightStatPage() {
 
       <div className={s['insight-stat-book']}>
         <p>도서 선호도</p>
-         <div className={s['insight-stat-book-chart']}>
+          <div className={s['insight-stat-book-chart']}>
           {hasCategory ? (
             <PreferenceChart
               categoryRatioStat={categoryRatioStat}
