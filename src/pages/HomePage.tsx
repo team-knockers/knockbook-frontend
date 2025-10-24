@@ -129,6 +129,7 @@ export default function HomePage() {
     ? data.myFavoriteBookCategories
     : undefined;
   const myMbti = data.myMbti ?? null;
+  const randomFiveStarReview = data.randomFiveStarReview ?? null;
 
   const homeBookBannerImage = homeBookBannerImageDummy;
   const homeProductBannerImage = homeProductBannerImageDummy;
@@ -186,36 +187,39 @@ export default function HomePage() {
       </div>
 
       {/* Today Book */}
-      <div className={s['today-book-layout']}>
-        <div className={s['today-book-header']}>
-          <h2>오늘의 인생책</h2>
-        </div>
-        <div className={s['today-book-card']}>
-          <div 
-            className={s['today-book-image']}
-            style={{ backgroundImage: `url(${todayBookDummy.book.coverImage})` }}
-            >
-            <img
-              src={todayBookDummy.book.coverImage}
-              alt={todayBookDummy.book.title}
-            />
+      {randomFiveStarReview && (
+        <div className={s['today-book-layout']}>
+          <div className={s['today-book-header']}>
+            <h2>오늘의 인생책</h2>
           </div>
+          <div className={s['today-book-card']}>
+            <div 
+              className={s['today-book-image']}
+              style={{ backgroundImage: `url(${randomFiveStarReview.coverThumbnailUrl})` }}
+              >
+              <img
+                src={randomFiveStarReview.coverThumbnailUrl}
+                alt={`${randomFiveStarReview.displayName}님의 추천 책 이미지`}
+                onClick={()=> {handleBookItemClick(randomFiveStarReview.bookId)}}
+              />
+            </div>
 
-          <div className={s['today-book-info']}>
-            <div className={s['today-book-content']}>
-              <h3>문앞의 책방 회원의 인생책</h3>
-              <p className={s['today-book-sub']}>
-                {todayBookDummy.reviewer.username}님의 추천
-              </p>
-            </div>
-            <div>
-              <p className={s['today-book-review']}>
-                "{todayBookDummy.reviewer.review}"
-              </p>
+            <div className={s['today-book-info']}>
+              <div className={s['today-book-content']}>
+                <h3>문앞의 책방 회원의 인생책</h3>
+                <p className={s['today-book-sub']}>
+                  {randomFiveStarReview.displayName}님의 추천
+                </p>
+              </div>
+              <div>
+                <p className={s['today-book-review']}>
+                  "{randomFiveStarReview.content}"
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* MBTI Picks */}
       <section className={s['book-slider-layout']}>

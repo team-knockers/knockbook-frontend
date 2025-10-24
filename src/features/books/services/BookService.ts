@@ -246,7 +246,7 @@ export const BookService = {
 
   // API-BOOKS-15 : Retrieve a random life book review (temporarily implemented using a random review)
   async getRandomBookReview(
-    rating?: number
+    rating?: string
   ): Promise<GetRandomBookReviewResponse> {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER"); }
