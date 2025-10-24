@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
-import type { BookSummary } from "../features/books/types";
+import type { BookSummary, GetRandomBookReviewResponse } from "../features/books/types";
 import { BookService } from "../features/books/services/BookService";
 import { UserService } from "../features/account/services/UserService";
 
@@ -7,7 +7,8 @@ export type HomeLoaderData = {
   mbtiRecommendations: BookSummary[],
   preferenceRecommendations: BookSummary[][],
   myMbti: string | null,
-  myFavoriteBookCategories: string[] | null
+  myFavoriteBookCategories: string[] | null,
+  randomFiveStarReview: GetRandomBookReviewResponse
 };
 
 export async function homeLoader(_args: LoaderFunctionArgs): Promise<HomeLoaderData> {
@@ -28,5 +29,7 @@ export async function homeLoader(_args: LoaderFunctionArgs): Promise<HomeLoaderD
 
   const preferenceRecommendations = await Promise.all(preferencePromises)
 
-  return { mbtiRecommendations, preferenceRecommendations, myMbti, myFavoriteBookCategories };
+  const randomFiveStarReview = await BookService.getRandomBookReview('5');
+
+  return { mbtiRecommendations, preferenceRecommendations, myMbti, myFavoriteBookCategories, randomFiveStarReview };
 }
