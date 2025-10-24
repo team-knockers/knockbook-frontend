@@ -13,8 +13,13 @@
 .book-search-info{
   font-family: Pretendard;
   font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
+  color: #333;
+  letter-spacing: 0.7px;
+  padding: 10px 0;
+}
+.book-search-info strong {
+  color: #000;
 }
 .go-to-cart-popup {
   position: fixed;
@@ -64,11 +69,15 @@
   .book-search-container {
     padding: 0 20px;
   }
+  .book-search-info {
+    display: block;
+    padding: 20px 0 0;
+  }
   .book-search-contents {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 60px 0;
+    padding: 30px 0 60px;
   }
   .book-search-results-container {
     display: flex;

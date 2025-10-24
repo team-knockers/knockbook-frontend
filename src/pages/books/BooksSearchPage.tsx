@@ -270,7 +270,7 @@ export default function BooksSearchPage() {
         )}
         <div className={styles['book-search-container']}>
           <span className={styles['book-search-info']}>
-            🔍 "{searchByLabel}" 기준으로 "{searchState.searchKeyword}"를 검색한 결과
+            <strong>"{searchByLabel}"</strong> 기준으로 <strong>"{searchState.searchKeyword}"</strong>을 검색한 결과
           </span>
           <div className={styles['book-search-contents']}>
             <div className={styles['book-search-sidebar']}>
