@@ -1,6 +1,7 @@
 .book-search-main {
   display: flex;
   flex-direction: column;
+  max-width: 1200px;
 }
 .category-popup-overlay {
   position: relative;
@@ -10,12 +11,10 @@
   align-self: stretch;
 }
 .book-search-info{
-  padding: 10px 20px 0 20px;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 100%; /* 11px */
 }
 .go-to-cart-popup {
   position: fixed;
@@ -32,7 +31,6 @@
   - Enforce min width 375px
 */
 @media (max-width: 1023.98px) {
-
   .book-search-main {
     align-self: stretch;
   }
@@ -40,12 +38,13 @@
     display: flex;
     flex-direction: column;
     align-self: stretch;
+    padding: 0 20px 70px;
+    width: 100%;
   }
   .book-search-sidebar {
     display: none;
   }
   .book-search-results {
-    padding: 15px 20px;
     flex-direction: column;
     align-items: flex-start;
   }
@@ -57,28 +56,28 @@
 /* Desktop rules (≥ 1024px) */
 @media (min-width: 1024px) {
   .book-search-main {
-    width: 1024px;
-    max-width: 1024px;
     margin:0 auto;
   }
   .category-popup-overlay {
     left: 17px;
   }
+  .book-search-container {
+    padding: 0 20px;
+  }
   .book-search-contents {
     display: flex;
-    width: 1024px;
-    padding: 20px 50px;
     justify-content: center;
     align-items: flex-start;
+    padding: 60px 0;
   }
   .book-search-results-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     flex: 1;
   }
   .book-search-results {
     flex-direction: column;
     align-items: center;
+    padding-bottom: 80px;
   }
 }

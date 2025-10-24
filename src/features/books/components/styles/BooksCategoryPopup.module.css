@@ -26,7 +26,7 @@
   z-index: 1000;
   background: #F7f7f7;
   height: 100vh;
-  overflow: visible;
+  overflow-y: auto;
   box-sizing: border-box;
 
   animation: slideIn .28s ease both;scrollbar-gutter: stable;
@@ -231,6 +231,7 @@
 
    .books-category-wrapper {
     position: relative;
+    overflow-y: visible;
   }
 
   .subcategory-list {

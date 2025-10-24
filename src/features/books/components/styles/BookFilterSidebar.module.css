@@ -1,6 +1,6 @@
 .book-filter-sidebar {
   display: flex;
-  width: 220px;
+  width: 200px;
   padding: 10px 30px 10px 0;
   flex-direction: column;
   align-items: flex-start;
@@ -35,7 +35,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 15px;
   align-self: stretch;
 }
 .category-title, .price-title {
@@ -50,7 +50,7 @@
   padding-left: 8px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 15px;
   align-self: stretch;
 }
 .category-item, .price-item {
@@ -81,7 +81,6 @@
 }
 .custom-fields {
   display: flex;
-  padding-left: 10px;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
@@ -90,7 +89,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 5px;
   align-self: stretch;
   background: #FFF;
 }
@@ -98,7 +97,6 @@
   align-self: stretch;
   font-family: Pretendard;
   font-size: 14px;
-  font-style: normal;
   font-weight: 500;
   line-height: 100%;
 }
@@ -107,10 +105,11 @@
   padding-right: 28px !important; /* "원" 공간 확보 */
   text-align: right;
   box-sizing: border-box;
+  font-size: 14px !important;
 }
 .min-input::placeholder,
 .max-input::placeholder {
-  color: #cfcfcf !important;/* 원하는 색상 코드로 변경 */
+  color: #cfcfcf !important; /* 원하는 색상 코드로 변경 */
 }
 .price-input-wrapper {
   position: relative;
@@ -124,9 +123,7 @@
   text-align: right;
   font-family: Pretendard;
   font-size: 14px;
-  font-style: normal;
   font-weight: 500;
-  line-height: 100%; /* 14px */
   pointer-events: none;
 }
 .filter-radio { 
