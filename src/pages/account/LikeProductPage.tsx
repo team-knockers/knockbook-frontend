@@ -13,6 +13,7 @@ export default function LikeProductPage() {
       averageRating: 4.8,
       reviewCount: 123,
       thumbnailUrl: ProductImg,
+      wishedByMe: true,
     },
     {
       productId: "p2",
@@ -22,6 +23,7 @@ export default function LikeProductPage() {
       averageRating: 4.5,
       reviewCount: 98,
       thumbnailUrl: ProductImg,
+      wishedByMe: true,
     },
     {
       productId: "p3",
@@ -31,6 +33,7 @@ export default function LikeProductPage() {
       averageRating: 4.8,
       reviewCount: 123,
       thumbnailUrl: ProductImg,
+      wishedByMe: true,
     },
     {
       productId: "p4",
@@ -40,6 +43,7 @@ export default function LikeProductPage() {
       averageRating: 4.5,
       reviewCount: 98,
       thumbnailUrl: ProductImg,
+      wishedByMe: true,
     },
     {
       productId: "p5",
@@ -49,6 +53,7 @@ export default function LikeProductPage() {
       averageRating: 4.8,
       reviewCount: 123,
       thumbnailUrl: ProductImg,
+      wishedByMe: true,
     },
     {
       productId: "p6",
@@ -58,6 +63,7 @@ export default function LikeProductPage() {
       averageRating: 4.5,
       reviewCount: 98,
       thumbnailUrl: ProductImg,
+      wishedByMe: true,
     },
   ];
 
@@ -79,6 +85,7 @@ export default function LikeProductPage() {
               rating={p.averageRating}
               reviewCount={p.reviewCount}
               onClick={() => handleCardClick(p.productId)}
+              wishedByMe={p.wishedByMe}
               onWishButtonClick={() => {/* TODO */}}
               onCartButtonClick={() => {/* TODO */}}
             />
