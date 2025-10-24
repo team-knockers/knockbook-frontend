@@ -53,8 +53,8 @@ export default function OrderPage() {
   const lastAppliedAddressIdRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!selectedAddressId) return;
-    if (lastAppliedAddressIdRef.current === selectedAddressId) return;
+    if (!selectedAddressId) { return; }
+    if (lastAppliedAddressIdRef.current === selectedAddressId) { return; }
 
     const fd = new FormData();
     fd.append("intent", "apply-address");
@@ -77,6 +77,9 @@ export default function OrderPage() {
   const handleAddressInserted = () => {
     setIsAddressInsertPopupOpen(false);
     revalidate();
+    if (address) {
+      setSelectedAddressId(address.id);
+    }    
   };
 
   const submitEntryInfo = (value: string) => {
@@ -667,7 +670,7 @@ export default function OrderPage() {
                   <div className={s['aggregation-content-row']}>
                     <span>상품 할인</span>
                     <span style={{ "color": "red" }}>
-                      {formatWon(aggregation.discountAmount)}
+                      {formatWon(-aggregation.discountAmount)}
                     </span>
                   </div>
                   <div className={s['aggregation-content-row']}>
