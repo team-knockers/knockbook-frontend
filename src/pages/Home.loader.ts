@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
-import type { BookSummary, GetRandomBookReviewResponse } from "../features/books/types";
+import type { BookCategory, BookSummary, GetRandomBookReviewResponse } from "../features/books/types";
 import { BookService } from "../features/books/services/BookService";
 import { UserService } from "../features/account/services/UserService";
 
@@ -8,6 +8,7 @@ export type HomeLoaderData = {
   preferenceRecommendations: BookSummary[][],
   myMbti: string | null,
   myFavoriteBookCategories: string[] | null,
+  favoriteCategoryDisplayNames: string[],
   randomFiveStarReview: GetRandomBookReviewResponse
 };
 
@@ -19,9 +20,17 @@ export async function homeLoader(_args: LoaderFunctionArgs): Promise<HomeLoaderD
 
   const mbtiRecommendations = await BookService.getBookSummaries('fiction', 'koreanFiction', 1, 7, 'published', 'desc');
 
+  const allCategories: BookCategory[] = await BookService.getBooksAllCategories();
+  const categoryMapping: Record<string, string> = {};
+  allCategories.forEach(cat => {
+    categoryMapping[cat.categoryCodeName] = cat.categoryDisplayName;
+  });
+
   const categoriesArray = Array.isArray(myFavoriteBookCategories) && myFavoriteBookCategories.length > 0
     ? myFavoriteBookCategories
     : ['all'];
+
+  const favoriteCategoryDisplayNames = categoriesArray.map(code => categoryMapping[code] ?? code);
 
   const preferencePromises = categoriesArray.map(category =>
     BookService.getBookSummaries(category, 'all', 1, 7, 'published', 'desc')
@@ -31,5 +40,5 @@ export async function homeLoader(_args: LoaderFunctionArgs): Promise<HomeLoaderD
 
   const randomFiveStarReview = await BookService.getRandomBookReview('5');
 
-  return { mbtiRecommendations, preferenceRecommendations, myMbti, myFavoriteBookCategories, randomFiveStarReview };
+  return { mbtiRecommendations, preferenceRecommendations, myMbti, myFavoriteBookCategories, favoriteCategoryDisplayNames, randomFiveStarReview };
 }
