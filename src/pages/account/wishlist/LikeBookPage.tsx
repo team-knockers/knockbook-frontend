@@ -13,6 +13,7 @@ export default function LikeBookPage() {
       averageRating: 4.8,
       reviewCount: 123,
       thumbnailUrl: BookImg,
+      wishedByMe: true,
     },
     {
       BookId: "p2",
@@ -22,6 +23,7 @@ export default function LikeBookPage() {
       averageRating: 4.5,
       reviewCount: 98,
       thumbnailUrl: BookImg,
+      wishedByMe: true,
     },
     {
       BookId: "p3",
@@ -31,6 +33,7 @@ export default function LikeBookPage() {
       averageRating: 4.8,
       reviewCount: 123,
       thumbnailUrl: BookImg,
+      wishedByMe: true,
     },
     {
       BookId: "p4",
@@ -40,6 +43,7 @@ export default function LikeBookPage() {
       averageRating: 4.5,
       reviewCount: 98,
       thumbnailUrl: BookImg,
+      wishedByMe: true,
     },
     {
       BookId: "p5",
@@ -49,6 +53,7 @@ export default function LikeBookPage() {
       averageRating: 4.8,
       reviewCount: 123,
       thumbnailUrl: BookImg,
+      wishedByMe: true,
     },
     {
       BookId: "p6",
@@ -58,6 +63,7 @@ export default function LikeBookPage() {
       averageRating: 4.5,
       reviewCount: 98,
       thumbnailUrl: BookImg,
+      wishedByMe: true,
     },
   ];
 
@@ -78,6 +84,7 @@ export default function LikeBookPage() {
               salePrice={p.salePriceAmount ?? undefined}
               rating={p.averageRating}
               reviewCount={p.reviewCount}
+              wishedByMe={p.wishedByMe}
               onClick={() => handleCardClick(p.BookId)}
               onWishButtonClick={() => {/* TODO */}}
               onCartButtonClick={() => {/* TODO */}}

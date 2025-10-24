@@ -10,18 +10,20 @@ import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 import { PATHS } from '../../routes/paths';
 import { CartService } from '../../features/purchase/services/CartService';
 import { OrderService } from '../../features/purchase/services/OrderService';
+import { ProductService } from '../../features/products/services/ProductService';
 
 export default function ProductDetailPage() {
 
   const nav = useNavigate();
 
   // Get server data prepared by the route loader
-  const { name, unitPriceAmount, salePriceAmount, averageRating, reviewCount, galleryImageUrls } = useLoaderData() as {
+  const { name, unitPriceAmount, salePriceAmount, averageRating, reviewCount, wishedByMe, galleryImageUrls } = useLoaderData() as {
     name: string;
     unitPriceAmount: number;
     salePriceAmount: number | null;
     averageRating: number;
     reviewCount: number;
+    wishedByMe: boolean;
     galleryImageUrls: string[];
   };
   const { productId } = useParams();
@@ -72,8 +74,19 @@ export default function ProductDetailPage() {
     nav(PATHS.orderById(draft.id));
   }
 
-  /* This is a sample code */
-  const fav = (isFav?: boolean) => toast(isFav === undefined ? '찜 토글' : (isFav ? '찜 추가' : '찜 해제'));
+  async function fav(isfav: boolean) {
+    if (!productId) return;
+    try {
+      if (isfav) {
+        await ProductService.addToWishlist(String(productId));
+      } else {
+        await ProductService.removeFromWishlist(String(productId)); 
+      }
+    } catch (e: any) {
+      alert(e?.message ?? '찜 처리 실패');
+    }
+  }
+
   const gift = () => toast('선물하기 클릭');
 
   return (
@@ -179,6 +192,7 @@ export default function ProductDetailPage() {
           onSendAsGiftButtonClick={gift}
           onAddToCartButtonClick={handleAddItemsOnCart}
           onBuyNowButtonClick={handleCreateDraftDirect}
+          initialFavoriteOn={wishedByMe}
         />
       </section>
 

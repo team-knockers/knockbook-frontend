@@ -124,6 +124,10 @@
  height: 16px;
 }
 
+.wishlist-icon.active { 
+  color: crimson; 
+}
+
 @media (min-width:1024px){
 .product-summary-card {
     height: 420px;

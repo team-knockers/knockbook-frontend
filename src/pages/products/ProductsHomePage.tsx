@@ -15,6 +15,7 @@ import { PATHS } from "../../routes/paths";
 import { useState } from "react";
 import { CartService } from "../../features/purchase/services/CartService";
 import TwoButtonPopup from "../../components/overlay/TwoButtonPopup";
+import { ProductService } from "../../features/products/services/ProductService";
 
 export default function ProductsHomePage() {
   const nav = useNavigate();
@@ -30,11 +31,14 @@ export default function ProductsHomePage() {
       reviewCount: number;
       thumbnailUrl: string;
       availability: string;
+      wishedByMe: boolean;
     }>;
     page: number;
     totalItems: number;
     totalPages: number;
   };
+
+  const [items, setItems] = useState(products);
 
   // Read/write URL query params (pagination, filters, ...)
   const [ sp, setSp ] = useSearchParams();
@@ -45,6 +49,19 @@ export default function ProductsHomePage() {
     next.set("page", String(p));
     setSp(next);
   };
+
+  async function handleToggleWish(pid: string, current: boolean) {
+    setItems(prev => prev.map(p => p.productId === pid ? { ...p, wishedByMe: !current } : p));
+    try {
+      if (current) {
+        await ProductService.removeFromWishlist(pid);
+      } else {
+        await ProductService.addToWishlist(pid);
+      }
+    } catch (e) {
+      setItems(prev => prev.map(p => p.productId === pid ? { ...p, wishedByMe: current } : p));
+    }
+  }
 
   // Search: navigate to search page with query 
   const handleSearch = (searchKeyword: string) => {
@@ -105,7 +122,7 @@ export default function ProductsHomePage() {
         <ProductSummaryList>
           <ProductSummaryListHeader totalCount={totalItems} />
           <ProductSummaryListBody>
-            {products.map(p => (
+            {items.map(p => (
               <ProductSummaryCard
                 key={p.productId}
                 imageSrc={p.thumbnailUrl}
@@ -114,8 +131,9 @@ export default function ProductsHomePage() {
                 salePrice={p.salePriceAmount ?? undefined}
                 rating={p.averageRating}
                 reviewCount={p.reviewCount}
+                wishedByMe={p.wishedByMe}
                 onClick={() => handleCardClick(p.productId)}
-                onWishButtonClick={() => {/* TODO */}}
+                onWishButtonClick={() => handleToggleWish(p.productId, p.wishedByMe)}
                 onCartButtonClick={() => handleAddItemsOnCart(p.productId)}
               />
             ))}

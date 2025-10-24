@@ -25,7 +25,6 @@
   padding: 30px 30px 100px;
   z-index: 1000;
   background: #F7f7f7;
-  height: 100vh;
   overflow-y: auto;
   box-sizing: border-box;
 
@@ -74,7 +73,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px 0;
+  padding: 10px 0;
   position: relative;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -121,7 +120,7 @@
   font-family: Pretendard; 
   font-size: 14px; 
   font-weight: 600; 
-  padding: 20px 0; 
+  padding: 15px 0; 
 }
 
 .category-all {
@@ -133,7 +132,7 @@
   font-size: 14px; 
   font-weight: 400;
   cursor: pointer; 
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 
 .category-item {
@@ -222,7 +221,7 @@
 
   .category-item { 
     font-size: 16px;
-    padding: 10px 0;
+    /* padding: 10px 0; */
   }
 
   .category-icon { 

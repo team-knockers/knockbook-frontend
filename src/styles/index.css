@@ -150,3 +150,10 @@ button, button:focus, button:focus-visible {
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+    font-family: 'Rix';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2102-01@1.0/RixYeoljeongdo_Regular.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
