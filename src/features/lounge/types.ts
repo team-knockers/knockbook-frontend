@@ -17,6 +17,7 @@ export type LoungePostsSummaryApiResponse = {
 
 export type LoungePostDetails = {
   id: string;
+  userId: string;
   displayName: string;
   avatarUrl: string;
   bio: string;
