@@ -94,3 +94,38 @@ export type ProductReview = {
   likedByMe: boolean;
 }
 
+export type GetProductWishlistResponse = {
+  products: ProductWish[];
+}
+
+export type ProductWish = {
+  productId: string;
+  name: string;
+  unitPriceAmount: number;
+  salePriceAmount: number;
+  averageRating: number;
+  reviewCount: number;
+  thumbnailUrl: string;
+  availability: string;
+  wishedByMe: boolean;
+}
+
+export type BookWish = {
+  id: string;
+  title: string;
+  author: string;
+  publisher: string;
+  publishedAt: string;
+  categoryId: string;
+  subcategoryId: string;
+  rentalAmount: number;
+  purchaseAmount: number;
+  discountedPurchaseAmount: number;
+  coverThumbnailUrl: string;
+  rentalAvailability: string;
+  purchaseAvailability: string;
+  viewCount: number;
+  salesCount: number;
+  rentalCount: number;
+  averageRating: number;
+}
