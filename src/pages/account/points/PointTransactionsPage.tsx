@@ -1,9 +1,9 @@
-import { PATHS } from "../../routes/paths";
 import { Outlet, useFetcher, useLoaderData } from "react-router-dom";
 import s from './PointTransactionsPage.module.css';
 import type { PointTransactionsPageLoaderData } from "./PointTransactionsPage.loader";
-import { formatPoint } from "../../features/purchase/utils/formatter";
-import ThreeLevelTabMenu from "../../components/navigation/ThreeLevelTabMenu";
+import { formatPoint } from "../../../features/purchase/utils/formatter";
+import ThreeLevelTabMenu from "../../../components/navigation/ThreeLevelTabMenu";
+import { PATHS } from "../../../routes/paths";
 
 export default function PointPage() {
   

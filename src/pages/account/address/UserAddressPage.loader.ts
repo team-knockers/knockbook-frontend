@@ -1,6 +1,6 @@
 import type { ActionFunctionArgs } from "react-router-dom";
-import { UserService } from "../../features/account/services/UserService";
-import type { InsertAddressRequest, UpdateAddressRequest } from "../../features/account/types";
+import { UserService } from "../../../features/account/services/UserService";
+import type { InsertAddressRequest, UpdateAddressRequest } from "../../../features/account/types";
 
 export async function UserAddressPageLoader() {
   const res = await UserService.getAddresses();

@@ -1,16 +1,16 @@
 import { useMemo } from "react";
 import { useFetcher, useLoaderData } from "react-router-dom";
-import s from "./PointTransactionsEarnedPage.module.css";
-import type { PointTransaction } from "../../features/purchase/type";
-import type { PointTransactionsEarnedPageLoaderData } from "./PointTransactionsEarnedPage.loader";
+import s from "./PointTransactionsAllPage.module.css";
+import type { PointTransactionsAllPageLoaderData } from "./PointTransactionsAllPage.loader";
+import type { PointTransaction } from "../../../features/purchase/type";
 
 const fmtAmt = (n: number) =>
   n > 0 ? `+${n.toLocaleString("ko-KR")}` : n.toLocaleString("ko-KR");
 
-export default function PointTransactioinsEarnedPage() {
-  const initial = useLoaderData() as PointTransactionsEarnedPageLoaderData;
-  const fetcher = useFetcher<PointTransactionsEarnedPageLoaderData>();
-  const txs = fetcher.data?.pointTransactionsEarned ?? initial.pointTransactionsEarned;
+export default function PointTransactioinsAllPage() {
+  const initial = useLoaderData() as PointTransactionsAllPageLoaderData;
+  const fetcher = useFetcher<PointTransactionsAllPageLoaderData>();
+  const txs = fetcher.data?.pointTransactions ?? initial.pointTransactions;
 
   const grouped = useMemo(() => {
     const byMonth = txs.reduce<Record<string, PointTransaction[]>>((acc, tx) => {

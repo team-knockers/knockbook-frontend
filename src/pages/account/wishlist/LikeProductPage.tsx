@@ -1,6 +1,6 @@
-import ProductSummaryCard from '../../features/products/components/ProductSummaryCard';
-import s from './LikeProductPage.module.css'
-import ProductImg from '../../assets/feed_slider_img2.png'
+import s from './LikeProductPage.module.css';
+import ProductImg from '../../../assets/feed_slider_img2.png';
+import ProductSummaryCard from '../../../features/products/components/ProductSummaryCard';
 
 export default function LikeProductPage() {
   // dummy date

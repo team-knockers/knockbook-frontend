@@ -1,6 +1,6 @@
-import ProductSummaryCard from '../../features/products/components/ProductSummaryCard';
-import s from './LikeBookPage.module.css'
-import BookImg from '../../assets/feed_slider_img1.png'
+import s from './LikeBookPage.module.css';
+import BookImg from '../../../assets/feed_slider_img1.png';
+import ProductSummaryCard from '../../../features/products/components/ProductSummaryCard';
 
 export default function LikeBookPage() {
   // dummy date

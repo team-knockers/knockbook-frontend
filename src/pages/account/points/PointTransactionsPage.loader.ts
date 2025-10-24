@@ -1,4 +1,4 @@
-import { UserService } from "../../features/account/services/UserService";
+import { UserService } from "../../../features/account/services/UserService";
 
 export type PointTransactionsPageLoaderData = {
   pointBalance: number;

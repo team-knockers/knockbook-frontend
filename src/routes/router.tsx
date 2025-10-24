@@ -17,7 +17,7 @@ import { loungePostLoader } from "../pages/lounge/LoungePost.loader";
 import { NotificationPageLoader } from "../pages/customer/NotificationPage.loader";
 import { policyLoader } from "../pages/customer/PolicyPage.loader";
 import { cartAction, CartPageLoader } from "../pages/purchase/CartPage.loader";
-import { UserAddressAction, UserAddressPageLoader } from "../pages/account/UserAddressPage.loader";
+import { UserAddressAction, UserAddressPageLoader } from "../pages/account/address/UserAddressPage.loader";
 
 import ResponsiveMainShell from "../components/layout/ResponsiveMainShell";
 import IntroPage from "../pages/IntroPage";
@@ -50,17 +50,8 @@ import FeedHomePage from "../pages/feeds/FeedHomePage";
 import NotificationPage from "../pages/customer/NotificationPage";
 import CartPage from "../pages/purchase/CartPage";
 import AccountHomePage from "../pages/account/AccountHomePage";
-import AccountSettingsIntroPage from "../pages/account/AccountSettingsIntroPage";
-import AccountSettingsProfilePage from "../pages/account/AccountSettingsProfilePage";
-import RentalHistoryPage from "../pages/account/RentalHistoryPage";
-import LikePage from "../pages/account/LikePage";
-import LikeBookPage from "../pages/account/LikeBookPage";
-import LikeProductPage from "../pages/account/LikeProductPage";
-import PointTransactionsPage from "../pages/account/PointTransactionsPage";
-import PointTransactionsAllPage from "../pages/account/PointTransactionsAllPage";
-import PointTransactionsEarnedPage from "../pages/account/PointTransactionsEarnedPage";
-import PointTransactionsUsedPage from "../pages/account/PointTransactionsUsedPage";
-import CouponPage from "../pages/account/CouponPage";
+import AccountSettingsIntroPage from "../pages/account/settings/AccountSettingsIntroPage";
+import AccountSettingsProfilePage from "../pages/account/settings/AccountSettingsProfilePage";
 import ProductDetailDescriptionPage from "../pages/products/ProductDetailDescriptionPage";
 import ProductDetailReviewsPage from "../pages/products/ProductDetailReviewsPage";
 import ProductDetailQnaPage from "../pages/products/ProductDetailQnaPage";
@@ -74,26 +65,35 @@ import FeedProfilePage from "../pages/feeds/FeedProfilePage";
 import InsightPage from "../pages/feeds/InsightPage";
 import InsightStatPage from "../pages/feeds/InsightStatPage";
 import InsightHistoryPage from "../pages/feeds/InsightHistoryPage";
-import UserAddressPage from "../pages/account/UserAddressPage";
+import UserAddressPage from "../pages/account/address/UserAddressPage";
 import OrderPage from "../pages/purchase/OrderPage";
 import { OrderAction, OrderPageLoader } from "../pages/purchase/OrderPage.loader";
 import OrderCompletePage from "../pages/purchase/OrderCompletePage";
 import AuthCallbackPage from "../pages/auth/AuthCallbackPage";
 import { OrderCompletePageLoader } from "../pages/purchase/OrderCompletePage.loader";
-import SelectAddressPage from "../pages/account/SelectAddressPage";
-import { SelectAddressPageLoader } from "../pages/account/SelectAddressPage.loader";
-import PurchaseHistoryPage from "../pages/account/PurchaseHistoryPage";
-import { PurchaseHistoryPageLoader } from "../pages/account/PurchaseHistoryPage.loader";
-import { RentalHistoryPageLoader } from "../pages/account/RentalHistoryPage.loader";
-import { CouponPageLoader } from "../pages/account/CouponPage.loader";
-import { PointTransactionsPageLoader } from "../pages/account/PointTransactionsPage.loader";
-import { PointTransactionsAllPageLoader } from "../pages/account/PointTransactionsAllPage.loader";
-import { PointTransactionsUsedPageLoader } from "../pages/account/PointTransactionsUsedPage.loader";
-import { PointTransactionsEarnedPageLoader } from "../pages/account/PointTransactionsEarnedPage.loader";
+import SelectAddressPage from "../pages/account/address/SelectAddressPage";
+import { SelectAddressPageLoader } from "../pages/account/address/SelectAddressPage.loader";
 import { InsightPageLoader } from "../pages/feeds/InsightPage.loader";
 import { SignupSetFavoriteCategoryPageLoader } from "../pages/onboarding/SignupSetFavoriteCategoryPage.loader";
 import { SignupMbtiResultPageLoader } from "../pages/onboarding/SignupMbtiResultPage.loader";
 import { SignupSelectMbtiPageLoader } from "../pages/onboarding/SignupSelectMbtiPage.loader";
+import { PurchaseHistoryPageAction, PurchaseHistoryPageLoader } from "../pages/account/history/PurchaseHistoryPage.loader";
+import PurchaseHistoryPage from "../pages/account/history/PurchaseHistoryPage";
+import { RentalHistoryPageAction, RentalHistoryPageLoader } from "../pages/account/history/RentalHistoryPage.loader";
+import RentalHistoryPage from "../pages/account/history/RentalHistoryPage";
+import LikePage from "../pages/account/wishlist/LikePage";
+import LikeBookPage from "../pages/account/wishlist/LikeBookPage";
+import LikeProductPage from "../pages/account/wishlist/LikeProductPage";
+import PointTransactionsPage from "../pages/account/points/PointTransactionsPage";
+import { PointTransactionsPageLoader } from "../pages/account/points/PointTransactionsPage.loader";
+import { PointTransactionsAllPageLoader } from "../pages/account/points/PointTransactionsAllPage.loader";
+import PointTransactionsAllPage from "../pages/account/points/PointTransactionsAllPage";
+import { PointTransactionsEarnedPageLoader } from "../pages/account/points/PointTransactionsEarnedPage.loader";
+import PointTransactionsEarnedPage from "../pages/account/points/PointTransactionsEarnedPage";
+import { PointTransactionsUsedPageLoader } from "../pages/account/points/PointTransactionsUsedPage.loader";
+import PointTransactionsUsedPage from "../pages/account/points/PointTransactionsUsedPage";
+import CouponPage from "../pages/account/coupons/CouponPage";
+import { CouponPageLoader } from "../pages/account/coupons/CouponPage.loader";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -533,6 +533,7 @@ export const router = createBrowserRouter([
           {
             path: PATHS.purchaseHistory,
             loader: PurchaseHistoryPageLoader,
+            action: PurchaseHistoryPageAction,
             element: <PurchaseHistoryPage />,
             handle: { 
               header: { 
@@ -545,6 +546,7 @@ export const router = createBrowserRouter([
           {
             path: PATHS.rentalHistory,
             loader: RentalHistoryPageLoader,
+            action: RentalHistoryPageAction,
             element: <RentalHistoryPage />,
             handle: { 
               header: { 

@@ -1,6 +1,6 @@
 import { UserService } from "../../features/account/services/UserService";
 import type { UserProfile } from "../../features/account/types";
-import { BookHistoryService } from "../../features/feeds/services/BookHistoryService";
+import { BookHistoryService } from "../../features/account/services/BookHistoryService";
 import type { BookPurchaseHistory, BookRentalHistory, BookReviewHistory } from "../../features/feeds/types";
 
 export type InsightStatLoaderData = {

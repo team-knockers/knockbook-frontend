@@ -17,7 +17,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { useSession } from '../../hooks/useSession';
 import { PATHS } from '../../routes/paths';
 import AddressForm from '../../features/account/components/AddressForm';
-import SelectAddressPage from '../account/SelectAddressPage';
+import SelectAddressPage from '../account/address/SelectAddressPage';
 
 export default function OrderPage() {
 

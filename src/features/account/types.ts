@@ -54,3 +54,28 @@ export type UpdateAddressRequest = {
   isDefault?: boolean;
 }
 
+export type BookReviewCreateRequest = {
+  transactionType: string;  // "PURCHASE" | "RENTAL"
+  rating: number;
+  content: string;
+}
+
+export type BookReview = {
+  id: string;
+  bookId: string;
+  userId: string;
+  displayName: string;
+  mbti: string | null;
+  transactionType: string;
+  createdAt: string;
+  content: string;
+  rating: number;
+  imageUrls: string[];
+  likesCount: number;
+}
+
+export type ReviewedItem = {
+  itemType: string; // BOOK, PRODUCT
+  id: string;
+}
+

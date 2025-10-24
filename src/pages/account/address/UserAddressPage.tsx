@@ -1,14 +1,14 @@
 import { useFetcher } from 'react-router-dom';
-import OneWayButton from '../../components/forms/OneWayButton';
+import OneWayButton from '../../../components/forms/OneWayButton';
 import s from './UserAddressPage.module.css';
-import type { Address } from '../../features/account/types';
+import type { Address } from '../../../features/account/types';
 import { Input, Label } from 'reactstrap';
 import { useEffect, useState } from 'react';
-import SimplePopup from '../../components/overlay/SimplePopup';
-import { useMediaQuery } from '../../hooks/useMediaQuery';
-import DuoConfirmPopup from '../../components/overlay/DuoConfirmPopup';
-import { PATHS } from '../../routes/paths';
-import AddressForm from '../../features/account/components/AddressForm';
+import SimplePopup from '../../../components/overlay/SimplePopup';
+import { useMediaQuery } from '../../../hooks/useMediaQuery';
+import DuoConfirmPopup from '../../../components/overlay/DuoConfirmPopup';
+import { PATHS } from '../../../routes/paths';
+import AddressForm from '../../../features/account/components/AddressForm';
 
 export default function UserAddressPage() {
 

@@ -1,5 +1,5 @@
-import { UserService } from "../../features/account/services/UserService";
-import type { CouponIssuance } from "../../features/purchase/type";
+import { UserService } from "../../../features/account/services/UserService";
+import type { CouponIssuance } from "../../../features/purchase/type";
 
 export type CouponPageLoaderData = {
   coupons: CouponIssuance[]

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Input, InputGroup, InputGroupText } from 'reactstrap';
-import { PATHS } from '../../routes/paths';
-import { UserService } from '../../features/account/services/UserService';
-import { ApiError } from '../../types/http';
+import { PATHS } from '../../../routes/paths';
+import { UserService } from '../../../features/account/services/UserService';
+import { ApiError } from '../../../types/http';
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-import OneWayButton from '../../components/forms/OneWayButton';
+import OneWayButton from '../../../components/forms/OneWayButton';
 import s from './AccountSettingsIntroPage.module.css';
 
 export default function AccountSettingsIntroPage() {

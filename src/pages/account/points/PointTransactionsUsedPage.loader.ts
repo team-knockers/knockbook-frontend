@@ -1,5 +1,5 @@
-import { UserService } from "../../features/account/services/UserService";
-import type { PointTransaction } from "../../features/purchase/type";
+import { UserService } from "../../../features/account/services/UserService";
+import type { PointTransaction } from "../../../features/purchase/type";
 
 export type PointTransactionsUsedPageLoaderData = {
   pointTransactionsUsed: PointTransaction[];

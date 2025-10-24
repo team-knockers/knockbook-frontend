@@ -23,8 +23,12 @@
   padding: 0 0 0 20px;
 }
 
+.filter-button {
+  width: 100%;
+}
+
 .history-summary-title {
-  width: 25%;
+  width: 30%;
   font-size: 14px;
   font-weight: 600;
   padding-right: 10px;
@@ -35,11 +39,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 10px;  
-}
-
-.filter-button {
-  width: 100%;
+  padding: 10px;
 }
 
 .history-summary-item {
@@ -152,7 +152,7 @@
 
 .order-item-review-btn {
   align-self: flex-end;
-  width: 60px;
+  width: 90px;
   height: 32px;
   border: 1px solid #474c98;
   padding: 0 5px 1px;
