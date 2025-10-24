@@ -1,91 +1,91 @@
-import ProductSummaryCard from '../../features/products/components/ProductSummaryCard';
-import s from './LikeBookPage.module.css'
-import BookImg from '../../assets/feed_slider_img1.png'
+import s from './LikeProductPage.module.css';
+import ProductImg from '../../../assets/feed_slider_img2.png';
+import ProductSummaryCard from '../../../features/products/components/ProductSummaryCard';
 
-export default function LikeBookPage() {
+export default function LikeProductPage() {
   // dummy date
-  const likedBook = [
+  const likedProducts = [
     {
-      BookId: "p1",
-      name: "날씨가 좋으면 찾아가겠어요",
+      productId: "p1",
+      name: "2025 다이어리 세트",
       unitPriceAmount: 18000,
       salePriceAmount: 15000,
       averageRating: 4.8,
       reviewCount: 123,
-      thumbnailUrl: BookImg,
+      thumbnailUrl: ProductImg,
       wishedByMe: true,
     },
     {
-      BookId: "p2",
-      name: "트렌드 코리아",
+      productId: "p2",
+      name: "아트 포스터 캘린더",
       unitPriceAmount: 12000,
       salePriceAmount: null,
       averageRating: 4.5,
       reviewCount: 98,
-      thumbnailUrl: BookImg,
+      thumbnailUrl: ProductImg,
       wishedByMe: true,
     },
     {
-      BookId: "p3",
-      name: "재무제표, 돈의 흐름을 읽어라",
+      productId: "p3",
+      name: "2025 다이어리 세트",
       unitPriceAmount: 18000,
       salePriceAmount: 15000,
       averageRating: 4.8,
       reviewCount: 123,
-      thumbnailUrl: BookImg,
+      thumbnailUrl: ProductImg,
       wishedByMe: true,
     },
     {
-      BookId: "p4",
-      name: "날씨가 좋으면 찾아가겠어요",
+      productId: "p4",
+      name: "아트 포스터 캘린더",
       unitPriceAmount: 12000,
       salePriceAmount: null,
       averageRating: 4.5,
       reviewCount: 98,
-      thumbnailUrl: BookImg,
+      thumbnailUrl: ProductImg,
       wishedByMe: true,
     },
     {
-      BookId: "p5",
-      name: "트렌드 코리아",
+      productId: "p5",
+      name: "2025 다이어리 세트",
       unitPriceAmount: 18000,
       salePriceAmount: 15000,
       averageRating: 4.8,
       reviewCount: 123,
-      thumbnailUrl: BookImg,
+      thumbnailUrl: ProductImg,
       wishedByMe: true,
     },
     {
-      BookId: "p6",
-      name: "재무제표, 돈의 흐름을 읽어라",
+      productId: "p6",
+      name: "아트 포스터 캘린더",
       unitPriceAmount: 12000,
       salePriceAmount: null,
       averageRating: 4.5,
       reviewCount: 98,
-      thumbnailUrl: BookImg,
+      thumbnailUrl: ProductImg,
       wishedByMe: true,
     },
   ];
 
   const handleCardClick = (id: string) => {
-    console.log(`도서 ${id} 클릭됨`);
+    console.log(`상품 ${id} 클릭됨`);
   };
 
   return (
     <main className={s["page-layout"]}>
       <div className={s["like-list-layout"]}>
-        {likedBook.map((p) => (
-          <div key={p.BookId} className={s["like-list-item"]}>
+        {likedProducts.map((p) => (
+          <div key={p.productId} className={s["like-list-item"]}>
             <ProductSummaryCard
-              key={p.BookId}
+              key={p.productId}
               imageSrc={p.thumbnailUrl}
               name={p.name}
               price={p.unitPriceAmount}
               salePrice={p.salePriceAmount ?? undefined}
               rating={p.averageRating}
               reviewCount={p.reviewCount}
+              onClick={() => handleCardClick(p.productId)}
               wishedByMe={p.wishedByMe}
-              onClick={() => handleCardClick(p.BookId)}
               onWishButtonClick={() => {/* TODO */}}
               onCartButtonClick={() => {/* TODO */}}
             />

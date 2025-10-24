@@ -1,16 +1,16 @@
 import { useMemo } from "react";
 import { useFetcher, useLoaderData } from "react-router-dom";
-import s from "./PointTransactionsUsedPage.module.css";
-import type { PointTransaction } from "../../features/purchase/type";
-import type { PointTransactionsUsedPageLoaderData } from "./PointTransactionsUsedPage.loader";
+import s from "./PointTransactionsEarnedPage.module.css";
+import type { PointTransactionsEarnedPageLoaderData } from "./PointTransactionsEarnedPage.loader";
+import type { PointTransaction } from "../../../features/purchase/type";
 
 const fmtAmt = (n: number) =>
   n > 0 ? `+${n.toLocaleString("ko-KR")}` : n.toLocaleString("ko-KR");
 
-export default function PointTransactionUsedPage() {
-  const initial = useLoaderData() as PointTransactionsUsedPageLoaderData;
-  const fetcher = useFetcher<PointTransactionsUsedPageLoaderData>();
-  const txs = fetcher.data?.pointTransactionsUsed ?? initial.pointTransactionsUsed;
+export default function PointTransactioinsEarnedPage() {
+  const initial = useLoaderData() as PointTransactionsEarnedPageLoaderData;
+  const fetcher = useFetcher<PointTransactionsEarnedPageLoaderData>();
+  const txs = fetcher.data?.pointTransactionsEarned ?? initial.pointTransactionsEarned;
 
   const grouped = useMemo(() => {
     const byMonth = txs.reduce<Record<string, PointTransaction[]>>((acc, tx) => {
@@ -33,7 +33,7 @@ export default function PointTransactionUsedPage() {
   const kindLabel = (k: PointTransaction["kind"]) =>
     k === "EARN" ? "주문 적립" : k === "SPEND" ? "주문 사용" : k;
 
-  return (
+   return (
     <div className={s["list-layout"]}>
       <div className={s["max-width-container"]}>
         {txs.length === 0 ? (

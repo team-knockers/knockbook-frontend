@@ -1,7 +1,7 @@
-import TwoLevelTabMenu from "../../components/navigation/TwoLevelTabMenu";
-import { PATHS } from '../../routes/paths';
 import { Outlet } from "react-router-dom";
 import s from './LikePage.module.css'
+import TwoLevelTabMenu from "../../../components/navigation/TwoLevelTabMenu";
+import { PATHS } from "../../../routes/paths";
 
 export default function LikePage() {
   return (

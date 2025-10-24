@@ -1,10 +1,10 @@
 import { useFetcher } from 'react-router-dom';
-import OneWayButton from '../../components/forms/OneWayButton';
+import OneWayButton from '../../../components/forms/OneWayButton';
 import s from './SelectAddressPage.module.css';
-import type { Address } from '../../features/account/types';
+import type { Address } from '../../../features/account/types';
 import { Input } from 'reactstrap';
 import { useEffect, useMemo, useState } from 'react';
-import { PATHS } from '../../routes/paths';
+import { PATHS } from '../../../routes/paths';
 
 type Props = {
   onSelect?: (addressId: string) => void;

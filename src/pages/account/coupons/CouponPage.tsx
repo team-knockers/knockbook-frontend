@@ -1,8 +1,8 @@
 import { useFetcher, useLoaderData } from 'react-router-dom';
 import s from './CouponPage.module.css';
 import type { CouponPageLoaderData } from './CouponPage.loader';
-import { formatWon } from '../../features/purchase/utils/formatter';
-import { formatYmdTimeDots, remainDate } from '../../utils/dateValidator';
+import { formatWon } from '../../../features/purchase/utils/formatter';
+import { formatYmdTimeDots, remainDate } from '../../../utils/dateValidator';
 
 export default function CouponPage() {
 

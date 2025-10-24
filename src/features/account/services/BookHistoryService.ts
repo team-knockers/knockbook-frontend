@@ -3,7 +3,7 @@ import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
 import type { 
   BookPreferCategoryStat, BookPurchaseHistory,
   BookReadCountStat, BookRentalHistory, 
-  BookReviewHistory} from "../types";
+  BookReviewHistory} from "../../feeds/types";
 
 export const BookHistoryService = {
 
