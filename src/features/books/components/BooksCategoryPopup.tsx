@@ -17,17 +17,14 @@ export default function BooksCategoryPopup({
   onClosed
 }: BooksCategoryPopupProps) {
   const navigate = useNavigate();
-  // 현재 호버된 카테고리
+
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
-  // 카테고리별 서브카테고리 캐싱
   const [subcategories, setSubcategories] = useState<Record<string, BookSubcategory[]>>({});
 
-  // API 호출 함수
   const fetchSubcategories = async (categoryCodeName: string) => {
     setActiveCategory(categoryCodeName);
 
-    // 이미 캐시된 경우 재호출 X
     if (subcategories[categoryCodeName]) return;
 
     try {
@@ -70,11 +67,14 @@ export default function BooksCategoryPopup({
         <div className={styles['category-list-wrapper']}>
           <span className={styles['category-title']}>카테고리</span>
 
-          <button className={styles['category-all']} onClick={() => navigateToCategory('all')}>
+          <button className={styles['category-all']} 
+            onClick={() => navigateToCategory('all')}
+            onMouseEnter={() => setActiveCategory(null)}
+          >
             <LuBookCheck className={styles['category-icon']} />전체
           </button>
 
-          {/* 개별 카테고리 리스트 */}
+          {/* category-items */}
           {categories.map(cat => (
             <div key={cat.categoryCodeName} className={styles['category-items']}>
               <button
@@ -86,7 +86,7 @@ export default function BooksCategoryPopup({
                 {cat.categoryDisplayName}
               </button>
 
-              {/* 호버 시 서브카테고리만 표시 */}
+              {/* subcategory-list */}
               {activeCategory === cat.categoryCodeName &&
                 subcategories[cat.categoryCodeName]?.length > 0 && (
                   <div className={styles['subcategory-list']}>

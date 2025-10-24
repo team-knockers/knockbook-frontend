@@ -2,12 +2,13 @@
   display: flex;
   align-items: center;
   align-self: stretch;
-  border-bottom: 0.5px solid #E5E7EB;
+  border-bottom: 0.5px solid #eee;
+  flex-direction: column;
 }
 .book-list-wrapper {
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   flex: 1;
   align-self: stretch;
 }
@@ -31,17 +32,14 @@
   flex-direction: column;
   align-items: center;
   align-self: stretch;
-  gap: 6px;
 }
 .book-title {
   all: unset;
   align-self: stretch;
   font-family: Pretendard;
   font-size: 16px;
-  font-style: normal;
   font-weight: 700;
-  line-height: 140%;
-  color: #0F172A;
+  color: #000;
   cursor: pointer;
 }
 .book-title:hover {
@@ -49,22 +47,20 @@
 }
 .book-meta {
   align-self: stretch;
-  color: #64748B;
+  color: #666;
   font-family: Pretendard;
   font-size: 13px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 140%;
+  margin: 2px 0 7px;
 }
 .book-sub-meta {
   display: flex;
   align-self: stretch;
-  color: #475569;
+  color: #444;
   font-family: Pretendard;
   font-size: 13px;
-  font-style: normal;
   font-weight: 500;
-  line-height: 120%;
+  align-items: center;
 }
 .star-icons {
   margin-left: 10px;
@@ -74,12 +70,10 @@
   display: flex;
   flex-direction: column;
   align-self: stretch;
-  color: #334155;
+  color: #333;
   font-family: Pretendard;
-  font-size: 12px;
-  font-style: normal;
+  font-size: 14px;
   font-weight: 400;
-  gap: 4px;
 }
 .price-block {
   display: inline-flex;
@@ -88,24 +82,24 @@
 .price-label {
   font-weight: 600;
   margin-right: 8px;
-  color: #0F172A;
+  color: #000;
 }
 .book-price-highlight {
   font-weight: 700;
-  color: #0F172A;
-  font-size: 16px;
+  color: #333;
+  font-size: 14px;
 }
 .book-discount-rate-highlight {
-  padding-right: 2px;
+  margin-right: 3px;
   color: #059669;
   font-weight: 700;
   font-size: 14px;
 }
 .book-original-price-highlight {
-  padding-left: 2px;
-  color: #94A3B8;
+  padding-left: 7px;
+  color: #ccc;
   text-decoration: line-through;
-  font-size: 14px;
+  font-size: 12px;
   align-self: flex-end;
 }
 
@@ -117,52 +111,59 @@
     gap: 15px;
   }
   .book-image {
-    width: 88px;
+    width: 85px;
   }
   .icon-wrapper {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
+    justify-content: end;
+    padding: 20px 0 0;
+    gap: 15px;
     align-self: stretch;
     font-size: 20px;
-    margin-left: 20px;
   }
   .button-wrapper {
     display: none;
-  }
-  .book-title {
-    font-size: 15px;
-    line-height: 140%;
-  }
-  .book-meta {
-    font-size: 12px;
-    line-height: 140%;
-  }
-  .book-sub-meta {
-    font-size: 12px;
-  }
-  .book-price {
-    font-size: 12px;
-  }
-  .book-price-highlight {
-    font-size: 12px;
-  }
-  .book-original-price-highlight {
-    font-size: 12px;
   }
 }
 
 @media (min-width: 1024px) {
   .book-list-item {
     padding: 30px 20px;
+    flex-direction: row;
   }
   .book-list-wrapper {
     gap: 20px;
   }
   .book-image {
-    width: 96px;
+    width: 120px;
+  }
+  .book-title {
+    font-size: 18px;
+  }
+  .book-meta {
+    font-size: 15px;
+  }
+  .book-sub-meta {
+    font-size: 16px;
+  }
+  .star-icons {
+  }
+  .book-price {
+    font-size: 16px;
+  }
+  .price-label {
+    margin-right: 10px;
+  }
+  .book-price-highlight {
+    font-size: 16px;
+  }
+  .book-discount-rate-highlight {
+    margin-right: 5px;
+    font-size: 16px;
+  }
+  .book-original-price-highlight {
+    padding-left: 9px;
+    font-size: 14px;
   }
   .icon-wrapper {
     display: none;
@@ -171,7 +172,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 15px;
     align-self: stretch;
   }

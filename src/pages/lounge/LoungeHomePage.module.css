@@ -235,7 +235,11 @@
 .official-item img {
   width: 100px;
   height: 100px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
+
 .official-text {
   font-family: 'Noto Sans KR';
   align-items: start;
