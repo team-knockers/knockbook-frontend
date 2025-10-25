@@ -1,18 +1,31 @@
 import ProductCategoryCard from './ProductCategoryCard';
 import styles from './styles/ProductCategoryList.module.css';
 import { useSearchParams } from 'react-router-dom';
+import {
+  LuBookOpen,
+  LuWalletCards,
+  LuBookmark,
+  LuBoxes,
+  LuSearch,
+  LuFootprints,
+  LuSprayCan,
+  LuLampCeiling,
+  LuWeight,
+  LuNotebookPen,
+} from 'react-icons/lu';
 
-import bookStandImg from '../../../assets/book_stand.png';
-import bookCoverImg from '../../../assets/book_cover.png';
-import bookMarkImg from '../../../assets/book_mark.png';
-import bookStorageImg from '../../../assets/book_storage.png';      
-import magnifierImg from '../../../assets/magnifier.png';
-import footRestImg from '../../../assets/foot_rest.png';
-import bookPerfumeImg from '../../../assets/book_perfume.png';
-import bookLightImg from '../../../assets/book_light.png';
-import paperWeightImg from '../../../assets/paper_weight.png';
-import readingNoteImg from '../../../assets/reading_note.png';  
-// 이미지는 임시 이미지입니다.
+const CATEGORIES = [
+  { code: 'book_stand',   label: '독서대',   icon: <LuBookOpen /> },
+  { code: 'book_cover',   label: '북커버',   icon: <LuWalletCards /> },
+  { code: 'book_mark',    label: '북마크',   icon: <LuBookmark /> },
+  { code: 'book_storage', label: '책수납',   icon: <LuBoxes /> },
+  { code: 'magnifier',    label: '돋보기',   icon: <LuSearch /> },
+  { code: 'foot_rest',    label: '발받침대', icon: <LuFootprints /> },
+  { code: 'book_perfume', label: '북퍼퓸',   icon: <LuSprayCan /> },
+  { code: 'book_light',   label: '북라이트', icon: <LuLampCeiling /> },
+  { code: 'paper_weight', label: '문진',     icon: <LuWeight /> },
+  { code: 'reading_note', label: '독서노트', icon: <LuNotebookPen /> },
+];
 
 export default function ProductCategoryList() {
   const [, setSp] = useSearchParams();
@@ -25,63 +38,26 @@ export default function ProductCategoryList() {
   }
 
   return (
-    <section className={styles['product-category-list']}>
-      <div className={styles['product-category-wrapper']}>
-        <div className={styles['product-category-row']}>
-          <ProductCategoryCard
-            label="독서대"
-            imageSrc={bookStandImg}
-            onClick={() => handleCategoryClick('book_stand')}
-          />
-          <ProductCategoryCard
-            label="북커버"
-            imageSrc={bookCoverImg} 
-            onClick={() => handleCategoryClick('book_cover')}
-          />
-          <ProductCategoryCard
-            label="북마크"
-            imageSrc={bookMarkImg} 
-            onClick={() => handleCategoryClick('book_mark')}
-          />
-          <ProductCategoryCard
-            label="책수납"
-            imageSrc={bookStorageImg} 
-            onClick={() => handleCategoryClick('book_storage')}
-          />
-          <ProductCategoryCard
-            label="돋보기"
-            imageSrc={magnifierImg} 
-            onClick={() => handleCategoryClick('magnifier')}
-          />
+    <section className={styles['section']} aria-label="상품 카테고리">
+      <div className={styles['content']}>
+        <div className={styles['header']}>
+          <h2 className={styles['title']}>카테고리</h2>
+          <p className={styles['subtitle']}>원하는 상품을 빠르게 찾아보세요</p>
         </div>
-        <div className={styles['product-category-row']}>   
-          <ProductCategoryCard
-            label="발받침대"
-            imageSrc={footRestImg}
-            onClick={() => handleCategoryClick('foot_rest')}
-          />
-          <ProductCategoryCard
-            label="북퍼퓸"
-            imageSrc={bookPerfumeImg} 
-            onClick={() => handleCategoryClick('book_perfume')}
-          />
-          <ProductCategoryCard
-            label="북라이트"
-            imageSrc={bookLightImg} 
-            onClick={() => handleCategoryClick('book_light')}
-          />
-          <ProductCategoryCard
-            label="문진"
-            imageSrc={paperWeightImg}
-            onClick={() => handleCategoryClick('paper_weight')}
-          />
-          <ProductCategoryCard
-            label="독서노트"
-            imageSrc={readingNoteImg}
-            onClick={() => handleCategoryClick('reading_note')}
-          />
+
+        <div className={styles['gridWrapper']}>
+          <div className={styles['grid']}>
+            {CATEGORIES.map(c => (
+              <ProductCategoryCard
+                key={c.code}
+                label={c.label}
+                icon={c.icon}
+                onClick={() => handleCategoryClick(c.code)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
