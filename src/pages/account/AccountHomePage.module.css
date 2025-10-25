@@ -73,6 +73,7 @@
   align-items: center;
   flex: 1 0 0;
   height: 100%;
+  margin-top: 20px;
 }
 
 .bar-menu-order-icon,
@@ -80,31 +81,39 @@
 .bar-menu-likes-icon,
 .bar-menu-point-icon,
 .bar-menu-coupon-icon {
-  width: 40px;
-  height: 36px;
   flex-shrink: 0;
   aspect-ratio: 10/9;
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-.bar-menu-order-icon {  
-  background-image: url('../../assets/account_order_icon.svg');
+.bar-menu-order-icon {
+  width: 30px;
+  height: 30px;
+  background-image: url('../../assets/account_order_icon.png');
 }
 
 .bar-menu-rental-icon {
+  width: 30px;
+  height: 30px;
   background-image: url('../../assets/account_rental_icon.png');
 }
 
 .bar-menu-likes-icon {
+  width: 30px;
+  height: 30px;
   background-image: url('../../assets/account_likes_icon.png');
 }
 
 .bar-menu-point-icon {
+  width: 30px;
+  height: 30px;
   background-image: url('../../assets/account_point_icon.png');
 }
 
 .bar-menu-coupon-icon {
+  width: 30px;
+  height: 30px;
   background-image: url('../../assets/account_coupon_icon.png');
 }
 
@@ -207,6 +216,19 @@
     padding: 50px;
   }
 
+  .profile-section-greeting-name {
+    font-size: 20px;
+  }
+
+  .profile-section-greeting-description {
+    font-size: 20px;
+  }
+
+  .profile-section-details {
+    font-size: 16px;
+  }
+
+
   .list-menu-account-section {
     padding: 0 0 30px 0;
     gap: 30px;
@@ -215,5 +237,34 @@
   .list-menu-utility-section {
     padding: 30px 0 0 0;
     gap: 30px;
+  }
+
+  .bar-menu-order-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .bar-menu-rental-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .bar-menu-likes-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .bar-menu-point-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .bar-menu-coupon-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .bar-menu-item-name {
+    font-size: 15px;
   }
 }
