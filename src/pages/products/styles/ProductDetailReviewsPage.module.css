@@ -18,8 +18,7 @@
   align-items: flex-start;
   align-self: stretch;
   border-radius: 8px;
-  border: 1px solid #D3D3D3;
-  background: #ECF0EE;
+  background: #fafafa;
 }
 
 .reviews-average {
@@ -28,7 +27,7 @@
   justify-content: center;
   align-items: center;
   align-self: stretch;
-  border-right: 1px solid #BEBFBE;
+  border-right: 1px solid #ddd;
 }
 
 .star-score {
@@ -38,7 +37,7 @@
 }
 
 .star-rating {
-  color: #176840;;
+  color: #FFE04B;
   font-family: Pretendard;
   font-style: normal;
   font-weight: 400;

@@ -117,7 +117,7 @@
 }
 
 .rent-button {
-    /* layout */
+  /* layout */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -209,7 +209,7 @@
 @media (min-width: 1024px) {
   .container {
     flex-direction: row;
-    padding: 0 300px;
+    padding: 0 100px;
   }
 
   .order-action-panel {

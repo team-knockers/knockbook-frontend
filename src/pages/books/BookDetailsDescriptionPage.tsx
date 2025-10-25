@@ -1,7 +1,7 @@
 import styles from './styles/BookDetailsDescriptionPage.module.css';
 import { useLoaderData } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
+// import { HiChevronDown, HiChevronUp } from 'react-icons/hi2';
 import { formatDateToKoreanFull } from '../../features/books/util';
 import type { BookDetailsLoaderData } from './BookDetails.loader';
 
@@ -64,13 +64,14 @@ export default function BookDetailsDescriptionPage() {
       { (hasText(bookDetails.introductionTitle) || hasText(bookDetails.introductionDetail)) && (
         <section className={styles['description-section']}>
           <h2 className={styles['section-title']}>책소개</h2>
+          <div className={styles['introduction-title']}>{bookDetails.introductionTitle}</div>
           <div
             ref={introRef}
             className={`${styles['description-text']} ${expandedIntroduction ? styles['is-expanded'] : ''}`}
           >
-            {hasText(bookDetails.introductionTitle) && (
-              <div className={styles['introduction-title']}>{bookDetails.introductionTitle}</div>
-            )}
+            {/* {hasText(bookDetails.introductionTitle) && (
+              
+            )} */}
             {hasText(bookDetails.introductionDetail) && (
               <div className={styles['introduction-detail']}>{bookDetails.introductionDetail}</div>
             )}
@@ -82,7 +83,7 @@ export default function BookDetailsDescriptionPage() {
               onClick={() => { setExpandedIntroduction(prev => !prev); }}
             >
               {expandedIntroduction ? '접기' : '펼치기'}
-              {expandedIntroduction ? <HiChevronUp /> : <HiChevronDown />}
+              {/* {expandedIntroduction ? <HiChevronUp /> : <HiChevronDown />} */}
             </button>
           )}
         </section>
@@ -106,7 +107,7 @@ export default function BookDetailsDescriptionPage() {
               onClick={() => { setExpandedTableOfContents(prev => !prev); }}
             >
               {expandedTableOfContents ? '접기' : '펼치기'}
-              {expandedTableOfContents ? <HiChevronUp /> : <HiChevronDown />}
+              {/* {expandedTableOfContents ? <HiChevronUp /> : <HiChevronDown />} */}
             </button>
             )}
         </section>
@@ -130,7 +131,7 @@ export default function BookDetailsDescriptionPage() {
               onClick={() => { setExpandedPublisherReview(prev => !prev); }}
             >
               {expandedPublisherReview ? '접기' : '펼치기'}
-              {expandedPublisherReview ? <HiChevronUp /> : <HiChevronDown />}
+              {/* {expandedPublisherReview ? <HiChevronUp /> : <HiChevronDown />} */}
             </button>
           )}
         </section>
@@ -138,8 +139,8 @@ export default function BookDetailsDescriptionPage() {
 
       {/* Book metadata table section */}
       <section className={styles['description-section']}>
-        <h2 className={styles['section-title']}>기본정보</h2>
         <table className={styles['info-table']}>
+          <h2 className={styles['section-title']}>기본정보</h2>
           <tbody>
             <tr>
               <td className={styles['meta-info-title']}>ISBN</td>

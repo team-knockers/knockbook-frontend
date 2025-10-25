@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   align-self: stretch;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .section-title {
@@ -18,8 +20,7 @@
   align-items: flex-start;
   align-self: stretch;
   border-radius: 8px;
-  border: 1px solid #D3D3D3;
-  background: #ECF0EE;
+  background: #fafafa;
 }
 
 .reviews-average {
@@ -28,7 +29,7 @@
   justify-content: center;
   align-items: center;
   align-self: stretch;
-  border-right: 1px solid #BEBFBE;
+  border-right: 1px solid #ddd;
 }
 
 .star-score {
@@ -38,7 +39,7 @@
 }
 
 .star-rating {
-  color: #176840;;
+  color: #FFE04B;
   font-family: Pretendard;
   font-style: normal;
   font-weight: 400;
@@ -62,7 +63,7 @@
 */
 @media (max-width: 1023.98px) {
   .reviews-layout {
-    padding: 30px 20px;
+    padding: 50px 20px;
     align-items: flex-start;
   }
   .section-title {
@@ -112,43 +113,45 @@
 /* Desktop rules (≥ 1024px) */
 @media (min-width: 1024px) {
   .reviews-layout {
-    max-width: 1024px;
-    padding: 50px 100px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    max-width: 1024px;
+    padding: 50px 0;
+    margin: 0 auto;
   }
+
   .section-title {
     font-size: 16px;
     font-weight: 700;
   }
 
-
   .reviews-statistics {
-    min-height: 180px;
-    max-height: 180px;
+    width: 100%;
+    max-width: 800px;
+    height: 180px;
     padding: 25px 0;
+    margin: 0 auto;
   }
+
   .reviews-average {
     width: 250px;
     gap: 10px;
   }
 
   .reviews-average-label  {
-    color: #706D6D;
+    color: #888;
     font-family: Pretendard;
     font-size: 16px;
-    font-style: normal;
     font-weight: 400;
-    line-height: 100%; /* 16px */
   }
 
   .star-score {
     font-size: 22px;
-    line-height: 100%; /* 22px */
   }
 
   .star-rating {
     font-size: 20px;
-    line-height: 100%; /* 20px */
   }
 
   .reviews-chart {
@@ -157,6 +160,6 @@
   }
 
   .review-list-container{
-    padding-top: 40px;
+    padding: 100px 0 50px;
   }
 }

@@ -31,16 +31,9 @@
   right: 4%;
   text-align: center;
   color: #fff;
-  /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); */
-  /* opacity: 0.7; */
 }
-/* .banner-subtitle {
-  font-size: 12px;
-  font-weight: 300;
-} */
 .banner-title {
   font-size: 24px;
-  /* font-family: 'TtTogether'; */
   font-family: 'Rix';
   letter-spacing: 3px;
   font-weight: 400;
@@ -50,7 +43,6 @@
 .banner-day {
   font-size: 16px;
   font-weight: 600;
-  /* font-family: 'Euljiro'; */
   margin: 0;
 }
 .banner-desc {
@@ -411,9 +403,6 @@
     right: 55%;
     bottom: 24%;
   }
-  /* .banner-subtitle {
-    font-size: 22px;
-  } */
   .banner-title {
     font-size: 48px;
     letter-spacing: 6px;
