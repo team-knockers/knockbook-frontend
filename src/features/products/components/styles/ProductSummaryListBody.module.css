@@ -10,6 +10,12 @@
   flex-wrap: wrap; 
 }
 
+@media (max-width: 495px) {
+  .product-list-body {
+    gap: 30px 20px;
+  }
+}
+
 @media (min-width:1024px){
   .product-list-body {
     display: grid;
