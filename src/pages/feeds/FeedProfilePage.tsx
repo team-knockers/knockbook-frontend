@@ -200,6 +200,18 @@ export default function FeedProfilePage() {
     };
   };
 
+  const handleDeleteComment = (postId: string) => (commentId: string) => {
+    setSelectedComments(prev =>
+      prev ? prev.filter(c => c.commentId !== commentId) : prev
+    );
+
+    setSelectedFeed(prev =>
+      prev && prev.postId === postId
+        ? { ...prev, commentsCount: prev.commentsCount - 1 }
+        : prev
+    );
+  };
+
   // ===== Like toggle in modal =====
   const handlePostLike =
     (postId: string) =>
@@ -370,6 +382,7 @@ export default function FeedProfilePage() {
             setConfirmOpen(true);
             setSelectedFeedId(selectedFeed!.postId);
           }}
+          onCommentDeleted={handleDeleteComment(selectedFeed.postId)} 
         />
       )}
 

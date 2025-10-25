@@ -195,6 +195,26 @@ export default function FeedHomePage() {
         : prev 
       )
     }
+  
+  const handleDeleteComment = (postId: string) => (commentId: string) => {
+    setSelectedComments(prev =>
+      prev ? prev.filter(c => c.commentId !== commentId) : prev
+    );
+
+    setSelectedFeed(prev =>
+      prev && prev.postId === postId
+        ? { ...prev, commentsCount: prev.commentsCount - 1 }
+        : prev
+    );
+
+    setPosts(prev =>
+      prev.map(p =>
+        p.postId === postId
+          ? { ...p, commentsCount: p.commentsCount - 1 }
+          : p
+      )
+    );
+  };
 
   const handlePopupOpen = (postId: string) => {
     return async () => {
@@ -283,6 +303,7 @@ export default function FeedHomePage() {
           comments={selectedComments ?? []}
           onCommentSubmit={handleSubmitComment(selectedPostId!)}
           heightPct={60}
+          onCommentDeleted={handleDeleteComment(selectedPostId!)}
         />
       )}
 
@@ -301,6 +322,7 @@ export default function FeedHomePage() {
           likesCount={selectedFeed.likesCount}
           likedByMe={selectedFeed.likedByMe}
           onLikeToggle={handleLikePost(selectedFeed.postId)}
+          onCommentDeleted={handleDeleteComment(selectedFeed.postId)} 
         />
       )}
 

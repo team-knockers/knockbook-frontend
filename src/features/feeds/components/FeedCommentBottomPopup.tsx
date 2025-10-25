@@ -12,6 +12,7 @@ export type FeedCommentBottomPopupProps = {
   comments: FeedPostComment[];
   onCommentSubmit: (comment: string) => void;
   heightPct?: number; // 30~95, default 70
+  onCommentDeleted?: (commentId: string) => void;
 };
 
 export default function FeedCommentBottomPopup({
@@ -21,6 +22,7 @@ export default function FeedCommentBottomPopup({
   comments: items,
   onCommentSubmit,
   heightPct = 70,
+  onCommentDeleted, 
 }: FeedCommentBottomPopupProps) {
   const [text, setText] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -103,7 +105,10 @@ export default function FeedCommentBottomPopup({
               likesCount={it.likesCount}
               likedByMe={it.likedByMe}
               onLikeToggle={handleLikeToggle(it.commentId)}
-              onDeleted={(cid) => setLocalItems(prev => prev.filter(c => c.commentId !== cid))}
+              onDeleted={(cid) => {
+                setLocalItems(prev => prev.filter(c => c.commentId !== cid));
+                onCommentDeleted?.(cid); 
+              }}
             />
           ))}
         </div>
