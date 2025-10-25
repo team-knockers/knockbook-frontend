@@ -2,28 +2,24 @@ import styles from './styles/ProductCategoryCard.module.css';
 
 type Props = {
   label: string;
-  imageSrc: string;
-  onClick: () => void;  
-}
+  icon: React.ReactNode;
+  onClick: () => void;
+};
 
-export default function ProductCategoryCard({
-  label, imageSrc, onClick    
-}: Props) {
+export default function ProductCategoryCard({ label, icon, onClick }: Props) {
   return (
-    <button 
-      className={styles['product-category-card']}        
+    <button
       type="button"
+      className={styles['card']}
       onClick={onClick}
+      aria-label={label}
     >
-      <div className={styles['product-category-content']}>
-        <img 
-          className={styles['product-category-image']}
-          src={imageSrc}
-          alt={label}
-          loading="lazy"
-        />
-        <div className={styles['product-category-label']}>{label}</div>
+      <div className={styles['inner']}>
+        <div className={styles['iconWrap']} aria-hidden>
+          {icon}
+        </div>
+        <div className={styles['label']}>{label}</div>
       </div>
     </button>
-  )
+  );
 }

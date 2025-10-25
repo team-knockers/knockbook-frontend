@@ -1,48 +1,91 @@
-.product-category-list {
+.section {
   width: 100%;
-  display: flex;
-  padding: 20px;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Pretendard';
+  box-sizing: border-box;
+  padding: 24px 0;
+  background: transparent;
 }
 
-.product-category-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  align-self: stretch;
+.content {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: grid;
+  row-gap: 20px;
+  justify-items: center;
+  padding: 0;
 }
 
-.product-category-row {
-  display: flex;
+.header {
+  display: none;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #64748b;
+  letter-spacing: -0.01em;
+}
+
+.gridWrapper {
   width: 100%;
-  max-width: 600px;     
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
+  max-width: 480px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 8px;
+  row-gap: 16px;
 }
 
 @media (min-width: 1024px) {
-  .product-category-list {
-    width: 1024px;
-    max-width: 1024px;
-    box-sizing: border-box;
-    padding: 20px 258px;  
-    align-items: flex-start;
+  .content {
+    padding: 0 16px;
+    justify-items: stretch;
+    row-gap: 20px;
   }
 
-  .product-category-wrapper {
-    width: 100%;
-  }
-
-  .product-category-row {
-    width: 100%;      
+  .header {
     display: flex;
-    justify-content: space-between;       
-    justify-content: flex-start; 
-    align-items: center;
+    align-items: baseline;
+    gap: 12px;
+    width: 100%;
+    max-width: 1024px;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .subtitle {
+    font-size: 13.5px;
+  }
+
+  .gridWrapper {
+    max-width: 1024px;
+    width: 100%;
+    padding: 0 16px;
+    justify-content: center;
+  }
+
+  .grid {
+    width: 100%;
+    max-width: 1024px;
+    grid-template-columns: repeat(10, 88px);
+    grid-auto-rows: 100px;
+    column-gap: 10px;
+    row-gap: 12px;
+    justify-content: center;
+    margin: 0 auto;
   }
 }

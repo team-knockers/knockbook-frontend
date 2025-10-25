@@ -27,6 +27,7 @@ export type FeedEditPopupProps = {
   onLikeToggle: (liked: boolean) => void;
   showMore?: boolean;
   onDeleteClick?: () => void;
+  onCommentDeleted?: (commentId: string) => void;
 };
 
 export default function FeedEditPopup({
@@ -44,6 +45,7 @@ export default function FeedEditPopup({
   onLikeToggle,
   showMore = false,
   onDeleteClick, 
+  onCommentDeleted,
 }: FeedEditPopupProps) {
   const [text, setText] = useState("");
   const [isLiked, setIsLiked] = useState<boolean>(!!likedByMe);
@@ -270,7 +272,10 @@ export default function FeedEditPopup({
                 likesCount={it.likesCount}
                 likedByMe={it.likedByMe}
                 onLikeToggle={handleCommentLike(it.commentId)}
-                onDeleted={(cid) => setLocalComments(prev => prev.filter(c => c.commentId !== cid))}
+                onDeleted={(cid) => {
+                  setLocalComments(prev => prev.filter(c => c.commentId !== cid));
+                  onCommentDeleted?.(cid); 
+                }}
               />
             ))}
           </div>

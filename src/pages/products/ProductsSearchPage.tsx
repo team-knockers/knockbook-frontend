@@ -10,7 +10,7 @@ import Pagination from "../../components/navigation/Pagination";
 import Footer from '../../components/layout/Footer';
 import { useNavigate, generatePath } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CartService } from '../../features/purchase/services/CartService';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 import { ProductService } from '../../features/products/services/ProductService';
@@ -37,6 +37,7 @@ export default function ProductsSearchPage() {
   };
 
   const [items, setItems] = useState(products);
+  useEffect(() => { setItems(products); }, [products]);
 
   // Read/write URL query params (pagination, filters, ...)
   const [ sp, setSp ] = useSearchParams();
