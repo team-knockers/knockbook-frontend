@@ -12,7 +12,7 @@ import { PRODUCT_BANNERS } from "../../features/products/resources/ProductBanner
 import Pagination from "../../components/navigation/Pagination";
 import { useLoaderData, useSearchParams, useNavigate, generatePath } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CartService } from "../../features/purchase/services/CartService";
 import TwoButtonPopup from "../../components/overlay/TwoButtonPopup";
 import { ProductService } from "../../features/products/services/ProductService";
@@ -39,6 +39,7 @@ export default function ProductsHomePage() {
   };
 
   const [items, setItems] = useState(products);
+  useEffect(() => { setItems(products); }, [products]);
 
   // Read/write URL query params (pagination, filters, ...)
   const [ sp, setSp ] = useSearchParams();
