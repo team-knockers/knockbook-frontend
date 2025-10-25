@@ -8,6 +8,7 @@
   font-family: 'Pretendard';
   min-width: auto;
   max-width: none;
+  width: 100%;
 }
 
 .pagination-container > button {

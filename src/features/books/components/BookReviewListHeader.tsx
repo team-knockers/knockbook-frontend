@@ -71,7 +71,7 @@ export default function BookReviewListHeader({
                 <option key={value} value={value}>{label}</option>
               ))}
             </select>
-            <IoIosArrowDropdown className={styles['tansaction-icon']} />
+            <IoIosArrowDropdown className={styles['transaction-icon']} />
           </div>
           <span className={styles['total-count']}>
             {totalCount.toLocaleString()}건

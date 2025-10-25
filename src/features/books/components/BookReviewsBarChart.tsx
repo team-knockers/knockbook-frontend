@@ -68,7 +68,7 @@ export default function BookReviewsBarChart ({
         x={x + tickXOffset}
         y={y + tickYOffset}
         textAnchor="end"
-        fill="#176840"
+        fill="#333"
         fontSize={tickFontSize} 
         fontFamily="Arial, sans-serif"
       >
@@ -102,7 +102,7 @@ export default function BookReviewsBarChart ({
           interval={0}
           tick={<StarTick />}
         />
-        <Bar dataKey="percent" fill="#176840" background={{ fill: '#cccccc' }} />
+        <Bar dataKey="percent" fill="#333" background={{ fill: '#cccccc' }} />
       </BarChart>
     </ResponsiveContainer>
   );

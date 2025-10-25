@@ -15,7 +15,7 @@
 @media (max-width: 1023.98px) {
   .details-main {
     width: 100%;
-    padding-bottom: 122px;
+    padding-bottom: 50px;
   } 
 
   .bottom-bar-wrap {
@@ -32,9 +32,10 @@
   .details-main {
     display: flex;
     flex-direction: column;
-    width: 1024px;
+    max-width: 1200px;
     margin:0 auto;
-    padding-bottom: 62px;
+    padding-bottom: 80px;
+    align-items: center;
   } 
   
   .bottom-bar-wrap {

@@ -209,12 +209,12 @@ export default function BookDetailsReviewsPage() {
               externalProcessing={processingIds.has(review.id)}
             />
           ))}
-          <Pagination
+        </section>
+        <Pagination
             page={Number(searchParams.get('page') ?? searchState.page)}
             totalPages={totalPages}
             onChange={handlePageChange}
           />
-        </section>
       </section>
     </>
   );

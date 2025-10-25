@@ -8,10 +8,12 @@ type BookDetailsResearchChartProps = {
 };
 
 const COLORS = [
-  '#0088FE', '#00C49F', '#FFBB28', '#FF8042',
-  '#A28BFE', '#FF6B9A', '#60D394', '#FFD166',
-  '#8EC5FF', '#C0A3FF', '#FFB86B', '#7CE3E1',
-  '#F6A6FF', '#9BE07A', '#6E8BFF', '#FF8FA3'
+  '#6C8CA1',
+  '#A2C5C1',
+  '#B9DCBD',
+  '#FCFAE8',
+  '#FEF8E4',
+  '#FFF7DE',
 ];
 
 function calcLabelPosByAngle(cx: number, cy: number, midAngle: number, outerRadius: number) {

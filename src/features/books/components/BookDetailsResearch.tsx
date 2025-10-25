@@ -86,18 +86,6 @@ export default function BookDetailsResearch({
         <span className={styles['research-title']}>문앞의 리서치</span>
 
         <div className={styles['research-result']}>
-          <div className={styles['research-result-text']}>
-            <span className={styles['research-description']}>
-              {descriptionText}
-            </span>
-
-            <div className={styles['top-mbti']}>
-              {renderRankSpan(top3[0], 'first-mbti', '1위')}
-              {renderRankSpan(top3[1], 'second-mbti', '2위')}
-              {renderRankSpan(top3[2], 'third-mbti', '3위')}
-            </div>
-          </div>
-
           <div className={styles['research-result-chart']} ref={chartContainerRef}>
             {filteredData.length > 0 ? (
               <BookDetailsResearchChart
@@ -108,6 +96,18 @@ export default function BookDetailsResearch({
             ) : (
               <img src={ResearchNoData} alt="리서치 데이터 없음" className={styles['chart-no-data-image']} />
             )}
+          </div>
+          
+          <div className={styles['research-result-text']}>
+            <span className={styles['research-description']}>
+              {descriptionText}
+            </span>
+
+            <div className={styles['top-mbti']}>
+              {renderRankSpan(top3[0], 'first-mbti', '1위')}
+              {renderRankSpan(top3[1], 'second-mbti', '2위')}
+              {renderRankSpan(top3[2], 'third-mbti', '3위')}
+            </div>
           </div>
         </div>
       </div>

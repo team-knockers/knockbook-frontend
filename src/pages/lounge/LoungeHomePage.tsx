@@ -214,7 +214,6 @@ export default function LoungeHomePage() {
       <div className={s['page-layout']}>
         <div className={s['lounge-banner']}>
           <div className={s['banner-text']}>
-            {/* <p className={s['banner-subtitle']}>The 21st 문앞의 책방</p> */}
             <h2 className={s['banner-title']}>
               PRIVATE<br />
               BOOK CLUB<br />
@@ -271,6 +270,12 @@ export default function LoungeHomePage() {
             <h3>라운지 오피셜</h3>
           </div>
           <div className={s['official-action']}>
+            <select className={s['sort-select']}
+              value={searchState.sortBy}
+              onChange={(e) => handleSortChange(e.target.value)}>
+              <option value='newest'>최신순</option>
+              <option value='popular'>인기순</option>
+            </select>
             <div className={s['write-btn']}>
               <OneWayButton
                 content='+ 게시물 작성하기'
@@ -281,12 +286,6 @@ export default function LoungeHomePage() {
                 colorType='light-dark'
               />
             </div>
-            <select className={s['sort-select']}
-              value={searchState.sortBy}
-              onChange={(e) => handleSortChange(e.target.value)}>
-              <option value='newest'>최신순</option>
-              <option value='popular'>인기순</option>
-            </select>
           </div>
           <div className={s['official-list']}>
             {posts.map((post) => (
