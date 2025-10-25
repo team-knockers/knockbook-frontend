@@ -80,15 +80,18 @@ export default function ProductDetailQnaPage() {
 
         {/* Modal (mount only when open) */}
         {isQnaOpen && (
+        <div className={styles['overlay']}>
+          <div className={styles['overlay-blur']} />
           <ProductQnAPopup
             productImageUrl={productImageUrl}
             productName={productName}
-            onSubmit={async(title, questionBody) =>
-              await ProductService.createInquiry(productId, { title, questionBody }) 
+            onSubmit={async (title, questionBody) =>
+              await ProductService.createInquiry(productId, { title, questionBody })
             }
             onClose={() => setIsQnaOpen(false)}
           />
-        )}
+        </div>
+      )}
       </section>
     </>
   );
