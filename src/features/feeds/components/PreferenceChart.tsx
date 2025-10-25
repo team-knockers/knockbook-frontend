@@ -1,5 +1,6 @@
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import type { BookPreferCategoryStat } from "../types";
+import { useEffect, useRef, useState } from "react";
 
 type PreferenceChartProps = {
   categoryRatioStat: BookPreferCategoryStat[]
@@ -114,17 +115,75 @@ function CustomTooltip({ active, payload, coordinate }: { active?: boolean; payl
   );
 }
 
+function TopNLegend({ payload }: { payload?: any[] }) {
+  if (!payload) return null;
+
+  const topItems = [...payload]
+    .sort((a, b) => b.payload.categoryReadRatio - a.payload.categoryReadRatio)
+    .slice(0, 3);
+
+  return (
+    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+      {topItems.map((entry, index) => (
+        <li key={`legend-${index}`} style={{ display: "flex", alignItems: "center", marginBottom: 4 }}>
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              backgroundColor: entry.color,
+              marginRight: 6,
+            }}
+          />
+          <span style={{fontSize: 14}}>{`${index + 1}위: ${entry.payload.bookCategoryDisplayName} (${entry.payload.categoryReadRatio.toFixed(1)}%)`}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function PreferenceChart({
   categoryRatioStat,
   outerRadius,
   innerRadius
 }: PreferenceChartProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState<number>(0);
+  
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      setWidth(entry.contentRect.width);
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const filteredData = categoryRatioStat.filter(item => item.categoryReadRatio > 0);
   const computedLabelFontSize = Math.max(8, Math.round(outerRadius * 0.2));
   const LABEL_THRESHOLD = 8; // hide labels for items below 8%
 
+  // Responsive breakpoint (breakpoint: 500px)
+  const BREAKPOINT_WIDTH = 500;
+  const isCompact = width < BREAKPOINT_WIDTH;
+  
+  const legendProps = isCompact
+    ? {
+        layout: "vertical" as const,
+        verticalAlign: "bottom" as const,
+        align: "center" as const,
+      }
+    : {
+        layout: "vertical" as const,
+        verticalAlign: "middle" as const,
+        align: "right" as const,
+        wrapperStyle: { right: 20 },
+      };
+
   return (
-    <ResponsiveContainer width="100%" height={250}>
+    <ResponsiveContainer ref={containerRef} width="100%" height={isCompact ? 340 : 250}>
       <PieChart>
         <Pie
           data={filteredData}
@@ -149,6 +208,10 @@ export default function PreferenceChart({
         </Pie>
 
         <Tooltip content={<CustomTooltip />} />
+        <Legend
+          content={<TopNLegend />}
+          {...legendProps}
+        />
       </PieChart>
     </ResponsiveContainer>
   );

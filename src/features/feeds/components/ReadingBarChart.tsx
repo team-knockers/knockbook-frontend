@@ -30,8 +30,11 @@ export default function ReadingBarChart({ readCountStat }: { readCountStat: Book
           tick={{ fill: '#333', fontSize: 10, fontFamily: 'Pretendard' }}
           interval={0}
         />
-        <Legend layout="horizontal" align="center" verticalAlign="top" iconType="square"
-                wrapperStyle={{ fontSize: '10px', fontFamily: 'Pretendard', fontWeight: 600, color: '#333' }} />
+        <Legend
+          layout="horizontal" align="center" verticalAlign="top" iconType="square"
+          formatter={(value) => (
+          <span style={{ fontSize: '12px', fontFamily: 'Pretendard', color: '#333' }}>{value}</span>)}
+        />
         <Bar dataKey="나의 독서량" fill="#6C8CA1">
           <LabelList
             dataKey="나의 독서량"

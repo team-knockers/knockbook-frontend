@@ -8,6 +8,7 @@
 }
 
 .post-header {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -57,6 +58,38 @@
   font-family: 'Noto Sans KR';
   color: #BBBBBB;
 }
+
+.post-header__menu {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: start;
+}
+
+.post-header__menu-btn {
+  margin-left: 15px;
+  color: #666666;
+}
+
+.post-header__menu-list {
+  border: 1px solid #DDDDDD;
+  z-index: 10;
+}
+
+.post-header__menu-option {
+  padding: 9px 29px;
+  font-size: 14px;
+  background: white;
+  color: #959595;
+}
+
+.post-header__menu-option:hover {
+  background: #EEEEEE;
+  color: #333333;
+}
+
 
 .post-body {
   font-family: 'Noto Sans KR';

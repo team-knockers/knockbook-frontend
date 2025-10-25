@@ -25,7 +25,11 @@ export async function OrderPageLoader({ params }: LoaderFunctionArgs) {
   const coupons = await UserService.getCoupons();
   const points = (await UserService.getPoints()).balance;
   const order = await OrderService.getOrder(String(orderId));
-  const address = await UserService.getAddress(order.shippingAddressId);
+  console.log(order);
+  
+  const addresses = await UserService.getAddresses();
+  const address = addresses === null || addresses.length === 0 
+  ? null : addresses.find(a => a.isDefault);
   
   const purchaseList = order.items.filter(i => i.refType !== "BOOK_RENTAL");
   const rentalList = order.items.filter(i => i.refType === "BOOK_RENTAL");
