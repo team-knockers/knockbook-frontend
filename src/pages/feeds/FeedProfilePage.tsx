@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import s from './FeedProfilePage.module.css';
-import OneWayButton from '../../components/forms/OneWayButton';
+import FeedButton from '../../features/feeds/components/FeedButton';
 import { IoSunny, IoGrid, IoGridOutline, IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import { PATHS } from '../../routes/paths';
@@ -296,13 +296,9 @@ export default function FeedProfilePage() {
             <div className={s['user-name']}>
               <span>{displayName || '사용자'}</span>
               <div className={s['user-profile-button']}>
-                <OneWayButton
+                <FeedButton
                   content='프로필 편집'
                   onClick={() => alert('프로필 편집 버튼 클릭')}
-                  responsiveType='fluid'
-                  widthSizeType='sm'
-                  heightSizeType='xxs'
-                  colorType='dark'
                 />
               </div>
             </div>
@@ -334,13 +330,9 @@ export default function FeedProfilePage() {
           </div>
           <div className={s['post-button']}>
             {isPost ? (
-              <OneWayButton
+              <FeedButton
                 content='+ 포스트 작성'
                 onClick={() => setCreateOpen(true)}
-                responsiveType='fluid'
-                widthSizeType='sm'
-                heightSizeType='xxxs'
-                colorType='natural'
               />
             ) : (
               <div style={{ height: 30 }} /> 
