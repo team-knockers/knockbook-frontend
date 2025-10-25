@@ -524,7 +524,7 @@ export default function LoungePostPage() {
             <div className={s['comment-editor__box']}>
               <div className={s['comment-editor__user']}>
                 <img className={s['comment-editor__user-avatar']}
-                  src={currentUserInfo.avartarUrl}
+                  src={currentUserInfo.avatarUrl}
                   alt={`${currentUserInfo.displayName}의 프로필 사진`} />
                 <span className={s['comment-editor__user-name']}>{currentUserInfo.displayName}</span>
               </div>

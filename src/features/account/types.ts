@@ -2,10 +2,22 @@ export type UserProfile = {
   id: string;
   displayName: string;
   email: string;
-  avartarUrl: string;
+  avatarUrl: string;
   mbti: string;
   bio: string;
   favoriteBookCategories: string[];
+}
+
+export type UpdateProfilePatch = Partial<{
+  displayName: string;
+  avatarUrl: string;
+  mbti: string;
+  bio: string;
+  favoriteBookCategories: string[];
+}>;
+
+export type UploadAvatarResponse = {
+  avatarUrl: string;
 }
 
 export type ChangePasswordRequest = {

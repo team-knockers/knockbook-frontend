@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { startTransition, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import s from './FeedProfilePage.module.css';
@@ -13,6 +13,9 @@ import FeedProfileFallback from '../../assets/feed_profile.jpg';
 import FeedEditPopup from '../../features/feeds/components/FeedEditPopup';
 import FeedPostCreateModal from '../../features/feeds/components/FeedPostCreateModal';
 import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
+import SimplePopup from '../../components/overlay/SimplePopup';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import EditProfileForm from '../../features/feeds/components/EditProfleForm';
 
 const PAGE_SIZE = 3; // number of posts per request
 const NUM_MAX_FILES = 3;
@@ -20,6 +23,7 @@ const NUM_MAX_FILES = 3;
 type Tab = 'post' | 'save';
 
 export default function FeedProfilePage() {
+
   // current tab 
   const [tab, setTab] = useState<Tab>('post');
 
@@ -51,22 +55,26 @@ export default function FeedProfilePage() {
   const [selectedFeed, setSelectedFeed] = useState<FeedPost | null>(null);
   const [selectedComments, setSelectedComments] = useState<FeedPostComment[] | null>(null);
 
+  const aliveRef = useRef(true);
+  useEffect(() => () => { aliveRef.current = false; }, []);
+
+  const refreshMe = useCallback(async () => {
+    const me = await UserService.getMyProfile();
+    if (!aliveRef.current) { return; }
+    startTransition(() => {
+      setDisplayName(me.displayName ?? "");
+      setAvatarUrl(me.avatarUrl ?? null);
+      setBio(me.bio ?? null);
+    });
+  }, []);
+
   // ===== User profile first load =====
   useEffect(() => {
-    let alive = true;
     (async () => {
-      try {
-        const me = await UserService.getMyProfile();
-        if (!alive) return;
-        setDisplayName(me.displayName ?? '');
-        setAvatarUrl(me.avartarUrl ?? null);
-        setBio(me.bio ?? null);
-      } catch (e) {
-        console.error(e);
-      }
+      try { await refreshMe(); }
+      catch (e) { console.error(e); }
     })();
-    return () => { alive = false; };
-  }, []);
+  }, [refreshMe]);
 
   // ===== Initial load for POST tab (default) =====
   useEffect(() => {
@@ -282,9 +290,31 @@ export default function FeedProfilePage() {
   const loading = isPost ? loadingPost : loadingSave;
   const count = isPost ? postsCount : savesCount;
 
+  // profile popup helpers
+  const isMobile = useMediaQuery('(max-width: 1023.98px)');
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+
   return (
     <>
       <div className={s['page-layout']}>
+        {/* profile popup  */}
+        <SimplePopup
+          open={isEditProfilePopupOpen}
+          onClose={() => setIsEditProfilePopupOpen(false)}
+          title="프로필 편집"
+          fullScreen={isMobile}
+          noBodyPadding
+          showCloseButton>
+          <EditProfileForm
+            onSubmit={async () => {
+              setIsEditProfilePopupOpen(false);
+              try { await refreshMe(); } 
+              finally {
+                setIsEditProfilePopupOpen(false);
+              }
+            }}/>
+        </SimplePopup>
+
         {/* Header */}
         <div className={s['feed-header']}>
           <div className={s['feed-header-left']}>
@@ -298,7 +328,7 @@ export default function FeedProfilePage() {
               <div className={s['user-profile-button']}>
                 <FeedButton
                   content='프로필 편집'
-                  onClick={() => alert('프로필 편집 버튼 클릭')}
+                  onClick={() => setIsEditProfilePopupOpen(true)}
                 />
               </div>
             </div>

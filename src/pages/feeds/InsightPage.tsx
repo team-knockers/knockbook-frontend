@@ -30,7 +30,7 @@ export default function InsightPage() {
       </div>
       <div className={s['user-data-right']}>
         <img
-          src={profile.avartarUrl}
+          src={profile.avatarUrl}
           alt={`${profile.displayName}님의 프로필`}
         />
       </div>
