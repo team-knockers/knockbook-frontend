@@ -2,7 +2,8 @@ import styles from './styles/BooksSearchPage.module.css';
 import CategoryFilterSearchBar from "../../features/books/components/CategoryFilterSearchBar";
 import Footer from "../../components/layout/Footer";
 import BooksCategoryPopup from "../../features/books/components/BooksCategoryPopup";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { generatePath, useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 import { SEARCH_OPTIONS, sortOptions, type BookSearchState, type BookSummary, type SearchOption } from "../../features/books/types.ts";
 import BookListItem from "../../features/books/components/BookListItem";
@@ -56,7 +57,12 @@ export default function BooksSearchPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [averageRatings, setAverageRatings] = useState<(number | null)[]>([]);
   const [wishlistStatusMap, setWishlistStatusMap] = useState<Record<string, boolean>>({});
+  // breakpoint: >=1024px is desktop
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
 
+  // mobile/infinite-scroll state (used when NOT desktop)
+  const [mobilePage, setMobilePage] = useState(1);
+  const mobileLoadingRef = useRef(false);
   const searchByLabel = SEARCH_OPTION_MAP[searchState.searchBy];
 
   const mappedCategories = [
@@ -142,15 +148,16 @@ export default function BooksSearchPage() {
     setSearchState(makeInitialState(searchParams));
   }, [searchParams]);
 
-  // Fetch data when searchState changes
+  // Fetch data: desktop shows single page based on URL; non-desktop appends pages (infinite scroll)
   useEffect(() => {
     let cancelled = false;
-    const load = async () => {
+
+    const fetchPage = async (pageToFetch: number) => {
       try {
         const res = await BookService.getPaginatedBookSummaries(
           searchState.category,
           searchState.subcategory,
-          searchState.page,
+          pageToFetch,
           searchState.size,
           searchState.sortBy,
           searchState.order,
@@ -159,28 +166,104 @@ export default function BooksSearchPage() {
           searchState.minPrice ?? undefined,
           searchState.maxPrice ?? undefined
         );
-        if (cancelled) return;
-        setBooks(res.books);
-        setTotalItems(res.totalItems);
-        setTotalPages(res.totalPages);
-
-        const bookIds = res.books.map(b => b.id);
-        const averageRatings = await Promise.all(
-          bookIds.map(async id => {
-            const stat = await BookService.getBookReviewStatistics(id);
-            return typeof stat.averageRating === 'number' ? stat.averageRating : null;
-          })
-        );
-        setAverageRatings(averageRatings);
-        
-      } catch (error) {
-        if (cancelled) return;
-        console.error('검색 결과 불러오기 실패', error);
+        if (cancelled) return null;
+        return res;
+      } catch (err) {
+        if (cancelled) return null;
+        console.error('검색 결과 불러오기 실패', err);
+        return null;
       }
     };
-    load();
+
+    const loadDesktop = async () => {
+      const res = await fetchPage(searchState.page);
+      if (!res) return;
+      if (cancelled) return;
+      setBooks(res.books);
+      setTotalItems(res.totalItems);
+      setTotalPages(res.totalPages);
+
+      const bookIds = res.books.map(b => b.id);
+      const avg = await Promise.all(
+        bookIds.map(async id => {
+          const stat = await BookService.getBookReviewStatistics(id);
+          return typeof stat.averageRating === 'number' ? stat.averageRating : null;
+        })
+      );
+      if (cancelled) return;
+      setAverageRatings(avg);
+    };
+
+    const loadMobilePage = async (pageToLoad: number, append = false) => {
+      mobileLoadingRef.current = true;
+      const res = await fetchPage(pageToLoad);
+      mobileLoadingRef.current = false;
+      if (!res) return;
+      if (cancelled) return;
+      setTotalItems(res.totalItems);
+      setTotalPages(res.totalPages);
+
+      const bookIds = res.books.map(b => b.id);
+      const avg = await Promise.all(
+        bookIds.map(async id => {
+          const stat = await BookService.getBookReviewStatistics(id);
+          return typeof stat.averageRating === 'number' ? stat.averageRating : null;
+        })
+      );
+      if (cancelled) return;
+      if (append) {
+        setBooks(prev => [...prev, ...res.books]);
+        setAverageRatings(prev => [...prev, ...avg]);
+      } else {
+        setBooks(res.books);
+        setAverageRatings(avg);
+      }
+    };
+
+    if (isDesktop) {
+      // desktop: single page (controlled by URL)
+      loadDesktop();
+    } else {
+      // non-desktop: load pages and append when mobilePage > 1
+      loadMobilePage(mobilePage, mobilePage > 1);
+    }
+
     return () => { cancelled = true; };
-  }, [searchState]);
+  // include searchState fields and mobilePage/isDesktop
+  }, [searchState.category, searchState.subcategory, searchState.page, searchState.size, searchState.sortBy, searchState.order, searchState.searchBy, searchState.searchKeyword, searchState.minPrice, searchState.maxPrice, mobilePage, isDesktop]);
+
+  // Reset mobile pagination when search/filter changes while in non-desktop mode
+  useEffect(() => {
+    if (isDesktop) return;
+    setMobilePage(1);
+    setBooks([]);
+  }, [searchState.category, searchState.subcategory, searchState.size, searchState.sortBy, searchState.order, searchState.searchBy, searchState.searchKeyword, searchState.minPrice, searchState.maxPrice, isDesktop]);
+
+  // Infinite scroll: when not desktop, load next page when near bottom
+  useEffect(() => {
+    if (isDesktop) return;
+    const onScroll = () => {
+      if (mobileLoadingRef.current) return;
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.documentElement.scrollHeight - 200;
+      if (scrollPosition >= threshold) {
+        if (mobilePage < totalPages) {
+          setMobilePage(prev => prev + 1);
+        }
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [isDesktop, mobilePage, totalPages]);
+
+  // When switching to desktop, if we had appended multiple pages, reset to page=1 so desktop shows only first page
+  useEffect(() => {
+    if (!isDesktop) return;
+    const pageSize = searchState.size ?? 10;
+    if (books.length > pageSize) {
+      setQuery(q => q.set('page', '1'));
+    }
+  }, [isDesktop]);
 
   const [isCartPopupVisible, setIsCartPopupVisible] = useState(false);
   async function handleAddItemsOnCart(bookId: string) {
