@@ -6,8 +6,8 @@
   align-self: stretch;
 }
 .book-image {
-  width: 100%;
-  height: auto;
+  width: 130px;
+  height: 190px;
   object-fit: contain;
   cursor: pointer;
 }
@@ -50,9 +50,6 @@
 
 /* Desktop rules (≥ 1024px) */
 @media (min-width: 1024px) {
-  .book-card {
-    width: 123px;
-  }
   .book-title {
     font-size: 14px;
   }
