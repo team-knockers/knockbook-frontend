@@ -31,7 +31,6 @@ export const CustomerService = {
       form.append("title", title);
       form.append("content", content);
       files?.forEach((f: File) => form.append("files", f));
-      console.log(files);
       return apiAuthMultipartPath<CustomerQnaResponse>(
         "/customers/{userId}/qna",
         { userId },
@@ -66,3 +65,4 @@ export const CustomerService = {
       );
   },
 }
+

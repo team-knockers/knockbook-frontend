@@ -1,6 +1,6 @@
-import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
+import { apiAuthMultipartPath, apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { ChangePasswordRequest, VerifyPasswordRequest, UserProfile, Address, InsertAddressRequest, UpdateAddressRequest } from "../types";
+import type { ChangePasswordRequest, VerifyPasswordRequest, UserProfile, Address, InsertAddressRequest, UpdateAddressRequest, UpdateProfilePatch, UploadAvatarResponse } from "../types";
 import type { CouponIssuance, GetPointBalanceResponse, PointTransaction } from "../../purchase/type";
 
 export const UserService = {
@@ -11,18 +11,42 @@ export const UserService = {
     return await apiAuthPath<UserProfile>(
       "/users/{userId}",
       { userId : userId },
-      { method: "GET" }
+      { method: "GET" },
     )
   },
 
-    async getCoupons(status: string = "AVAILABLE" ) {
+  async updateMyProfile(patch: UpdateProfilePatch) {
     const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }    
-    return await apiAuthPathAndQuery<CouponIssuance[]>(
-      "/users/{userId}/coupon-issuances",
+    if (!userId) { throw new Error("NO_USER"); }
+    return await apiAuthPathAndQuery<void>(
+      "/users/{userId}",
       { userId },
-      { status : status },
-      { method: "GET" }
+      patch,
+      { method: "PUT"}
+    );
+  },
+
+  async uploadAvatar(avatar: File) {
+    const { userId } = useSession.getState();
+    if (!userId) { throw new Error("NO_USER"); }
+    const form = new FormData();
+    form.append("file", avatar);
+    return apiAuthMultipartPath<UploadAvatarResponse>(
+        "/users/{userId}/avatar",
+        { userId },
+        form,
+        { method: "POST" }
+      );
+  },
+
+  async getCoupons(status: string = "AVAILABLE" ) {
+  const { userId } = useSession.getState();
+  if (!userId) { throw new Error("NO_USER") }    
+  return await apiAuthPathAndQuery<CouponIssuance[]>(
+    "/users/{userId}/coupon-issuances",
+    { userId },
+    { status : status },
+    { method: "GET" }
     );
   },
 
