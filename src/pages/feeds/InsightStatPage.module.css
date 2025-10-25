@@ -1,11 +1,14 @@
 .page-layout {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
+  align-items: stretch;
   width: 100%;
   font-family: Pretendard;
   padding: 40px 20px;
   gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .page-layout p {
@@ -45,17 +48,17 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-:global(.fc .fc-toolbar-chunk .fc-button) {
+.full-calendar :global(.fc .fc-toolbar-chunk .fc-button) {
   font-size: 12px;
   background-color: #ffffff;
   border: none;
   color: #000;
 }
 
-:global(.fc .fc-toolbar-chunk .fc-button:focus),
-:global(.fc .fc-toolbar-chunk .fc-button:active),
-:global(.fc .fc-toolbar-chunk .fc-button:focus-visible),
-:global(.fc .fc-toolbar-chunk .fc-button.fc-button-active) {
+.full-calendar :global(.fc .fc-toolbar-chunk .fc-button:focus),
+.full-calendar :global(.fc .fc-toolbar-chunk .fc-button:active),
+.full-calendar :global(.fc .fc-toolbar-chunk .fc-button:focus-visible),
+.full-calendar :global(.fc .fc-toolbar-chunk .fc-button.fc-button-active) {
   outline: none !important;
   box-shadow: none !important;
   background-color: #ffffff !important;
@@ -63,26 +66,26 @@
   color: #000 !important;
 }
 
-:global(.fc .fc-toolbar-title) {
+.full-calendar :global(.fc .fc-toolbar-title) {
   font-size: 18px;
   font-weight: 500;
   font-family: Pretendard;
   color: #333333;
 }
 
-:global(.fc .fc-day a) {
+.full-calendar :global(.fc .fc-day a) {
   color: #000;
   text-decoration: none;
   font-size: 12px;
 }
 
-:global(.fc .fc-daygrid-day-top) {
+/* :global(.fc .fc-daygrid-day-top) {
   flex-direction: none;
 }
 
 :global(.fc .fc-daygrid-body-natural .fc-daygrid-day-events) {
   margin: 0;
-}
+} */
 
 .full-calendar :global(.fc .fc-day-today) {
   background-color: lightgray

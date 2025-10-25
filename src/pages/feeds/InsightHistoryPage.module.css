@@ -160,6 +160,12 @@
     padding: 30px 0;
   }
 
+  .user-history-wrapper {
+    max-height: 800px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+  }
+
   .user-review-wrapper {
     max-height: 955px;
     overflow-y: auto;

@@ -160,7 +160,8 @@ export default function InsightStatPage() {
           dayCellContent={(arg) => {
             return { html: arg.date.getDate().toString() };
           }}
-          height="auto"
+          // height="auto"
+          height="100%"
         />
         {(!events || events.length === 0) && (
           <p className={s['empty-message']}>
