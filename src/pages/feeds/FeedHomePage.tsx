@@ -267,12 +267,14 @@ export default function FeedHomePage() {
   return (
     <div className={s['page-layout']}>
       <SearchBar placeholder={`${userInfo?.displayName}님, 무슨 생각을 하고 계신가요?`} onSearch={handleSearch} />
+      {!!userInfo?.mbti && (
       <FeedSlider
-        title={`${userInfo?.mbti} 유저들의 이야기 궁금하신가요?`}
+        title={`${userInfo.mbti} 유저들의 이야기 궁금하신가요?`}
         subtitle="회원님과 동일한 MBTI 유저들의 콘텐츠를 추천해드려요"
-        items={mbtiItems} 
+        items={mbtiItems}
         onClickItem={(postId) => handleSliderOpen(postId)()}
       />
+    )}
 
       {posts.map(p => (
         <div 
