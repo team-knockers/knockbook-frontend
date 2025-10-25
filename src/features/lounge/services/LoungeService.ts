@@ -181,5 +181,19 @@ export const LoungeService = {
       form,
       { method: "POST" }
     );
+  },
+
+  // API-LOUNGE-12: Delete a lounge post by postId for the current user
+  async deleteLoungePost(
+    postId: string
+  ): Promise<void> {
+    const { userId } = useSession.getState();
+    if (!userId) throw new Error("NO_USER");
+
+    return await apiAuthPath<void>(
+      "/lounge/{userId}/posts/{postId}",
+      { userId, postId },
+      { method: "DELETE" }
+    );
   }
 };

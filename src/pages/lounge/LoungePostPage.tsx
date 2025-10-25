@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import s from './LoungePostPage.module.css'
 import type { LoungePostLoaderData } from './LoungePost.loader';
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io"
@@ -9,9 +9,11 @@ import { useEffect, useState, useRef } from 'react';
 import { TfiMoreAlt } from "react-icons/tfi";
 import { LoungeService } from '../../features/lounge/services/LoungeService';
 import type { LoungePostComment, LoungePostCommentsPageResponse } from '../../features/lounge/types';
+import { PATHS } from '../../routes/paths';
 
 export default function LoungePostPage() {
-// 1. Loader data
+// 1. navigate & Loader data
+  const navigate = useNavigate();
   const { postDetails, currentUserInfo } = useLoaderData() as LoungePostLoaderData;
 
 // 2. State, Ref & Initial Data
@@ -19,6 +21,9 @@ export default function LoungePostPage() {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(postDetails.likeCount);
   const [isCommentOpen, setIsCommentOpen] = useState(false);
+
+  // Post: menu
+  const [openPostMenuId, setOpenPostMenuId] = useState<string | null>(null);
 
   // Comments: menu & edit
   const [openCommentMenuId, setOpenCommentMenuId] = useState<string | null>(null);
@@ -88,6 +93,31 @@ export default function LoungePostPage() {
 
   const onPostCommentToggled = () => {
     setIsCommentOpen(prev => !prev);
+  };
+
+  const handleReportPost = (postId: string) => {
+    const ok = window.confirm("정말로 신고하시겠습니까?");
+    if (!ok) { return; }
+
+    window.alert("신고되었습니다.");
+    console.log('신고', postId);
+    setOpenPostMenuId(null);
+  };
+
+  // Delete a post
+  const handleDeletePost = async (postId: string) => {
+    const ok = window.confirm("정말로 이 포스트를 삭제하시겠습니까?");
+    if (!ok) { return; }
+
+    try {
+      await LoungeService.deleteLoungePost(postId);
+      window.alert("삭제되었습니다.");
+
+      navigate(PATHS.loungeHome);
+
+    } catch (err) {
+      console.error("포스트 삭제 실패", err);
+    }
   };
 
   // Create a comment and append it locally; increase visible count by 1 if panel open
@@ -189,7 +219,11 @@ export default function LoungePostPage() {
   };
 
   const handleReportComment = (commentId: string) => {
+    const ok = window.confirm("정말로 신고하시겠습니까?");
+    if (!ok) { return; }
+
     console.log('신고', commentId);
+    window.alert("신고되었습니다.");
     setOpenCommentMenuId(null);
   };
 
@@ -319,6 +353,39 @@ export default function LoungePostPage() {
           <span className={s['post-header__author-name']}>{postDetails.displayName}</span>
           <span className={s['post-header__separator']}>·</span>
           <span className={s['post-header__date']}>{postDetails.createdAt}</span>
+        </div>
+        <div className={s['post-header__menu']}>
+          <button
+            className={s['post-header__menu-btn']}
+            aria-expanded={openPostMenuId === postDetails.id}
+            onClick={() =>
+              setOpenPostMenuId(prev => (prev === postDetails.id ? null : postDetails.id))
+            }
+          >
+            <TfiMoreAlt />
+          </button>
+
+          {openPostMenuId === postDetails.id && (
+            <div className={s['post-header__menu-list']}>
+              {currentUserInfo && postDetails.userId === currentUserInfo.id ? (
+                <>
+                  <button
+                    className={s['post-header__menu-option']}
+                    onClick={() => handleDeletePost(postDetails.id)}
+                  >
+                    삭제
+                  </button>
+                </>
+              ) : (
+                <button
+                  className={s['post-header__menu-option']}
+                  onClick={() => handleReportPost(postDetails.id)}
+                >
+                  신고
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </header>
 
