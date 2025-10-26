@@ -131,7 +131,7 @@
     display: grid;
     grid-template-columns: 50% 50%;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1440px;
     box-sizing: border-box;
   }
 

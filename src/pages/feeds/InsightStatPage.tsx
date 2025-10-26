@@ -1,18 +1,31 @@
 import s from './InsightStatPage.module.css';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import koLocale from '@fullcalendar/core/locales/ko';
-import PreferenceChart from '../../features/feeds/components/PreferenceChart';
-import ReadingBarChart from '../../features/feeds/components/ReadingBarChart';
+
+import { useMemo, useState } from 'react';
 import { useRouteLoaderData } from 'react-router-dom';
 import type { InsightLoaderData } from './InsightPage.loader';
-import { useMemo, useState } from 'react';
 
-type EventInput = {
+import PreferenceChart from '../../features/feeds/components/PreferenceChart';
+import ReadingBarChart from '../../features/feeds/components/ReadingBarChart';
+
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import { format, parse, startOfWeek, getDay } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+const locales = { ko };
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
+
+type KbEvent = {
   title: string;
-  start: string;
-  end?: string;
+  start: string;       // 'YYYY-MM-DD'
+  end?: string;        // 'YYYY-MM-DD'
   type?: 'rental' | 'purchase';
   bookId?: string;
   bookAuthor?: string;
@@ -26,7 +39,7 @@ function useHistoryEvents(
   purchases: Array<{ bookId: string; bookTitle: string; bookAuthor?: string; bookImageUrl?: string; firstPurchasedAt?: string; lastPurchasedAt?: string }>,
   rentals: Array<{ bookId: string; bookTitle: string; bookAuthor?: string; bookImageUrl?: string; lastRentalStartAt?: string; lastRentalEndAt?: string }>
 ) {
-  return useMemo<EventInput[]>(() => {
+  return useMemo<KbEvent[]>(() => {
     const purchaseEvents =
       (purchases ?? []).flatMap((p) => {
         const start = toYmd(p.lastPurchasedAt || p.firstPurchasedAt);
@@ -38,7 +51,7 @@ function useHistoryEvents(
               bookId: p.bookId,
               bookAuthor: p.bookAuthor,
               bookImageUrl: p.bookImageUrl,
-            } satisfies EventInput]
+            } satisfies KbEvent]
           : [];
       });
 
@@ -54,7 +67,7 @@ function useHistoryEvents(
               bookId: r.bookId,
               bookAuthor: r.bookAuthor,
               bookImageUrl: r.bookImageUrl,
-            } satisfies EventInput]
+            } satisfies KbEvent]
           : [];
       });
 
@@ -62,8 +75,61 @@ function useHistoryEvents(
   }, [purchases, rentals]);
 }
 
-export default function InsightStatPage() {
+type RbcEvent = {
+  title: string;
+  start: Date;
+  end: Date;
+  resource: {
+    type?: 'rental' | 'purchase';
+    bookId?: string;
+    bookAuthor?: string;
+    bookImageUrl?: string;
+  };
+};
 
+function useRbcEvents(kbEvents: KbEvent[]) {
+  return useMemo<RbcEvent[]>(() => {
+    const toDate = (s?: string) => (s ? new Date(s) : undefined);
+    return kbEvents.map((e) => {
+      const s = toDate(e.start)!;
+      const ed = toDate(e.end) ?? s;
+      return {
+        title: e.title,
+        start: s,
+        end: ed,
+        resource: {
+          type: e.type,
+          bookId: e.bookId,
+          bookAuthor: e.bookAuthor,
+          bookImageUrl: e.bookImageUrl,
+        },
+      };
+    });
+  }, [kbEvents]);
+}
+
+function Toolbar({ label, onNavigate }: any) {
+  return (
+    <div className={s.toolbar}>
+      <button className={s.navBtn} onClick={() => onNavigate('PREV')}>‹</button>
+      <h2 className={s.title}>{label}</h2>
+      <button className={s.navBtn} onClick={() => onNavigate('NEXT')}>›</button>
+      <button className={s.todayBtn} onClick={() => onNavigate('TODAY')}>오늘</button>
+    </div>
+  );
+}
+
+function EventChip({ event }: any) {
+  const t = event?.resource?.type;
+  return (
+    <div className={`${s.eventChip} ${t === 'rental' ? s.rental : s.purchase}`}>
+      <span className={s.dot} />
+      <span className={s.eventText}>{event.title}</span>
+    </div>
+  );
+}
+
+export default function InsightStatPage() {
   const data = useRouteLoaderData("insight") as InsightLoaderData | undefined;
 
   const categoryRatioStat = data?.stat?.categoryRatioStat ?? [];
@@ -76,27 +142,14 @@ export default function InsightStatPage() {
     (d.readCountByMe ?? 0) > 0 || (d.avgReadCountByMember ?? 0) > 0
   );
 
-  const events = useHistoryEvents(purchaseHistory, rentalHistory);
+  const kbEvents = useHistoryEvents(purchaseHistory, rentalHistory);
+  const rbcEvents = useRbcEvents(kbEvents);
 
-  const [selected, setSelected] = useState<EventInput | null>(null);
-  const onEventClick = (info: any) => {
-    const e = info.event;
-    const ep = e.extendedProps ?? {};
-    setSelected({
-      title: e.title,
-      start: e.startStr,
-      end: e.endStr ?? undefined,
-      type: ep.type,
-      bookId: ep.bookId,
-      bookAuthor: ep.bookAuthor,
-      bookImageUrl: ep.bookImageUrl,
-    });
-  };
+  const [selected, setSelected] = useState<KbEvent | null>(null);
 
   return (
     <div className={s['page-layout']}>
 
-      {/* fullcalendar event modal */}
       {selected && (
         <div 
           className={s['modal-backdrop']} 
@@ -133,36 +186,47 @@ export default function InsightStatPage() {
                 </div>
               </div>
             </div>
-            <div className={s['modal-footer']}>
-              {/* <Button onClick={() => navigate(`/books/${selected.bookId}`)}>상세 보기</Button> */}
-            </div>
+            <div className={s['modal-footer']}></div>
           </div>
         </div>
       )}
 
       <div className={s['full-calendar']}>
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          headerToolbar={{
-            left: "prev",
-            center: "title",
-            right: "next",
+        <Calendar
+            localizer={localizer}
+            culture="ko"
+            views={['month']}
+            defaultView="month"
+            popup
+            events={rbcEvents}
+            startAccessor="start"
+            endAccessor="end"
+            className={s.calendarCard}
+            components={{
+              toolbar: Toolbar,
+              event: EventChip,
+            }}
+            onSelectEvent={(e: RbcEvent) => {
+            const r = e.resource ?? {};
+            setSelected({
+              title: e.title,
+              start: e.start.toISOString().slice(0,10),
+              end: e.end?.toISOString().slice(0,10),
+              type: r.type,
+              bookId: r.bookId,
+              bookAuthor: r.bookAuthor,
+              bookImageUrl: r.bookImageUrl,
+            });
           }}
-          initialView="dayGridMonth"
-          locale={koLocale}
-          events={events ?? []}
-          eventClick={onEventClick}
-          eventClassNames={(arg) => {
-            return arg.event.extendedProps.type === 'rental'
-              ? ['rental-event']
-              : ['purchase-event'];
+          eventPropGetter={(e: RbcEvent) => ({
+            className: e.resource?.type === 'rental' ? s.rentalCell : s.purchaseCell
+          })}
+          messages={{
+            today: '오늘', previous: '이전', next: '다음', month: '월',
+            showMore: (n) => `+${n} 더보기`,
           }}
-          dayCellContent={(arg) => {
-            return { html: arg.date.getDate().toString() };
-          }}
-          height="auto"
         />
-        {(!events || events.length === 0) && (
+        {(rbcEvents.length === 0) && (
           <p className={s['empty-message']}>
             이번 달 표기할 내역이 없어요.
           </p>
@@ -171,7 +235,7 @@ export default function InsightStatPage() {
 
       <div className={s['insight-stat-book']}>
         <p>도서 선호도</p>
-          <div className={s['insight-stat-book-chart']}>
+        <div className={s['insight-stat-book-chart']}>
           {hasCategory ? (
             <PreferenceChart
               categoryRatioStat={categoryRatioStat}
@@ -185,6 +249,7 @@ export default function InsightStatPage() {
           )}
         </div>
       </div>
+
       <div className={s['insight-stat-reading']}>
         <p>독서 현황</p>
         <div className={s['insight-stat-reading-chart']}>
