@@ -138,7 +138,7 @@ export default function BookDetailsDescriptionPage() {
       )}
 
       {/* Book metadata table section */}
-      <section className={styles['description-section']}>
+      <section className={styles['book-info-section']}>
         <table className={styles['info-table']}>
           <h2 className={styles['section-title']}>기본정보</h2>
           <tbody>
