@@ -197,9 +197,13 @@ export default function PreferenceChart({
           labelLine={false}
           // conditionally render labels: return null when percentage < LABEL_THRESHOLD
           label={(props) => {
-            if (!props || !props.payload) return null;
-            if (props.payload.categoryReadRatio < LABEL_THRESHOLD) return null;
-            return renderCustomizedLabel(props, computedLabelFontSize);
+            const d = props?.payload as (BookPreferCategoryStat | undefined);
+            if (!d) return null;
+            if (d.categoryReadRatio < LABEL_THRESHOLD) return null;
+            return renderCustomizedLabel(
+              { ...props, payload: d },
+              computedLabelFontSize
+            );
           }}
         >
           {filteredData.map((entry, index) => (
