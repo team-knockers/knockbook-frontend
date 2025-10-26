@@ -26,13 +26,13 @@
 }
 
 .introduction-title {
+  align-self: stretch;
   font-size: 14px;
   font-weight: 600;
   white-space: pre-wrap;
   word-break: keep-all;
   color: #333;
-  margin: 0;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .introduction-detail, .table-of-contents, .publisher-review  {
@@ -40,7 +40,7 @@
   font-size: 14px;
   font-weight: 300;
   white-space: pre-wrap;
-  word-break: keep-all; 
+  word-break: keep-all;
 }
 
 .description-text {
@@ -66,16 +66,23 @@
   width: 100%;
 }
 
+.book-info-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  border-top: 5px solid #eee;
+}
+
 .info-table {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-top: 5px solid #eee;
-  padding: 20px;
+  padding: 20px 0;
 }
 
 tbody {
-  padding: 20px;
+  padding: 10px 0;
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
@@ -105,7 +112,12 @@ tr {
     gap: 40px;
     margin: 0 auto;
   }
+
+  .description-section, .book-info-section {
+    padding: 0 20px;
+  }
+  
   .info-table {
-    padding: 40px;
+    padding: 40px 0;
   }
 }
