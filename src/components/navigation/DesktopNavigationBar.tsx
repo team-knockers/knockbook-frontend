@@ -1,12 +1,8 @@
-import { NavLink, useRouteLoaderData } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from './styles/DestopNavigationBar.module.css'
 import { PATHS } from "../../routes/paths";
-import { AUTH_LOADER_ID } from "../../routes/auth.layout";
 
 export default function DesktopNavigationBar() {
-
-  const auth = useRouteLoaderData(AUTH_LOADER_ID) as any;
-  const role = auth?.role;
   
   return (
     <nav className={styles['app-navigation']}>
