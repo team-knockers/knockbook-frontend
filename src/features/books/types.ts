@@ -220,3 +220,77 @@ export type GetRandomBookReviewResponse = {
     coverThumbnailUrl: string;
     content: string;
 }
+
+export type RegisterBookRequest = {
+  title: string;
+  author: string;
+  publisher: string;
+  publishedAt: string; // ISO string (e.g. "2025-10-26")
+
+  sellableStockQty: number;
+  rentableStockQty: number;
+
+  categoryId: string;
+  subcategoryId: string;
+
+  introductionTitle?: string;
+  introductionDetail?: string;
+  tableOfContents?: string;
+  publisherReview?: string;
+
+  isbn13: string;
+
+  pageCount?: number;
+  width?: number;
+  height?: number;
+  thickness?: number;
+  weight?: number;
+  totalVolumes?: number;
+
+  rentalAmount: number;
+  purchaseAmount: number;
+  discountedPurchaseAmount: number;
+
+  coverThumbnailUrl: string;
+  coverImageUrl: string;
+
+  status?: 'VISIBLE' | 'HIDDEN';
+}
+
+export type UpdateBookRequest = {
+  title?: string;
+  author?: string;
+  publisher?: string;
+  publishedAt?: string; // LocalDate → "YYYY-MM-DD"
+
+  sellableStockQty?: number;
+  rentableStockQty?: number;
+
+  categoryId?: string;
+  subcategoryId?: string;
+
+  introductionTitle?: string;
+  introductionDetail?: string;
+  tableOfContents?: string;
+  publisherReview?: string;
+
+  isbn13?: string;
+
+  pageCount?: number;
+  width?: number;
+  height?: number;
+  thickness?: number;
+  weight?: number;
+  totalVolumes?: number;
+
+  rentalAmount?: number;
+  purchaseAmount?: number;
+  discountedPurchaseAmount?: number;
+
+  coverThumbnailUrl?: string;
+  coverImageUrl?: string;
+
+  status?: 'VISIBLE' | 'HIDDEN';
+};
+
+

@@ -1,10 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useRouteLoaderData } from "react-router-dom";
 import styles from './styles/DestopNavigationBar.module.css'
 import { PATHS } from "../../routes/paths";
+import { AUTH_LOADER_ID } from "../../routes/auth.layout";
 
 export default function DesktopNavigationBar() {
+
+  const auth = useRouteLoaderData(AUTH_LOADER_ID) as any;
+  const role = auth?.role;
+  
   return (
     <nav className={styles['app-navigation']}>
+
+      {/* menus for user */}
       <NavLink 
         className={({ isActive }) => 
           `${styles['app-menu']} ${isActive ? styles['active'] : ''}`}
@@ -40,6 +47,15 @@ export default function DesktopNavigationBar() {
         end={false}>
         피드
       </NavLink>
+
+      {/* menu for moderators (and administrators) */}
+       <NavLink
+          className={({ isActive }) => 
+            `${styles["app-menu"]} ${isActive ? styles["active"] : ""}`}
+          to={PATHS.admin}>
+          관리
+        </NavLink>
+
     </nav>
   );
 }

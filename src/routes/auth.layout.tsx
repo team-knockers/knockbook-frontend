@@ -8,8 +8,7 @@ export const AUTH_LOADER_ID = "auth";
 
 export async function authLoader() {
   try {
-    const me = await UserService.getMyProfile();
-    return me;
+    return await UserService.getMyProfile();
   } catch (e: any) {
     const isApiErr = e instanceof ApiError;
     const status = isApiErr ? e.problem?.status : undefined;

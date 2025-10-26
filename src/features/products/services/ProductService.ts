@@ -1,9 +1,12 @@
 import { useSession } from "../../../hooks/useSession";
-import { apiAuthPathAndQuery } from "../../../shared/api";
-import type { ProductInquiryList, ProductReviewList, ProductSummaryList } from "../types";
+import { apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
+import type { PageResponse } from "../../../shared/types";
+import type { 
+  CreateProductRequest, Product, ProductInquiryList, ProductReviewList,
+  ProductSummaryList, UpdateProductRequest } from "../types";
 import type { ProductDetail } from "../types";
 
-type SummaryListParams = {
+export type SummaryListParams = {
   category: string;
   page: number;
   size: number;
@@ -157,5 +160,30 @@ export const ProductService = {
       undefined,
       { method: "DELETE" }
     );
-  }
+  },
+
+  async listProducts(page: number, size: number) {
+    return await apiAuthPathAndQuery<PageResponse<Product>>(
+      "/products",
+      {},
+      { page, size },
+      { method: "GET" }
+    );
+  },
+
+  async registerProduct(req: CreateProductRequest) {
+    return await apiAuthPathWithJson<ProductDetail, CreateProductRequest>(
+      "/products",
+      {},
+      { method: 'POST', json: req }
+    )
+  },
+
+  async updateProduct(productId: string, req: UpdateProductRequest) {
+    return await apiAuthPathWithJson<ProductDetail, UpdateProductRequest>(
+      "/products/{productId}",
+      { productId },
+      { method: 'PATCH', json: req }
+    )
+  },
 };

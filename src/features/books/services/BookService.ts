@@ -1,6 +1,11 @@
-import { apiAuthMultipartPath, apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
+import { apiAuthMultipartPath, apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
 import { useSession } from "../../../hooks/useSession";
-import type { BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, BookReviewsApiResponse, BookReviewsStatistics, BookWishlistActionResponse, BookWishStatusResponse, BookReviewCreateRequest, BookReview, GetRandomBookReviewResponse } from "../types";
+import type { 
+  BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, 
+  BookReviewsApiResponse, BookReviewsStatistics, BookWishlistActionResponse,
+  BookWishStatusResponse, BookReviewCreateRequest, BookReview,
+  GetRandomBookReviewResponse, RegisterBookRequest, UpdateBookRequest } from "../types";
+import type { PageResponse } from "../../../shared/types";
 
 export const BookService = {
 
@@ -294,5 +299,30 @@ export const BookService = {
     const bookSummaries = summariesPage.books;
 
     return bookSummaries satisfies BookSummary[];
-  }
+  },
+
+  async listBooks(page: number, size: number) {
+    return await apiAuthPathAndQuery<PageResponse<BookDetails>>(
+      "/books",
+      { },
+      { page, size },
+      { method: "GET" }
+    );
+  },
+
+  async registerBook(req: RegisterBookRequest) {
+    return await apiAuthPathWithJson<BookDetails, RegisterBookRequest>(
+      "/books",
+      { },
+      { method: 'POST', json: req }
+    )
+  },
+
+  async updateBook(bookId: string, req: UpdateBookRequest) {
+    return await apiAuthPathWithJson<BookDetails, UpdateBookRequest>(
+      "/books/{bookId}",
+      { bookId },
+      { method: 'PATCH', json: req }
+    )
+  },
 };
