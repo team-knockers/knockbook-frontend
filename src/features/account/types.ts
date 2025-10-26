@@ -4,6 +4,7 @@ export type UserProfile = {
   email: string;
   avatarUrl: string;
   mbti: string;
+  role: string;
   bio: string;
   favoriteBookCategories: string[];
 }

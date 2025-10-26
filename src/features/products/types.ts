@@ -69,3 +69,54 @@ export type ProductReviewList = {
   averageRating: number;
   starCounts: Record<'5'|'4'|'3'|'2'|'1', number>;
 }
+
+export type Product = {
+  productId: string;
+  categoryId: string;
+  sku: string;
+  name: string;
+  stockQty: number;
+  unitPriceAmount: number;
+  salePriceAmount: number | null;
+  manufacturerName: string;
+  isImported: string;
+  importCountry: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  releasedAt: string | null;
+  status: string;
+  availability: string;
+  averageRating: number;
+  reviewCount: number;
+}
+
+export type CreateProductRequest = {
+  categoryCode: string;
+  sku: string;
+  name: string;
+  stockQty: number;
+  unitPriceAmount: number;
+  salePriceAmount?: number | null;
+
+  manufacturerName: string;
+  isImported: '국산' | '수입';
+  importCountry: string;
+  releasedAt?: string; // Instant → ISO("2025-10-26T12:34:56Z")
+
+  status: 'ACTIVE' | 'HIDDEN' | 'DISCONTINUED';
+  availability: 'AVAILABLE' | 'OUT_OF_STOCK' | 'PREORDER' | 'BACKORDER' | 'COMING_SOON' | 'SOLD_OUT';
+
+  galleryImageUrls: string[];
+  descriptionImageUrls: string[];
+};
+
+
+export type UpdateProductRequest = {
+  unitPriceAmount?: number;
+  salePriceAmount?: number;
+  stockQty?: number;
+  status?: 'ACTIVE' | 'HIDDEN' | 'DISCONTINUED';
+  availability?: 'AVAILABLE' | 'OUT_OF_STOCK' | 'PREORDER' | 'BACKORDER' | 'COMING_SOON' | 'SOLD_OUT';
+};
+

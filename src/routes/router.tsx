@@ -95,6 +95,8 @@ import PointTransactionsUsedPage from "../pages/account/points/PointTransactions
 import CouponPage from "../pages/account/coupons/CouponPage";
 import { CouponPageLoader } from "../pages/account/coupons/CouponPage.loader";
 import { WishlistPageLoader } from "../pages/account/wishlist/wishlistPage.loader";
+import AdminRoute from "./AdminRoute";
+import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 
 export const router = createBrowserRouter([
   { path: PATHS.intro, element: <IntroPage /> },
@@ -126,6 +128,9 @@ export const router = createBrowserRouter([
       {        
         element: <ResponsiveMainShell />,
         children: [
+          { path: `${PATHS.admin}/*`,
+            element: <AdminRoute><AdminDashboardPage/></AdminRoute>,
+          },
           { path: PATHS.home,
             loader: homeLoader,
             element: <HomePage />,

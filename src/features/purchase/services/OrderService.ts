@@ -1,6 +1,8 @@
 import { useSession } from "../../../hooks/useSession";
-import { apiAuthPath, apiAuthPathWithJson } from "../../../shared/api";
-import type { ApplyCouponRequest, ApplyPointsRequest, CreateOrderDirectRequest, CreateOrderFromCartRequest, Order } from "../type";
+import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
+import type { 
+  ApplyCouponRequest, ApplyPointsRequest, CreateOrderDirectRequest,
+  CreateOrderFromCartRequest, Order } from "../type";
 
 export const OrderService = {
 
@@ -9,7 +11,7 @@ export const OrderService = {
     if (!userId) { throw new Error("NO_USER") }
     const req = { cartItemIds } as CreateOrderFromCartRequest;
     return await apiAuthPathWithJson<Order, CreateOrderFromCartRequest>(
-      "/users/{userId}/orders/draft-from-cart",
+      "/orders/{userId}/draft-from-cart",
       { userId },
       { method: "POST", json: req }
     );
@@ -20,7 +22,7 @@ export const OrderService = {
     if (!userId) { throw new Error("NO_USER") }
     const req = { refType, refId, quantity } as CreateOrderDirectRequest;
     return apiAuthPathWithJson<Order, CreateOrderDirectRequest>(
-      "/users/{userId}/orders/draft",
+      "/orders/{userId}/draft",
       { userId },
       { method: "POST", json: req }
     );
@@ -30,7 +32,7 @@ export const OrderService = {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }
     return await apiAuthPath<Order>(
-      "/users/{userId}/orders/{orderId}",
+      "/orders/{userId}/{orderId}",
       { userId, orderId },
       { method: "GET" }
     );
@@ -39,9 +41,17 @@ export const OrderService = {
   async getPaidOrders() {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }
-    return await apiAuthPath<Order[]>(
-      "/users/{userId}/orders/paid",
+    return await apiAuthPathAndQuery<Order[]>(
+      "/orders/{userId}",
       { userId },
+      { paymentStatus: "PAID" },
+      { method: "GET" }
+    );
+  },
+
+  async getOrders() {
+    return await apiAuthPath<Order[]>(
+      "/orders",
       { method: "GET" }
     );
   },
@@ -51,7 +61,7 @@ export const OrderService = {
     if (!userId) { throw new Error("NO_USER") }
     const body = { couponIssuanceId } as ApplyCouponRequest;
     const res = await apiAuthPathWithJson<Order, ApplyCouponRequest>(
-      "/users/{userId}/orders/{orderId}/coupon",
+      "/orders/{userId}/{orderId}/coupon",
       { userId, orderId },
       { method: "POST", json: body }
     );
@@ -63,7 +73,7 @@ export const OrderService = {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }
     return await apiAuthPath<Order>(
-      "/users/{userId}/orders/{orderId}/coupon",
+      "/orders/{userId}/{orderId}/coupon",
       { userId, orderId },
       { method: "DELETE" }
     );
@@ -74,7 +84,7 @@ export const OrderService = {
     if (!userId) { throw new Error("NO_USER") }
     const body = { points } as ApplyPointsRequest;
     const res = await apiAuthPathWithJson<Order, ApplyPointsRequest>(
-      "/users/{userId}/orders/{orderId}/points",
+      "/orders/{userId}/{orderId}/points",
       { userId, orderId },
       { method: "POST", json: body }
     );
@@ -86,7 +96,7 @@ export const OrderService = {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }
     return await apiAuthPath<Order>(
-      "/users/{userId}/orders/{orderId}/points",
+      "/orders/{userId}/{orderId}/points",
       { userId, orderId },
       { method: "DELETE" }
     );
@@ -96,13 +106,24 @@ export const OrderService = {
     const { userId } = useSession.getState();
     if (!userId) { throw new Error("NO_USER") }
     const body = { addressId } as { addressId: string };
-    const res = await apiAuthPathWithJson<Order, { addressId: string }>(
-      "/users/{userId}/orders/{orderId}/address",
+    return await apiAuthPathWithJson<Order, { addressId: string }>(
+      "/orders/{userId}/{orderId}/address",
       { userId, orderId },
       { method: "POST", json: body }
     );
-    console.log(res);
-    return res;
-  }
+  },
+
+  async updateStatus(
+    userId: string,
+    orderId: string,
+    status: string,
+    rentalStatus: string) {
+    return await apiAuthPathAndQuery<Order>(
+      "/orders/{userId}/{orderId}/status",
+      { userId, orderId },
+      { status, rentalStatus },
+      { method: "PATCH" }
+    );
+  },
 }
 

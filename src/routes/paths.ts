@@ -74,4 +74,7 @@ export const PATHS = {
   listQnA: "/customer/qna/list",
   policy: "/customer/policy",
   notification: "/customer/notification",
+
+  /* admin */
+  admin: "/admin" 
 };
