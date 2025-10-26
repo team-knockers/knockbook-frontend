@@ -7,9 +7,6 @@ import { ApiError } from "../../types/http";
 import { PATHS } from "../../routes/paths";
 
 import backgroundUrl from '../../assets/intro-background.jpg';
-import naverUrl from '../../assets/naver_login_btn.png';
-import kakaoUrl from '../../assets/kakao_login_btn.png';
-import googleUrl from '../../assets/google_login_btn.png';
 
 import styles from './styles/LoginPage.module.css';
 import { parseLoginError } from "../../features/onboarding/exception/loginError";
@@ -145,37 +142,6 @@ export default function LoginPage() {
                 회원 가입하기
               </button>
             </div>
-          <div className={styles['social-section']}>
-            <div className={styles['social-header']}>
-              <span>소셜 계정으로 시작하기</span>
-            </div>
-            <div className={styles['social-buttons-wrapper']}>
-              <button 
-                className={styles['social-login-button']}
-                onClick={() => {/* TODO */}}>
-                  <img
-                    className={styles['social-login-img']}
-                    src={naverUrl}
-                    alt="naver login button image"/>
-              </button>
-              <button 
-                className={styles['social-login-button']}
-                onClick={() => {/* TODO */}}>
-                  <img
-                    className={styles['social-login-img']}
-                    src={kakaoUrl}
-                    alt="kakao login button image"/>
-              </button> 
-              <button 
-                className={styles['social-login-button']}
-                onClick={() => {/* TODO */}}>
-                  <img
-                    className={styles['social-login-img']}
-                    src={googleUrl}
-                    alt="google login button image"/>
-              </button> 
-            </div>
-          </div>
         </div>
       </div>
 

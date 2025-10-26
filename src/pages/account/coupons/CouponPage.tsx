@@ -35,7 +35,8 @@ export default function CouponPage() {
                 </div>              
                 {coupon.discountRateBp &&
                 <div className={s["coupon-discount-rate"]}>
-                  <span>{coupon.discountRateBp}%</span>
+                  {/* temp code */}
+                  <span>{coupon.discountRateBp/100}%</span>
                 </div>}
                 {coupon.discountAmount && 
                 <div className={s["coupon-discount-amount"]}>
