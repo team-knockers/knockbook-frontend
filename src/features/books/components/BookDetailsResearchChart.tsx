@@ -141,8 +141,9 @@ export default function BookDetailsResearchChart({
           labelLine={false}
           // conditionally render labels: return null when percentage < LABEL_THRESHOLD
           label={(props) => {
-            if (!props || !props.payload) return null;
-            if (props.payload.percentage < LABEL_THRESHOLD) return null;
+            const d = props?.payload as (BookMbtiPercentage | undefined);
+            if (!d) return null;
+            if (d.percentage < LABEL_THRESHOLD) return null;
             return renderCustomizedLabel(props, computedLabelFontSize);
           }}
         >
