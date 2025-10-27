@@ -168,7 +168,7 @@ export const FeedService = {
       "/feeds/post/{postId}/saves/{userId}",
       { postId, userId },
       undefined,
-      {method: "PUT" }
+      {method: "DELETE" }
     );
   },
 
