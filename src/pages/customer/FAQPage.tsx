@@ -93,7 +93,7 @@ export default function FAQPage() {
                 widthSizeType="md"
                 heightSizeType="md"
                 colorType="outline"
-                onClick={() => {/* TODO */}} />
+                onClick={() => nav(PATHS.qna)} />
               <OneWayButton
                 content="채팅 상담하기"
                 responsiveType="fixed"
