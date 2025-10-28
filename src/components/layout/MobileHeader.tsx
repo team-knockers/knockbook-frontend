@@ -2,8 +2,12 @@ import { FiBell, FiShoppingCart, FiUser, FiChevronLeft, FiX } from "react-icons/
 import type { MobileHeaderProps } from "../../types/header";
 import styles from './styles/MobileHeader.module.css';
 import logoUrl from '../../assets/header_logo.png';
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
 
 export default function MobileHeader(props: MobileHeaderProps) {
+  const nav = useNavigate();
+  
   return (
     <header className={styles['app-header']}>
       <div className={styles['app-header-left-section']}>
@@ -11,7 +15,8 @@ export default function MobileHeader(props: MobileHeaderProps) {
           <button className={styles['app-header-title']}>
             <img 
               className={styles['app-header-img']}
-              src={logoUrl}/>
+              src={logoUrl}
+              onClick={() => nav(PATHS.home)}/>
           </button>
         )}
         {props.kind === 'backTitleClose' && (
