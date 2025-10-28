@@ -1,4 +1,5 @@
 export type BannerItem = {
+  productId: string;
   bannerImgUrl: string;
   badge: string;
   title1: string;
@@ -9,6 +10,7 @@ export type BannerItem = {
 
 export const PRODUCT_BANNERS: BannerItem[] = [
   {
+    productId: '184',
     bannerImgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1402/hot1697007415660.jpg',
     badge: 'HOT',
     title1: '하루를 바꾸는 힘',
@@ -17,6 +19,7 @@ export const PRODUCT_BANNERS: BannerItem[] = [
     tone: 'dark',
   },
   {
+    productId: '21',
     bannerImgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1657/hot1675754690830.jpg',
     badge: 'NEW',
     title1: '익숙한 일상 속',
@@ -25,6 +28,7 @@ export const PRODUCT_BANNERS: BannerItem[] = [
     tone: 'light',
   },
   {
+    productId:'41',
     bannerImgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1804/hot1752025081153.jpg',
     badge: 'HOT',
     title1: 'FALL',
@@ -33,6 +37,7 @@ export const PRODUCT_BANNERS: BannerItem[] = [
     tone: 'dark',
   },
   {
+    productId:'61',
     bannerImgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1555/hot1679475438267.jpg',
     badge: 'NEW',
     title1: '푸른 새벽을 닮은',
@@ -41,6 +46,7 @@ export const PRODUCT_BANNERS: BannerItem[] = [
     tone: 'dark',
   },
   {
+    productId: '26',
     bannerImgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1271/hot1750382587476.png',
     badge: 'NEW',
     title1: '책과 마주하는',
@@ -49,6 +55,7 @@ export const PRODUCT_BANNERS: BannerItem[] = [
     tone: 'dark',
   },
   {
+    productId: '141',
     bannerImgUrl: 'https://contents.kyobobook.co.kr/sih/fit-in/600x0/gift/pdt/1565/hot1739786009041.jpg',
     badge: 'NEW',
     title1: '가을 밤의',
