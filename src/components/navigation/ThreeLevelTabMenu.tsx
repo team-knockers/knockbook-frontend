@@ -18,12 +18,18 @@ export default function ThreeLevelTabMenu({
   centerTabPath,
   rightTabPath,
 }: ThreeLevelTabMenuProps) {
+  
+    const handleTabClick = () => {
+    sessionStorage.setItem('skipScroll', 'true');
+  };
+
   return (
     <div className={s['tab-menu']}>
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={leftTabPath}>
+        to={leftTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {leftTabTitle}
         </span>
@@ -31,7 +37,8 @@ export default function ThreeLevelTabMenu({
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={centerTabPath}>
+        to={centerTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {centerTabTitle}
         </span>
@@ -39,7 +46,8 @@ export default function ThreeLevelTabMenu({
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={rightTabPath}>
+        to={rightTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {rightTabTitle}
         </span>
