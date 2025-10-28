@@ -333,6 +333,8 @@
     cursor: pointer;
   }
 
+  .desktopCloseBtn { display: none; } 
+
   .sidebar {
     display: block;
     height: auto;
