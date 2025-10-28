@@ -30,6 +30,10 @@
 }
 
 @media (min-width: 1024px) {
+  .page-layout {
+    padding: 50px 0;
+  }
+
   .page-title {
     display: flex;
     color: #000;
@@ -42,7 +46,7 @@
   }
 
   .max-width-container {
-    padding-top: 50px;
+    padding-top: 0;
     gap: 50px;
   }
 
