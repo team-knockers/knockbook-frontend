@@ -97,76 +97,90 @@ import { CouponPageLoader } from "../pages/account/coupons/CouponPage.loader";
 import { WishlistPageLoader } from "../pages/account/wishlist/wishlistPage.loader";
 import AdminRoute from "./AdminRoute";
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
+import RootLayout from "./root.layout";
 
 export const router = createBrowserRouter([
-  { path: PATHS.intro, element: <IntroPage /> },
-  { path: PATHS.login, element: <LoginPage /> },
-  { path: PATHS.signupVerifyEmail, element: <SignupEmailPage /> },
-  { path: PATHS.signupAgreePolicy, element: <SignupPolicyPage /> },
-  { path: PATHS.signupSetPassword, element: <SignupPasswordPage /> },
-  { path: PATHS.signupSetName, element: <SignupDisplayNamePage /> },
-  { path: PATHS.authCallback, element: <AuthCallbackPage /> },
   {
-    id: AUTH_LOADER_ID,
-    element: <AuthLayout />,
-    loader: authLoader,
+    path: "/",
+    element: <RootLayout />,
     children: [
-      { path: PATHS.signupSetFavoriteCategory,
-        id: "favoriteCategory",
-        loader: SignupSetFavoriteCategoryPageLoader,
-        element: <SignupSetFavoriteCategory/>},
-      { path: PATHS.signupSelectMbti,
-        id: "selectMbti",
-        loader: SignupSelectMbtiPageLoader,
-        element: <SignupSelectMbti />},
-      { path: PATHS.signupMbtiResult,
-        id: "mbtiResult",
-        loader: SignupMbtiResultPageLoader,
-        element: <SignupMbtiResult />},
-      { path: PATHS.signupComplete,
-        element: <SignupComplete />},
-      {        
-        element: <ResponsiveMainShell />,
+
+      { path: PATHS.intro, element: <IntroPage /> },
+      { path: PATHS.login, element: <LoginPage /> },
+      { path: PATHS.signupVerifyEmail, element: <SignupEmailPage /> },
+      { path: PATHS.signupAgreePolicy, element: <SignupPolicyPage /> },
+      { path: PATHS.signupSetPassword, element: <SignupPasswordPage /> },
+      { path: PATHS.signupSetName, element: <SignupDisplayNamePage /> },
+      { path: PATHS.authCallback, element: <AuthCallbackPage /> },
+      {
+        id: AUTH_LOADER_ID,
+        element: <AuthLayout />,
+        loader: authLoader,
         children: [
-          { path: `${PATHS.admin}/*`,
-            element: <AdminRoute><AdminDashboardPage/></AdminRoute>,
-          },
-          { path: PATHS.home,
-            loader: homeLoader,
-            element: <HomePage />,
-            handle: { header: { kind: "main", title: "문앞의책방" } } },
-          { path: PATHS.booksHome,
-            loader: booksHomeLoader,
-            element: <BooksHomePage />,
-            handle: { header: { kind: "main", title: "문앞의책방" } } },
-          { path: PATHS.booksSearch,
-            loader: booksSearchLoader,
-            element: <BooksSearchPage />,
-            handle: { header: { kind: "main", title: "문앞의책방" } } },
-          { 
-            path: PATHS.bookDetails,
-            loader: bookDetailsLoader,
-            element: <BookDetailsPage />,
+          { path: PATHS.signupSetFavoriteCategory,
+            id: "favoriteCategory",
+            loader: SignupSetFavoriteCategoryPageLoader,
+            element: <SignupSetFavoriteCategory/>},
+          { path: PATHS.signupSelectMbti,
+            id: "selectMbti",
+            loader: SignupSelectMbtiPageLoader,
+            element: <SignupSelectMbti />},
+          { path: PATHS.signupMbtiResult,
+            id: "mbtiResult",
+            loader: SignupMbtiResultPageLoader,
+            element: <SignupMbtiResult />},
+          { path: PATHS.signupComplete,
+            element: <SignupComplete />},
+          {        
+            element: <ResponsiveMainShell />,
             children: [
-              {
-                index: true,
-                element: <Navigate to="description" replace />
+              { path: `${PATHS.admin}/*`,
+                element: <AdminRoute><AdminDashboardPage/></AdminRoute>,
               },
-              {
-                path: "description",
+              { path: PATHS.home,
+                loader: homeLoader,
+                element: <HomePage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } } },
+              { path: PATHS.booksHome,
+                loader: booksHomeLoader,
+                element: <BooksHomePage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } } },
+              { path: PATHS.booksSearch,
+                loader: booksSearchLoader,
+                element: <BooksSearchPage />,
+                handle: { header: { kind: "main", title: "문앞의책방" } } },
+              { 
+                path: PATHS.bookDetails,
                 loader: bookDetailsLoader,
-                element: <BookDetailsDescriptionPage />,
-                handle: { 
-                  header: { 
-                    kind: "backTitleClose",
-                    close: { type: 'push', to: PATHS.booksHome }
-                  }
-                }
-              },
-              {
-                path: "reviews",
-                loader: bookDetailsLoader,
-                element: <BookDetailsReviewsPage />,
+                element: <BookDetailsPage />,
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to="description" replace />
+                  },
+                  {
+                    path: "description",
+                    loader: bookDetailsLoader,
+                    element: <BookDetailsDescriptionPage />,
+                    handle: { 
+                      header: { 
+                        kind: "backTitleClose",
+                        close: { type: 'push', to: PATHS.booksHome }
+                      }
+                    }
+                  },
+                  {
+                    path: "reviews",
+                    loader: bookDetailsLoader,
+                    element: <BookDetailsReviewsPage />,
+                    handle: {
+                      header: {
+                        kind: "backTitleClose",
+                        close: { type: 'push', to: PATHS.booksHome }
+                      }
+                    }
+                  },
+                ],
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -174,319 +188,283 @@ export const router = createBrowserRouter([
                   }
                 }
               },
-            ],
-            handle: {
-              header: {
-                kind: "backTitleClose",
-                close: { type: 'push', to: PATHS.booksHome }
-              }
-            }
-          },
-          { 
-            path: PATHS.booksCategory,
-            element: <BooksCategoryPage />,
-            loader: booksCategoryLoader,
-            children: [
-              {
-                index: true,
-                element: <Navigate to="home" replace />
-              },
-              {
-                path: "home",
-                element: <BooksCategoryHomePage />,
+              { 
+                path: PATHS.booksCategory,
+                element: <BooksCategoryPage />,
                 loader: booksCategoryLoader,
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to="home" replace />
+                  },
+                  {
+                    path: "home",
+                    element: <BooksCategoryHomePage />,
+                    loader: booksCategoryLoader,
+                    handle: { header: { kind: "main", title: "문앞의책방" } }
+                  },
+                  {
+                    path: "all",
+                    element: <BooksCategoryAllPage />,
+                    loader: booksCategoryLoader,
+                    handle: { header: { kind: "main", title: "문앞의책방" } }
+                  },
+                ],
                 handle: { header: { kind: "main", title: "문앞의책방" } }
               },
-              {
-                path: "all",
-                element: <BooksCategoryAllPage />,
-                loader: booksCategoryLoader,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+              { path: PATHS.productsHome,
+                element: <ProductsHomePage />,
+                loader: productSummaryListLoader,
+                handle: { 
+                  header: { 
+                  kind: "main", 
+                  title: "문앞의책방" 
+                  } 
+                } 
               },
-            ],
-            handle: { header: { kind: "main", title: "문앞의책방" } }
-          },
-          { path: PATHS.productsHome,
-            element: <ProductsHomePage />,
-            loader: productSummaryListLoader,
-            handle: { 
-              header: { 
-              kind: "main", 
-              title: "문앞의책방" 
-              } 
-            } 
-          },
-          { path: PATHS.productsSearch,
-            element: <ProductsSearchPage />,
-            loader: productSummaryListLoader,
-            handle: { 
-              header: { 
-              kind: "main", 
-              title: "문앞의책방" 
-              } 
-            } 
-          },
-          { path: PATHS.productDetail,
-            element: <ProductDetailPage />,
-            loader: productDetailLoader,
-            children: [
-              {
-                index: true,
-                element: <Navigate to="description" replace />
+              { path: PATHS.productsSearch,
+                element: <ProductsSearchPage />,
+                loader: productSummaryListLoader,
+                handle: { 
+                  header: { 
+                  kind: "main", 
+                  title: "문앞의책방" 
+                  } 
+                } 
               },
-              {
-                path: "description",
-                element: <ProductDetailDescriptionPage />,
+              { path: PATHS.productDetail,
+                element: <ProductDetailPage />,
                 loader: productDetailLoader,
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to="description" replace />
+                  },
+                  {
+                    path: "description",
+                    element: <ProductDetailDescriptionPage />,
+                    loader: productDetailLoader,
+                    handle: { 
+                      header: { 
+                        kind: "backTitleClose", 
+                        back: { type: 'push', to: PATHS.productsHome }, 
+                        close: { type: 'push', to: PATHS.productsHome }
+                      } 
+                    } 
+                  },
+                  {
+                    path: "reviews",
+                    element: <ProductDetailReviewsPage />,
+                    loader: productDetailReviewsLoader,
+                    handle: { 
+                      header: { 
+                        kind: "backTitleClose", 
+                        back: { type: 'push', to: PATHS.productsHome }, 
+                        close: { type: 'push', to: PATHS.productsHome }
+                      } 
+                    } 
+                  },
+                  {
+                    path: "qna",
+                    element: <ProductDetailQnaPage />,
+                    loader: productDetailQnaLoader,
+                    handle: { 
+                      header: { 
+                        kind: "backTitleClose", 
+                        back: { type: 'push', to: PATHS.productsHome }, 
+                        close: { type: 'push', to: PATHS.productsHome }
+                      } 
+                    } 
+                  },
+                ],
+              },
+              { path: PATHS.loungeHome,
+                element: <LoungeHomePage />,
+                loader: loungeHomeLoader,
                 handle: { 
                   header: { 
-                    kind: "backTitleClose", 
-                    back: { type: 'push', to: PATHS.productsHome }, 
-                    close: { type: 'push', to: PATHS.productsHome }
+                    kind: "main", 
+                    title: "문앞의책방" 
                   } 
                 } 
               },
-              {
-                path: "reviews",
-                element: <ProductDetailReviewsPage />,
-                loader: productDetailReviewsLoader,
+              { path: PATHS.loungePost,
+                element: <LoungePostPage />,
+                loader: loungePostLoader,
                 handle: { 
                   header: { 
-                    kind: "backTitleClose", 
-                    back: { type: 'push', to: PATHS.productsHome }, 
-                    close: { type: 'push', to: PATHS.productsHome }
+                    kind: "main", 
+                    title: "문앞의책방" 
                   } 
                 } 
               },
-              {
-                path: "qna",
-                element: <ProductDetailQnaPage />,
-                loader: productDetailQnaLoader,
+              { path: PATHS.loungePostCreate,
+                element: <LoungePostCreatePage />,
                 handle: { 
                   header: { 
-                    kind: "backTitleClose", 
-                    back: { type: 'push', to: PATHS.productsHome }, 
-                    close: { type: 'push', to: PATHS.productsHome }
+                    kind: "main", 
+                    title: "문앞의책방" 
                   } 
                 } 
               },
-            ],
-          },
-          { path: PATHS.loungeHome,
-            element: <LoungeHomePage />,
-            loader: loungeHomeLoader,
-            handle: { 
-              header: { 
-                kind: "main", 
-                title: "문앞의책방" 
-              } 
-            } 
-          },
-          { path: PATHS.loungePost,
-            element: <LoungePostPage />,
-            loader: loungePostLoader,
-            handle: { 
-              header: { 
-                kind: "main", 
-                title: "문앞의책방" 
-              } 
-            } 
-          },
-          { path: PATHS.loungePostCreate,
-            element: <LoungePostCreatePage />,
-            handle: { 
-              header: { 
-                kind: "main", 
-                title: "문앞의책방" 
-              } 
-            } 
-          },
-          { path: PATHS.feed,
-            element: <FeedPage />,
-            handle: { 
-              header: { 
-                kind: "main",
-                title: "문앞의책방"
-              } 
-            },
-            children: [
-              {
-                index: true,
-                element: <Navigate to={PATHS.feedHome} replace />
+              { path: PATHS.feed,
+                element: <FeedPage />,
+                handle: { 
+                  header: { 
+                    kind: "main",
+                    title: "문앞의책방"
+                  } 
+                },
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to={PATHS.feedHome} replace />
+                  },
+                  {
+                    path: PATHS.feedHome,
+                    element: <FeedHomePage />,
+                    handle: { header: { kind: "main", title: "문앞의책방" } }
+                  },
+                  {
+                    path: PATHS.feedProfile,
+                    element: <FeedProfilePage />,
+                    handle: { header: { kind: "main", title: "문앞의책방" } },
+                  },
+                ]
               },
               {
-                path: PATHS.feedHome,
-                element: <FeedHomePage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } }
+                path: PATHS.insight,
+                id: "insight",
+                loader: InsightPageLoader,
+                action: InsightPageAction,
+                element: <InsightPage />,
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to={PATHS.insightStat} replace />,
+                  },
+                  {
+                    path: "stat",
+                    element: <InsightStatPage />,
+                    handle: { 
+                      header: { 
+                        kind: "backTitleClose", 
+                        title: "인사이트",
+                        back: { type: 'push', to: PATHS.feedProfile }, 
+                        close: { type: 'push', to: PATHS.feedProfile }
+                      } 
+                    } 
+                  },
+                  {
+                    path: "history",
+                    element: <InsightHistoryPage />,
+                    handle: { 
+                      header: { 
+                        kind: "backTitleClose", 
+                        title: "인사이트",
+                        back: { type: 'push', to: PATHS.feedProfile }, 
+                        close: { type: 'push', to: PATHS.feedProfile }
+                      } 
+                    }
+                  },
+                ],
               },
-              {
-                path: PATHS.feedProfile,
-                element: <FeedProfilePage />,
-                handle: { header: { kind: "main", title: "문앞의책방" } },
-              },
-            ]
-          },
-          {
-            path: PATHS.insight,
-            id: "insight",
-            loader: InsightPageLoader,
-            action: InsightPageAction,
-            element: <InsightPage />,
-            children: [
-              {
-                index: true,
-                element: <Navigate to={PATHS.insightStat} replace />,
-              },
-              {
-                path: "stat",
-                element: <InsightStatPage />,
+              { path: PATHS.cart,
+                element: <CartPage />,
+                loader: CartPageLoader,
+                action: cartAction,
                 handle: { 
                   header: { 
                     kind: "backTitleClose", 
-                    title: "인사이트",
-                    back: { type: 'push', to: PATHS.feedProfile }, 
-                    close: { type: 'push', to: PATHS.feedProfile }
+                    title: "장바구니" 
                   } 
                 } 
               },
-              {
-                path: "history",
-                element: <InsightHistoryPage />,
+              { path: PATHS.order,
+                element: <OrderPage />,
+                loader: OrderPageLoader,
+                action: OrderAction,
                 handle: { 
                   header: { 
                     kind: "backTitleClose", 
-                    title: "인사이트",
-                    back: { type: 'push', to: PATHS.feedProfile }, 
-                    close: { type: 'push', to: PATHS.feedProfile }
+                    title: "주문하기" 
                   } 
+                } 
+              },
+              { path: PATHS.orderComplete,
+                loader: OrderCompletePageLoader,
+                element: <OrderCompletePage />,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose", 
+                    title: "주문 상세 정보",
+                    back: { type: 'push', to:PATHS.home },
+                    close: { type: 'push', to: PATHS.home }
+                  } 
+                } 
+              },
+              { path: PATHS.accountHome,
+                element: <AccountHomePage />,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose",
+                    title: "관리",
+                    back: { type: 'push', to:PATHS.home },
+                    close: { type: 'push', to: PATHS.home }
+                  } 
+                } 
+              },
+              { path: PATHS.accountSettingsIntro,
+                element: <AccountSettingsIntroPage />,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose",
+                    title: "내 정보 관리",
+                    back: { type: 'push', to:PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.home }
+                  }
                 }
               },
-            ],
-          },
-          { path: PATHS.cart,
-            element: <CartPage />,
-            loader: CartPageLoader,
-            action: cartAction,
-            handle: { 
-              header: { 
-                kind: "backTitleClose", 
-                title: "장바구니" 
-              } 
-            } 
-          },
-          { path: PATHS.order,
-            element: <OrderPage />,
-            loader: OrderPageLoader,
-            action: OrderAction,
-            handle: { 
-              header: { 
-                kind: "backTitleClose", 
-                title: "주문하기" 
-              } 
-            } 
-          },
-          { path: PATHS.orderComplete,
-            loader: OrderCompletePageLoader,
-            element: <OrderCompletePage />,
-            handle: { 
-              header: { 
-                kind: "backTitleClose", 
-                title: "주문 상세 정보",
-                back: { type: 'push', to:PATHS.home },
-                close: { type: 'push', to: PATHS.home }
-              } 
-            } 
-          },
-          { path: PATHS.accountHome,
-            element: <AccountHomePage />,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "관리",
-                back: { type: 'push', to:PATHS.home },
-                close: { type: 'push', to: PATHS.home }
-              } 
-            } 
-          },
-          { path: PATHS.accountSettingsIntro,
-            element: <AccountSettingsIntroPage />,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "내 정보 관리",
-                back: { type: 'push', to:PATHS.accountHome },
-                close: { type: 'push', to: PATHS.home }
-              }
-            }
-          },
-          { path: PATHS.accountSettingsProfile,
-            element: <AccountSettingsProfilePage />,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "내 정보 관리",
-                back: { type: 'push', to:PATHS.accountHome },
-                close: { type: 'push', to: PATHS.home }
-              } 
-            } 
-          },
-          { path: PATHS.userAddress,
-            element: <UserAddressPage />,
-            loader: UserAddressPageLoader,
-            action: UserAddressAction,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "배송지 변경",
-                back: { type: 'push', to:PATHS.accountHome },
-                close: { type: 'push', to: PATHS.home }
-              } 
-            } 
-          },
-          { path: PATHS.userAddress,
-            element: <SelectAddressPage />,
-            loader: SelectAddressPageLoader,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "배송지 변경",
-                back: { type: 'push', to:PATHS.accountHome },
-                close: { type: 'push', to: PATHS.home }
-              } 
-            } 
-          },
-          {
-            path: PATHS.faq,
-            element: <FAQPage />,
-            loader: faqLoader,
-            handle: {
-              header: {
-                kind: "backTitleClose",
-                title: "고객센터",
-                back: { type: 'push', to:PATHS.accountHome },
-                close: { type: 'push', to: PATHS.home }
-              }     
-            }
-          },
-          {
-            path: PATHS.qna,
-            element: <QnAPage />,
-            handle: {
-              header: {
-                kind: "backTitleClose",
-                title: "고객센터",
-                back: { type: 'push', to:PATHS.accountHome },
-                close: { type: 'push', to: PATHS.home }
-              }
-            },
-            children: [
-              {
-                index: true,
-                element: <Navigate to={PATHS.registerQnA} replace />
+              { path: PATHS.accountSettingsProfile,
+                element: <AccountSettingsProfilePage />,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose",
+                    title: "내 정보 관리",
+                    back: { type: 'push', to:PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.home }
+                  } 
+                } 
+              },
+              { path: PATHS.userAddress,
+                element: <UserAddressPage />,
+                loader: UserAddressPageLoader,
+                action: UserAddressAction,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose",
+                    title: "배송지 변경",
+                    back: { type: 'push', to:PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.home }
+                  } 
+                } 
+              },
+              { path: PATHS.userAddress,
+                element: <SelectAddressPage />,
+                loader: SelectAddressPageLoader,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose",
+                    title: "배송지 변경",
+                    back: { type: 'push', to:PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.home }
+                  } 
+                } 
               },
               {
-                path: PATHS.registerQnA,
-                element: <QnARegisterPage />,
+                path: PATHS.faq,
+                element: <FAQPage />,
+                loader: faqLoader,
                 handle: {
                   header: {
                     kind: "backTitleClose",
@@ -497,188 +475,218 @@ export const router = createBrowserRouter([
                 }
               },
               {
-                path: PATHS.listQnA,
-                loader: QnAListPageLoader,
-                element: <QnAListPage />,
+                path: PATHS.qna,
+                element: <QnAPage />,
                 handle: {
                   header: {
                     kind: "backTitleClose",
                     title: "고객센터",
                     back: { type: 'push', to:PATHS.accountHome },
                     close: { type: 'push', to: PATHS.home }
-                  }     
-                }
-              },
-            ]
-          },
-          {
-            path: PATHS.notification,
-            loader: NotificationPageLoader,
-            element: <NotificationPage />,
-            handle: {
-              header: {
-                kind: "backTitleClose",
-                title: "고객센터",
-                back: { type: 'push', to:PATHS.accountHome },
-                close: { type: 'push', to: PATHS.home }
-              }
-            }
-          },
-          {
-            path: PATHS.policy,
-            loader: policyLoader,
-            element: <PolicyPage />,
-            handle: {
-              header: {
-                kind: "backTitleClose",
-                title: "고객센터",
-                back: { type: 'push', to:PATHS.accountHome },
-                close: { type: 'push', to: PATHS.home }
-              }
-            }
-          },
-          {
-            path: PATHS.purchaseHistory,
-            loader: PurchaseHistoryPageLoader,
-            action: PurchaseHistoryPageAction,
-            element: <PurchaseHistoryPage />,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "구매 내역",
-                close: { type: 'push', to: PATHS.accountHome }
-              } 
-            } 
-          },
-          {
-            path: PATHS.rentalHistory,
-            loader: RentalHistoryPageLoader,
-            action: RentalHistoryPageAction,
-            element: <RentalHistoryPage />,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "대여 내역",
-                close: { type: 'push', to: PATHS.accountHome }
-              } 
-            }
-          },
-          {
-            path: PATHS.wishlist,
-            id: "wishlist",
-            loader: WishlistPageLoader,
-            element: <WishlistPage />,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "찜 목록",
-                close: { type: 'push', to: PATHS.accountHome }
-              } 
-            },
-            children: [
-              {
-                index: true,
-                element: <Navigate to={PATHS.bookWishlist} replace />,
+                  }
+                },
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to={PATHS.registerQnA} replace />
+                  },
+                  {
+                    path: PATHS.registerQnA,
+                    element: <QnARegisterPage />,
+                    handle: {
+                      header: {
+                        kind: "backTitleClose",
+                        title: "고객센터",
+                        back: { type: 'push', to:PATHS.accountHome },
+                        close: { type: 'push', to: PATHS.home }
+                      }     
+                    }
+                  },
+                  {
+                    path: PATHS.listQnA,
+                    loader: QnAListPageLoader,
+                    element: <QnAListPage />,
+                    handle: {
+                      header: {
+                        kind: "backTitleClose",
+                        title: "고객센터",
+                        back: { type: 'push', to:PATHS.accountHome },
+                        close: { type: 'push', to: PATHS.home }
+                      }     
+                    }
+                  },
+                ]
               },
               {
-                path: PATHS.bookWishlist,
-                element: <BookWishlistPage />,
+                path: PATHS.notification,
+                loader: NotificationPageLoader,
+                element: <NotificationPage />,
                 handle: {
                   header: {
+                    kind: "backTitleClose",
+                    title: "고객센터",
+                    back: { type: 'push', to:PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.home }
+                  }
+                }
+              },
+              {
+                path: PATHS.policy,
+                loader: policyLoader,
+                element: <PolicyPage />,
+                handle: {
+                  header: {
+                    kind: "backTitleClose",
+                    title: "고객센터",
+                    back: { type: 'push', to:PATHS.accountHome },
+                    close: { type: 'push', to: PATHS.home }
+                  }
+                }
+              },
+              {
+                path: PATHS.purchaseHistory,
+                loader: PurchaseHistoryPageLoader,
+                action: PurchaseHistoryPageAction,
+                element: <PurchaseHistoryPage />,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose",
+                    title: "구매 내역",
+                    close: { type: 'push', to: PATHS.accountHome }
+                  } 
+                } 
+              },
+              {
+                path: PATHS.rentalHistory,
+                loader: RentalHistoryPageLoader,
+                action: RentalHistoryPageAction,
+                element: <RentalHistoryPage />,
+                handle: { 
+                  header: { 
+                    kind: "backTitleClose",
+                    title: "대여 내역",
+                    close: { type: 'push', to: PATHS.accountHome }
+                  } 
+                }
+              },
+              {
+                path: PATHS.wishlist,
+                id: "wishlist",
+                loader: WishlistPageLoader,
+                element: <WishlistPage />,
+                handle: { 
+                  header: { 
                     kind: "backTitleClose",
                     title: "찜 목록",
-                    back: { type: 'push', to: PATHS.accountHome },
                     close: { type: 'push', to: PATHS.accountHome }
+                  } 
+                },
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to={PATHS.bookWishlist} replace />,
+                  },
+                  {
+                    path: PATHS.bookWishlist,
+                    element: <BookWishlistPage />,
+                    handle: {
+                      header: {
+                        kind: "backTitleClose",
+                        title: "찜 목록",
+                        back: { type: 'push', to: PATHS.accountHome },
+                        close: { type: 'push', to: PATHS.accountHome }
+                      }
+                    }
+                  },
+                  {
+                    path: PATHS.productWishlist,
+                    element: <ProductWishlistPage />,
+                    handle: {
+                      header: {
+                        kind: "backTitleClose",
+                        title: "찜 목록",
+                        back: { type: 'push', to: PATHS.accountHome },
+                        close: { type: 'push', to: PATHS.accountHome }
+                      }
+                    }
                   }
-                }
+                ]
               },
               {
-                path: PATHS.productWishlist,
-                element: <ProductWishlistPage />,
-                handle: {
-                  header: {
-                    kind: "backTitleClose",
-                    title: "찜 목록",
-                    back: { type: 'push', to: PATHS.accountHome },
-                    close: { type: 'push', to: PATHS.accountHome }
-                  }
-                }
-              }
-            ]
-          },
-          {
-            path: PATHS.pointTransactions,
-            element: <PointTransactionsPage />,
-            loader: PointTransactionsPageLoader,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "포인트",
-                close: { type: 'push', to: PATHS.accountHome }
-              } 
-            },
-            children: [
-              {
-                index: true,
-                element: <Navigate to={PATHS.pointTransactionsAll} replace />,
-              },
-              {
-                path: PATHS.pointTransactionsAll,
-                loader: PointTransactionsAllPageLoader,
-                element: <PointTransactionsAllPage />,
-                handle: {
-                  header: {
-                    kind: "backTitleClose",
-                    title: "포인트",
-                    back: { type: 'push', to: PATHS.accountHome },
-                    close: { type: 'push', to: PATHS.accountHome }
-                  }
-                }
-              },
-              {
-                path: PATHS.pointTransactionsEarned,
-                loader: PointTransactionsEarnedPageLoader,
-                element: <PointTransactionsEarnedPage />,
-                handle: {
-                  header: {
+                path: PATHS.pointTransactions,
+                element: <PointTransactionsPage />,
+                loader: PointTransactionsPageLoader,
+                handle: { 
+                  header: { 
                     kind: "backTitleClose",
                     title: "포인트",
-                    back: { type: 'push', to: PATHS.accountHome },
                     close: { type: 'push', to: PATHS.accountHome }
+                  } 
+                },
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to={PATHS.pointTransactionsAll} replace />,
+                  },
+                  {
+                    path: PATHS.pointTransactionsAll,
+                    loader: PointTransactionsAllPageLoader,
+                    element: <PointTransactionsAllPage />,
+                    handle: {
+                      header: {
+                        kind: "backTitleClose",
+                        title: "포인트",
+                        back: { type: 'push', to: PATHS.accountHome },
+                        close: { type: 'push', to: PATHS.accountHome }
+                      }
+                    }
+                  },
+                  {
+                    path: PATHS.pointTransactionsEarned,
+                    loader: PointTransactionsEarnedPageLoader,
+                    element: <PointTransactionsEarnedPage />,
+                    handle: {
+                      header: {
+                        kind: "backTitleClose",
+                        title: "포인트",
+                        back: { type: 'push', to: PATHS.accountHome },
+                        close: { type: 'push', to: PATHS.accountHome }
+                      }
+                    }
+                  },
+                  {
+                    path: PATHS.pointTransactionsUsed,
+                    loader: PointTransactionsUsedPageLoader,
+                    element: <PointTransactionsUsedPage />,
+                    handle: {
+                      header: {
+                        kind: "backTitleClose",
+                        title: "포인트",
+                        back: { type: 'push', to: PATHS.accountHome },
+                        close: { type: 'push', to: PATHS.accountHome }
+                      }
+                    }
                   }
-                }
+                ]
               },
               {
-                path: PATHS.pointTransactionsUsed,
-                loader: PointTransactionsUsedPageLoader,
-                element: <PointTransactionsUsedPage />,
-                handle: {
-                  header: {
+                path: PATHS.coupon,
+                element: <CouponPage />,
+                loader: CouponPageLoader,
+                handle: { 
+                  header: { 
                     kind: "backTitleClose",
-                    title: "포인트",
-                    back: { type: 'push', to: PATHS.accountHome },
+                    title: "쿠폰",
                     close: { type: 'push', to: PATHS.accountHome }
-                  }
-                }
-              }
-            ]
-          },
-          {
-            path: PATHS.coupon,
-            element: <CouponPage />,
-            loader: CouponPageLoader,
-            handle: { 
-              header: { 
-                kind: "backTitleClose",
-                title: "쿠폰",
-                close: { type: 'push', to: PATHS.accountHome }
-              } 
-            } 
+                  } 
+                } 
+              },
+            ],
           },
         ],
       },
-    ],
-  },
 
-  { path: "*", element: <Navigate to={PATHS.intro} replace /> },
+      { path: "*", element: <Navigate to={PATHS.intro} replace /> },
+    ]
+  }
 ]);
