@@ -10,11 +10,13 @@ import SimplePagination from "../../components/navigation/SimplePagination";
 export default function NotificationPage() {
 
   const { content, size, totalItems } = useLoaderData() as NotificationList;
-  const [, setSerchParam] = useSearchParams();
+  const [searchParam, setSerchParam] = useSearchParams();
   const toDate = (value: string) => new Date(value).toLocaleString();
 
+  const currentPage = searchParam.get("page") ?? "1";
+
   return (
-     <main className={s['page-layout']}>
+    <main className={s['page-layout']}>
       <div className={s['page-title']}>
         <span>고객센터</span>
       </div>
@@ -28,7 +30,7 @@ export default function NotificationPage() {
         fourthTabTitle='이용약관'
         fourthTabPath={PATHS.policy}/>
       <div className={s['list-wrapper']}>
-        <div className={s['list-items']}>
+        <div className={s['list-items']} key={currentPage}>
             {content.length === 0 ? (
               <div className={s['no-content']}>
                 <span>등록된 문의가 존재하지 않습니다.</span>
