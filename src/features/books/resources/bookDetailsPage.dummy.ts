@@ -317,7 +317,7 @@ export const bookBannersTravelDummy = [
   },
   {
     id: '2',
-    mobileImageUrl: 'hhttps://contents.kyobobook.co.kr/pmtn/2025/event/237e9737fd83449581c53bcf6871664b.jpg',
+    mobileImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/237e9737fd83449581c53bcf6871664b.jpg',
     desktopImageUrl: 'https://contents.kyobobook.co.kr/pmtn/2025/event/bc8ebeddbd4e498f80e1f9c80af21823.jpg'
   },
   {
