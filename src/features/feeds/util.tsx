@@ -1,16 +1,39 @@
 export function timeAgo(input: string | number | Date): string {
-  const ts = toEpochMs(input);
-  if (ts == null) { return ''; }
-  const diff = Math.max(0, Date.now() - ts); 
-  const mins = Math.floor(diff / 60_000);
-  if (mins < 1) { return '방금 전'; }
-  if (mins < 60) { return `${mins}분 전`; }
-  const hours = Math.floor(mins / 60);
-  if (hours < 24) { return `${hours}시간 전`; }
-  const days = Math.floor(hours / 24);
+  const originalTs = toEpochMs(input);
+  if (originalTs == null) { 
+    return ''; 
+  }
 
+  const now = Date.now();
+  let ts = originalTs;
+  let diff = now - ts;
+
+  if (diff < -60_000) {
+    ts = ts + new Date().getTimezoneOffset() * 60_000;
+    diff = now - ts;
+  }
+
+  if (diff < 0) {
+    diff = 0;
+  }
+
+  const mins = Math.floor(diff / 60_000);
+  if (mins < 1) {
+    return '방금 전';
+  }
+  if (mins < 60) {
+    return `${mins}분 전`;
+  }
+
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) {
+    return `${hours}시간 전`;
+  }
+
+  const days = Math.floor(hours / 24);
   return `${days}일 전`;
 }
+
 
 function toEpochMs(v: string | number | Date): number | null {
   if (v instanceof Date) { return v.getTime(); }
