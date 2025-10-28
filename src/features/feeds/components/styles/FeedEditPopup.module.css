@@ -300,16 +300,19 @@
   }
 
   .modal {
-    width: 100vw;
+    width: 100%;
+    height: 100%;
     min-height: 100vh;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
     border-radius: 0;
     box-shadow: none;
+
+    display: flex;
+    flex-direction: column;
   }
 
   .media {
     height: 50vh;
+    flex: 0 0 auto;  
   }
 
   .mobileTopBar {
@@ -333,21 +336,55 @@
     cursor: pointer;
   }
 
-  .desktopCloseBtn { display: none; } 
+  .desktopCloseBtn { display: none; }
 
   .sidebar {
-    display: block;
+    flex: 1 1 auto;
+    min-height: 50vh;
+
+    display: flex;
+    flex-direction: column;
     height: auto;
   }
 
-  .content,
-  .comments {
-    max-height: none;
-    overflow: visible;
-    padding: 12px 16px;
+  .header {
+    flex-shrink: 0;
   }
 
-  .footer { position: static; padding: 10px 12px; }
+  .content {
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #222;
+
+    flex-shrink: 0;
+  }
+
+  .comments {
+    padding: 12px 16px;
+    flex: 1 1 auto;
+    min-height: 0;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable both-edges;
+
+    border-top: 1px solid rgba(0, 0, 0, .04);
+    font-size: 12px;
+  }
+
+  .footer {
+    flex-shrink: 0;
+    border-top: 1px solid rgba(0, 0, 0, .06);
+    padding: 10px 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+  }
 
   .nav { width: 44px; height: 44px; }
   .dots { bottom: 10px; }
