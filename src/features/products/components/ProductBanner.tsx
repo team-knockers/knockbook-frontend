@@ -7,6 +7,7 @@ type BannerProps = {
   title2: string;
   desc: string;
   tone: 'light' | 'dark';
+  onClick: () => void;
 };
 
 export default function ProductBanner({
@@ -16,9 +17,13 @@ export default function ProductBanner({
   title2,
   desc,
   tone,
+  onClick
 }: BannerProps) {
   return (
-    <div className={`${styles['card']} phb-card`}>
+    <div 
+      className={`${styles['card']} phb-card`}
+      onClick={onClick}
+    >
       <img
         className={styles['img']}
         src={bannerImgUrl}
