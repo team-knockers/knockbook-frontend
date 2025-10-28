@@ -15,7 +15,9 @@ export default function FAQPage() {
   const { content, size, totalItems } = useLoaderData() as FaqList;
   const [latestNoticeTitle, ] = useState("최근 공지가 없습니다.");
   const [latestNoticeUrl, ] = useState(PATHS.faq);
-  const [, setSerchParam] = useSearchParams();
+  const [searchParam, setSerchParam] = useSearchParams();
+
+  const currentPage = searchParam.get("page") ?? "1";
 
   return (
     <main className={s['page-layout']}>
@@ -52,7 +54,7 @@ export default function FAQPage() {
           <div className={s['faq-list-title']}>
             <span>자주 묻는 질문</span>
           </div>
-          <div className={s['faq-list-items']}>
+          <div className={s['faq-list-items']} key={currentPage}>
             {content.length === 0 ? (
               <div className={s['no-content']}>
                 <span>등록된 FAQ가 존재하지 않습니다.</span>
@@ -91,7 +93,7 @@ export default function FAQPage() {
                 widthSizeType="md"
                 heightSizeType="md"
                 colorType="outline"
-                onClick={() => {/* TODO */}} />
+                onClick={() => nav(PATHS.qna)} />
               <OneWayButton
                 content="채팅 상담하기"
                 responsiveType="fixed"
