@@ -22,12 +22,18 @@ export default function FourLevelTabMenu({
   thirdTabPath,
   fourthTabPath,
 }: FourLevelTabMenuProps) {
+  
+  const handleTabClick = () => {
+    sessionStorage.setItem('skipScroll', 'true');
+  };
+
   return (
     <div className={s['tab-menu']}>
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={firstTabPath}>
+        to={firstTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {firstTabTitle}
         </span>
@@ -35,7 +41,8 @@ export default function FourLevelTabMenu({
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={secondTabPath}>
+        to={secondTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {secondTabTitle}
         </span>
@@ -43,7 +50,8 @@ export default function FourLevelTabMenu({
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={thirdTabPath}>
+        to={thirdTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {thirdTabTitle}
         </span>
@@ -51,7 +59,8 @@ export default function FourLevelTabMenu({
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={fourthTabPath}>
+        to={fourthTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {fourthTabTitle}
         </span>
