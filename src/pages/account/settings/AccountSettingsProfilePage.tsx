@@ -7,6 +7,7 @@ import { ApiError } from '../../../types/http';
 import type { UserProfile } from '../../../features/account/types';
 import { checkPasswordAlphaLetter, checkPasswordDigit, checkPasswordLength, checkPasswordSpecialLetter, isPasswordValid } from '../../../shared/validation/validUserProfile';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import FeedProfileFallback from '../../../assets/feed_profile.jpg';
 
 import OneWayButton from '../../../components/forms/OneWayButton';
 import s from './AccountSettingsProfilePage.module.css';
@@ -17,6 +18,7 @@ export default function AccountSettingsProfilePage() {
   const { revalidate } = useRevalidator();
   const me = useRouteLoaderData(AUTH_LOADER_ID) as UserProfile;
 
+  const avatarUrl = me.avatarUrl?.trim() || FeedProfileFallback;
   const [displayName, setDisplayName] = useState(me.displayName);
   const [isPasswordDisabled] = useState(true);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
@@ -37,10 +39,12 @@ export default function AccountSettingsProfilePage() {
     try {
       await UserService.changeDisplayName(displayName);
       revalidate();
-      console.log(`displayName changed by ${displayName}`);      
+      console.log(`displayName changed by ${displayName}`);
+      alert('이름이 성공적으로 변경되었습니다!');
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure
+        alert('이름 변경 실패');
       }
     }
   }
@@ -49,16 +53,22 @@ export default function AccountSettingsProfilePage() {
      try {
       await UserService.changePassword(newPassword);
       console.log('password changed');
+      alert('비밀번호가 성공적으로 변경되었습니다!');
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure
+        alert('비밀번호 변경 실패');
       }
     }
   }
 
   return (
     <main className={s['page-layout']}>
-      <div className={s['profile-img']}/>
+      <div className={s['profile-img']}>
+        <img
+          src={avatarUrl || FeedProfileFallback}
+          alt={`${displayName || '프로필'} 이미지`} />
+      </div>
       <div className={s['profile-form-wrapper']}>
         {/* email - readonly */}
         <div className={s['email-wrapper']}>
@@ -149,8 +159,8 @@ export default function AccountSettingsProfilePage() {
                     placeholder="비밀번호를 입력하세요"
                     value={newPassword}
                     onChange={e => setNewPassword(e.target.value)}
-                    valid={isPasswordValid(newPassword)}
-                    invalid={!isPasswordValid(newPassword)}/>
+                    valid={newPassword !== '' && isPasswordValid(newPassword)}
+                    invalid={newPassword !== '' && !isPasswordValid(newPassword)}/>
                   <InputGroupText
                     className={s['show-icon']}
                     onClick={() => setShowNewPassword(prev => !prev)}>
@@ -179,8 +189,8 @@ export default function AccountSettingsProfilePage() {
                       placeholder="비밀번호를 입력하세요"
                       value={confirmPassword}
                       onChange={e => setConfirmPassword(e.target.value)}
-                      valid={isMatch}
-                      invalid={!isMatch}/>
+                      valid={confirmPassword !== '' && isMatch}
+                      invalid={confirmPassword !== '' && !isMatch}/>
                     <InputGroupText
                       className={s['show-icon']}
                       onClick={() => setShowConfirmPassword(prev => !prev)}>
