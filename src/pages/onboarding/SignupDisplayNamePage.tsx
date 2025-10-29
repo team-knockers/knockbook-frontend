@@ -62,8 +62,8 @@ export default function SignupDisplayNamePage() {
                 placeholder="2자에서 10자 사이 한글 혹은 영문자로 입력해주세요."
                 value={displayName}
                 onChange={e => setDisplayName(e.target.value)}
-                valid={isValid}
-                invalid={!isValid}/>
+                valid={displayName.length > 0 && isValid}
+                invalid={displayName.length > 0 && !isValid}/>
               <div className={s['name-request-wrapper']}>
                 <Item ok={checkDisplayNameLength(displayName)}>2-10자</Item>
                 <Item ok={checkDisplayNameLetter(displayName)}>한글/영문</Item>

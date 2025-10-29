@@ -56,8 +56,8 @@ export default function SignupPasswordPage() {
                     placeholder="비밀번호를 입력하세요"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    valid={isPasswordValid(password)}
-                    invalid={!isPasswordValid(password)}/>
+                    valid={password !== '' && isPasswordValid(password)}
+                    invalid={password !== '' && !isPasswordValid(password)}/>
                   <InputGroupText
                     className={styles['show-icon']}
                     onClick={() => setShowPassword(prev => !prev)}>
@@ -85,8 +85,8 @@ export default function SignupPasswordPage() {
                     placeholder="비밀번호를 입력하세요"
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
-                    valid={isMatch}
-                    invalid={!isMatch}/>
+                    valid={confirmPassword !== '' && isMatch}
+                    invalid={confirmPassword !== '' && !isMatch}/>
                   <InputGroupText
                     className={styles['show-icon']}
                     onClick={() => setShowConfirmPassword(prev => !prev)}>

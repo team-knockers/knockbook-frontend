@@ -144,7 +144,7 @@ export default function RentalHistoryPage() {
                           <div className={s['order-item-status']}>{formatStatus(o.rentalStatus || '')}</div>
                           <div className={s['order-item-name']}>{i.titleSnapshot}</div>
                           <div className={s['order-item-qty']}>수량: {i.quantity}</div>
-                          <div className={s['order-item-price']}>{formatWon(i.listPriceSnapshot)}</div>
+                          <div className={s['order-item-price']}>{formatWon(i.rentalPriceSnapshot)}</div>
                         </div>
                       </div>
 

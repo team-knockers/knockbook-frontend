@@ -29,6 +29,7 @@ export default function BookOrderBottomBar({
 } : BookOrderBottomBarProps) {
 
   const [isFavoriteOn, setIsFavoriteOn] = useState(isWished);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     setIsFavoriteOn(isWished);
@@ -40,6 +41,14 @@ export default function BookOrderBottomBar({
     onFavoriteButtonClick(newState);
   };
 
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
+    onQuantityChange(newQuantity);
+  };
+
+  const totalRentalPrice = rentalPriceAmount * quantity;
+  const totalPurchasePrice = purchasePriceAmount * quantity;
+
   return (
     <div className={s['container']}>
       <div className={s['order-summary-panel']}>
@@ -48,17 +57,17 @@ export default function BookOrderBottomBar({
                 대여
               </span>
             <span className={s['price-amount']}>
-              <strong>{rentalPriceAmount.toLocaleString("ko-KR")}</strong>원
+              <strong>{totalRentalPrice.toLocaleString("ko-KR")}</strong>원
             </span>
             <span className={s['price-sub-tag']}>
               구매
             </span>
             <span className={s['price-amount']}>
-              <strong>{purchasePriceAmount.toLocaleString("ko-KR")}</strong>원
+              <strong>{totalPurchasePrice.toLocaleString("ko-KR")}</strong>원
             </span>
           </div>
           <div className={s['quantity-wrapper']}>
-            <Counter onChange={onQuantityChange}/>
+            <Counter onChange={handleQuantityChange}/>
           </div>
         </div>
         <div className={s['order-action-panel']}>
