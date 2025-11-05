@@ -149,9 +149,9 @@ export default function BookDetailsReviewsPage() {
 
     try {
       if (newLiked) {
-        await BookService.likeReview(bookId!, reviewId);
+        await BookService.likeReview(reviewId);
       } else {
-        await BookService.unlikeReview(bookId!, reviewId);
+        await BookService.unlikeReview(reviewId);
       }
     } catch (e) {
       toast.error('좋아요 처리에 실패했습니다');
