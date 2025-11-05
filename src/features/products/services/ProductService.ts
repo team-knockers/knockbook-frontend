@@ -68,12 +68,10 @@ export const ProductService = {
   },
 
   async getProductInquiryList(p: InquiryListParams): Promise<ProductInquiryList> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
 
     return apiAuthPathAndQuery<ProductInquiryList>(
-      "/products/{productId}/inquiries/{userId}",
-      { productId: p.productId, userId },
+      "/products/{productId}/inquiries",
+      { productId: p.productId },
       { page: p.page, size: p.size },
       { method: "GET" }
     );
