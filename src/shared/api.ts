@@ -52,7 +52,10 @@ export async function apiAuthJson<TRes, TBody = unknown>(
 ): Promise<TRes> {
   
   const { accessToken } = useSession.getState();
-  const withAuth: RequestInit = { ...init, headers: { ...(init?.headers ?? {}), Authorization: accessToken ? `Bearer ${accessToken}` : "" } };
+  const withAuth: RequestInit = { 
+    ...init, 
+    headers: { ...(init?.headers ?? {}),
+    Authorization: accessToken ? `Bearer ${accessToken}` : "" } };
 
   try {
     return await requestJson<TRes, TBody>(url, withAuth);
