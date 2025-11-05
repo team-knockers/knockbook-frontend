@@ -7,13 +7,15 @@ import SimplePagination from '../../components/navigation/SimplePagination';
 export default function QnAListPage() {
 
   const { content, size, totalItems } = useLoaderData() as QnaList;
-  const [, setSerchParam] = useSearchParams();
+  const [searchParam, setSerchParam] = useSearchParams();
   const toDate = (value: string) => new Date(value).toLocaleString();
+
+  const currentPage = searchParam.get("page") ?? "1";
 
   return (
     <div className={s['subpage-layout']}>
       <div className={s['qna-list-wrapper']}>
-        <div className={s['qna-list-items']}>
+        <div className={s['qna-list-items']} key={currentPage}>
             {content.length === 0 ? (
               <div className={s['no-content']}>
                 <span>등록된 문의가 존재하지 않습니다.</span>
@@ -21,7 +23,7 @@ export default function QnAListPage() {
             ) : (
             content.map(qna => (
               <div className={s['qna-list-item']}>
-                 <ListAccordionItem
+                <ListAccordionItem
                   state={qna.answeredAt ? "답변완료" : "답변대기중"}
                   title={qna.title}
                   date={toDate(qna.createdAt)}>
@@ -40,7 +42,7 @@ export default function QnAListPage() {
                         </div>
                       </div>
                       {qna.answeredAt && ( 
-                       <div className={s['qna-answer']}>
+                        <div className={s['qna-answer']}>
                           <div className={s['qna-answer-content']}>
                             <span>{qna.answer}</span>
                           </div>

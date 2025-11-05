@@ -14,12 +14,18 @@ export default function TwoLevelTabMenu({
   leftTabPath,
   rightTabPath,
 }: TwoLevelTabMenuProps) {
+
+    const handleTabClick = () => {
+    sessionStorage.setItem('skipScroll', 'true');
+  };
+
   return (
     <div className={s['tab-menu']}>
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={leftTabPath}>
+        to={leftTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {leftTabTitle}
         </span>
@@ -27,7 +33,8 @@ export default function TwoLevelTabMenu({
       <NavLink 
         className={({ isActive }) =>
           `${s['tab-link']} ${isActive ? s['active'] : ''}`}
-        to={rightTabPath}>
+        to={rightTabPath}
+        onClick={handleTabClick}>
         <span className={s['tab-title']}>
           {rightTabTitle}
         </span>

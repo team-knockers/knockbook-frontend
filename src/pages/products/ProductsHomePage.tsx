@@ -114,6 +114,7 @@ export default function ProductsHomePage() {
               title2={b.title2}
               desc={b.desc}
               tone={b.tone}
+              onClick={() => handleCardClick(b.productId)}
             />
           ))}
         </ProductBannerSlider>

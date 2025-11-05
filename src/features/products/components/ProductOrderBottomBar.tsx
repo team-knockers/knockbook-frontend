@@ -25,11 +25,20 @@ export default function ProductBottomBar({
 } : ProductBottomBarProps) {
 
   const [isFavoriteOn, setIsFavoriteOn] = useState(initialFavoriteOn);
+  const [quantity, setQuantity] = useState(1);
+  
   const handleFavoriteClick = () => {
     const newState = !isFavoriteOn;
     setIsFavoriteOn(newState);
     onFavoriteButtonClick(newState);
   };
+
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
+    onQuantityChange(newQuantity);
+  };
+
+  const totalPrice = priceAmount * quantity;
 
   return (
     <div className={s['container']}>
@@ -37,11 +46,11 @@ export default function ProductBottomBar({
         <div className={s['price-wrapper']}>
           <span className={s['price-tag']}>상품 금액</span>
           <span className={s['price-amount']}>
-            <strong>{priceAmount.toLocaleString("ko-KR")}</strong>원
+            <strong>{totalPrice.toLocaleString("ko-KR")}</strong>원
           </span>
         </div>
         <div className={s['quantity-wrapper']}>
-          <Counter onChange={onQuantityChange}/>
+          <Counter onChange={handleQuantityChange}/>
         </div>
       </div>
       <div className={s['order-action-panel']}>

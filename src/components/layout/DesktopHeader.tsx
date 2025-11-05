@@ -15,7 +15,8 @@ export default function DesktopHeader({ children }: PropsWithChildren) {
           <button className={styles['app-header-title']}>
             <img 
               className={styles['app-header-img']}
-              src={logoUrl}/>
+              src={logoUrl}
+              onClick={() => nav(PATHS.home)}/>
           </button>
           <div className={styles['app-header-menubar']}>
             {children}

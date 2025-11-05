@@ -131,6 +131,10 @@ export default function HomePage() {
   const handleBookItemClick = (id: string) =>
     navigate(generatePath(PATHS.bookDetails, { bookId: id }));
 
+  const handleBannerClick = (id: string) => {
+    navigate(generatePath(PATHS.productDetail, { productId: id }));
+  };
+
   // 빈 추천 묶음 제거(인덱스 보존)
   const preferenceEntries = preferenceRecommendations
     .map((books, idx) => ({ books: Array.isArray(books) ? books : [], idx }))
@@ -280,6 +284,7 @@ export default function HomePage() {
           {homeProductBannerImage.map((b, i) => (
             <ProductBanner
               key={i}
+              onClick={() => {handleBannerClick(b.productId)}}
               bannerImgUrl={b.bannerImgUrl}
               badge={b.badge}
               title1={b.title1}
