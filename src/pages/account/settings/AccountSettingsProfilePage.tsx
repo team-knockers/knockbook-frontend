@@ -5,7 +5,7 @@ import { AUTH_LOADER_ID } from '../../../routes/auth.layout';
 import { UserService } from '../../../features/account/services/UserService';
 import { ApiError } from '../../../types/http';
 import type { UserProfile } from '../../../features/account/types';
-import { checkPasswordAlphaLetter, checkPasswordDigit, checkPasswordLength, checkPasswordSpecialLetter, isPasswordValid } from '../../../shared/validation/validUserProfile';
+import { checkPasswordAlphaLetter, checkPasswordDigit, checkPasswordLength, checkPasswordSpecialLetter, isPasswordValid } from '../../../utils/userProfileValidators';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import FeedProfileFallback from '../../../assets/feed_profile.jpg';
 
