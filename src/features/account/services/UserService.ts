@@ -1,13 +1,20 @@
-import { apiAuthMultipartPath, apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
-import { useSession } from "../../../hooks/useSession";
-import type { ChangePasswordRequest, VerifyPasswordRequest, UserProfile, Address, InsertAddressRequest, UpdateAddressRequest, UpdateProfilePatch, UploadAvatarResponse } from "../types";
-import type { CouponIssuance, GetPointBalanceResponse, PointTransaction } from "../../purchase/type";
+import { 
+  apiAuthMultipartPath, apiAuthPath, 
+  apiAuthPathAndQuery, apiAuthPathWithJson 
+} from "../../../shared/api";
+import type { 
+  ChangePasswordRequest, VerifyPasswordRequest, UserProfile, 
+  Address, InsertAddressRequest, UpdateAddressRequest, 
+  UpdateProfilePatch, UploadAvatarResponse 
+} from "../types";
+import type { 
+  CouponIssuance, GetPointBalanceResponse, PointTransaction 
+} from "../../purchase/type";
+import { ensureUserId } from "../../../shared/authReady";
 
 export const UserService = {
   
-  async getMyProfile() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+  async getProfile(userId: string) {
     return await apiAuthPath<UserProfile>(
       "/users/{userId}",
       { userId : userId },
@@ -16,8 +23,7 @@ export const UserService = {
   },
 
   async updateMyProfile(patch: UpdateProfilePatch) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();   
     return await apiAuthPathAndQuery<void>(
       "/users/{userId}",
       { userId },
@@ -27,8 +33,7 @@ export const UserService = {
   },
 
   async uploadAvatar(avatar: File) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     const form = new FormData();
     form.append("file", avatar);
     return apiAuthMultipartPath<UploadAvatarResponse>(
@@ -40,19 +45,17 @@ export const UserService = {
   },
 
   async getCoupons(status: string = "AVAILABLE" ) {
-  const { userId } = useSession.getState();
-  if (!userId) { throw new Error("NO_USER") }    
-  return await apiAuthPathAndQuery<CouponIssuance[]>(
-    "/users/{userId}/coupon-issuances",
-    { userId },
-    { status : status },
-    { method: "GET" }
-    );
+    const userId = await ensureUserId();
+    return await apiAuthPathAndQuery<CouponIssuance[]>(
+      "/users/{userId}/coupon-issuances",
+      { userId },
+      { status : status },
+      { method: "GET" }
+      );
   },
 
   async getPoints() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }    
+    const userId = await ensureUserId();
     return await apiAuthPath<GetPointBalanceResponse>(
       "/users/{userId}/points/balance",
       { userId },
@@ -61,8 +64,7 @@ export const UserService = {
   },
 
   async getPointTransactions() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }    
+    const userId = await ensureUserId();
     return await apiAuthPath<PointTransaction[]>(
       "/users/{userId}/points/transactions",
       { userId },
@@ -71,8 +73,7 @@ export const UserService = {
   },
 
   async changeDisplayName(name: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPathAndQuery<void>(
       "/users/{userId}",
       { userId },
@@ -82,8 +83,7 @@ export const UserService = {
   },
 
   async changeMbti(mbti: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPathAndQuery<void>(
       "/users/{userId}",
       { userId },
@@ -93,8 +93,7 @@ export const UserService = {
   },
 
   async changeBio(bio: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPathAndQuery<void>(
       "/users/{userId}",
       { userId },
@@ -104,8 +103,7 @@ export const UserService = {
   },
 
   async changeFavoriteBookCategories(favoriteBookCategories: string[]) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPathAndQuery<void>(
       "/users/{userId}",
       { userId },
@@ -115,8 +113,7 @@ export const UserService = {
   },
 
   async changePassword(password: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     const req = { password : password } as ChangePasswordRequest;
     return await apiAuthPathWithJson<void, ChangePasswordRequest>(
       "/users/{userId}/password",
@@ -125,8 +122,7 @@ export const UserService = {
   },
 
   async verifyPassword(password : string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     const req = { password : password } as VerifyPasswordRequest;
     return await apiAuthPathWithJson<void, VerifyPasswordRequest>(
       "/users/{userId}/password/verify",
@@ -135,8 +131,7 @@ export const UserService = {
   },
 
   async getAddresses() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<Address[]>(
       "/users/{userId}/addresses",
       { userId : userId },
@@ -144,8 +139,7 @@ export const UserService = {
   },
 
   async getAddress(addressId : string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<Address>(
       "/users/{userId}/addresses/{addressId}",
       { userId, addressId },
@@ -153,7 +147,7 @@ export const UserService = {
   },
 
    async setDefaultAddressAs(addressId: string) {
-    const { userId } = useSession.getState();
+    const userId = await ensureUserId();
     if (!userId) { throw new Error("NO_USER"); }
     return await apiAuthPath(
       "/users/{userId}/addresses/{addressId}/make-default",
@@ -162,7 +156,7 @@ export const UserService = {
   },
 
   async deleteAddress(addressId: string) {
-    const { userId } = useSession.getState();
+    const userId = await ensureUserId();
     if (!userId) { throw new Error("NO_USER"); }
     return await apiAuthPath(
       "/users/{userId}/addresses/{addressId}",
@@ -171,7 +165,7 @@ export const UserService = {
   },
 
   async insertAddress(req: InsertAddressRequest) {
-    const { userId } = useSession.getState();
+    const userId = await ensureUserId();
     if (!userId) { throw new Error("NO_USER"); }
     return await apiAuthPathWithJson<void, InsertAddressRequest>(
       "/users/{userId}/addresses",
@@ -182,8 +176,7 @@ export const UserService = {
   async updateAddress(
     addressId: string,
     req: UpdateAddressRequest) {
-    console.log(req);
-    const { userId } = useSession.getState();
+    const userId = await ensureUserId();
     if (!userId) { throw new Error("NO_USER"); }
     return await apiAuthPathWithJson<void, UpdateAddressRequest>(
       "/users/{userId}/addresses/{addressId}",

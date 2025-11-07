@@ -14,10 +14,10 @@ import { formatPoint, formatWon } from '../../features/purchase/utils/formatter'
 import { PaymentService } from '../../features/purchase/services/PaymentService';
 import SimplePopup from '../../components/overlay/SimplePopup';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { useSession } from '../../hooks/useSession';
 import { PATHS } from '../../routes/paths';
 import AddressForm from '../../features/account/components/AddressForm';
 import SelectAddressPage from '../account/address/SelectAddressPage';
+import { ensureUserId } from '../../shared/authReady';
 
 export default function OrderPage() {
 
@@ -33,7 +33,6 @@ export default function OrderPage() {
   const { revalidate } = useRevalidator();
   const fetcher = useFetcher();
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const { userId } = useSession.getState();
 
   /* address section */
   const hasAddress = !!address;
@@ -244,10 +243,24 @@ export default function OrderPage() {
 
   /* payment using kakaopay */
   const [payLoading, setPayLoading] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [uidLoading, setUidLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const id = await ensureUserId();
+        setUserId(id);
+      } catch {
+        setUserId(null);
+      } finally {
+        setUidLoading(false);
+      }
+    })();
+  }, []);
 
   const startKakaoPay = async () => {
-    if (!canProceed) { return; }
-    if (!userId) { return; }
+    if (!canProceed || !userId) { return; }
     try {
       setPayLoading(true);
       const data = await PaymentService.kakaoReady(userId, orderId);
@@ -259,11 +272,14 @@ export default function OrderPage() {
       setPayLoading(false);
     }
   };
+
   const handleOrderButtonClick = () => {
     if (payMethod === 'KAKAOPAY') {
       startKakaoPay();
     }
   }
+
+   const orderDisabled = uidLoading || !hasAddress || !canProceed || payLoading;
 
   return (
     <main className={s['page-layout']}>
@@ -759,7 +775,7 @@ export default function OrderPage() {
               heightSizeType='xl'
               colorType='dark'
               fontSize='20px'
-              disabled={!hasAddress || !canProceed || payLoading}
+              disabled={orderDisabled}
               onClick={handleOrderButtonClick}
             />
           </section>

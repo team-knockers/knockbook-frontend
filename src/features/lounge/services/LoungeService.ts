@@ -1,5 +1,5 @@
 import { apiAuthMultipartPath, apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
-import { useSession } from "../../../hooks/useSession";
+import { ensureUserId } from "../../../shared/authReady";
 import type { CreateCommentRequest, LoungePostDetails, LoungePostsSummaryApiResponse, 
   CreateLoungePostCommentResponse, GetLoungePostCommentsResponse , GetLoungePostCommentResponse, 
   UpdateLoungePostCommentResponse, UpdateCommentRequest, LoungePostLikeStatusResponse, 
@@ -14,8 +14,7 @@ export const LoungeService = {
     sortBy?: string,
 
   ): Promise<LoungePostsSummaryApiResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (page == null) { throw new Error("NO_PAGE"); }
     if (size == null) { throw new Error("NO_SIZE"); }
 
@@ -31,9 +30,7 @@ export const LoungeService = {
   async getLoungePostDetails(
     postId: string
   ): Promise<LoungePostDetails> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPath<LoungePostDetails>(
       "/lounge/{userId}/{postId}",
       { userId, postId },
@@ -46,9 +43,7 @@ export const LoungeService = {
     postId: string,
     content: string
   ): Promise<CreateLoungePostCommentResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     const req : CreateCommentRequest = { content };
     return await apiAuthPathWithJson<CreateLoungePostCommentResponse, CreateCommentRequest>(
       "/lounge/{userId}/{postId}/comments",
@@ -63,9 +58,7 @@ export const LoungeService = {
     page = 1, 
     size = 20
   ): Promise<GetLoungePostCommentsResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return await apiAuthPathAndQuery<GetLoungePostCommentsResponse>(
       "/lounge/{userId}/{postId}/comments",
       { userId, postId },
@@ -78,9 +71,7 @@ export const LoungeService = {
   async getCommentById(
     commentId: string
   ):Promise<GetLoungePostCommentResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return await apiAuthPath<GetLoungePostCommentResponse>(
       "/lounge/{userId}/comments/{commentId}",
       { userId, commentId },
@@ -93,9 +84,7 @@ export const LoungeService = {
     commentId: string,
     content: string
   ): Promise<UpdateLoungePostCommentResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     const req: UpdateCommentRequest = { content };
     return await apiAuthPathWithJson<UpdateLoungePostCommentResponse, UpdateCommentRequest>(
       "/lounge/{userId}/comments/{commentId}",
@@ -108,9 +97,7 @@ export const LoungeService = {
   async deleteComment(
     commentId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return await apiAuthPath<void>(
       "/lounge/{userId}/comments/{commentId}",
       { userId, commentId },
@@ -122,9 +109,7 @@ export const LoungeService = {
   async likePost(
     postId: string
   ): Promise<void>  {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return await apiAuthPath<void>(
       "/lounge/{userId}/{postId}/likes",
       { userId, postId },
@@ -136,9 +121,7 @@ export const LoungeService = {
   async unlikePost(
     postId: string
   ): Promise<void>  {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return await apiAuthPath<void>(
       "/lounge/{userId}/{postId}/likes",
       { userId, postId },
@@ -150,9 +133,7 @@ export const LoungeService = {
   async isPostLiked(
     postId: string
   ): Promise<LoungePostLikeStatusResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return await apiAuthPath<LoungePostLikeStatusResponse>(
       "/lounge/{userId}/{postId}/likes",
       { userId, postId },
@@ -167,8 +148,7 @@ export const LoungeService = {
     content: string,
     images?: File[]
   ) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
 
     const form = new FormData();
     form.append("post", new Blob([JSON.stringify({ title, subtitle, content })], { type: "application/json" }));
@@ -187,9 +167,7 @@ export const LoungeService = {
   async deleteLoungePost(
     postId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return await apiAuthPath<void>(
       "/lounge/{userId}/posts/{postId}",
       { userId, postId },

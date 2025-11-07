@@ -7,8 +7,8 @@ import TurndownService from "turndown";
 import EditorToolbar from '../../features/lounge/components/EditorToolbar';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../../routes/paths';
-import { UserService } from '../../features/account/services/UserService';
 import { LoungeService } from '../../features/lounge/services/LoungeService';
+import { ensureUser } from '../../shared/authReady';
 
 export default function LoungePostCreatePage() {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export default function LoungePostCreatePage() {
     let mounted = true;
     async function loadProfile() {
       try {
-        const profile = await UserService.getMyProfile();
+        const profile = await ensureUser();
         if (!mounted) { 
           return;
         }

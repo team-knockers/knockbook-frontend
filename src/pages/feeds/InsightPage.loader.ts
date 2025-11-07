@@ -1,9 +1,9 @@
-import { UserService } from "../../features/account/services/UserService";
 import type { UserProfile } from "../../features/account/types";
 import { BookHistoryService } from "../../features/account/services/BookHistoryService";
 import type { BookPurchaseHistory, BookRentalHistory, BookReviewHistory } from "../../features/feeds/types";
 import type { ActionFunctionArgs } from "react-router-dom";
 import { ReviewService } from "../../features/account/services/ReviewService";
+import { ensureUser } from "../../shared/authReady";
 
 export type InsightStatLoaderData = {
   categoryRatioStat: Awaited<ReturnType<typeof BookHistoryService.getCategoryPreferenceAll>>;
@@ -23,7 +23,7 @@ export type InsightLoaderData = {
 };
 
 export async function InsightPageLoader(): Promise<InsightLoaderData> {
-  const profile = await UserService.getMyProfile();
+  const profile = await ensureUser();
 
   const now = new Date();
   const sixMonthsAgo = new Date();

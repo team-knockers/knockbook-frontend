@@ -17,7 +17,11 @@ export default function ProductDetailPage() {
   const nav = useNavigate();
 
   // Get server data prepared by the route loader
-  const { name, unitPriceAmount, salePriceAmount, averageRating, reviewCount, wishedByMe, galleryImageUrls } = useLoaderData() as {
+  const { 
+    name, unitPriceAmount, salePriceAmount,
+    averageRating, reviewCount, wishedByMe,
+    galleryImageUrls 
+  } = useLoaderData() as {
     name: string;
     unitPriceAmount: number;
     salePriceAmount: number | null;

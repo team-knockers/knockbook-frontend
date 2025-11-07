@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AuthService } from "../../service/AuthService";
-import { useSession } from "../../hooks/useSession";
+import { clearAuth, ensureAuth } from "../../shared/authReady";
 
 export default function AuthCallbackPage() {
   const nav = useNavigate();
@@ -10,16 +9,12 @@ export default function AuthCallbackPage() {
   useEffect(() => {
     (async () => {
       try {
-        const { accessToken } = await AuthService.refreshAccessToken();
-        const payload = JSON.parse(atob(accessToken.split(".")[1]));
-        const userId = String(payload.sub);
-        console.log(userId);
-        useSession.setState({ userId });
-        
+        await ensureAuth();
         const next = new URLSearchParams(loc.search).get("next") || "/home";
         nav(next, { replace: true });
+
       } catch {
-        try { useSession.getState().clear?.(); } catch {}
+        clearAuth();
         nav("/login", { replace: true });
       }
     })();

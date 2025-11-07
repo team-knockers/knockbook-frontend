@@ -17,7 +17,7 @@ import s from './styles/SignupDisplayNamePage.module.css';
 export default function SignupDisplayNamePage() {
 
   const nav = useNavigate();
-  const { displayName, setDisplayName } = useSignupFlow();
+  const { displayName = '', setDisplayName } = useSignupFlow();
   const [canProceed, setCanProceed ] = useState(false);
   const isValid = isDisplayNameValid(displayName);
   

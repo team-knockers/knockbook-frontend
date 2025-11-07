@@ -1,4 +1,3 @@
-import { useSession } from "../../../hooks/useSession";
 import { useEffect, useState, useRef } from "react";
 import { FiHeart, FiMoreHorizontal, FiTrash2, FiFlag } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
@@ -6,6 +5,7 @@ import styles from "./styles/FeedComment.module.css";
 import { timeAgo } from '../util';
 import FeedProfileFallback from '../../../assets/feed_profile.jpg';
 import { FeedService } from "../services/FeedService";
+import { ensureUserId } from "../../../shared/authReady";
 
 export type FeedCommentProps = {
   commentId: string;
@@ -55,8 +55,23 @@ export default function FeedComment({
     onLikeToggle(next);
   };
 
-  const { userId } = useSession.getState();
-  const byMe = !!userId && userId === authorId;
+  const [uid, setUid] = useState<string | null>(null);
+  const [uidLoading, setUidLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const id = await ensureUserId();
+        setUid(id);
+      } catch {
+        setUid(null);
+      } finally {
+        setUidLoading(false);
+      }
+    })();
+  }, []);
+
+  const byMe = !!uid && uid === authorId;
 
   const handleDelete = async () => {
     if (pending) { return; }
@@ -95,7 +110,7 @@ export default function FeedComment({
         <div className={styles.row1}>
           <strong className={styles.name}>{displayName}</strong>
           <span className={styles.time}>{timeAgo(createdAt)}</span>
-          {!!userId && (
+          {!uidLoading && !!uid && (
             <div className={styles.moreWrap} ref={menuRef}>
               <button
                 className={styles.iconBtn}

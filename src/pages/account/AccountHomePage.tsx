@@ -1,29 +1,44 @@
-import { useRouteLoaderData } from 'react-router-dom';
-import { AUTH_LOADER_ID } from '../../routes/auth.layout';
-import { AuthService } from '../../service/AuthService';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { ApiError } from '../../types/http';
-import type { UserProfile } from '../../features/account/types';
 
 import OneWayButton from '../../components/forms/OneWayButton';
 import styles from './AccountHomePage.module.css'
 import { PATHS } from '../../routes/paths';
+import { useEffect, useState } from 'react';
+import type { UserProfile } from '../../features/account/types';
+import { ensureUser } from '../../shared/authReady';
+import { AuthService } from '../../service/AuthService';
 
 export default function AccountHomePage() {
-
-  const me = useRouteLoaderData(AUTH_LOADER_ID) as UserProfile;
-  console.log({ 
-    "email" : me.email,
-    "displayName": me.displayName
-  });
   
   const nav = useNavigate();
+  const loc = useLocation();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    (async () => {
+      try {
+        const me = await ensureUser();
+        setUser(me);
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  if (loading) { return null; }
+  if (!user) { return <Navigate to={PATHS.login} replace state={{ from: loc }} />; }
+
+  if (!user) {
+    return <Navigate to={PATHS.login} replace state={{ from: loc }} />;
+  }
 
   async function handleLogout() {
     try {
       await AuthService.logout();
-      console.log("Bye");
-      nav('/login');
+      nav(PATHS.login);
     } catch (e) {
       if (e instanceof ApiError) {
         console.error(e.problem.title); // temporary procedure
@@ -37,14 +52,14 @@ export default function AccountHomePage() {
         <div className={styles['profile-section']}>
           <div className={styles['profile-section-greeting']}>
             <span className={styles['profile-section-greeting-name']}>
-              {me.displayName}
+              {user.displayName}
             </span>
             <span className={styles['profile-section-greeting-description']}>
               님 안녕하세요!
             </span>
           </div>
           <div className={styles['profile-section-details']}>
-            <span>{me.email}</span>
+            <span>{user.email}</span>
           </div>
         </div>
         <div className={styles['bar-menu-section']}>

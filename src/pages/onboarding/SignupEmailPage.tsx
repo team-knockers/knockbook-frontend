@@ -14,7 +14,7 @@ import styles from './styles/SignupEmailPage.module.css';
 export default function SignupEmailPage() {
 
   const nav = useNavigate();
-  const { email, setEmail } = useSignupFlow();
+  const { email = '', setEmail } = useSignupFlow();
   const [code, setCode] = useState('');
   const [isVerificationButtonDisabled, setIsVerificationButtonDisabled] = useState(false);
   const [isConfirmButtonDisabled, setIsConfirmButtonDisabled] = useState(false);

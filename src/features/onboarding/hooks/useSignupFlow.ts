@@ -1,21 +1,34 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-interface SignupFlowState {
-  email: string;
-  password: string;
-  displayName: string;
-  setEmail: (email: string) => void;
-  setPassword: (pw: string) => void;
-  setDisplayName: (name: string) => void;
-  reset: () => void;
-}
+type SignupFlowState = {
+  email?: string;
+  password?: string;
+  displayName?: string;
+  emailVerificationToken?: string;
+  registrationToken?: string;
 
-export const useSignupFlow = create<SignupFlowState>((set) => ({
-  email: '',
-  password: '',
-  displayName: '',
-  setEmail: email => set({ email: email }),
-  setPassword: pw => set({ password: pw }),
-  setDisplayName: name => set({ displayName: name}),
-  reset: () => set({password: '', displayName: '' }),
+  setEmail: (v?: string) => void;
+  setPassword: (v?: string) => void;
+  setDisplayName: (v?: string) => void;
+  setVerificationToken: (v?: string) => void;
+  setRegistrationToken: (v?: string) => void;
+  reset: (opts?: { keepEmail?: boolean }) => void;
+};
+
+export const useSignupFlow = create<SignupFlowState>((set, get) => ({
+  setEmail: (v) => set({ email: v }),
+  setPassword: (v) => set({ password: v }),
+  setDisplayName: (v) => set({ displayName: v }),
+  setVerificationToken: (v) => set({ emailVerificationToken: v }),
+  setRegistrationToken: (v) => set({ registrationToken: v }),
+  reset: ({ keepEmail } = {}) => {
+    const email = keepEmail ? get().email : undefined;
+    set({
+      email,
+      password: undefined,
+      displayName: undefined,
+      emailVerificationToken: undefined,
+      registrationToken: undefined,
+    });
+  },
 }));

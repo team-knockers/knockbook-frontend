@@ -1,6 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { PATHS } from "./paths";
-import AuthLayout, { authLoader, AUTH_LOADER_ID } from "./auth.layout";
 import { QnAListPageLoader } from "../pages/customer/QnAListPage.loader";
 import { faqLoader } from "../pages/customer/FAQPage.loader";
 import { homeLoader } from "../pages/Home.loader";
@@ -113,9 +112,6 @@ export const router = createBrowserRouter([
       { path: PATHS.signupSetName, element: <SignupDisplayNamePage /> },
       { path: PATHS.authCallback, element: <AuthCallbackPage /> },
       {
-        id: AUTH_LOADER_ID,
-        element: <AuthLayout />,
-        loader: authLoader,
         children: [
           { path: PATHS.signupSetFavoriteCategory,
             id: "favoriteCategory",

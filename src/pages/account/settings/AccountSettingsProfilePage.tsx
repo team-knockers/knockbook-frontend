@@ -1,25 +1,34 @@
 import { Label, Input, InputGroup, InputGroupText } from 'reactstrap';
-import { useRevalidator, useRouteLoaderData } from 'react-router-dom';
+import { Navigate, useLocation, useRevalidator } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { AUTH_LOADER_ID } from '../../../routes/auth.layout';
+
 import { UserService } from '../../../features/account/services/UserService';
 import { ApiError } from '../../../types/http';
-import type { UserProfile } from '../../../features/account/types';
-import { checkPasswordAlphaLetter, checkPasswordDigit, checkPasswordLength, checkPasswordSpecialLetter, isPasswordValid } from '../../../utils/userProfileValidators';
+import { 
+  checkPasswordAlphaLetter,
+  checkPasswordDigit,
+  checkPasswordLength,
+  checkPasswordSpecialLetter,
+  isPasswordValid } from '../../../utils/userProfileValidators';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import FeedProfileFallback from '../../../assets/feed_profile.jpg';
 
 import OneWayButton from '../../../components/forms/OneWayButton';
 import s from './AccountSettingsProfilePage.module.css';
 import Item from '../../../components/display/Item';
+import CenterSnackbar from '../../../components/feedback/CenterSnackbar';
+import { PATHS } from '../../../routes/paths';
+import { ensureUser } from '../../../shared/authReady';
+import type { UserProfile } from '../../../features/account/types';
 
 export default function AccountSettingsProfilePage() {
 
   const { revalidate } = useRevalidator();
-  const me = useRouteLoaderData(AUTH_LOADER_ID) as UserProfile;
-
-  const avatarUrl = me.avatarUrl?.trim() || FeedProfileFallback;
-  const [displayName, setDisplayName] = useState(me.displayName);
+  const loc = useLocation();
+  
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [displayName, setDisplayName] = useState("");
   const [isPasswordDisabled] = useState(true);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -30,21 +39,51 @@ export default function AccountSettingsProfilePage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [canProceed, setCanProceed ] = useState(false);
 
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMsg, setSnackMsg] = useState("");
+  const [snackVariant, setSnackVariant] = useState<"info"|"success"|"warn"|"error">("info");
+
+  // load data
+  useEffect(() => {
+    (async () => {
+      try {
+        const me = await ensureUser();
+        setUser(me);
+      } catch {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  // sync displayname
+  useEffect(() => {
+    if (user) setDisplayName(user.displayName ?? "");
+  }, [user]);
+
   const isValid = isPasswordValid(newPassword);
   const isMatch = confirmPassword.length > 0 && newPassword === confirmPassword;  
-
   useEffect(() => setCanProceed(isValid && isMatch), [newPassword, confirmPassword]);
+
+  if (loading) { return null; }
+  if (!user) { return <Navigate to={PATHS.login} replace state={{ from: loc }} />; }
+  const avatarUrl = user.avatarUrl?.trim() || FeedProfileFallback;
   
   async function changeDisplayName() {
     try {
       await UserService.changeDisplayName(displayName);
+      setSnackMsg("변경이 완료되었습니다.");
+      setSnackVariant("success");
+      setSnackOpen(false);
+      setTimeout(() => setSnackOpen(true), 0);
       revalidate();
-      console.log(`displayName changed by ${displayName}`);
-      alert('이름이 성공적으로 변경되었습니다!');
     } catch (e) {
       if (e instanceof ApiError) {
-        console.error(e.problem.title); // temporary procedure
-        alert('이름 변경 실패');
+        setSnackMsg("변경에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        setSnackVariant("error");
+        setSnackOpen(false);
+        setTimeout(() => setSnackOpen(true), 0);
       }
     }
   }
@@ -52,18 +91,30 @@ export default function AccountSettingsProfilePage() {
   async function changePassword() {
      try {
       await UserService.changePassword(newPassword);
-      console.log('password changed');
-      alert('비밀번호가 성공적으로 변경되었습니다!');
+      setSnackMsg("변경이 완료되었습니다.");
+      setSnackVariant("success");
+      setSnackOpen(false);
+      setTimeout(() => setSnackOpen(true), 0);
     } catch (e) {
       if (e instanceof ApiError) {
-        console.error(e.problem.title); // temporary procedure
-        alert('비밀번호 변경 실패');
+        setSnackMsg("변경에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        setSnackVariant("error");
+        setSnackOpen(false);
+        setTimeout(() => setSnackOpen(true), 0);
       }
     }
   }
 
   return (
     <main className={s['page-layout']}>
+
+      <CenterSnackbar
+        open={snackOpen}
+        message={snackMsg}
+        variant={snackVariant}
+        duration={3000}
+        onClose={() => setSnackOpen(false)}/>
+
       <div className={s['profile-img']}>
         <img
           src={avatarUrl || FeedProfileFallback}
@@ -77,7 +128,7 @@ export default function AccountSettingsProfilePage() {
           </Label>
           <Input 
             className={s['email-input']}
-            value={me.email}
+            value={user.email}
             disabled
             readOnly/>
         </div>

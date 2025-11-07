@@ -1,89 +1,87 @@
-import { apiPublicJson } from '../shared/api';
-import { useSession } from '../hooks/useSession';
-import { useSignupFlow } from '../features/onboarding/hooks/useSignupFlow';
-import type { LoginRequest, LoginResponse } from '../features/onboarding/types';
-import type { CompleteRegistrationRequest, CompleteRegistrationResponse } from '../features/onboarding/types';
-import type { SendCodeRequest, SendCodeResponse } from '../features/onboarding/types';
-import type { GetCodeRequest, GetCodeResponse } from '../features/onboarding/types'
+import { apiPublicJson } from "../shared/api";
+import { useSignupFlow } from "../features/onboarding/hooks/useSignupFlow";
+import type {
+  LoginRequest, LoginResponse,
+  GetCodeRequest, GetCodeResponse,
+  SendCodeRequest, SendCodeResponse,
+  CompleteRegistrationRequest, CompleteRegistrationResponse,
+} from "../features/onboarding/types";
+import { clearAuth, resetAuthCacheForLogin } from "../shared/authReady";
 
 export const AuthService = {
-
   async getCode(email: string) {
-    const req = { email: email } as GetCodeRequest;
+    const req: GetCodeRequest = { email };
     const res = await apiPublicJson<GetCodeResponse, GetCodeRequest>(
       "/auth/local/register/email",
-      { method: "POST", json: req });
-    useSession.setState({ emailVerificationToken: res.emailVerificationToken });
-    console.log(res);
+      { method: "POST", json: req }
+    );
+    useSignupFlow.getState().setEmail(email);
+    useSignupFlow.getState().setVerificationToken(res.emailVerificationToken);
     return res;
   },
 
   async sendCode(code: string) {
-    const { emailVerificationToken } = useSession.getState();
-    const req = { 
-      code: code,
-      emailVerificationToken: emailVerificationToken
-    } as SendCodeRequest;
-    console.log(req);
+    const { emailVerificationToken } = useSignupFlow.getState();
+
+    if (!emailVerificationToken) {
+      throw new Error("Has no email verification token");
+    }
+    if (!/^\d{6}$/.test(code)) {
+      throw new Error("Expected 6 digit code");
+    }
+
+    const req: SendCodeRequest = { code, emailVerificationToken };
     const res = await apiPublicJson<SendCodeResponse, SendCodeRequest>(
       "/auth/local/register/email/verify",
-      { method: "POST", json: req });
-    useSession.setState({ registrationToken: res.registrationToken });
-    console.log(res);
+      { method: "POST", json: req }
+    );
+    useSignupFlow.getState().setRegistrationToken(res.registrationToken);
     return res;
   },
 
   async completeRegistration() {
-    const { password, displayName } = useSignupFlow.getState();
-    const { registrationToken } = useSession.getState();
-    const req = {
-      registrationToken: registrationToken,
-      password: password,
-      displayName: displayName,
-    } as CompleteRegistrationRequest;
-    console.log(req);
+    const { registrationToken, password, displayName } = useSignupFlow.getState();
+
+    if (!registrationToken) {
+      throw new Error("Has no registration token");
+    }
+    if (!password || !displayName) {
+      throw new Error("Expected both password and displayname");
+    }
+
+    const req: CompleteRegistrationRequest = { registrationToken, password, displayName };
     const res = await apiPublicJson<CompleteRegistrationResponse, CompleteRegistrationRequest>(
       "/auth/local/register/complete",
-      { method: "POST", json: req });
-    console.log(res);
-    useSession.setState({ 
-      accessToken: res.accessToken,
-      userId: res.userId,
-    });
+      { method: "POST", json: req }
+    );
+    resetAuthCacheForLogin(res.accessToken, res.userId);
     useSignupFlow.getState().reset();
+    return res;
   },
 
-  // Receive accessToken and store in memory
-  // refresh cookie is managed by the server
   async localLogin(req: LoginRequest) {
     const res = await apiPublicJson<LoginResponse, LoginRequest>(
       "/auth/local/login",
-      { method: "POST", json: req });
-      useSession.setState({
-        accessToken: res.accessToken,
-        userId: res.userId });
-      return res;
+      { method: "POST", json: req }
+    );
+    resetAuthCacheForLogin(res.accessToken, res.userId);    
+    return res;
   },
 
-  // Invalidate refresh token on server
-  // ans remove access token on client
   async logout() {
     try {
-      await apiPublicJson<void>(
-        "/auth/token/logout",
-        { method: "POST" });
+      await apiPublicJson<void>("/auth/token/logout", { method: "POST" });
     } finally {
-      useSession.getState().clear();
+      clearAuth();
     }
   },
 
   async refreshAccessToken() {
-    const res = await apiPublicJson<{ accessToken: string }>(
+    const res = await apiPublicJson<{ accessToken: string, userId: string }>(
       "/auth/token/refresh",
       { method: "POST" }
     );
-    useSession.setState({ accessToken: res.accessToken });
+    resetAuthCacheForLogin(res.accessToken, res.userId);
     return res;
   },
-  
 };

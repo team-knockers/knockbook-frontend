@@ -1,5 +1,5 @@
-import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathWithJson } from "../../../shared/api";
+import { ensureUserId } from "../../../shared/authReady";
 import type { BookReview, ProductReview, ProductReviewCreateRequest, ReviewedItem } from "../types";
 
 export const ReviewService = {
@@ -9,8 +9,7 @@ export const ReviewService = {
     bookId: string,
     rating: number,
     content: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     const form = new FormData();
     form.append(
       "review",
@@ -27,8 +26,7 @@ export const ReviewService = {
     productId: string,
     rating: number,
     content: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     const req = { body: content, rating } as ProductReviewCreateRequest;
     return await apiAuthPathWithJson<ProductReview, ProductReviewCreateRequest>(
       "/products/{productId}/reviews/{userId}",
@@ -38,8 +36,7 @@ export const ReviewService = {
   },
 
   async getMyBookReviewedKeys() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<ReviewedItem[]>(
       "/users/{userId}/reviews",
       { userId },

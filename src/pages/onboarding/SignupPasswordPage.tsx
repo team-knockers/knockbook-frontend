@@ -15,7 +15,7 @@ import styles from './styles/SignupPasswordPage.module.css';
 export default function SignupPasswordPage() {
 
   const nav = useNavigate();
-  const { password, setPassword } = useSignupFlow();
+  const { password = '', setPassword } = useSignupFlow();
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword ] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword ] = useState(false);

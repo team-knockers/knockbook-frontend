@@ -1,5 +1,5 @@
-import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathAndQuery } from "../../../shared/api";
+import { ensureUserId } from "../../../shared/authReady";
 import type { 
   BookPreferCategoryStat, BookPurchaseHistory,
   BookReadCountStat, BookRentalHistory, 
@@ -10,8 +10,7 @@ export const BookHistoryService = {
   // from: YYYY-MM-DD ISO string (ex: 2025-05-01)
   // to: YYYY-MM-DD ISO string (ex: 2025-10-30)
   async getReadCountInPeriod(from: string, to: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPathAndQuery<BookReadCountStat[]>(
       "/users/{userId}/history/books/stat/average",
       { userId },
@@ -21,8 +20,7 @@ export const BookHistoryService = {
   },
 
   async getCategoryPreferenceAll() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<BookPreferCategoryStat[]>(
       "/users/{userId}/history/books/stat/category-preference",
       { userId },
@@ -31,8 +29,7 @@ export const BookHistoryService = {
   },
 
   async listBookPurchases() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<BookPurchaseHistory[]>(
       "/users/{userId}/history/books/purchases",
       { userId },
@@ -41,8 +38,7 @@ export const BookHistoryService = {
   },
 
   async listBookRentals() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<BookRentalHistory[]>(
       "/users/{userId}/history/books/rentals",
       { userId },
@@ -51,8 +47,7 @@ export const BookHistoryService = {
   },
 
   async listBookReviews() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<BookReviewHistory[]>(
       "/users/{userId}/history/books/reviews",
       { userId },

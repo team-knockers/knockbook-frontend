@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "../config";
 import type { ProblemDetails } from "../types/http";
 import { ApiError } from "../types/http";
-import { useSession } from "../hooks/useSession";
+import { ensureAuth, getAccessToken } from "./authReady";
 
 //#region Public API
 // JSON Request without authentication header 
@@ -46,27 +46,25 @@ export function apiPublicPathWithJson<TRes, TBody>(
 // JSON Request with Authorization 
 // (Bearer <token> header + one automatic 401 refresh)
 export async function apiAuthJson<TRes, TBody = unknown>(
-  url: string,
-  init?: RequestInit & { json?: TBody },
-  retried = false
+  url: string, init?: RequestInit & { json?: TBody }, retried = false
 ): Promise<TRes> {
-  
-  const { accessToken } = useSession.getState();
-  const withAuth: RequestInit = { 
-    ...init, 
-    headers: { ...(init?.headers ?? {}),
-    Authorization: accessToken ? `Bearer ${accessToken}` : "" } };
-
-  try {
+  const token = getAccessToken();
+  const withAuth: RequestInit = {
+    ...init,
+    headers: { 
+      ...(init?.headers ?? {}),
+      Authorization: token ? `Bearer ${token}` : "" }
+  };
+  try { 
     return await requestJson<TRes, TBody>(url, withAuth);
-  } catch (e) {
+  }
+  catch (e) {
     if (e instanceof ApiError && e.problem.status === 401 && !retried) {
-      await tryRefreshAccessToken();
+      await ensureAuth();
       return apiAuthJson<TRes, TBody>(url, init, true);
     }
     throw e;
   }
-
 }
 
 // use path parameter only
@@ -123,19 +121,20 @@ export async function apiAuthMultipart<TRes>(
   init?: RequestInit,
   retried = false
 ): Promise<TRes> {
-  const { accessToken } = useSession.getState();
+  const token = getAccessToken();
   const withAuth: RequestInit = {
     ...init,
     headers: {
       ...(init?.headers ?? {}),
-      Authorization: accessToken ? `Bearer ${accessToken}` : "",
+      Authorization: token ? `Bearer ${token}` : "",
     },
   };
+
   try {
     return await requestMultipart<TRes>(url, form, withAuth);
   } catch (e) {
-    if (e instanceof ApiError && !retried) {
-      await tryRefreshAccessToken();
+    if (e instanceof ApiError && e.problem.status === 401 && !retried) {
+      await ensureAuth();
       return apiAuthMultipart<TRes>(url, form, init, true);
     }
     throw e;
@@ -181,15 +180,6 @@ export function withQuery(
   return `${path}${buildQuery(q)}`;
 }
 //#endregion
-
-//#region implementations 
-// Issue a new access token using the refresh cookie
-async function tryRefreshAccessToken() {
-  const res = await doFetch("/auth/token/refresh", { method: "POST" });
-  await ensureOK(res);
-  const data = (await res.json()) as { accessToken: string };
-  useSession.setState({ accessToken: data.accessToken });
-}
 
 // Low-level fetch with credentials included 
 // (needed for refresh cookie handling)
