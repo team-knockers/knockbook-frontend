@@ -1,5 +1,5 @@
-import { useSession } from "../../../hooks/useSession";
 import { apiAuthMultipartPath, apiAuthPathAndQuery } from "../../../shared/api";
+import { ensureUserId } from "../../../shared/authReady";
 import type { 
   CustomerQnaResponse, 
   FaqList, 
@@ -11,8 +11,7 @@ export const CustomerService = {
   async GetFAQlist(
     page: string,
     size: string) {
-      const { userId } = useSession.getState();
-      if (!userId) { throw new Error("NO_USER") }
+      const userId = await ensureUserId();
       return apiAuthPathAndQuery<FaqList>(
         "/customers/{userId}/faq",
         { userId },
@@ -25,8 +24,7 @@ export const CustomerService = {
     title : string,
     content: string,
     files: File[]) {
-      const { userId } = useSession.getState();
-      if (!userId) { throw new Error("NO_USER") }
+      const userId = await ensureUserId();
       const form = new FormData();
       form.append("title", title);
       form.append("content", content);
@@ -42,8 +40,7 @@ export const CustomerService = {
   async GetQnAList(
     page: string,
     size: string) {
-      const { userId } = useSession.getState();
-      if (!userId) { throw new Error("NO_USER") }
+      const userId = await ensureUserId();
       return apiAuthPathAndQuery<GetQnAListResponse>(
         "/customers/{userId}/qna",
         { userId },
@@ -55,8 +52,7 @@ export const CustomerService = {
   async GetNotificationList(
     page: number,
     size: number) {
-      const { userId } = useSession.getState();
-      if (!userId) { throw new Error("NO_USER") }
+      const userId = await ensureUserId();
       return apiAuthPathAndQuery<GetNotificationListResponse>(
         "/customers/{userId}/notification",
         { userId },

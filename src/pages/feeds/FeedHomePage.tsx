@@ -12,8 +12,8 @@ import type { FeedPostComment, FeedPost } from '../../features/feeds/types';
 import FeedCommentBottomPopup from "../../features/feeds/components/FeedCommentBottomPopup";
 import FeedEditPopup from "../../features/feeds/components/FeedEditPopup";
 import FeedSlider from "../../features/feeds/components/FeedSlider";
-import { UserService } from "../../features/account/services/UserService";
 import type { UserProfile } from "../../features/account/types";
+import { ensureUser } from "../../shared/authReady";
 
 function useIsMobile(breakpoint = 1024) {
   const [isMobile, setIsMobile] = useState<boolean>(() =>
@@ -66,7 +66,7 @@ export default function FeedHomePage() {
         if (!alive) { return; }
         setPosts(res.feedPosts);      // replace list
         setNextAfter(res.nextAfter);  // save next cursor 
-        const userInfo = await UserService.getMyProfile();
+        const userInfo = await ensureUser();
         setUserInfo(userInfo);
       } finally {
         if (alive) { setLoading(false); }

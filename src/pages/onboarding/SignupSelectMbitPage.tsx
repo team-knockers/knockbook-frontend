@@ -16,9 +16,7 @@ export default function SignupSelectMbtiPage() {
 
   async function handleSubmitMbti() {
     const mbitUpper = mbtiString.toUpperCase();
-    // console.log(mbitUpper);
     await UserService.changeMbti(mbitUpper);
-    // console.log((await UserService.getMyProfile()).mbti);
     nav(PATHS.signupMbtiResult);
   }
 

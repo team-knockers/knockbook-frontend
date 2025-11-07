@@ -1,12 +1,11 @@
-import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
+import { ensureUserId } from "../../../shared/authReady";
 import type { addCartPurchaseItemRequest, addCartRentalItemRequest, GetCartResponse, OrderType } from "../type";
 
 export const CartService = {
 
   async getCart() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     return apiAuthPath<GetCartResponse>(
       "/users/{userId}/cart",
       { userId },
@@ -15,8 +14,7 @@ export const CartService = {
   },
 
   async removeCartItem(cartItemId: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<GetCartResponse>(
       "/users/{userId}/cart/items/{cartItemId}",
       { userId: userId, cartItemId: cartItemId },
@@ -30,8 +28,7 @@ export const CartService = {
     refId : string,
     quantity: number,
   ) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     const req : addCartPurchaseItemRequest = {
       refType, refId, quantity
     };
@@ -48,8 +45,7 @@ export const CartService = {
     quantity: number,
     rentalDays: number
   ) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     const req : addCartRentalItemRequest = { 
       refType, refId, rentalDays, quantity 
     };
@@ -61,8 +57,7 @@ export const CartService = {
   },
   
   async incrementCartItem(cartItemId : string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<GetCartResponse>(
       "/users/{userId}/cart/items/{cartItemId}",
       { userId, cartItemId },
@@ -72,8 +67,7 @@ export const CartService = {
   },
 
   async decrementCartItem(cartItemId : string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<GetCartResponse>(
       "/users/{userId}/cart/items/{cartItemId}",
       { userId, cartItemId },

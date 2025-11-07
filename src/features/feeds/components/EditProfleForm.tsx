@@ -7,6 +7,7 @@ import type { UpdateProfilePatch, UserProfile } from '../../account/types';
 import defaultAvatarUrl from '../../../assets/feed_profile.jpg';
 import { FiEdit2 } from 'react-icons/fi';
 import CenterSnackbar from '../../../components/feedback/CenterSnackbar';
+import { ensureUser } from '../../../shared/authReady';
 
 const isEqual = (a: any, b: any) =>
   Array.isArray(a) && Array.isArray(b)
@@ -46,11 +47,11 @@ export default function EditProfileForm({
   useEffect(() => {
     (async () => {
       try {
-        const p = await UserService.getMyProfile();
-        setOrig(p);
-        setAvatarUrl(p.avatarUrl ?? '');
-        setDisplayName(p.displayName ?? '');
-        setBio(p.bio ?? '');
+        const profile = await ensureUser();
+        setOrig(profile);
+        setAvatarUrl(profile.avatarUrl ?? '');
+        setDisplayName(profile.displayName ?? '');
+        setBio(profile.bio ?? '');
       } catch {
         setError(true);
       }

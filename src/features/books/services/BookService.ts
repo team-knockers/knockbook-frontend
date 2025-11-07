@@ -1,11 +1,11 @@
 import { apiAuthMultipartPath, apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
-import { useSession } from "../../../hooks/useSession";
 import type { 
   BooksApiResponse, BookSummary, BookDetails, BookCategory, BookSubcategory, 
   BookReviewsApiResponse, BookReviewsStatistics, BookWishlistActionResponse,
   BookWishStatusResponse, BookReviewCreateRequest, BookReview,
   GetRandomBookReviewResponse, RegisterBookRequest, UpdateBookRequest } from "../types";
 import type { PageResponse } from "../../../shared/types";
+import { ensureUserId } from "../../../shared/authReady";
 
 export const BookService = {
 
@@ -59,8 +59,7 @@ export const BookService = {
     order?: string,
     sameMbti?: boolean
   ): Promise<BookReviewsApiResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (!bookId) { throw new Error("NO_BOOK_ID"); }
     if (page == null) { throw new Error("NO_PAGE"); }
     if (size == null) { throw new Error("NO_SIZE"); }
@@ -90,8 +89,7 @@ export const BookService = {
   async likeReview(
     reviewId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (!reviewId) { throw new Error("NO_REVIEW_ID"); }
 
     await apiAuthPath<void>(
@@ -105,8 +103,7 @@ export const BookService = {
   async unlikeReview(
     reviewId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (!reviewId) { throw new Error("NO_REVIEW_ID"); }
 
     await apiAuthPath<void>(
@@ -120,8 +117,7 @@ export const BookService = {
   async addToWishlist(
     bookId: string
   ): Promise<BookWishlistActionResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (!bookId) { throw new Error("NO_BOOK_ID"); }
 
     return apiAuthPath<BookWishlistActionResponse>(
@@ -135,8 +131,7 @@ export const BookService = {
   async removeFromWishlist(
     bookId: string
   ): Promise<BookWishlistActionResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (!bookId) { throw new Error("NO_BOOK_ID"); }
 
     return apiAuthPath<BookWishlistActionResponse>(
@@ -150,8 +145,7 @@ export const BookService = {
   async hasBookInWishlist(
     bookId: string
   ): Promise<BookWishStatusResponse> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (!bookId) { throw new Error("NO_BOOK_ID"); }
 
     return apiAuthPath<BookWishStatusResponse>(
@@ -163,9 +157,7 @@ export const BookService = {
 
   // API-BOOKS-10 : Retrieve all books in the user's wishlist
   async getUserWishlist(): Promise<BookSummary[]> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPath<BookSummary[]>(
       "/books/{userId}/wishlist",
       { userId },
@@ -203,8 +195,7 @@ export const BookService = {
     review: BookReviewCreateRequest,
     images?: File[]
   ): Promise<BookReview> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (!bookId) { throw new Error("NO_BOOK_ID"); }
     if (!review) { throw new Error("NO_REVIEW_DATA"); }
 
@@ -225,8 +216,7 @@ export const BookService = {
   async deleteBookReview(
     reviewId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     if (!reviewId) { throw new Error("NO_REVIEW_ID"); }
 
     return apiAuthPath<void>(

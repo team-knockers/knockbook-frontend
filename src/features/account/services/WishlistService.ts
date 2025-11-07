@@ -1,12 +1,11 @@
-import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath } from "../../../shared/api";
+import { ensureUserId } from "../../../shared/authReady";
 import type { BookWish, GetProductWishlistResponse } from "../types";
 
 export const WishlistService = {
 
   async getProductWishlist() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<GetProductWishlistResponse>(
       "/products/wishes/{userId}",
       { userId },
@@ -15,8 +14,7 @@ export const WishlistService = {
   },
 
     async getBookWishlist() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
+    const userId = await ensureUserId();
     return await apiAuthPath<BookWish[]>(
       "/books/{userId}/wishlist",
       { userId },

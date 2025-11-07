@@ -7,7 +7,6 @@ import { IoSunny, IoGrid, IoGridOutline, IoBookmark, IoBookmarkOutline } from "r
 import { IoMdArrowRoundForward } from "react-icons/io";
 import { PATHS } from '../../routes/paths';
 import { FeedService } from '../../features/feeds/services/FeedService';
-import { UserService } from '../../features/account/services/UserService';
 import type { FeedPostComment, FeedPost, FeedProfileThumbnail } from '../../features/feeds/types';
 import FeedProfileFallback from '../../assets/feed_profile.jpg';
 import FeedEditPopup from '../../features/feeds/components/FeedEditPopup';
@@ -16,6 +15,7 @@ import TwoButtonPopup from '../../components/overlay/TwoButtonPopup';
 import SimplePopup from '../../components/overlay/SimplePopup';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import EditProfileForm from '../../features/feeds/components/EditProfleForm';
+import { ensureUser } from '../../shared/authReady';
 
 const PAGE_SIZE = 3; // number of posts per request
 const NUM_MAX_FILES = 3;
@@ -59,7 +59,7 @@ export default function FeedProfilePage() {
   useEffect(() => () => { aliveRef.current = false; }, []);
 
   const refreshMe = useCallback(async () => {
-    const me = await UserService.getMyProfile();
+    const me = await ensureUser();
     if (!aliveRef.current) { return; }
     startTransition(() => {
       setDisplayName(me.displayName ?? "");

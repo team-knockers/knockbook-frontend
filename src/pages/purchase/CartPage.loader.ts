@@ -11,12 +11,10 @@ import type {
 /** Loader: fetch cart and normalize data for the page */
 export async function CartPageLoader() {
   const cart: GetCartResponse = await CartService.getCart();
-
   const summary: CartSummary = createSummary(cart);
   const booksToPurchase: BookItemToPurchase[] = mapBooksToPurchase(cart);
   const booksToRental: BookItemToRental[] = mapBooksToRental(cart);
   const products: ProductItem[] = mapProducts(cart);
-
   const totalItems = cart.itemCount;
 
   return { totalItems, booksToPurchase, booksToRental, products, summary };

@@ -1,5 +1,5 @@
-import { useSession } from "../../../hooks/useSession";
 import { apiAuthPath, apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
+import { ensureUserId } from "../../../shared/authReady";
 import type { 
   ApplyCouponRequest, ApplyPointsRequest, CreateOrderDirectRequest,
   CreateOrderFromCartRequest, Order } from "../type";
@@ -7,8 +7,7 @@ import type {
 export const OrderService = {
 
   async createDraftFromCart(cartItemIds: string[]) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     const req = { cartItemIds } as CreateOrderFromCartRequest;
     return await apiAuthPathWithJson<Order, CreateOrderFromCartRequest>(
       "/orders/{userId}/draft-from-cart",
@@ -18,8 +17,7 @@ export const OrderService = {
   },
 
   async createOrderDirect(refType: string, refId: string, quantity: number) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     const req = { refType, refId, quantity } as CreateOrderDirectRequest;
     return apiAuthPathWithJson<Order, CreateOrderDirectRequest>(
       "/orders/{userId}/draft",
@@ -29,8 +27,7 @@ export const OrderService = {
   },
 
   async getOrder(orderId: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     return await apiAuthPath<Order>(
       "/orders/{userId}/{orderId}",
       { userId, orderId },
@@ -39,8 +36,7 @@ export const OrderService = {
   },
 
   async getPaidOrders() {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     return await apiAuthPathAndQuery<Order[]>(
       "/orders/{userId}",
       { userId },
@@ -57,8 +53,7 @@ export const OrderService = {
   },
 
   async applyCoupon(orderId: string, couponIssuanceId: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     const body = { couponIssuanceId } as ApplyCouponRequest;
     const res = await apiAuthPathWithJson<Order, ApplyCouponRequest>(
       "/orders/{userId}/{orderId}/coupon",
@@ -70,8 +65,7 @@ export const OrderService = {
   },
 
   async removeCoupon(orderId: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     return await apiAuthPath<Order>(
       "/orders/{userId}/{orderId}/coupon",
       { userId, orderId },
@@ -80,8 +74,7 @@ export const OrderService = {
   },
 
   async applyPoints(orderId: string, points: number) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     const body = { points } as ApplyPointsRequest;
     const res = await apiAuthPathWithJson<Order, ApplyPointsRequest>(
       "/orders/{userId}/{orderId}/points",
@@ -93,8 +86,7 @@ export const OrderService = {
   },
 
   async removePoints(orderId: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     return await apiAuthPath<Order>(
       "/orders/{userId}/{orderId}/points",
       { userId, orderId },
@@ -103,8 +95,7 @@ export const OrderService = {
   },
 
   async setAddress(orderId: string, addressId: string) {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER") }
+    const userId = await ensureUserId();
     const body = { addressId } as { addressId: string };
     return await apiAuthPathWithJson<Order, { addressId: string }>(
       "/orders/{userId}/{orderId}/address",

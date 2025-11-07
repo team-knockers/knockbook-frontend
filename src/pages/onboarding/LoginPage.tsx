@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { InputGroup, InputGroupText, Input, Label } from "reactstrap";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { AuthService } from "../../service/AuthService";
 import { ApiError } from "../../types/http";
 import { PATHS } from "../../routes/paths";
 
@@ -11,10 +10,12 @@ import backgroundUrl from '../../assets/intro-background.jpg';
 import styles from './styles/LoginPage.module.css';
 import { parseLoginError } from "../../features/onboarding/exception/loginError";
 import CenterSnackbar from "../../components/feedback/CenterSnackbar";
+import { AuthService } from "../../service/AuthService";
 
 export default function LoginPage() {
   
   const nav = useNavigate();
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
@@ -39,7 +40,6 @@ export default function LoginPage() {
       nav(PATHS.home);
     } catch (err) {
       const { msg, variant } = parseLoginError(err as ApiError);
-      console.log(err);
       setSnackMsg(msg);
       setSnackVariant(variant);
       setSnackOpen(false);
@@ -150,8 +150,7 @@ export default function LoginPage() {
         message={snackMsg}
         variant={snackVariant}
         duration={3000}
-        onClose={() => setSnackOpen(false)}
-      />
+        onClose={() => setSnackOpen(false)}/>
     </main>
   );
 }

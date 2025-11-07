@@ -1,4 +1,4 @@
-import { UserService } from "../../features/account/services/UserService";
+import { ensureUser } from "../../shared/authReady";
 
 export type MbtiInfo = {
   description: string;
@@ -203,7 +203,7 @@ const defaultMbtiInfo: MbtiInfo = {
 
 export async function SignupMbtiResultPageLoader()
 : Promise<SignupMbtiResultPageLoaderData> {
-  const profile = await UserService.getMyProfile();
+  const profile = await ensureUser();
   const displayName = profile.displayName;
   const mbtiType = profile.mbti?.toUpperCase();
   const mbtiInfo = mbtiType

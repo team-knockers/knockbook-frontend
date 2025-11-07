@@ -1,7 +1,7 @@
 import type { BookDetails, BookReviewsStatistics } from '../../features/books/types';
 import { BookService } from '../../features/books/services/BookService';
 import type { LoaderFunctionArgs } from 'react-router-dom';
-import { UserService } from '../../features/account/services/UserService';
+import { ensureUser } from '../../shared/authReady';
 
 export type BookDetailsLoaderData = {
   bookDetails: BookDetails;
@@ -21,8 +21,8 @@ function normalizeScoreCounts(stats: BookReviewsStatistics): BookReviewsStatisti
 
 export async function bookDetailsLoader({ params }: LoaderFunctionArgs): Promise<BookDetailsLoaderData> {
   const bookId = params.bookId;
-  const myProfile = await UserService.getMyProfile();
-  const myMbti: string | null = myProfile.mbti;
+  const user = await ensureUser();
+  const myMbti: string | null = user.mbti;
 
   if (!bookId) {
     throw new Error('Missing bookId');

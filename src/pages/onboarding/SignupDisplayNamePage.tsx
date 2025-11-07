@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSignupFlow } from '../../features/onboarding/hooks/useSignupFlow';
 import { PATHS } from '../../routes/paths';
-import { checkDisplayNameLength, checkDisplayNameLetter, isDisplayNameValid } from '../../shared/validation/validUserProfile';
+import { checkDisplayNameLength, checkDisplayNameLetter, isDisplayNameValid } from '../../utils/userProfileValidators';
 import { Input, Label } from 'reactstrap';
 import { AuthService } from '../../service/AuthService';
 import { ApiError } from '../../types/http';
@@ -17,7 +17,7 @@ import s from './styles/SignupDisplayNamePage.module.css';
 export default function SignupDisplayNamePage() {
 
   const nav = useNavigate();
-  const { displayName, setDisplayName } = useSignupFlow();
+  const { displayName = '', setDisplayName } = useSignupFlow();
   const [canProceed, setCanProceed ] = useState(false);
   const isValid = isDisplayNameValid(displayName);
   

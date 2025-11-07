@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { InputGroup, InputGroupText, Input, Label } from 'reactstrap';
 import { PATHS } from '../../routes/paths';
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { checkPasswordAlphaLetter, checkPasswordDigit, checkPasswordLength, checkPasswordSpecialLetter, isPasswordValid } from '../../shared/validation/validUserProfile';
+import { checkPasswordAlphaLetter, checkPasswordDigit, checkPasswordLength, checkPasswordSpecialLetter, isPasswordValid } from '../../utils/userProfileValidators';
 import { useSignupFlow } from '../../features/onboarding/hooks/useSignupFlow';
 
 import OneWayButton from '../../components/forms/OneWayButton';
@@ -15,7 +15,7 @@ import styles from './styles/SignupPasswordPage.module.css';
 export default function SignupPasswordPage() {
 
   const nav = useNavigate();
-  const { password, setPassword } = useSignupFlow();
+  const { password = '', setPassword } = useSignupFlow();
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword ] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword ] = useState(false);

@@ -1,5 +1,5 @@
-import { useSession } from "../../../hooks/useSession";
 import { apiAuthPathAndQuery, apiAuthPathWithJson } from "../../../shared/api";
+import { ensureUserId } from "../../../shared/authReady";
 import type { PageResponse } from "../../../shared/types";
 import type { 
   CreateProductRequest, Product, ProductInquiryList, ProductReviewList,
@@ -33,9 +33,7 @@ type ReviewListParams = {
 
 export const ProductService = {
   async getProductSummaryList(p: SummaryListParams): Promise<ProductSummaryList> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     const q = {
       category: p.category,
       page: p.page,
@@ -56,9 +54,7 @@ export const ProductService = {
   },
 
   async getProductDetail(productId: string): Promise<ProductDetail> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<ProductDetail>(
       "/products/{productId}/{userId}",
       { productId, userId },
@@ -78,9 +74,7 @@ export const ProductService = {
   },
 
   async getProductReviewList(p: ReviewListParams): Promise<ProductReviewList> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<ProductReviewList>(
       "/products/{productId}/reviews/{userId}",
       { productId: p.productId, userId },
@@ -90,9 +84,7 @@ export const ProductService = {
   },
 
   async likeReview(reviewId: string): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-    
+    const userId = await ensureUserId();    
     return apiAuthPathAndQuery<void>(
       "/products/reviews/{reviewId}/likes/{userId}",
       { reviewId, userId},
@@ -102,9 +94,7 @@ export const ProductService = {
   },
 
   async unlikeReview(reviewId: string): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-    
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/products/reviews/{reviewId}/likes/{userId}",
       { reviewId, userId},
@@ -117,9 +107,7 @@ export const ProductService = {
     productId: string,
     payload: { title: string; questionBody: string; }
   ): Promise<void>{
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/products/{productId}/inquiries/{userId}",
       { productId, userId },
@@ -135,9 +123,7 @@ export const ProductService = {
   async addToWishlist (
     productId: string
   ): Promise<void>{
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/products/wishes/{productId}/{userId}",
       { productId, userId },
@@ -149,9 +135,7 @@ export const ProductService = {
   async removeFromWishlist (
     productId: string
   ): Promise<void>{
-    const { userId } = useSession.getState();
-    if (!userId) throw new Error("NO_USER");
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/products/wishes/{productId}/{userId}",
       { productId, userId },

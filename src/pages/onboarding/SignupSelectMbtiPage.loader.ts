@@ -1,4 +1,4 @@
-import { UserService } from "../../features/account/services/UserService";
+import { ensureUser } from "../../shared/authReady";
 
 export type SignupSelectMbtiPageLoaderData = {
   displayName: string;
@@ -6,6 +6,7 @@ export type SignupSelectMbtiPageLoaderData = {
 
 export async function SignupSelectMbtiPageLoader()
 : Promise<SignupSelectMbtiPageLoaderData> {
-  const displayName = (await UserService.getMyProfile()).displayName;
+  const user = await ensureUser();
+  const displayName = user.displayName;
   return { displayName };
 }

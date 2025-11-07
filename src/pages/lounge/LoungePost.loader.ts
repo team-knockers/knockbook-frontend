@@ -1,8 +1,8 @@
 import type { LoaderFunctionArgs } from 'react-router-dom';
 import type { LoungePostDetails } from '../../features/lounge/types';
 import { LoungeService } from '../../features/lounge/services/LoungeService';
-import { UserService } from '../../features/account/services/UserService';
 import type { UserProfile } from '../../features/account/types';
+import { ensureUser } from '../../shared/authReady';
 
 export type LoungePostLoaderData = {
   postDetails: LoungePostDetails;
@@ -17,8 +17,7 @@ export async function loungePostLoader({ params }: LoaderFunctionArgs): Promise<
   }
 
   const postDetails = await LoungeService.getLoungePostDetails(postId);
-  const currentUserInfo = await UserService.getMyProfile();
-  console.log(currentUserInfo); // for test
+  const currentUserInfo = await ensureUser();
 
   return { postDetails, currentUserInfo };
 }

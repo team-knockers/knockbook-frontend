@@ -1,6 +1,9 @@
-import { useSession } from "../../../hooks/useSession";
-import type { FeedPostList, FeedPostCommentList, FeedPostDetail, FeedPostComment, FeedProfileThumbnail, FeedProfileThumbnailList } from "../types";
+import type { 
+  FeedPostList, FeedPostCommentList, FeedPostDetail,
+  FeedPostComment, FeedProfileThumbnail, FeedProfileThumbnailList 
+} from "../types";
 import { apiAuthMultipartPath, apiAuthPathAndQuery } from "../../../shared/api";
+import { ensureUserId } from "../../../shared/authReady";
 
 export const FeedService = {
 
@@ -10,16 +13,13 @@ export const FeedService = {
     searchKeyword?: string,
     mbti?: string
   ): Promise<FeedPostList> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     const q = {
       size,
       ...(after ? { after } : {}),
       ...(searchKeyword && searchKeyword.trim() ? { searchKeyword: searchKeyword.trim() } : {}),
       ...(mbti && mbti.trim() ? { mbti: mbti.trim().toUpperCase() } : {}),
     };
-
     return apiAuthPathAndQuery<FeedPostList>(
       "/feeds/{userId}",
       { userId },
@@ -32,14 +32,11 @@ export const FeedService = {
     size: number,
     after: string | null
   ): Promise<FeedProfileThumbnailList> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     const q = {
       size,
       ...(after ? { after } : {}),
     };
-
     return apiAuthPathAndQuery<FeedProfileThumbnailList>(
       "/feeds/profile/post/{userId}",
       { userId },
@@ -52,14 +49,11 @@ export const FeedService = {
     size: number,
     after: string | null
   ): Promise<FeedProfileThumbnailList> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     const q = {
       size,
       ...(after ? { after } : {}),
     };
-
     return apiAuthPathAndQuery<FeedProfileThumbnailList>(
       "/feeds/profile/saved/{userId}",
       { userId },
@@ -71,37 +65,31 @@ export const FeedService = {
   async getFeedPostCommentList(
     postId: string
   ): Promise<FeedPostCommentList> {
-      const { userId } = useSession.getState();
-      if (!userId) { throw new Error("NO_USER"); }
-
-    return apiAuthPathAndQuery<FeedPostCommentList>(
-      "/feeds/post/{postId}/comments/{userId}",
-      { postId, userId },
-      undefined,
-      { method: "GET" }
-    );
+      const userId = await ensureUserId();
+      return apiAuthPathAndQuery<FeedPostCommentList>(
+        "/feeds/post/{postId}/comments/{userId}",
+        { postId, userId },
+        undefined,
+        { method: "GET" }
+      );
   },
   
   async getFeedPostWithCommentList(
     postId: string
   ): Promise<FeedPostDetail> {
-      const { userId } = useSession.getState();
-      if (!userId) { throw new Error("NO_USER"); }
-
-    return apiAuthPathAndQuery<FeedPostDetail>(
-      "/feeds/post/{postId}/{userId}",
-      { postId, userId },
-      undefined,
-      { method: "GET" }
-    );
+      const userId = await ensureUserId();
+      return apiAuthPathAndQuery<FeedPostDetail>(
+        "/feeds/post/{postId}/{userId}",
+        { postId, userId },
+        undefined,
+        { method: "GET" }
+      );
   },
 
   async likePost(
     postId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-    
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/feeds/post/{postId}/likes/{userId}",
       { postId, userId },
@@ -113,9 +101,7 @@ export const FeedService = {
   async unlikePost(
     postId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/feeds/post/{postId}/likes/{userId}",
       { postId, userId },
@@ -125,9 +111,7 @@ export const FeedService = {
   },
 
   async likeComment(commentId: string): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/feeds/comment/{commentId}/likes/{userId}",
       { commentId, userId },
@@ -137,9 +121,7 @@ export const FeedService = {
   },
 
   async unlikeComment(commentId: string): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/feeds/comment/{commentId}/likes/{userId}",
       { commentId, userId },
@@ -149,9 +131,7 @@ export const FeedService = {
   },
 
   async savePost(postId: string): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/feeds/post/{postId}/saves/{userId}",
       { postId, userId },
@@ -161,9 +141,7 @@ export const FeedService = {
   },
 
   async unSavePost(postId: string): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<void>(
       "/feeds/post/{postId}/saves/{userId}",
       { postId, userId },
@@ -173,9 +151,7 @@ export const FeedService = {
   },
 
   async createComment(postId: string, body: string): Promise<FeedPostComment> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery<FeedPostComment>(
       "/feeds/comment/{postId}/{userId}",
       { postId, userId },
@@ -192,9 +168,7 @@ export const FeedService = {
     content: string,
     files: File[]
   ): Promise<FeedProfileThumbnail> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     const form = new FormData();
     form.append("content", content);
     files.forEach((f: File) => form.append("files", f));
@@ -210,9 +184,7 @@ export const FeedService = {
   async deleteComment(
     commentId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery(
       "/feeds/comment/{commentId}/{userId}",
       { commentId, userId },
@@ -224,9 +196,7 @@ export const FeedService = {
   async deletePost(
     postId: string
   ): Promise<void> {
-    const { userId } = useSession.getState();
-    if (!userId) { throw new Error("NO_USER"); }
-
+    const userId = await ensureUserId();
     return apiAuthPathAndQuery(
       "/feeds/post/{postId}/{userId}",
       { postId, userId },
